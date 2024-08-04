@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/samplerest")
 //@RequiredArgsConstructor
 public class AdminRestController {
-	//test
+	//test   
     @Autowired
     private SampleService sampleService;
     
