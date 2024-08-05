@@ -1,4 +1,4 @@
-package com.talk.app.admin.welfare.service;
+package com.talk.app.admin.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,8 +23,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.talk.app.admin.welfare.mapper.WelfareMapper;
-import com.talk.app.admin.welfare.vo.WelfareVO;
+import com.talk.app.admin.mapper.WelfareMapper;
 
 import lombok.RequiredArgsConstructor;
 
