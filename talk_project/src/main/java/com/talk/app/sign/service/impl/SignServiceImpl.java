@@ -9,13 +9,8 @@ import com.talk.app.sign.service.SignService;
 
 @Service
 public class SignServiceImpl implements SignService{
-	
-	private SignMapper signMapper;
-	
 	@Autowired
-	public SignServiceImpl(UserVO userVO) {
-		this.signMapper = signMapper;
-	}
+	private SignMapper signMapper;
 	
 	@Override
 	public int insertSign(UserVO userVO) {
