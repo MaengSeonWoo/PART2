@@ -29,11 +29,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
-	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	// https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8
 	implementation 'com.oracle.database.jdbc:ojdbc8:19.3.0.0'
 
 	annotationProcessor 'org.projectlombok:lombok'

@@ -1,7 +1,10 @@
 package com.talk.app.admin.service;
 
+import java.util.List;
+
 public interface WelfareService {
-	//복지 아이디 저장
-	public int  welfareIdInsert(WelfareVO vo);
+
+
+	public List<WelfareVO> welfareList();
 	
 }

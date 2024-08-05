@@ -1,5 +1,7 @@
 package com.talk.app.admin.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,18 +13,14 @@ import com.talk.app.admin.service.WelfareVO;
 public class WelfareServiceImpl implements WelfareService{
 
 	@Autowired
-	WelfareMapper mapper;
-	
-//	@Override
-//	public int welfareIdInsert(WelfareVO vo) {
-//		int result = mapper.insertServId(vo);
-//		return result;
-//	}
-	
+	private WelfareMapper mapper;
+
 	@Override
-	public int welfareIdInsert(WelfareVO vo) {
-		int result = mapper.insertServId(vo);
-		return result;
+	public List<WelfareVO> welfareList() {
+		return mapper.getAllWelfareInfo();
 	}
+
+
+	
 
 }

@@ -6,15 +6,16 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.talk.app.admin.service.WelfareVO;
 
+@Mapper
 public interface WelfareMapper {
 	//아이디만 입력
-	public int insertServId(WelfareVO servId);
+//	public int insertServId(WelfareVO servId);
 	
 	//리스트받기
-	public List<WelfareVO> getAllServId();
+	public List<WelfareVO> getAllWelfareInfo();
 	
 	//데이터 전체 입력
-	public int updateDetailInfo(WelfareVO vo);
+	public int insertWelfareInfo(WelfareVO vo);
 	
 	
 	
