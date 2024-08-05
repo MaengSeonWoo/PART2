@@ -12,9 +12,9 @@ public class AdminController {
 	}
 	
 	//복지목록
-	@GetMapping("admin/walfare")
+	@GetMapping("admin/welfare")
 	public String walfare() {
-		return "admin/walfare";
+		return "admin/welfare";
 	}
 	
 	
