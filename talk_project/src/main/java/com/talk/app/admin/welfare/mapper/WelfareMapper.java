@@ -1,10 +1,10 @@
-package com.talk.app.admin.mapper;
+package com.talk.app.admin.welfare.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.talk.app.admin.vo.WelfareVO;
+import com.talk.app.admin.welfare.vo.WelfareVO;
 
 @Mapper
 public interface WelfareMapper {

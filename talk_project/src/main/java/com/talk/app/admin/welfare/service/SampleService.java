@@ -1,18 +1,7 @@
-package com.talk.app.admin.service;
+package com.talk.app.admin.welfare.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import com.talk.app.admin.mapper.WelfareMapper;
-import com.talk.app.admin.vo.WelfareVO;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -21,20 +10,50 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import com.talk.app.admin.welfare.mapper.WelfareMapper;
+import com.talk.app.admin.welfare.vo.WelfareVO;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class SampleService {
 	@Autowired
     private WelfareMapper mapper;
-    
 
+	  @Value("${serviceKey}")     // 보안을 위해 application.properties에 저장해둠
+	    String serviceKey;
+	  
     //@Transactional 
-    public void fetchAndSaveServId() throws Exception {
+    public String fetchAndSaveServId() throws Exception {
         String response = callapihttp();
-
         // XML 파싱
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new InputSource(new StringReader(response)));
+        DocumentBuilder builder = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+        Document doc = null;
+		try {
+			doc = builder.parse(new InputSource(new StringReader(response)));
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
 
         NodeList nodeList = doc.getElementsByTagName("servId");
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -52,6 +71,7 @@ public class SampleService {
                 System.out.println("Data insertion failed for: " + servId);
             }
         }
+		return response;
     }
 
 
@@ -108,9 +128,10 @@ public class SampleService {
         }
     }
 
+    //상세 데이터 수집
     private String getDetailedInfo(String servId) throws Exception {
-        String key = "odp3R%2BAnv93%2BqG0hMhsxznQIF589DFV7I%2BJbKgPbJu2h86CikqZnQN0weoWc9r1FZqDwWOL3YsDVzXFd%2BvX7%2Bw%3D%3D";   //실제 API 키로 변경 필요
-        String urlStr = "https://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfaredetailed?serviceKey=" + URLEncoder.encode(key, "UTF-8") + "&servId=" + URLEncoder.encode(servId, "UTF-8");
+//        String key = "odp3R%2BAnv93%2BqG0hMhsxznQIF589DFV7I%2BJbKgPbJu2h86CikqZnQN0weoWc9r1FZqDwWOL3YsDVzXFd%2BvX7%2Bw%3D%3D";   //실제 API 키로 변경 필요
+        String urlStr = "https://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfaredetailed?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8") + "&servId=" + URLEncoder.encode(servId, "UTF-8");
         URI uri = new URI(urlStr);
         URL url = uri.toURL();
 
@@ -137,6 +158,7 @@ public class SampleService {
     private String callapihttp() throws Exception {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/6410000/busrouteservice/getBusRouteInfoItem"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + "odp3R%2BAnv93%2BqG0hMhsxznQIF589DFV7I%2BJbKgPbJu2h86CikqZnQN0weoWc9r1FZqDwWOL3YsDVzXFd%2BvX7%2Bw%3D%3D"); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1285", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("lifeArray","UTF-8") + "=" + URLEncoder.encode("006", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("arrgOrd","UTF-8") + "=" + URLEncoder.encode("001", "UTF-8"));
         
@@ -162,6 +184,7 @@ public class SampleService {
         conn.disconnect();
         return sb.toString();
     }
+
 }
 
 
