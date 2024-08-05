@@ -27,6 +27,6 @@ public class SignController {
 	@PostMapping("signInsert")
 	public String signInsertProcess(UserVO userVO) {
 		int uno = signService.insertSign(userVO);
-		return "redirect:signInfo?userNo=" + uno;
+		return "redirect:posting";
 	}
 }
