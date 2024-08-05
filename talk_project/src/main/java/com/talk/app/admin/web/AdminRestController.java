@@ -1,4 +1,4 @@
-package com.talk.app.admin.welfare.web;
+package com.talk.app.admin.web;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.talk.app.admin.welfare.service.SampleService;
+import com.talk.app.admin.service.SampleService;
 
 @RestController
 @RequestMapping("/samplerest")

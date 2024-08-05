@@ -1,13 +1,13 @@
-package com.talk.app.admin.welfare.web;
+package com.talk.app.admin.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.talk.app.admin.welfare.service.SampleService;
-import com.talk.app.admin.welfare.service.WelfareService;
-import com.talk.app.admin.welfare.vo.WelfareVO;
+import com.talk.app.admin.service.SampleService;
+import com.talk.app.admin.service.WelfareService;
+import com.talk.app.admin.service.WelfareVO;
 
 @Controller
 public class AdminController {

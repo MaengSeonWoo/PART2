@@ -1,4 +1,4 @@
-package com.talk.app.admin.welfare.vo;
+package com.talk.app.admin.service;
 
 import lombok.Data;
 
