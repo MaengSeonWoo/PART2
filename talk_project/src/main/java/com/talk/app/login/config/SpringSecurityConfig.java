@@ -11,33 +11,32 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-	
-		@Bean
-		PasswordEncoder passwordEncoder() {
-			return new BCryptPasswordEncoder();
-		}
-		
-
-		@Bean
-		SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // HttpSecurity º¸¾È Á¤º¸ ´ã´ç
-			http.authorizeHttpRequests()
-				.antMatchers("/**","/signInsert") // º°»©±â
-					.permitAll()
-				.antMatchers("/admin")		// °æ·Î
-					.hasRole("ADMIN")
-				.antMatchers("/signInsert")
-					.hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-				.anyRequest()
-					.authenticated()
-			.and()
-			.formLogin()
-				.defaultSuccessUrl("/admin") // ·Î±×ÀÎÇßÀ»¶§ ¾î¶² ÆäÀÌÁö·Î °¡°í ½ÍÀºÁö
-			.and()
-			.logout()
-			.logoutSuccessUrl("/login"); // ·Î±×¾Æ¿ôÇßÀ»¶§ ¾î¶² ÆäÀÌÁö·Î °¡°í ½ÍÀºÁö;
-					
-			http.csrf().disable();
-			
-			return http.build();
-		}
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/**", "/signInsert").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/signInsert").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/login") // ë¡œê·¸ì¸ í˜ì´ì§€ ì„¤ì •
+                .defaultSuccessUrl("/admin") // ë¡œê·¸ì¸ ì„±ê³µ í›„ ë¦¬ë‹¤ì´ë ‰ì…˜ ì„¤ì •
+                .permitAll()
+                .and()
+            .logout()
+                .logoutSuccessUrl("/login") // ë¡œê·¸ì•„ì›ƒ í›„ ë¦¬ë‹¤ì´ë ‰ì…˜ ì„¤ì •
+                .permitAll()
+                .and()
+            .csrf().disable(); // CSRF ë³´í˜¸ ë¹„í™œì„±í™”
+        
+        return http.build();
+    }
 }
