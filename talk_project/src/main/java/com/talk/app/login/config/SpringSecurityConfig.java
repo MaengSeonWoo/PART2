@@ -21,8 +21,20 @@ public class SpringSecurityConfig {
 		@Bean
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // HttpSecurity 보안 정보 담당
 			http.authorizeHttpRequests()
-					.antMatchers("/**")
-					.permitAll();
+				.antMatchers("/**","/signInsert") // 별빼기
+					.permitAll()
+				.antMatchers("/admin")		// 경로
+					.hasRole("ADMIN")
+				.antMatchers("/signInsert")
+					.hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+				.anyRequest()
+					.authenticated()
+			.and()
+			.formLogin()
+				.defaultSuccessUrl("/admin") // 로그인했을때 어떤 페이지로 가고 싶은지
+			.and()
+			.logout()
+			.logoutSuccessUrl("/login"); // 로그아웃했을때 어떤 페이지로 가고 싶은지;
 					
 			http.csrf().disable();
 			

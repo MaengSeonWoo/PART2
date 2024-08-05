@@ -8,13 +8,13 @@ import com.talk.app.admin.welfare.vo.WelfareVO;
 
 @Mapper
 public interface WelfareMapper {
-	//아이디만 입력
+	//�븘�씠�뵒留� �엯�젰
 	public int insertServId(WelfareVO servId);
 	
-	//리스트받기
+	//由ъ뒪�듃諛쏄린
 	public List<WelfareVO> getAllServId();
 	
-	//데이터 전체 입력
+	//�뜲�씠�꽣 �쟾泥� �엯�젰
 	public int updateDetailInfo(WelfareVO vo);
 	
 	
