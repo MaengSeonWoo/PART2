@@ -10,7 +10,7 @@
 	<select id="selectPostingInfo" parameterType="int" resultType="PostingVO">
 		SELECT *
 		FROM posting
-		WHERE posting_no = #{postingNo}
+		where posting_no = #{postingNo}
 	</select>
 
 </mapper>

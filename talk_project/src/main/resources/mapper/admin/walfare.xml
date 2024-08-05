@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talk.app.admin.welfare.mapper.WelfareMapper">
 
-<insert id="insertServId" parameterType="com.talk.app.admin.welfare.vo.WelfareVO">
+<insert id="insertServId" parameterType="WelfareVO">
         INSERT INTO welfare (serv_id)
         VALUES (#{servId})
 
 </insert>
 
 
-<select id="getAllServId" resultType="com.talk.app.admin.welfare.vo.WelfareVO">
+<select id="getAllServId" resultType="WelfareVO">
         SELECT serv_id AS servId FROM welfare
 </select>
 
-<update id="updateDetailInfo" parameterType="com.talk.app.admin.welfare.vo.WelfareVO">
+<update id="updateDetailInfo" parameterType="WelfareVO">
         UPDATE welfare
         SET 
             serv_name = #{servName},
@@ -31,7 +31,7 @@
             sup_target = #{supTarget},
             sel_standard = #{selStandard},
             sal_serv = #{salServ}
-        WHERE serv_id = #{servId}
+        WHERE serv_id = #{servId}1
 </update>
 
 
