@@ -12,9 +12,9 @@ public class BcrpytTest {
 	
 	@Test
 	public void testEncoder() {
-		String password = "1234"; // »ç¿ëÀÚ°¡ ÀÔ·Â
+		String password = "1234"; // ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ô·ï¿½
 		
-		// DB¿¡ ÀúÀåµÈ ¾ÏÈ£È­µÈ ºñ¹Ð¹øÈ£
+		// DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£
 		String enPwd = passwordEncoder.encode(password);
 		System.out.println("endPwd : " + enPwd);
 		
