@@ -23,7 +23,7 @@ public class AdminController {
 	
 	//복지목록
 	@GetMapping("admin/welfare")
-	public String walfare() {
+	public String wㄷlfare() {
 		return "admin/welfare";
 	}
 	
@@ -36,7 +36,6 @@ public class AdminController {
 		}
 		return "admin/";
 	}
-	
 	
 	
 }
