@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{common/main/layouts/default_layout}"
+				layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>기업회원가입</title>
+</head>
+<body>
+	<div>
+		<h3>기업회원가입</h3>
+		<form th:action="@{/cosignInsert}" method="post" name="insertForm">
+			<table>
+			<tr>
+				<th>사업자등록번호</th>
+				<td><input type="text" name="CoRegNo"></td>
+			</tr>
+			<tr>
+				<th>기업명</th>
+				<td><input type="text" name="CoName"></td>
+			</tr>
+			<tr>
+				<th>업종</th>
+				<td><input type="text" name="Industry"></td>
+			</tr> 
+			<tr>
+				<th>대표자</th>
+				<td><input type="text" name="RepName"></td>
+			</tr>
+			<tr>
+				<th>설립연도</th> 
+				<td><input type="Date" name="EstYear"></td>
+			</tr>
+			<tr>
+				<th>우편번호</th> 
+				<td><input type="text" name="CoPostNo"></td>
+			</tr>
+			<tr>
+				<th>기본주소</th> 
+				<td><input type="text" name="CoAddr"></td>
+			</tr>
+			<tr>
+				<th>상세주소</th> 
+				<td><input type="text" name="CoDetailAddr"></td>
+			</tr>
+			<tr>
+				<th>주요사업</th> 
+				<td><input type="text" name="MainBusiness"></td>
+			</tr>
+			<tr>
+				<th>행정구역</th> 
+				<td><input type="text" name="Region"></td>
+			</tr>
+			<tr>
+				<th>기타사항</th> 
+				<td><input type="text" name="Etc"></td>
+			</tr>
+		</table>
+		<br>
+		<hr>
+		<br>
+		<table>
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" name="CoUserId"></td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="text" name="CoUserPw"></td>
+			</tr>
+			<tr>
+				<th>담당자 이름</th>
+				<td><input type="text" name="MgrName"></td>
+			</tr> 
+			<tr>
+				<th>담당자 이메일</th>
+				<td><input type="text" name="MgrEmail"></td>
+			</tr>
+			<tr>
+				<th>담당자 연락처</th> 
+				<td><input type="text" name="MgrTel"></td>
+			</tr>
+			<tr>
+				<th>기업 연락처</th> 
+				<td><input type="text" name="CoContact"></td>
+			</tr>
+		</table>
+			<button type="submit">등록</button>
+		</form>
+	</div>
+</body>
+</html>

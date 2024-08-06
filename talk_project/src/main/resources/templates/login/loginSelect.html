@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>로그인 유형 선택</title>
+</head>
+<body>
+	<div>
+		<h1>로그인 유형 선택</h1>
+	</div>
+	<div>
+		<h3>일반회원</h3>
+		<a href = '/login'>일반회원 로그인</a>
+		<h3>기업회원</h3>
+		<a href = '/cologin'>기업회원 로그인</a>
+	</div>
+</body>
+</html>

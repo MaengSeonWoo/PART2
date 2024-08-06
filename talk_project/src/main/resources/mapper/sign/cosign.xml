@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.sign.mapper.CoSignMapper">
+	<insert id = "insertCoSignInfo" parameterType="CoUserVO">
+		<selectKey keyProperty="CoUserNo" 
+					resultType="Integer"
+					order="BEFORE"> 
+		SELECT NVL(MAX(co_user_no), 100) + 1
+		FROM company_user
+		</selectKey>
+		INSERT INTO company_user(co_user_no
+						  , co_reg_no
+						  , co_name
+						  , industry
+						  , rep_name
+						  , est_year
+						  , co_post_no
+						  , co_addr
+						  , co_detail_addr
+						  , main_business
+						  , region
+						  , etc
+						  , co_user_id
+						  , co_user_pw
+						  , mgr_name
+						  , mgr_email
+						  , mgr_tel
+						  , approval_status
+						  , co_contact
+						  )
+		VALUES(#{CoUserNo}
+			   ,#{CoRegNo}
+			   ,#{CoName}
+			   ,#{Industry}
+			   ,#{RepName}
+			   ,#{EstYear}
+			   ,#{CoPostNo}
+			   ,#{CoAddr}
+			   ,#{CoDetailAddr}
+			   ,#{MainBusiness}
+			   ,#{Region}
+			   ,#{Etc}
+			   ,#{CoUserId}
+			   ,#{CoUserPw}
+			   ,#{MgrName}
+			   ,#{MgrEmail}
+			   ,#{MgrTel}
+			   ,#{ApprovalStatus}
+			   ,#{CoContact}
+			   
+			   )	    
+	</insert>
+</mapper>
