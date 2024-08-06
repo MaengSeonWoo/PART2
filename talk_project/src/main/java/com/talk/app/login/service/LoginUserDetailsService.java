@@ -20,7 +20,7 @@ public class LoginUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserVO userVO = userMapper.getUserInfo(username);
-		
+		System.out.println("================="+userVO);
 		if(userVO == null) {
 			throw new UsernameNotFoundException(username);
 		}

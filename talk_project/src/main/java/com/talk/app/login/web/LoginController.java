@@ -10,4 +10,9 @@ public class LoginController {
     public String login() {
         return "login/login"; // templates 폴더 아래의 login/login.html로 매핑
     }
+	
+	@GetMapping("/loginsel") // 경로 앞에 /를 붙여 절대 경로로 지정
+    public String loginsel() {
+        return "login/loginSelect"; // templates 폴더 아래의 login/login.html로 매핑
+    }
 }
