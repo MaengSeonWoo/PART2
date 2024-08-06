@@ -74,8 +74,20 @@
                           </div>
                           <div class="view-mail">
                             <strong>복지 내용 들어갈 자리</strong>
-                            <div>지원주기 : [[ ${{detail.supPeriod}} ]]</div>
-                            <div>제공유형 : [[ ${{detail.provType}} ]]</div>
+                            <div>시행 시작 일자 : [[ ${{detail.startDate}} ]]</div>
+                            <div>시행 종료 일자 : [[ ${{detail.endDate}} ]]</div>
+                            <div>사업담당부서명 : [[ ${{detail.bizDept}} ]]</div>
+                            <div>시도명 : [[ ${{detail.sido}} ]]</div>
+                            <div>시군구명 : [[ ${{detail.sgg}} ]]</div>
+                            <div>가구상황명 : [[ ${{detail.household}} ]]</div>
+                            <div>관심주제명 : [[ ${{detail.likeSubject}} ]]</div>
+                            <div>지원주기명 : [[ ${{detail.supPeriod}} ]]</div>
+                            <div>제공유형명 : [[ ${{detail.provType}} ]]</div>
+                            <div>지원대상 내용 : [[ ${{detail.supTarget}} ]]</div>
+                            <div>급여서비스 내용 : [[ ${{detail.salServ}} ]]</div>
+                            <div>신청방법 내용 : [[ ${{detail.appWay}} ]]</div>
+                            <div>선정기준 내용 : [[ ${{detail.selStandard}} ]]</div>
+                            <div>서비스 요약 : [[ ${{detail.servSummary}} ]]</div>
                           </div>
                           <hr>
 
@@ -88,7 +100,7 @@
                             <ul>
                               <li>
                                 <a href="#" class="atch-thumb">
-                                  <img src="images/inbox.png" alt="img" />
+                                  <img th:src="@{/production/images/inbox.png}" alt="img" />
                                 </a>
 
                                 <div class="file-name">
@@ -105,7 +117,7 @@
 
                               <li>
                                 <a href="#" class="atch-thumb">
-                                  <img src="images/inbox.png" alt="img" />
+                                  <img th:src="@{/production/images/inbox.png}" alt="img" />
                                 </a>
 
                                 <div class="file-name">
@@ -120,7 +132,7 @@
                               </li>
                               <li>
                                 <a href="#" class="atch-thumb">
-                                  <img src="images/inbox.png" alt="img" />
+                                  <img th:src="@{/production/images/inbox.png}" alt="img" />
                                 </a>
 
                                 <div class="file-name">
@@ -139,7 +151,8 @@
                           <div class="btn-group">
                             <button class="btn btn-sm btn-primary" type="button">문자전송</button>
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/update(wid=${detail.wid})}'|">수정</button>
-                            <button class="btn btn-sm btn-primary" type="button">삭제</button>
+                         	<button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/delete(wid=${detail.wid})}'|">삭제</button>
+                            
                           </div>
                         </div>
 

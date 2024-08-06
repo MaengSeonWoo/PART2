@@ -120,12 +120,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                                             </div>
                                         </div>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">선정기준 내용<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="selStandard" th:field="${welfare.selStandard}"  required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">급여서비스 내용<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="salServ"  th:field="${welfare.salServ}" required="required" />
@@ -177,7 +171,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             $('#updateBtn').on('click', updateAjax);
     
             function updateAjax(event) {
-                if (validationCheck() == false) return;
                 let dataObj = getEmpObj();
     
                 console.log(dataObj);
@@ -204,68 +197,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                         console.log(r);
                     })
                     .fail(err => console.log(err));
-    
-    
-    
-    
-            }
-    
-            function validationCheck() {
-    
-                let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    servId.focus();
-                    return false;
-                }
-                
-                let servName = $('[name="servName"]');
-                if (servName.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    servName.focus();
-                    return false;
-                }
-               /*  let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    ename.focus();
-                    return false;
-                }
-                let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    ename.focus();
-                    return false;
-                }
-                let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    ename.focus();
-                    return false;
-                }
-                let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    ename.focus();
-                    return false;
-                }
-                let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    ename.focus();
-                    return false;
-                }
-                let servId = $('[name="servId"]');
-                if (servId.val() == '') {
-                    alert('이름은 필수 값입니다.');
-                    ename.focus();
-                    return false;
-                } */
-                
-
-
-
-                return true;
             }
     
             function getEmpObj() {

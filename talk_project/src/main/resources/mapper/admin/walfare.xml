@@ -157,15 +157,4 @@ WHERE wid = #{wid}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 </mapper>
