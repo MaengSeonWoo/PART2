@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div class="container">
+		<h3>공지사항 수정</h3>	
+		<form name="updateForm" th:object="${noticeInfo}" >
+			  <table>
+			  	  <tr>
+			  		<th>번호</th>
+			  		<td><input type="text" th:field="*{noticeNo}" readonly></td>
+			  	  </tr>
+				  <tr>
+			  		<th>제목</th>
+			  		<td><input type="text" th:field="*{noticeTitle}"></td>
+			  	  </tr>
+			  	  <tr>
+			  		<th>내용</th>
+			  		<td><input type="text" th:field="*{noticeContent}"></td>
+			  	  </tr>
+			  </table>
+		<button type="submit">수정</button>
+		</form>
+	</div>
+</body>
+</html>

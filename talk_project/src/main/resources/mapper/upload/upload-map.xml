@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.common.mapper.UploadMapper">
+
+	<insert id="insertUploadedFile" parameterType="UploadFileVO">
+		<selectKey keyProperty="file_no" resultType="long" order="BEFORE">
+			SELECT NVL(MAX(file_no), 0) + 1
+			FROM files
+		</selectKey>
+		INSERT INTO files (
+										file_no, 
+										file_name, 
+										file_type, 
+										file_size,
+										upload_time, 
+										file_path, 
+										domain_type, 
+										domain_id, 
+										file_order
+									)
+		VALUES (
+					#{fileNo}, 
+					#{fileName}, 
+					#{fileType}, 
+					#{fileSize}, 
+					#{uploadTime},
+					#{filePath}, 
+					#{domainType}, 
+					#{domainId}, 
+					#{fileOrder}
+				)
+	</insert>
+
+	<select id="selectFilesByDomain" parameterType="map"
+		resultType="UploadFileVO">
+		SELECT * 
+		FROM files
+		WHERE domain_type = #{domainType} AND domain_id = #{domainId}
+		ORDER BY file_order ASC
+	</select>
+	
+	<select id="selectFilePathsByBoard" resultType="String">
+		SELECT file_path 
+		FROM files
+		WHERE domain_type = #{domainType} AND domain_id = #{domainId}
+	</select>
+	
+	<delete id="deleteFilesByDomain">
+		DELETE FROM files
+		WHERE domain_type = #{domainType} AND domain_id = #{domainId}
+	</delete>
+</mapper>

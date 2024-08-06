@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>QnA</title>
+</head>
+<body>
+	<div class="container">
+		<h3>QnA 목록</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="qna : ${qnaList}">
+					<tr th:onclick="|location.href='@{/qnaInfo(qnaNo=${qna.qnaNo})}'|">
+						<td th:text="${qna.qnaNo}"></td>
+						<td th:text="${qna.qnaTitle}"></td>
+						<td th:text="${#dates.format(qna.regDate, 'yyyy년MM월dd일')}"></td>
+					</tr>
+				</th:block>			
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

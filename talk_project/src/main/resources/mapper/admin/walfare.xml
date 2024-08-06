@@ -1,38 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.talk.app.admin.welfare.mapper.WelfareMapper">
-
-<insert id="insertServId" parameterType="com.talk.app.admin.welfare.vo.WelfareVO">
-        INSERT INTO welfare (serv_id)
-        VALUES (#{servId})
-
-</insert>
+<mapper namespace="com.talk.app.admin.mapper.WelfareMapper">
 
 
-<select id="getAllServId" resultType="com.talk.app.admin.welfare.vo.WelfareVO">
-        SELECT serv_id AS servId FROM welfare
+
+<select id="getAllWelfareInfo" resultType="com.talk.app.admin.service.WelfareVO">
+        SELECT * FROM welfare
 </select>
 
-<update id="updateDetailInfo" parameterType="com.talk.app.admin.welfare.vo.WelfareVO">
-        UPDATE welfare
-        SET 
-            serv_name = #{servName},
-            start_date = #{startDate},
-            end_date = #{endDate},
-            biz_dept = #{bizDept},
-            sido = #{sido},
-            sgg = #{sgg},
-            serv_summary = #{servSummary},
-            household = #{household},
-            like_subject = #{likeSubject},
-            sup_period = #{supPeriod},
-            prov_type = #{provType},
-            app_way = #{appWay},
-            sup_target = #{supTarget},
-            sel_standard = #{selStandard},
-            sal_serv = #{salServ}
-        WHERE serv_id = #{servId}
-</update>
+<insert id="insertWelfareInfo" parameterType="com.talk.app.admin.service.WelfareVO">
+      INSERT INTO welfare (serv_id, serv_name, start_date, end_date, biz_dept, sido, sgg, serv_summary, household, like_subject, sup_period, prov_type, app_way, sup_target, sel_standard, sal_serv)
+      VALUES (#{servId}, #{servName}, #{startDate}, #{endDate}, #{bizDept}, #{sido}, #{sgg}, #{servSummary}, #{household}, #{likeSubject}, #{supPeriod}, #{provType}, #{appWay}, #{supTarget}, #{selStandard}, #{salServ})
+</insert>
 
 
 </mapper>
