@@ -21,14 +21,16 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/**", "/signInsert").permitAll()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/signInsert").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/", "/signInsert","/login").permitAll() // 회원, 비회원, 관리자
+                .antMatchers("/admin").hasRole("ADMIN") // 관리자
+                .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") // 회원
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login") // 로그인 페이지 설정
-                .defaultSuccessUrl("/admin") // 로그인 성공 후 리다이렉션 설정
+                .usernameParameter("userId")
+                .passwordParameter("userPw")
+                .defaultSuccessUrl("/signInsert") // 로그인 성공 후 리다이렉션 설정
                 .permitAll()
                 .and()
             .logout()
