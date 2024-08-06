@@ -28,14 +28,14 @@ public class SampleService {
 	@Autowired
     private WelfareMapper mapper;
     
-    private static final Logger logger = LoggerFactory.getLogger(SampleService.class);
-    public SampleService(WelfareMapper mapper) {
-        this.mapper = mapper;
-    }
+//    private static final Logger logger = LoggerFactory.getLogger(SampleService.class);
+//    public SampleService(WelfareMapper mapper) {
+//        this.mapper = mapper;
+//    }
     
     @Transactional
     public void fetchAndSaveWelfareData() throws Exception {
-        logger.info("Fetching and saving welfare data");
+//        logger.info("Fetching and saving welfare data");
 
         String response = callApi();
 
@@ -45,83 +45,18 @@ public class SampleService {
         Document doc = builder.parse(new InputSource(new StringReader(response)));
 
         NodeList servIdList = doc.getElementsByTagName("servId");
-        for (int i = 0; i < servIdList.getLength(); i++) {
-            if (servIdList.item(i) != null) {
-                String servId = servIdList.item(i).getTextContent();
-                System.out.println("ServId: " + servId);
-                // 이후 servId 값을 사용해 데이터를 삽입하는 로직
-            } else {
-                System.out.println("servId tag not found or is null");
-            }
-        }
         NodeList servNameList = doc.getElementsByTagName("servNm");
-        for (int i = 0; i < servNameList.getLength(); i++) {
-            if (servNameList.item(i) != null) {
-                String servName = servNameList.item(i).getTextContent();
-                System.out.println("ServName: " + servName);
-            } else {
-                System.out.println("servNm tag not found or is null");
-            }
-        }
+        NodeList supPeriodList = doc.getElementsByTagName("sprtCycNm");
+        NodeList provTypeList = doc.getElementsByTagName("srvPvsnNm");
+
+//        NodeList bizDeptList = doc.getElementsByTagName("bizChrDeptNm");
+//        NodeList sidoList = doc.getElementsByTagName("ctpvNm");
+//        NodeList servSummaryList = doc.getElementsByTagName("servDgst");
+//			NodeList likeSubjectList = doc.getElementsByTagName("intrsThemaNmArray");
 //        NodeList startDateList = doc.getElementsByTagName("enfcBgngYmd");
 //        NodeList endDateList = doc.getElementsByTagName("enfcEndYmd");
-        NodeList bizDeptList = doc.getElementsByTagName("bizChrDeptNm");
-        for (int i = 0; i < bizDeptList.getLength(); i++) {
-            if (bizDeptList.item(i) != null) {
-                String bizDept = bizDeptList.item(i).getTextContent();
-                System.out.println("BizDept: " + bizDept);
-            } else {
-                System.out.println("bizChrDeptNm tag not found or is null");
-            }
-        }
-        NodeList sidoList = doc.getElementsByTagName("ctpvNm");
-        for (int i = 0; i < sidoList.getLength(); i++) {
-            if (sidoList.item(i) != null) {
-                String sido = sidoList.item(i).getTextContent();
-                System.out.println("Sido: " + sido);
-            } else {
-                System.out.println("ctpvNm tag not found or is null");
-            }
-        }
 //        NodeList sggList = doc.getElementsByTagName("sggNm");
-        NodeList servSummaryList = doc.getElementsByTagName("servDgst");
-        for (int i = 0; i < servSummaryList.getLength(); i++) {
-            if (servSummaryList.item(i) != null) {
-                String servSummary = servSummaryList.item(i).getTextContent();
-                System.out.println("ServSummary: " + servSummary);
-            } else {
-                System.out.println("servDgst tag not found or is null");
-            }
-        }
-
 //        NodeList householdList = doc.getElementsByTagName("trgterIndvdlNmArray");
-        NodeList likeSubjectList = doc.getElementsByTagName("intrsThemaNmArray");
-        for (int i = 0; i < likeSubjectList.getLength(); i++) {
-            if (likeSubjectList.item(i) != null) {
-                String likeSubject = likeSubjectList.item(i).getTextContent();
-                System.out.println("LikeSubject: " + likeSubject);
-            } else {
-                System.out.println("intrsThemaNmArray tag not found or is null");
-            }
-        }
-        NodeList supPeriodList = doc.getElementsByTagName("sprtCycNm");
-        for (int i = 0; i < supPeriodList.getLength(); i++) {
-            if (supPeriodList.item(i) != null) {
-                String supPeriod = supPeriodList.item(i).getTextContent();
-                System.out.println("SupPeriod: " + supPeriod);
-            } else {
-                System.out.println("sprtCycNm tag not found or is null");
-            }
-        }
-        NodeList provTypeList = doc.getElementsByTagName("srvPvsnNm");
-        for (int i = 0; i < provTypeList.getLength(); i++) {
-            if (provTypeList.item(i) != null) {
-                String provType = provTypeList.item(i).getTextContent();
-                System.out.println("ProvType: " + provType);
-            } else {
-                System.out.println("srvPvsnNm tag not found or is null");
-            }
-        }
 //        NodeList appWayList = doc.getElementsByTagName("aplyMtdCn");
 //        NodeList supTargetList = doc.getElementsByTagName("sprtTrgtCn");
 //        NodeList selStandardList = doc.getElementsByTagName("slctCritCn");
@@ -131,16 +66,16 @@ public class SampleService {
             WelfareVO vo = new WelfareVO();
             vo.setServId(servIdList.item(i).getTextContent());
             vo.setServName(servNameList.item(i).getTextContent());
-//            vo.setStartDate(startDateList.item(i).getTextContent());
-//            vo.setEndDate(endDateList.item(i).getTextContent());
-            vo.setBizDept(bizDeptList.item(i).getTextContent());
-            vo.setSido(sidoList.item(i).getTextContent());
-//            vo.setSgg(sggList.item(i).getTextContent());
-            vo.setServSummary(servSummaryList.item(i).getTextContent());
-//            vo.setHousehold(householdList.item(i).getTextContent());
-            vo.setLikeSubject(likeSubjectList.item(i).getTextContent());
             vo.setSupPeriod(supPeriodList.item(i).getTextContent());
             vo.setProvType(provTypeList.item(i).getTextContent());
+//            vo.setBizDept(bizDeptList.item(i).getTextContent());
+//            vo.setSido(sidoList.item(i).getTextContent());
+//            vo.setServSummary(servSummaryList.item(i).getTextContent());
+//				vo.setLikeSubject(likeSubjectList.item(i).getTextContent());
+//            vo.setStartDate(startDateList.item(i).getTextContent());
+//            vo.setEndDate(endDateList.item(i).getTextContent());
+//            vo.setSgg(sggList.item(i).getTextContent());
+//            vo.setHousehold(householdList.item(i).getTextContent());
 //            vo.setAppWay(appWayList.item(i).getTextContent());
 //            vo.setSupTarget(supTargetList.item(i).getTextContent());
 //            vo.setSelStandard(selStandardList.item(i).getTextContent());
