@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{common/main/layouts/default_layout}"
+				layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>로그인</title>
+</head>
+<body>
+	<div>
+        <h2>로그인</h2>
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label for="userId">사용자 ID:</label>
+                <input type="text" id="userId" name="userId" required autofocus />
+            </div>
+            <div>
+                <label for="userPw">비밀번호:</label>
+                <input type="password" id="userPw" name="userPw" required />
+            </div>
+            <button type="submit">로그인</button>
+        </form>
+    </div>
+</body>
+</html>
