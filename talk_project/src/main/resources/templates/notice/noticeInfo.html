@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h3>공지사항 정보</h3>
+		<table>
+			<th:block th:each="notice : ${noticeInfo}">
+			<tr>
+				<th>번호</th>
+				<td th:text="${notice.noticeNo}">
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td th:text="${notice.noticeTitle}">
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td style="height:100px; width:200px;" th:text="${notice.noticeContent}">
+			</tr>
+			<tr>
+				<th>작성일</th>
+				<td th:text="${#dates.format(notice.createDate, 'yyyy년MM월dd일')}">
+			</tr>
+			<tr>
+				<th>조회수</th>
+				<td th:text="${notice.viewCnt}">
+			</tr>
+			</th:block>
+		</table>
+	</div>
+</body>
+</html>
