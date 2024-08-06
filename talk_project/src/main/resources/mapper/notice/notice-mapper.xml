@@ -42,7 +42,7 @@
 					 #{noticeNo},
 					 #{noticeTitle},
 					 #{noticeContent},
-					 #{createDate},
+					 sysdate,
 					 #{viewCnt},
 					 #{imNotice}
 					)	
@@ -53,7 +53,7 @@
 		UPDATE notice
 		SET	
 			notice_title = #{noticeTitle},
-			notice_content = #{noticeContent},
+			notice_content = #{noticeContent}
 			
 		WHERE notice_no = #{noticeNo}	
 	</update>

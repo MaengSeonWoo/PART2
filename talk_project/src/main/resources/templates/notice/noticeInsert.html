@@ -8,26 +8,34 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>공지사항 등록</h3>
-	<div>
+	<div class="container">
+		<h3>공지사항 등록</h3>	
 		<form name="insertForm"
-			  th:action="@{/noticeInsert}" methd="post"
+			  th:action="@{/noticeInsert}" method="post"
 			  th:object="${noticeInfo}" >
-			<div>
-				<label>번호</label>
-				<input type="number" name="noticeNo">
-			</div>
-			<div>
-				<label>제목</label>
-				<input type="text" name="noticeTitle">
-			</div>
-			<div>
-				<label>내용</label>
-				<input type="text" name="noticeContent">
-			</div>
-			<div>
-				<button type="submit">등록</button>
-			</div>
+			  <table>
+			  	  <tr>
+			  		<th>번호</th>
+			  		<td><input type="text" name="noticeNo"></td>
+			  	  </tr>
+				  <tr>
+			  		<th>제목</th>
+			  		<td><input type="text" name="noticeTitle"></td>
+			  	  </tr>
+			  	  <tr>
+			  		<th>내용</th>
+			  		<td><textarea name="noticeContent"> </textarea></td>
+			  	  </tr>
+			  	  <tr>	
+			  	  	<th>이미지</th>
+			  	  	<td><input type="text">
+			  	  </tr>
+			  	  <tr>
+			  	  	<th>첨부파일</th>
+			  	  	<td><input type="text">
+			  	  </tr>
+			  </table>
+		<button type="submit">등록</button>
 		</form>
 	</div>
 </body>
