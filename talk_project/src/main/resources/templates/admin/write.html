@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/ad_layout}" layout:fragment="Content">
+	
+	<!-- <div class="right_col" role="main"> -->
+	<div class="right_col">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>복지 정책 등록</h3>
+                        </div>
+
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5 form-group pull-right top_search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>정책을 폼양식에 맞게 등록해 주세요<small>* 찍힌 부분은 필수 입력값입니다</small></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Settings 1</a>
+                                                <a class="dropdown-item" href="#">Settings 2</a>
+                                            </div>
+                                        </li>
+                                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <form name="insertWelfare"  th:action="@{/admin/new}" method="post">
+                                        <p>내용을 입력해 주세요</p>
+                                        <span class="section">정보 입력</span>
+                                        
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">서비스 ID<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="servId"  required="required" />
+                                            </div>
+                                        </div>
+                                       <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">서비스명<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="servName"  required="required" />
+                                            </div>
+                                        </div>
+                                         <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">시행 시작 일자<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control date" type="date" name="startDate" required='required'></div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">시행 종료 일자<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control date" type="date" name="endDate" required='required'></div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">사업담당부서명<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="bizDept"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">시도명</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="sido" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">시군구명</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="sgg" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">가구상황명<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="household"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">관심주제명<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="likeSubject"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">지원주기명</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="supPeriod" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">제공유형명<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="provType"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">지원대상 내용<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="supTarget"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">선정기준 내용<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="selStandard"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">급여서비스 내용<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="salServ"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">신청방법 내용<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="appWay"  required="required" />
+                                            </div>
+                                        </div>
+                                       <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">선정기준 내용<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="selStandard"  required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">파일 첨부</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input type="file" class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" />
+                                        </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">서비스 요약<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <textarea required="required" name='servSummary'></textarea></div>
+                                        </div>
+                                        <div class="ln_solid">
+                                            <div class="form-group">
+                                                <div class="col-md-6 offset-md-3">
+                                                    <button type='submit' class="btn btn-primary">등록</button>
+                                                   <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/welfare}'|">취소</button>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>        
+            
+            
+            <script type="text/javascript">
+            
+            $('form[name="insertWelfare"]').on('submit',welfareInsertHandeler);
+            
+            function welfareInsertHandeler(e){
+            	e.preventDefault();
+                let servName =$('input[name="servName"]');
+                let startDate =$('input[name="startDate"]');
+                
+  /*           let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]');
+                let servName =$('input[name="servName"]'); */
+
+                if(servName.val()=''){
+                    alert('제목은 필수입니다')
+                    servName.focus();
+                    return;
+                }
+
+
+
+
+                alert('글이 등록되었습니다.');
+                insertWelfare.submit();
+
+
+            }
+            
+            
+            
+            </script>
+            
+            
+            
+	    <!-- Javascript functions	-->
+<!-- 	<script>
+		function hideshow(){
+			var password = document.getElementById("password1");
+			var slash = document.getElementById("slash");
+			var eye = document.getElementById("eye");
+			
+			if(password.type === 'password'){
+				password.type = "text";
+				slash.style.display = "block";
+				eye.style.display = "none";
+			}
+			else{
+				password.type = "password";
+				slash.style.display = "none";
+				eye.style.display = "block";
+			}
+
+		}
+	</script>
+	
+	<script>
+        // initialize a validator instance from the "FormValidator" constructor.
+        // A "<form>" element is optionally passed as an argument, but is not a must
+        var validator = new FormValidator({
+            "events": ['blur', 'input', 'change']
+        }, document.forms[0]);
+        // on form "submit" event
+        document.forms[0].onsubmit = function(e) {
+            var submit = true,
+                validatorResult = validator.checkAll(this);
+            console.log(validatorResult);
+            return !!validatorResult.valid;
+        };
+        // on form "reset" event
+        document.forms[0].onreset = function(e) {
+            validator.reset();
+        };
+        // stuff related ONLY for this demo page:
+        $('.toggleValidationTooltips').change(function() {
+            validator.settings.alerts = !this.checked;
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false);
+
+    </script> -->
+	
+	
+</html>

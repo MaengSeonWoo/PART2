@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.notice.mapper.NoticeMapper">
+	
+	<!--  전체조회  -->
+	<select id="selectNoticeAll" resultType="NoticeVO">
+		SELECT notice_no,
+	       	   notice_title,
+	           notice_content,
+	           create_date,
+	           viewcnt,
+	           imnotice
+		FROM notice
+		ORDER BY notice_no
+	</select>
+	
+	<!-- 단건조회  -->
+	<select id="selectNoticeInfo" resultType="NoticeVO">
+		SELECT notice_no,
+	           notice_title,
+	           notice_content,
+	           create_date,
+	           viewcnt,
+	           imnotice
+		FROM notice
+		WHERE notice_no = #{noticeNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertNoticeInfo" parameterType="NoticeVO">
+		INSERT INTO notice
+					(
+					 notice_no,
+	           	     notice_title,
+	           	     notice_content,
+	                 create_date,
+	                 viewcnt,
+	                 imnotice		
+					)
+					VALUES
+					(
+					 #{noticeNo},
+					 #{noticeTitle},
+					 #{noticeContent},
+					 sysdate,
+					 #{viewCnt},
+					 #{imNotice}
+					)	
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateNoticeInfo" parameterType="NoticeVO">
+		UPDATE notice
+		SET	
+			notice_title = #{noticeTitle},
+			notice_content = #{noticeContent}
+			
+		WHERE notice_no = #{noticeNo}	
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteNoticeInfo" parameterType="int">
+		DELETE FROM notice
+		WHERE notice_no = #{noticeNo}
+	</delete>
+</mapper>

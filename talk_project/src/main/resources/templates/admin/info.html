@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/ad_layout}" layout:fragment="Content">
+	<style>
+.col-md-9{
+	margin: 0 auto;
+}
+</style>
+	
+        <div class="right_col" role="main">
+          <div class="">
+
+            <div class="page-title">
+              <div class="title_left">
+                <h3>복지 내용 상세<small>(문자 전송, 수정, 삭제)</small></h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-secondary" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-9">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>상세 정보 확인<small>복지내용</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="row">
+
+                      <!-- / LIST -->
+                      
+                      <div class="col-sm-9 mail_view">
+                        <div class="inbox-body">
+                          <div class="mail_heading row">
+                            <div class="col-md-8">
+                              <div class="btn-group">
+                                <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/welfare}'|">목록으로</button>
+                                <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
+                              </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                              <p class="date"> 작성 일자 들어갈 자리</p>
+                            </div>
+                            <div class="col-md-12">
+                              <h4>[[ ${detail.servName} ]]</h4>
+                              <p>서비스ID : [[ ${{detail.servId}} ]]</p>
+                            </div>
+                          </div>
+                          <div class="view-mail">
+                            <strong>복지 내용 들어갈 자리</strong>
+                            <div>지원주기 : [[ ${{detail.supPeriod}} ]]</div>
+                            <div>제공유형 : [[ ${{detail.provType}} ]]</div>
+                          </div>
+                          <hr>
+
+                          <div class="attachment">
+                            <p>
+                              <span><i class="fa fa-paperclip"></i> 3 attachments — </span>
+                              <a href="#">Download all attachments</a> |
+                              <a href="#">View all images</a>
+                            </p>
+                            <ul>
+                              <li>
+                                <a href="#" class="atch-thumb">
+                                  <img src="images/inbox.png" alt="img" />
+                                </a>
+
+                                <div class="file-name">
+                                  image-name.jpg
+                                </div>
+                                <span>12KB</span>
+
+
+                                <div class="links">
+                                  <a href="#">View</a> -
+                                  <a href="#">Download</a>
+                                </div>
+                              </li>
+
+                              <li>
+                                <a href="#" class="atch-thumb">
+                                  <img src="images/inbox.png" alt="img" />
+                                </a>
+
+                                <div class="file-name">
+                                  img_name.jpg
+                                </div>
+                                <span>40KB</span>
+
+                                <div class="links">
+                                  <a href="#">View</a> -
+                                  <a href="#">Download</a>
+                                </div>
+                              </li>
+                              <li>
+                                <a href="#" class="atch-thumb">
+                                  <img src="images/inbox.png" alt="img" />
+                                </a>
+
+                                <div class="file-name">
+                                  img_name.jpg
+                                </div>
+                                <span>30KB</span>
+
+                                <div class="links">
+                                  <a href="#">View</a> -
+                                  <a href="#">Download</a>
+                                </div>
+                              </li>
+
+                            </ul>
+                          </div>
+                          <div class="btn-group">
+                            <button class="btn btn-sm btn-primary" type="button">문자전송</button>
+                            <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/update(wid=${detail.wid})}'|">수정</button>
+                            <button class="btn btn-sm btn-primary" type="button">삭제</button>
+                          </div>
+                        </div>
+
+                      </div>
+                      <!-- /CONTENT MAIL -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+	
+	
+	
+</html>
