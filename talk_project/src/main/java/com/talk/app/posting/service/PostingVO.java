@@ -44,4 +44,6 @@ public class PostingVO {
 	private int coUserNo;
 	// 채용 공고 상태
 	private String postingStatus;
+	// 채용 공고 제목
+	private String postingTitle;
 }
