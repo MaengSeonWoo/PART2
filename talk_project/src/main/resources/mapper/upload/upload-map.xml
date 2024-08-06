@@ -3,12 +3,12 @@
 <mapper namespace="com.talk.app.common.mapper.UploadMapper">
 
 	<insert id="insertUploadedFile" parameterType="UploadFileVO">
-		<selectKey keyProperty="id" resultType="long" order="BEFORE">
-			SELECT NVL(MAX(id), 0) + 1
-			FROM uploaded_files
+		<selectKey keyProperty="file_no" resultType="long" order="BEFORE">
+			SELECT NVL(MAX(file_no), 0) + 1
+			FROM files
 		</selectKey>
-		INSERT INTO uploaded_files (
-										id, 
+		INSERT INTO files (
+										file_no, 
 										file_name, 
 										file_type, 
 										file_size,
@@ -19,7 +19,7 @@
 										file_order
 									)
 		VALUES (
-					#{id}, 
+					#{fileNo}, 
 					#{fileName}, 
 					#{fileType}, 
 					#{fileSize}, 
@@ -34,19 +34,19 @@
 	<select id="selectFilesByDomain" parameterType="map"
 		resultType="UploadFileVO">
 		SELECT * 
-		FROM uploaded_files
+		FROM files
 		WHERE domain_type = #{domainType} AND domain_id = #{domainId}
 		ORDER BY file_order ASC
 	</select>
 	
 	<select id="selectFilePathsByBoard" resultType="String">
 		SELECT file_path 
-		FROM uploaded_files
+		FROM files
 		WHERE domain_type = #{domainType} AND domain_id = #{domainId}
 	</select>
 	
 	<delete id="deleteFilesByDomain">
-		DELETE FROM uploaded_files
+		DELETE FROM files
 		WHERE domain_type = #{domainType} AND domain_id = #{domainId}
 	</delete>
 </mapper>

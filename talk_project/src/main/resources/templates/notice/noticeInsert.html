@@ -12,7 +12,8 @@
 		<h3>공지사항 등록</h3>	
 		<form name="insertForm"
 			  th:action="@{/noticeInsert}" method="post"
-			  th:object="${noticeInfo}" >
+			  th:object="${noticeInfo}" 
+			  enctype="multipart/form-data">
 			  <table>
 			  	  <tr>
 			  		<th>번호</th>
@@ -32,11 +33,39 @@
 			  	  </tr>
 			  	  <tr>
 			  	  	<th>첨부파일</th>
-			  	  	<td><input type="text">
+			  	  	<td><input type="file" id="files" name="uploadFiles" multiple>
 			  	  </tr>
 			  </table>
 		<button type="submit">등록</button>
+		<button type="button" onclick="goList()">취소</button>
 		</form>
 	</div>
 </body>
+   <script type="text/javascript">
+      function goList() {
+         location.href = `/noticeList/`
+      }
+
+      insertForm.addEventListener('submit',boardInsertHandler);
+
+      function boardInsertHandler(e) {
+         e.preventDefault();
+
+         let noticeTitle = document.querySelector('input[name="noticeTitle"]');
+         if (noticeTitle.value == '') {
+            alert('제목은 필수입니다.');
+            noticeTitle.focus();
+            return;
+         }
+         let noticeContent = document
+               .querySelector('textarea[name="noticeContent"]');
+         if (noticeContent.value == '') {
+            alert('작성자는 필수입니다.');
+            noticeContent.focus();
+            return;
+         }
+         insertForm.submit();
+      }
+   </script>
+
 </html>

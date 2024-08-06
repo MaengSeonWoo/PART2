@@ -9,22 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.talk.app.common.service.UploadService;
 import com.talk.app.notice.service.NoticeService;
 import com.talk.app.notice.service.NoticeVO;
+
+import lombok.RequiredArgsConstructor;
 
 
 
 
 @Controller
+@RequiredArgsConstructor
 public class NoticeController {
 
-	private NoticeService noticeService;
+	private final NoticeService noticeService;
 	
-	public NoticeController(NoticeService noticeService) {
-		this.noticeService = noticeService;
-	}
+	private final UploadService uploadServcie;
+	
+	
 	
 	// 전체조회
 	@GetMapping("noticeList")
@@ -52,8 +58,11 @@ public class NoticeController {
 	
 	// 등록 처리
 	@PostMapping("noticeInsert")
-	public String noticeInsertProcess(NoticeVO noticeVO) {
+	public String noticeInsertProcess(NoticeVO noticeVO, @RequestPart MultipartFile[] uploadFiles) {
 		int nno = noticeService.insertNotice(noticeVO);
+		
+		uploadServcie.imageUpload(uploadFiles, "Notice", (long) nno);
+		
 		return "redircet:noticeInfo?noticeNo=" + nno;
 	}
 	
@@ -80,5 +89,6 @@ public class NoticeController {
 		return "redirect:noticeList";
 			
 	}
+	
 	
 }
