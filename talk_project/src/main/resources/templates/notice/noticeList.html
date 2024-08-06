@@ -5,16 +5,10 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<style>
-	.notice-container {
-		left:500px;
-		
-	}
-</style>
 <title>공지사항</title>
 </head>
 <body>
-	<div class="notice-container">
+	<div class="container">
 		<h3>공지사항 목록</h3>
 		<table class="table">
 			<thead>
@@ -28,11 +22,11 @@
 			</thead>
 			<tbody>
 				<th:block th:each="notice : ${noticeList}">
-					<tr>
+					<tr th:onclick="|location.href='@{/noticeInfo(noticeNo=${notice.noticeNo})}'|">
 						<td th:text="${notice.noticeNo}">100</td>
 						<td th:text="${notice.noticeTitle}">문의</td>
 						<td th:text="${notice.noticeContent}">내용</td>
-						<td th:text="${notice.createDate}">yyyy-mm-dd</td>
+						<td th:text="${#dates.format(notice.createDate, 'yyyy년MM월dd일')}">yyyy-mm-dd</td>
 						<td th:text="${notice.viewCnt}">조회수</td>
 					</tr>
 				</th:block>			
