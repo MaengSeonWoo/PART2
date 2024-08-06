@@ -21,7 +21,7 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/**", "/signInsert").permitAll()
+                .antMatchers("/**", "/signInsert","/login", "/notice/noticeList").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/signInsert").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .anyRequest().authenticated()

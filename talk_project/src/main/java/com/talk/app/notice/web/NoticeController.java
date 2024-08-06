@@ -20,7 +20,7 @@ public class NoticeController {
 	}
 	
 	// 전체조회
-	@GetMapping("NoticeList")
+	@GetMapping("noticeList")
 	public String NoticeList(Model model) {
 		List<NoticeVO> list = noticeService.noticeList();
 		model.addAttribute("noticeList", list);

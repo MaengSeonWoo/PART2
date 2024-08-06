@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/default_layout}"
-      layout:fragment="content">
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title></title>
+<style>
+	.notice-container {
+		left:500px;
+		
+	}
+</style>
+<title>공지사항</title>
 </head>
 <body>
-	<div>
+	<div class="notice-container">
 		<h3>공지사항 목록</h3>
-		<table>
+		<table class="table">
 			<thead>
 				<tr>
 					<th>번호</th>
@@ -21,7 +27,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<th:block th:each="notice, sts : ${noticeList}">
+				<th:block th:each="notice : ${noticeList}">
 					<tr>
 						<td th:text="${notice.noticeNo}">100</td>
 						<td th:text="${notice.noticeTitle}">문의</td>

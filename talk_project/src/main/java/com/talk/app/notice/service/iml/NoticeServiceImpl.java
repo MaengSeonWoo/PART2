@@ -1,15 +1,17 @@
-package com.talk.app.notice.serviceImpl;
+package com.talk.app.notice.service.iml;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.talk.app.notice.mapper.NoticeMapper;
 import com.talk.app.notice.service.NoticeService;
 import com.talk.app.notice.service.NoticeVO;
 
+@Service
 public class NoticeServiceImpl implements NoticeService {
 
 	private NoticeMapper noticeMapper;
