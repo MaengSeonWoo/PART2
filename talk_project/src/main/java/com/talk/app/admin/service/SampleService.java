@@ -46,14 +46,14 @@ public class SampleService {
 
         NodeList servIdList = doc.getElementsByTagName("servId");
         NodeList servNameList = doc.getElementsByTagName("servNm");
-        NodeList bizDeptList = doc.getElementsByTagName("bizChrDeptNm");
-        NodeList sidoList = doc.getElementsByTagName("ctpvNm");
-        NodeList servSummaryList = doc.getElementsByTagName("servDgst");
-        NodeList likeSubjectList = doc.getElementsByTagName("intrsThemaNmArray");
         NodeList supPeriodList = doc.getElementsByTagName("sprtCycNm");
         NodeList provTypeList = doc.getElementsByTagName("srvPvsnNm");
 
-        //        NodeList startDateList = doc.getElementsByTagName("enfcBgngYmd");
+//        NodeList bizDeptList = doc.getElementsByTagName("bizChrDeptNm");
+//        NodeList sidoList = doc.getElementsByTagName("ctpvNm");
+//        NodeList servSummaryList = doc.getElementsByTagName("servDgst");
+//			NodeList likeSubjectList = doc.getElementsByTagName("intrsThemaNmArray");
+//        NodeList startDateList = doc.getElementsByTagName("enfcBgngYmd");
 //        NodeList endDateList = doc.getElementsByTagName("enfcEndYmd");
 //        NodeList sggList = doc.getElementsByTagName("sggNm");
 //        NodeList householdList = doc.getElementsByTagName("trgterIndvdlNmArray");
@@ -66,13 +66,12 @@ public class SampleService {
             WelfareVO vo = new WelfareVO();
             vo.setServId(servIdList.item(i).getTextContent());
             vo.setServName(servNameList.item(i).getTextContent());
-            vo.setBizDept(bizDeptList.item(i).getTextContent());
-            vo.setSido(sidoList.item(i).getTextContent());
-            vo.setServSummary(servSummaryList.item(i).getTextContent());
-            vo.setLikeSubject(likeSubjectList.item(i).getTextContent());
             vo.setSupPeriod(supPeriodList.item(i).getTextContent());
             vo.setProvType(provTypeList.item(i).getTextContent());
-
+//            vo.setBizDept(bizDeptList.item(i).getTextContent());
+//            vo.setSido(sidoList.item(i).getTextContent());
+//            vo.setServSummary(servSummaryList.item(i).getTextContent());
+//				vo.setLikeSubject(likeSubjectList.item(i).getTextContent());
 //            vo.setStartDate(startDateList.item(i).getTextContent());
 //            vo.setEndDate(endDateList.item(i).getTextContent());
 //            vo.setSgg(sggList.item(i).getTextContent());

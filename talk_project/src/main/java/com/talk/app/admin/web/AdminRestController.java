@@ -10,7 +10,6 @@ import com.talk.app.admin.service.SampleService;
 
 @RestController
 @RequestMapping("/samplerest")
-//@RequiredArgsConstructor
 public class AdminRestController {
 
 
@@ -21,8 +20,10 @@ public class AdminRestController {
     public ResponseEntity<String> fetchAndSaveServIds() {
         try {
             sampleService.fetchAndSaveWelfareData();
-            return ResponseEntity.ok("ServIds fetched and saved successfully.");
+            return ResponseEntity.ok("서비스ok");
         } catch (Exception e) {
+        	//오류적어줌
+        	e.printStackTrace();
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
