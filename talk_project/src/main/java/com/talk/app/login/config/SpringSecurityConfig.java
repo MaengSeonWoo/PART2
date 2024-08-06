@@ -17,11 +17,13 @@ public class SpringSecurityConfig {
         return new BCryptPasswordEncoder();
     }
     
+    
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/signInsert","/login").permitAll() // 회원, 비회원, 관리자
+                .antMatchers("/", "/signInsert","/login", "/docs/css/**", "/main/css/**", "/docs/js/**", "/production/css/**", "/production/js/**", "/production/img/**").permitAll() // 회원, 비회원, 관리자
                 .antMatchers("/admin").hasRole("ADMIN") // 관리자
                 .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") // 회원
                 .anyRequest().authenticated()
