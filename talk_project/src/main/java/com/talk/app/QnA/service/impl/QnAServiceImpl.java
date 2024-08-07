@@ -23,7 +23,7 @@ public class QnAServiceImpl implements QnAService {
 	
 	@Override
 	public List<QnAVO> qnaList() {
-		return qnaMapper.selectQnaAll();
+		return qnaMapper.selectQnAAll();
 	}
 
 	@Override
