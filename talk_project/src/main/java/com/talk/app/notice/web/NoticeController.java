@@ -46,16 +46,12 @@ public class NoticeController {
 	@GetMapping("noticeInfo")
 	public String noticeInfo(NoticeVO noticeVO, Model model) {
 		NoticeVO findVO = noticeService.noticeInfo(noticeVO);
+		noticeService.plusViewCnt(noticeVO.getNoticeNo());
 		model.addAttribute("noticeInfo", findVO);
+		List<UploadFileVO> images = uploadServcie.selectFilesByDomain("Notice", (long) noticeVO.getNoticeNo() );
+		model.addAttribute("file", images);
 		return "notice/noticeInfo";
 	}
-	
-	//이미지
-//	@GetMapping("noticeInfo")
-//	public String noticeInfoImg(UploadFileVO fileVO) {
-//		UploadFileVO imgVO = uploadServcie.imageUpload(null, null, null)
-//		return new String();
-//	}
 	
 	// 등록
 	@GetMapping("noticeInsert")
@@ -96,9 +92,6 @@ public class NoticeController {
 		return "redirect:noticeList";
 			
 	}
-	
-	
-
 	
 	
 }

@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.container{margin-top:40px; justify-content:cen}
+	.container{margin-top:40px;}
 </style>
-<title>Insert title here</title>
+<title>공지사항 정보</title>
 </head>
 <body>
 
@@ -24,9 +24,14 @@
 				<th>제목</th>
 				<td th:text="${notice.noticeTitle}">
 			</tr>
-			<tr>
+			<tr class="img">
+				<td th:each="file : ${file}">
+					<img width="50%" th:src="@{/images/{fileName}(fileName=${file.filePath})}">
+				</td>
+			</tr>
+			<tr class="no-content">
 				<th>내용</th>
-				<td style="height:100px; width:200px;" th:text="${notice.noticeContent}">
+				<td style="height:100px; width:500px;" th:text="${notice.noticeContent}">
 			</tr>
 			<tr>
 				<th>작성일</th>

@@ -58,4 +58,10 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeMapper.deleteNoticeInfo(noticeVO);
 	}
 
+	@Override
+	public int plusViewCnt(int viewCnt) {
+		return noticeMapper.plusViewCnt(viewCnt);
+	}
+
+
 }

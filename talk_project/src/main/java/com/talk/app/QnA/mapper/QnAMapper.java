@@ -6,7 +6,7 @@ import com.talk.app.QnA.service.QnAVO;
 
 public interface QnAMapper {
 	// 전체조회
-	public List<QnAVO> selectQnaAll();
+	public List<QnAVO> selectQnAAll();
 	
 	// 단건조회
 	public QnAVO selectQnAInfo(QnAVO qnaVO);
