@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.talk.app.posting.service.PostingService;
@@ -27,5 +28,14 @@ public class PostingController {
 		model.addAttribute("pList", postingList);
 		// 출력 페이지
 		return "posting/list";
+	}
+	@GetMapping("/{postingNo}")
+	public String postingInfo(Model model, @PathVariable Integer postingNo) {
+		// 기능 수행
+		PostingVO postingInfo = postingService.postingInfo(postingNo);
+		// 채용공고 리스트 전달
+		model.addAttribute("posting", postingInfo);
+		// 출력 페이지
+		return "posting/info";
 	}
 }

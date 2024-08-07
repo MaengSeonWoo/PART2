@@ -2,9 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talk.app.posting.mapper.PostingMapper">
 	<select id="selectPostingList" resultType="PostingVO">
-		SELECT * 
-		FROM posting
-		ORDER BY posting_no
+		SELECT p.posting_no
+            , sq.co_name
+            , p.work_region
+            , p.end_date
+            , p.emp_type
+            , p.posting_title
+            , sq.file_path
+		FROM posting p
+		LEFT JOIN (
+			            SELECT *
+	                    FROM company_user c
+	                    JOIN files f
+	                    ON c.co_user_no = f.domain_id
+	                    WHERE f.domain_type = 'COMPANY'
+		            ) sq
+		ON p.co_user_no = sq.co_user_no
+		ORDER BY posting_no DESC
 	</select>
 	
 	<select id="selectPostingInfo" parameterType="int" resultType="PostingVO">

@@ -9,6 +9,6 @@ public interface PostingMapper {
 	public List<PostingVO> selectPostingList();
 	
 	// 채용 공고 상세 조회
-	public PostingVO selectPostingInfo(int postingNo);
+	public PostingVO selectPostingInfo(Integer postingNo);
 	
 }
