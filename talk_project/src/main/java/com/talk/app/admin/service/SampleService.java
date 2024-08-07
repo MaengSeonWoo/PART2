@@ -11,9 +11,8 @@ import java.net.URLEncoder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -22,9 +21,13 @@ import org.xml.sax.InputSource;
 
 import com.talk.app.admin.mapper.WelfareMapper;
 
+
 @Service
 public class SampleService {
 
+ 	@Value("${serviceKey}")
+	private String key;
+ 	
 	@Autowired
     private WelfareMapper mapper;
     
@@ -36,7 +39,7 @@ public class SampleService {
     @Transactional
     public void fetchAndSaveWelfareData() throws Exception {
 //        logger.info("Fetching and saving welfare data");
-
+    	
         String response = callApi();
 
         // XML 파싱
