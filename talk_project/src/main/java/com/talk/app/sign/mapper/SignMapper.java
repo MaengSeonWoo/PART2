@@ -3,6 +3,8 @@ package com.talk.app.sign.mapper;
 import com.talk.app.login.service.UserVO;
 
 public interface SignMapper {
-	// х╦©Ь╟║ют
+	// х╦О©╫О©╫О©╫О©╫О©╫О©╫
 	public int insertSignInfo(UserVO userVO);
+	
+	public UserVO selectCheckUser(String userId);
 }

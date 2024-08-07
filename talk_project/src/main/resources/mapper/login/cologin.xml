@@ -3,8 +3,14 @@
 
 <mapper namespace='com.talk.app.login.mapper.CoUserMapper'>
 	<select id = "getCoUserInfo" resultType="CoUserVO">
-		SELECT co_user_id, co_user_pw, authority
-		FROM company_user
-		WHERE co_user_id = #{id}
+		SELECT *
+		FROM (
+			SELECT user_id, user_pw, authority
+			FROM users
+			UNION ALL
+			SELECT co_user_id, co_user_pw, authority
+			FROM company_user
+			)
+		WHERE user_id = #{id}
 	</select>
 </mapper>

@@ -1,40 +1,139 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-				layout:decorate="~{common/main/layouts/default_layout}"
-				layout:fragment="Content">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
 <title>회원가입 페이지</title>
 </head>
 <body>
-	<div>
+	<div class="signInsertForm">
 		<h3>일반회원가입</h3>
 		<form th:action="@{/signInsert}" method="post" name="insertForm">
 			<table>
-			<tr>
-				<th>이름</th>
-				<td><input type="text" name="userName"></td>
-			</tr>
-			<tr>
-				<th>아이디</th>
-				<td><input type="text" name="userId"></td>
-			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td><input type="text" name="userPw"></td>
-			</tr> 
-			<tr>
-				<th>비밀번호확인</th>
-				<td><input type="text" name="userPw"></td>
-			</tr>
-			<tr>
-				<th>연락처</th> 
-				<td><input type="text" name="tel"></td>
-			</tr>
-		</table>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" name="userName"></td>
+				</tr>
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" name="userId" id="userId">
+					<input type="button" id="confirmId" value="중복체크">
+					<div id="message_id"></div></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="userPw" id="pw1" class="pw"></td>
+				</tr>
+				<tr>
+					<th>비밀번호확인</th>
+					<td><input type="password" name="checkPw" id="pw2" class="pw">
+						<font id="Pw_status" Size="2"></font></td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td><input type="text" name="tel"></td>
+				</tr>
+			</table>
 			<button type="submit">회원가입</button>
 		</form>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+	//아이디 중복체크
+	$(function(){
+	    let checkId = 0;
+	    $('#confirmId').click(function(){
+	        if($('#userId').val().trim() == ''){
+	            $('#message_id').css('color','#fba082').text('아이디를 입력하세요');
+	            $('#userId').val('').focus();
+	            return;
+	        }
+	        $.ajax({
+	            url : '/checkUserId',
+	            type : 'post',
+	            data : { userId : $('#userId').val() },
+	            dataType : 'json',
+	            success : function(param) {
+	                if (param.result == 'idNotFound'){
+	                    $('#message_id').text('사용 가능한 아이디입니다.');
+	                    checkId = 1;	
+	                } else if (param.result == 'idDuplicated'){
+	                    $('#message_id').text('존재하는 아이디입니다.');
+	                    checkId = 0;
+	                } else {
+	                    checkId = 0;
+	                    alert('아이디 중복체크 오류');
+	                }
+	            },
+	            error : function(){
+	                checkId = 0;
+	                alert('네트워크 오류 발생');
+	            }
+	        });	
+	    });
+	    
+	    $('#userId').change(function(){
+	        checkId = 0;
+	        $('#message_id').text('');
+	    });
+
+		//비밀번호 일치 여부
+		$('.pw').keyup(function() {
+			let pass1 = $("#pw1").val();
+			let pass2 = $("#pw2").val();
+
+			if (pass1 != "" || pass2 != "") {
+				if (pass1 == pass2) {
+					$("#Pw_status").html('일치').css('color', 'green');
+				} else {
+					$("#Pw_status").html('불일치').css('color', 'red');
+				}
+			}
+		})
+
+		//필수 값 입력 여부
+		document.querySelector('form[name="insertForm"]').addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			let uname = document.querySelector('input[name="userName"]');
+			if (uname.value == '') {
+				alert('이름은 필수 값입니다.');
+				uname.focus();
+				return;
+			}
+
+			let uid = document.querySelector('input[name="userId"]');
+			if (uid.value == '') {
+				alert('아이디는 필수 값입니다.');
+				uid.focus();
+				return;
+			}
+			
+			if (checkId == 0) {
+				alert('아이디 중복 체크를 해주세요.');
+				uid.focus();
+				return;
+			}
+
+			let upw = document.querySelector('input[name="userPw"]');
+			if (upw.value == '') {
+				alert('비밀번호는 필수 값입니다.');
+				upw.focus();
+				return;
+			}
+
+			let cpw = document.querySelector('input[name="checkPw"]');
+			if (upw.value != cpw.value) {
+				alert('비밀번호가 일치하지 않습니다.');
+				cpw.focus();
+				return;
+			}
+
+			insertForm.submit();
+		});
+	});
+	</script>
 </body>
 </html>

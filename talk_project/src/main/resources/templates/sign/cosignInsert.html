@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-				layout:decorate="~{common/main/layouts/default_layout}"
-				layout:fragment="Content">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
 <title>기업회원가입</title>
@@ -12,82 +12,344 @@
 		<h3>기업회원가입</h3>
 		<form th:action="@{/cosignInsert}" method="post" name="insertForm">
 			<table>
-			<tr>
-				<th>사업자등록번호</th>
-				<td><input type="text" name="CoRegNo"></td>
-			</tr>
-			<tr>
-				<th>기업명</th>
-				<td><input type="text" name="CoName"></td>
-			</tr>
-			<tr>
-				<th>업종</th>
-				<td><input type="text" name="Industry"></td>
-			</tr> 
-			<tr>
-				<th>대표자</th>
-				<td><input type="text" name="RepName"></td>
-			</tr>
-			<tr>
-				<th>설립연도</th> 
-				<td><input type="Date" name="EstYear"></td>
-			</tr>
-			<tr>
-				<th>우편번호</th> 
-				<td><input type="text" name="CoPostNo"></td>
-			</tr>
-			<tr>
-				<th>기본주소</th> 
-				<td><input type="text" name="CoAddr"></td>
-			</tr>
-			<tr>
-				<th>상세주소</th> 
-				<td><input type="text" name="CoDetailAddr"></td>
-			</tr>
-			<tr>
-				<th>주요사업</th> 
-				<td><input type="text" name="MainBusiness"></td>
-			</tr>
-			<tr>
-				<th>행정구역</th> 
-				<td><input type="text" name="Region"></td>
-			</tr>
-			<tr>
-				<th>기타사항</th> 
-				<td><input type="text" name="Etc"></td>
-			</tr>
-		</table>
-		<br>
-		<hr>
-		<br>
-		<table>
-			<tr>
-				<th>아이디</th>
-				<td><input type="text" name="CoUserId"></td>
-			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td><input type="text" name="CoUserPw"></td>
-			</tr>
-			<tr>
-				<th>담당자 이름</th>
-				<td><input type="text" name="MgrName"></td>
-			</tr> 
-			<tr>
-				<th>담당자 이메일</th>
-				<td><input type="text" name="MgrEmail"></td>
-			</tr>
-			<tr>
-				<th>담당자 연락처</th> 
-				<td><input type="text" name="MgrTel"></td>
-			</tr>
-			<tr>
-				<th>기업 연락처</th> 
-				<td><input type="text" name="CoContact"></td>
-			</tr>
-		</table>
+				<tr>
+					<th>사업자등록번호</th>
+					<td>
+						<input type="text" name="CoRegNo" id="CoRegNo"> 
+						<input type="button" id="corp_button" value="사업자등록번호 조회"
+							   onclick="co_check();">
+					</td>
+				</tr>
+				<tr>
+					<th>기업명</th>
+					<td><input type="text" name="CoName"></td>
+				</tr>
+				<tr>
+					<th>업종</th>
+					<td><input type="text" name="Industry"></td>
+				</tr>
+				<tr>
+					<th>대표자</th>
+					<td><input type="text" name="RepName"></td>
+				</tr>
+				<tr>
+					<th>설립연도</th>
+					<td><input type="Date" name="EstYear"></td>
+				</tr>
+				<tr>
+					<th>우편번호</th>
+					<td><input type="text" name="CoPostNo" id="CoPostNo">
+						<input type="button" id="post_button" value="우편번호 찾기"
+						onclick="openZipSearch();"></td>
+				</tr>
+				<tr>
+					<th>기본주소</th>
+					<td><input type="text" name="CoAddr" id="CoAddr"></td>
+				</tr>
+				<tr>
+					<th>상세주소</th>
+					<td><input type="text" name="CoDetailAddr" id="CoDetailAddr"></td>
+				</tr>
+				<tr>
+					<th>주요사업</th>
+					<td><input type="text" name="MainBusiness"></td>
+				</tr>
+				<tr>
+					<th>행정구역</th>
+					<td><input type="text" name="Region"></td>
+				</tr>
+				<tr>
+					<th>기타사항</th>
+					<td><input type="text" name="Etc"></td>
+				</tr>
+			</table>
+			<br>
+			<hr>
+			<br>
+			<table>
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" name="CoUserId" id="CoUserId"> <input
+						type="button" id="confirmId" value="중복체크">
+						<div id="message_id"></div></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="CoUserPw" id="pw1" class="pw"></td>
+				</tr>
+				<tr>
+					<th>비밀번호확인</th>
+					<td><input type="password" name="CheckPw" id="pw2" class="pw">
+						<font id="Pw_status" size="2"></font></td>
+				</tr>
+				<tr>
+					<th>담당자 이름</th>
+					<td><input type="text" name="MgrName"></td>
+				</tr>
+				<tr>
+					<th>담당자 이메일</th>
+					<td><input type="text" name="MgrEmail"></td>
+				</tr>
+				<tr>
+					<th>담당자 연락처</th>
+					<td><input type="text" name="MgrTel"></td>
+				</tr>
+				<tr>
+					<th>기업 연락처</th>
+					<td><input type="text" name="CoContact"></td>
+				</tr>
+			</table>
 			<button type="submit">등록</button>
 		</form>
+		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script>
+		//아이디 중복체크
+		$(function(){
+		    let checkId = 0;
+		    $('#confirmId').click(function(){
+		        if($('#CoUserId').val().trim() == ''){
+		            $('#message_id').css('color','#fba082').text('아이디를 입력하세요');
+		            $('#CoUserId').val('').focus();
+		            return;
+		        }
+		        $.ajax({
+		            url : '/checkCoUserId',
+		            type : 'post',
+		            data : { CoUserId : $('#CoUserId').val() },
+		            dataType : 'json',
+		            success : function(param) {
+		                if (param.result == 'idNotFound'){
+		                    $('#message_id').text('사용 가능한 아이디입니다.');
+		                    checkId = 1;	
+		                } else if (param.result == 'idDuplicated'){
+		                    $('#message_id').text('존재하는 아이디입니다.');
+		                    checkId = 0;
+		                } else {
+		                    checkId = 0;
+		                    alert('아이디 중복체크 오류');
+		                }
+		            },
+		            error : function(){
+		                checkId = 0;
+		                alert('네트워크 오류 발생');
+		            }
+		        });	
+		    });
+		});
+		    $('#CoUserId').change(function(){
+		        checkId = 0;
+		        $('#message_id').text('');
+		    });
+		
+		//우편번호
+		function openZipSearch() {
+		    new daum.Postcode({
+		    	oncomplete: function(data) {     
+				var addr = ''; 
+				if (data.userSelectedType === 'R') { 
+					addr = data.roadAddress;
+				} else {
+					addr = data.jibunAddress;
+				}
+
+				$("#CoPostNo").val(data.zonecode);
+				$("#CoAddr").val(addr);
+				$("#CoDetailAddr").val("");
+				$("#CoDetailAddr").focus();
+		        }
+		    }).open();
+		}
+		
+		// 사업자등록번호 진위여부 확인
+		let isBusinessNumberValid = false; // 사업자등록번호 검증 결과
+		function co_check() {
+		    $("#CoRegNo").val($("#CoRegNo").val().replace(/[^0-9]/g, ""));
+		    let reg_num = $("#CoRegNo").val();
+
+		    if (!reg_num) {
+		        alert("사업자등록번호를 입력해주세요.");
+		        isBusinessNumberValid = false; // 검증 실패
+		        return false;
+		    }
+
+		    let data = {
+		        "b_no": [reg_num]
+		    };
+
+		    $.ajax({
+		        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=Uzksb%2F38R7KBgM59AB5kOFVNIVvPNMU4tw5Wa70U4Q5naW%2B500YEh8iyXVWIhhkl3IS3vOGgRzy8ZFX0LPmT5Q%3D%3D",
+		        type: "POST",
+		        data: JSON.stringify(data),
+		        dataType: "JSON",
+		        traditional: true,
+		        contentType: "application/json; charset=UTF-8",
+		        accept: "application/json",
+		        success: function(result) {
+		            if (result.match_cnt === 1) {
+		                alert("사업자등록번호가 확인되었습니다");
+		                isBusinessNumberValid = true; // 검증 성공
+		            } else {
+		                alert(result.data[0]["tax_type"]);
+		                isBusinessNumberValid = false; // 검증 실패
+		            }
+		        },
+		        error: function(result) {
+		            alert("사업자등록번호 검증 오류");
+		            isBusinessNumberValid = false; // 검증 실패
+		        }
+		    });
+		}
+		
+		//비밀번호 일치 여부
+		$('.pw').keyup(function(){
+			let pass1 = $("#pw1").val();
+			let pass2 = $("#pw2").val();
+			
+			if (pass1 !== "" || pass2 !== "") {
+				if (pass1 === pass2) {
+					$("#Pw_status").html('일치').attr('color', 'green');
+				} else {
+					$("#Pw_status").html('불일치').attr('color', 'red');
+				}
+			}
+		});
+		
+		// 필수 값 입력
+		document.querySelector('form[name="insertForm"]').addEventListener('submit', function(event) {
+			event.preventDefault();
+			
+			let CoRegNo = document.querySelector('input[name="CoRegNo"]');
+			if (CoRegNo.value === '') {
+				alert('사업자등록번호는 필수 값입니다.');
+				CoRegNo.focus();
+				return;
+			}
+			
+			if (!isBusinessNumberValid) {
+		        alert('사업자등록번호 검증이 필요합니다.');
+		        return;
+		    }
+			
+			let CoName = document.querySelector('input[name="CoName"]');
+			if (CoName.value === '') {
+				alert('기업명은 필수 값입니다.');
+				CoName.focus();
+				return;
+			}
+			
+			let Industry = document.querySelector('input[name="Industry"]');
+			if (Industry.value === '') {
+				alert('업종은 필수 값입니다.');
+				Industry.focus();
+				return;
+			}
+			
+			let RepName = document.querySelector('input[name="RepName"]');
+			if (RepName.value === '') {
+				alert('대표자는 필수 값입니다.');
+				RepName.focus();
+				return;
+			}
+			
+			let EstYear = document.querySelector('input[name="EstYear"]');
+			if (EstYear.value === '') {
+				alert('설립연도는 필수 값입니다.');
+				EstYear.focus();
+				return;
+			}
+			
+			let CoPostNo = document.querySelector('input[name="CoPostNo"]');
+			if (CoPostNo.value === '') {
+				alert('우편번호는 필수 값입니다.');
+				CoPostNo.focus();
+				return;
+			}
+			
+			let CoAddr = document.querySelector('input[name="CoAddr"]');
+			if (CoAddr.value === '') {
+				alert('기본주소는 필수 값입니다.');
+				CoAddr.focus();
+				return;
+			}
+			
+			let CoDetailAddr = document.querySelector('input[name="CoDetailAddr"]');
+			if (CoDetailAddr.value === '') {
+				alert('상세주소는 필수 값입니다.');
+				CoDetailAddr.focus();
+				return;
+			}
+			
+			let MainBusiness = document.querySelector('input[name="MainBusiness"]');
+			if (MainBusiness.value === '') {
+				alert('주요사업은 필수 값입니다.');
+				MainBusiness.focus();
+				return;
+			}
+			
+			let Region = document.querySelector('input[name="Region"]');
+			if (Region.value === '') {
+				alert('행정구역은 필수 값입니다.');
+				Region.focus();
+				return;
+			}
+			
+			let CoUserId = document.querySelector('input[name="CoUserId"]');
+			if (CoUserId.value === '') {
+				alert('아이디는 필수 값입니다.');
+				CoUserId.focus();
+				return;
+			}
+			
+			if (checkId == 0) {
+				alert('아이디 중복 체크를 해주세요.');
+				CoUserId.focus();
+				return;
+			}
+			
+			let CoUserPw = document.querySelector('input[name="CoUserPw"]');
+			if (CoUserPw.value === '') {
+				alert('비밀번호는 필수 값입니다.');
+				CoUserPw.focus();
+				return;
+			}
+			
+			if(insertForm.CoUserPw.value != insertForm.CheckPw.value){
+				alert('비밀번호가 일치하지 않습니다')
+				insertForm.CoUserPw.focus();
+				return;
+			}
+			
+			let MgrName = document.querySelector('input[name="MgrName"]');
+			if (MgrName.value === '') {
+				alert('담당자 이름은 필수 값입니다.');
+				MgrName.focus();
+				return;
+			}
+			
+			let MgrEmail = document.querySelector('input[name="MgrEmail"]');
+			if (MgrEmail.value === '') {
+				alert('담당자 이메일은 필수 값입니다.');
+				MgrEmail.focus();
+				return;
+			}
+			
+			let MgrTel = document.querySelector('input[name="MgrTel"]');
+			if (MgrTel.value === '') {
+				alert('담당자 연락처는 필수 값입니다.');
+				MgrTel.focus();
+				return;
+			}
+			
+			let CoContact = document.querySelector('input[name="CoContact"]');
+			if (CoContact.value === '') {
+				alert('기업 연락처는 필수 값입니다.');
+				CoContact.focus();
+				return;
+			}
+			
+			this.submit();
+		});
+		</script>
 	</div>
 </body>
 </html>

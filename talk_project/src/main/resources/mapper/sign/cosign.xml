@@ -50,4 +50,15 @@
 			   
 			   )	    
 	</insert>
+	<select id="selectCheckCoUser" parameterType="String" resultType="CoUserVO">
+		SELECT *
+		FROM (
+			SELECT co_user_id
+			FROM company_user
+			UNION ALL
+			SELECT user_id
+			FROM users
+			)
+		WHERE co_user_id = #{CoUserId}
+	</select>
 </mapper>
