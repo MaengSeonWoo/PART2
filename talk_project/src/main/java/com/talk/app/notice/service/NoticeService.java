@@ -19,4 +19,5 @@ public interface NoticeService {
 	
 	// 삭제
 	public int deleteNotice(int noticeVO);
+	
 }

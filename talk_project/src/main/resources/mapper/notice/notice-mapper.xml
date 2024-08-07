@@ -28,6 +28,12 @@
 	
 	<!-- 등록 -->
 	<insert id="insertNoticeInfo" parameterType="NoticeVO">
+		<selectKey keyProperty="noticeNo"
+		           resultType="Integer"
+		           order="BEFORE">
+			SELECT NVL(MAX(notice_no), 100) + 1
+			FROM notice  
+		</selectKey>
 		INSERT INTO notice
 					(
 					 notice_no,
