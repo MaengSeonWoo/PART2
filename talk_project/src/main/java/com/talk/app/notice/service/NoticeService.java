@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 public interface NoticeService {
 	// 전체조회
 	public List<NoticeVO> noticeList();
@@ -22,4 +23,5 @@ public interface NoticeService {
 	
 	// 조회수
 	public int plusViewCnt(int noticeVO);
+	
 }

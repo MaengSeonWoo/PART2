@@ -95,18 +95,25 @@ let imNotice = document.querySelectorAll('tbody td:nth-child(1)')
 function importantNotice(){
 	for(let i=0; i<imNotice.length; i++){
 		if(imNotice[i].innerHTML.trim() == 1){
-			imNotice[i].innerHTML = '중요공지';
+			imNotice[i].innerHTML = '<공지>';
 						
 		}
 	}
 }
 importantNotice();
 
-function colorChange(){
-	if(imNotice.innerHTML ='중요공지'){
-		imNotice.style.color='red';	
+/* function colorChange(){
+	for(let i=0; i<imNotice.length; i++){
+		if(imNotice[i].innerHTML ='<공지>'){
+			let change = imNotice[i].innerHTML;	
 		}
+		return chagne;
+	}
+	console.log('aa');
+	change.style.color="red";
 }
+
+colorChange(); */
 
 </script>
 </html>

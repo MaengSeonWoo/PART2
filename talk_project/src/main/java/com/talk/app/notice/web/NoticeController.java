@@ -31,14 +31,11 @@ public class NoticeController {
 	
 	private final UploadService uploadServcie;
 	
-	
-	
 	// 전체조회
 	@GetMapping("noticeList")
 	public String NoticeList(Model model) {
 		List<NoticeVO> list = noticeService.noticeList();
 		model.addAttribute("noticeList", list);
-		
 		return "notice/noticeList";
 	}
 	
@@ -90,8 +87,8 @@ public class NoticeController {
 	public String noticeDelete(@RequestParam Integer noticeNo) {
 		noticeService.deleteNotice(noticeNo);
 		return "redirect:noticeList";
-			
 	}
 	
+
 	
 }

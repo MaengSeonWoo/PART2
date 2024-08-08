@@ -1,4 +1,4 @@
-package com.talk.app.QnA.service.impl;
+package com.talk.app.qna.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.talk.app.QnA.mapper.QnAMapper;
-import com.talk.app.QnA.service.QnAService;
-import com.talk.app.QnA.service.QnAVO;
+import com.talk.app.qna.mapper.QnAMapper;
+import com.talk.app.qna.service.QnAService;
+import com.talk.app.qna.service.qnaVO;
 
 @Service
 public class QnAServiceImpl implements QnAService {
@@ -22,39 +22,39 @@ public class QnAServiceImpl implements QnAService {
 	}
 	
 	@Override
-	public List<QnAVO> qnaList() {
+	public List<qnaVO> qnaList() {
 		return qnaMapper.selectQnAAll();
 	}
 
 	@Override
-	public QnAVO qnaInfo(QnAVO qnaVO) {
-		return qnaMapper.selectQnAInfo(qnaVO);
+	public qnaVO qnaInfo(qnaVO qnavo) {
+		return qnaMapper.selectQnAInfo(qnavo);
 	}
 
 	@Override
-	public int insertQnA(QnAVO qnaVO) {
-		return qnaMapper.insertQnAInfo(qnaVO);
+	public int insertQnA(qnaVO qnavo) {
+		int result = qnaMapper.insertQnAInfo(qnavo);
+		return result == 1 ? qnavo.getQnaNo() : -1;
 	}
-
+	
 	@Override
-	public Map<String, Object> updateQnA(QnAVO qnaVO) {
+	public Map<String, Object> updateQnA(qnaVO qnavo) {
 		Map<String, Object> map = new HashMap<>();
-		boolean bo = false;
+		boolean is = false;
 		
-		int result = qnaMapper.updateQnAInfo(qnaVO);
+		int result = qnaMapper.updateQnAInfo(qnavo);
 		if(result == 1) {
-			bo = true;
+			is = true;
 		}
 		
-		map.put("result", bo);
-		map.put("target", qnaVO);
+		map.put("result",is);
+		map.put("target", qnavo);
 		return map;
 	}
 
 	@Override
-	public int deleteQnA(QnAVO qnaVO) {
-		return qnaMapper.deleteQnAInfo(qnaVO);
+	public int deleteQnA(int qnavo) {
+		return qnaMapper.deleteQnAInfo(qnavo);
 	}
-
 	
 }
