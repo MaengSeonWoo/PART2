@@ -43,7 +43,6 @@ public class WelfareController {
 	            hash.put("sido", listAll.get(i).getSido());
 	            hash.put("sgg", listAll.get(i).getSgg());
 	            hash.put("like", listAll.get(i).getLikeSubject());
-	            
 	 
 	            jsonObj = new JSONObject(hash);
 	            jsonArr.put(jsonObj);
