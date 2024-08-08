@@ -23,16 +23,19 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login", "/signsel","/cologin","/main/**",  "/docs/**", "/production/**").permitAll() // 회원, 비회원, 관리자
+                .antMatchers("/**", "/img/**", "/posting/**","/signSelect", "/cosignInsert", "/signInsert", "/login/**", "/checkUserId", "/checkCoUserId"
+                		,"/main/**",  "/docs/**", "/production/**"
+                		,"/findId", "/findIdResult").permitAll() // 회원, 비회원, 관리자
                 .antMatchers("/admin").hasRole("ADMIN") // 관리자
                 .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") // 회원
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login") // 로그인 페이지 설정
+                .successForwardUrl("/login_success_handler") // 로그인 성공 시 포워드되는 URL (세션값 등 지정)
                 .usernameParameter("userId")
                 .passwordParameter("userPw")
-                .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉션 설정
+               // .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉션 설정
                 .permitAll()
                 .and()
             .logout()

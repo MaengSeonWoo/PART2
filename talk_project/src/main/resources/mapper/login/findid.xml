@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.login.mapper.FindUserIdMapper">
+	<select id = "FindUserIdInfo" resultType = "String">
+		SELECT user_id
+		FROM (
+			SELECT user_id, tel, user_name
+			FROM users
+			UNION ALL
+			SELECT co_user_id, mgr_tel, mgr_name
+			FROM company_user
+			)
+		WHERE tel = #{Tel}
+		AND user_name = #{userName}
+	</select>
+</mapper>

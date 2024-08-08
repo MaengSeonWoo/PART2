@@ -36,22 +36,22 @@ public class LoginUserVO implements UserDetails{
 	}
 	
 	@Override
-	public boolean isAccountNonExpired() { // 계정 만료 여부
+	public boolean isAccountNonExpired() { 
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked() {  // 계정 잠금 여부
+	public boolean isAccountNonLocked() {  
 		return true;
 	}
 
 	@Override
-	public boolean isCredentialsNonExpired() {  // 계정 패스워드 만료 여부
+	public boolean isCredentialsNonExpired() {  
 		return true;
 	}
 
 	@Override
-	public boolean isEnabled() {  // 계정 사용 여부
+	public boolean isEnabled() {  
 		return true;
 	}
 	
