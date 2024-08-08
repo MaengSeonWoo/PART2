@@ -20,4 +20,16 @@
 		   ,#{tel}
 		   )
 	</insert>
+	
+	<select id="selectCheckUser" parameterType="String" resultType="UserVO">
+		SELECT *
+		FROM (
+			SELECT user_id
+			FROM users
+			UNION ALL
+			SELECT co_user_id
+			FROM company_user
+			)
+		WHERE user_id = #{userId}
+	</select>
 </mapper>
