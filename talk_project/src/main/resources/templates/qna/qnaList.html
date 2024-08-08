@@ -5,9 +5,25 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>QnA</title>
+<title>Insert title here</title>
 </head>
 <body>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">QnA</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="container">
 		<h3>QnA 목록</h3>
 		<table class="table">
@@ -16,19 +32,23 @@
 					<th>번호</th>
 					<th>제목</th>
 					<th>작성일</th>
+					<th>답변상태</th>
 				</tr>
 			</thead>
 			<tbody>
 				<th:block th:each="qna : ${qnaList}">
 					<tr th:onclick="|location.href='@{/qnaInfo(qnaNo=${qna.qnaNo})}'|">
 						<td th:text="${qna.qnaNo}"></td>
-						<td th:text="${qna.qnaTitle}"></td>
-						<td th:text="${#dates.format(qna.regDate, 'yyyy년MM월dd일')}"></td>
+						<td th:text="${qna.qnaContent}"></td>
+						<td th:text="${#dates.format(qna.regDate, 'yyyy년MM월dd일')}">yyyy-mm-dd</td>
+						<td th:text="${qna.qnaState}"></td>
 					</tr>
 				</th:block>			
 			</tbody>
 		</table>
+		<div>
+			<button></button>
+		</div>
 	</div>
-	
 </body>
 </html>

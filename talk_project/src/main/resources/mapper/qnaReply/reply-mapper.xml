@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.qnaReply.mapper.QnAReplyMapper">
+	
+	<!-- 단건 -->
+	<select id="selectQnAInfo" resultType="QnAReplyVO">
+		SELECT reply_no, 
+		       reply_content, 
+		       regdate, 
+		       qr.qna_no
+		FROM qna_reply qr
+    		JOIN qna q
+    		ON qr.qna_no = q.qna_no
+		WHERE q.qna_no = #{qnaNo} 
+	</select>
+
+</mapper>

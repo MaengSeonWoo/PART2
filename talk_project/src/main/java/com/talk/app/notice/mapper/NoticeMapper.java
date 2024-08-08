@@ -23,4 +23,5 @@ public interface NoticeMapper {
 	
 	// 조회수 증가
 	public int plusViewCnt(int viewCnt);
+	
 }
