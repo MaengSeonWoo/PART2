@@ -10,7 +10,7 @@
 <body>
 	<div>
 		<h3>게시글 수정</h3>
-		<form th:object="${couserInfo}" name="CoUserUpdateForm">
+		<form th:object="${couserInfo}" name="CoUserUpdateForm" enctype="multipart/form-data">
 			<table>
 				<tr>
 					<th>사업자등록번호</th>
@@ -132,7 +132,7 @@
 		    $.each(formData, (idx, input) => {
 		        objData[input.name] = input.value;
 		    });
-		    return JSON.stringify(objData); // JSON 문자열로 변환
+		    return objData; // JSON 문자열로 변환하지 않음
 		}
 	</script>
 </body>
