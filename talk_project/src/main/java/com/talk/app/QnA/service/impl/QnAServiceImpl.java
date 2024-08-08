@@ -1,4 +1,4 @@
-package com.talk.app.qna.service.impl;
+package com.talk.app.QnA.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.talk.app.qna.mapper.QnAMapper;
-import com.talk.app.qna.service.QnAService;
-import com.talk.app.qna.service.qnaVO;
+import com.talk.app.QnA.mapper.QnAMapper;
+import com.talk.app.QnA.service.QnAService;
+import com.talk.app.QnA.service.qnaVO;
 
 @Service
 public class QnAServiceImpl implements QnAService {
@@ -54,7 +54,7 @@ public class QnAServiceImpl implements QnAService {
 
 	@Override
 	public int deleteQnA(int qnavo) {
-		return qnaMapper.deleteQnAInfo(qnavo);
+		return qnaMapper.deleteQnAInfo(null);
 	}
 	
 }

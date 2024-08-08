@@ -1,4 +1,4 @@
-package com.talk.app.qna.web;
+package com.talk.app.QnA.web;
 
 import java.util.List;
 
@@ -6,10 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.talk.app.qna.service.QnAService;
-import com.talk.app.qna.service.qnaVO;
+import com.talk.app.QnA.service.QnAService;
+import com.talk.app.QnA.service.qnaVO;
 import com.talk.app.qnaReply.service.QnAReplyService;
-import com.talk.app.qnaReply.service.QnAReplyVO;
 
 import lombok.RequiredArgsConstructor;
 

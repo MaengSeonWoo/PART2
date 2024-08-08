@@ -1,4 +1,4 @@
-package com.talk.app.qna.service;
+package com.talk.app.QnA.service;
 
 import java.util.List;
 import java.util.Map;
