@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.calendar.mapper.CalendarMapper">
+
+
+<select id="selectCalendar" resultType="com.talk.app.admin.service.WelfareVO">
+	SELECT wid
+				,serv_id
+				,serv_name
+				,to_date(start_date,'YYYY-mm-dd') start_date
+				,to_date(end_date,'YYYY-mm-dd') end_date
+				,sido
+				,sgg
+				,like_subject
+	FROM welfare
+
+</select>
+
+<select id="selectAll" resultType="com.talk.app.admin.service.WelfareVO">
+	        SELECT wid
+        			,serv_id
+        			, serv_name
+        			, start_date
+        			, end_date
+        			, biz_dept
+        			, sido
+        			, sgg
+        			, serv_summary
+        			, household
+        			, like_subject
+        			, sup_period
+        			, prov_type
+        			, app_way
+        			, sup_target
+        			, sel_standard
+        			, sal_serv
+        FROM welfare
+</select>
+
+
+
+
+</mapper>

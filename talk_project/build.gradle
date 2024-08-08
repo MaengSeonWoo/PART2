@@ -31,10 +31,12 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
+	implementation 'com.google.code.gson:gson:2.11.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'com.oracle.database.jdbc:ojdbc8:19.3.0.0'
-
+	implementation 'org.json:json:20240303'
+	
 	annotationProcessor 'org.projectlombok:lombok'
 	// spring security 
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'

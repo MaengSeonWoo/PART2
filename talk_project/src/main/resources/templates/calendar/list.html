@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
+
+<head>
+<meta charset='utf-8' />
+<!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<script th:src='@{https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js}'></script>
+<!-- <script th:src='@{/dist/index.global.js}'></script> -->
+<script>
+
+$(document).ready(function(){
+    $(function () {
+        var request = $.ajax({
+            url: "/calendar", // 변경하기
+            method: "GET",
+            dataType: "json"
+        });
+
+        request.done(function (data) {
+            console.log(data);
+
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listWeek'
+                },
+                editable: false,
+                selectable: true,
+                
+                locale: 'ko', 	//한글
+                droppable: false, 
+                 // data 로 값이 넘어온다. log 값 전달.
+                events: data
+                
+            });
+            calendar.render();
+        });
+        request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+        });
+    });
+
+});
+
+</script>
+<style>
+body {
+	margin: 40px 10px;
+	padding: 0;
+	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+#calendar {
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+	font-size: 13px;
+}
+
+.row2{
+	width: 100%;
+}
+
+.fc-day a{
+	color: black;
+	text-decoration: none;
+}
+
+.fc-day-sun a {
+  color: red;
+  text-decoration: none;
+}
+
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+  color: blue;
+  text-decoration: none;
+}
+
+.nav-tabs{
+	float: right;
+}
+
+</style>
+</head>
+<body>
+	<div id="container">
+
+<div class="card-text pb-3 mb-4">
+                <div class="row2">
+                  <div class="col-auto" >
+                    <nav style="padding-left: 0px" class="Calendar">
+                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button
+                          class="nav-link active text-body"
+                          id="nav-home-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-home"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-home"
+                          aria-selected="true"
+                        >
+                          캘린더
+                        </button>
+                        
+                        <button
+                          class="nav-link text-body"
+                          id="nav-profile-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-profile"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-profile"
+                          aria-selected="false"
+                        >
+                          목록
+                        </button>
+                        
+                      </div>
+                    </nav>
+                    
+                    <div class="tab-content" id="nav-tabContent">
+                      
+                      <div
+                        class="tab-pane fade show active pt-3"
+                        style="white-space: pre-line"
+                        id="nav-home"
+                        role="tabpanel"
+                        aria-labelledby="nav-home-tab"
+                      >
+                      
+                       <div id='calendar'></div>
+                       
+                      </div>
+                      
+                      <div
+                        class="tab-pane fade pt-3"
+                        style="white-space: pre-line"
+                        id="nav-profile"
+                        role="tabpanel"
+                        aria-labelledby="nav-profile-tab"
+                      >
+                       
+                        복지 목록 들어갈자리~~~~~~~~~~~~~~~
+                      
+                      
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+	</div>
+
+</body>
+
+
+
+</html>
+

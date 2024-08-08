@@ -3,11 +3,13 @@
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             layout:decorate="~{common/main/layouts/default_layout}"
             layout:fragment="Content">
+            
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	
 	<div class="container">
 		<h3>공지사항 정보</h3>
 		<table>
@@ -39,5 +41,6 @@
 			<button type="button" th:onclick="|location.href='@{/noticeDelete(noticeNo=${noticeInfo.noticeNo})}'|">삭제</button>
 		</div>
 	</div>
+	
 </body>
 </html>
