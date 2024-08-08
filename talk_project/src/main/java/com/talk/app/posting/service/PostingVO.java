@@ -46,4 +46,7 @@ public class PostingVO {
 	private String postingStatus;
 	// 채용 공고 제목
 	private String postingTitle;
+	
+	//// 기업 로고 관련 추가
+	private String filePath;
 }

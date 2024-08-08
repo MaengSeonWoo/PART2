@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>채용공고</title>
+<style>
+.job-info-container {
+	max-width: 600px;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+}
+
+.job-info-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.job-info-header span {
+	font-weight: bold;
+	color: red;
+}
+
+.job-info-row {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0;
+	border-bottom: 1px solid #eaeaea;
+}
+
+.job-info-row:last-child {
+	border-bottom: none;
+}
+
+.btn-container {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.btn-container button {
+	margin: 0 10px;
+}
+/* Center the modal title */
+.modal-title {
+	text-align: center;
+	width: 100%;
+}
+
+/* Style the table and pagination */
+.table thead th {
+	background-color: #f8f9fa;
+}
+
+.table input[type="radio"] {
+	margin-right: 10px;
+}
+
+.pagination .page-item .page-link {
+	color: #000;
+}
+
+.pagination .page-item.active .page-link {
+	background-color: #0d6efd;
+	border-color: #0d6efd;
+}
+
+/* Adjust modal size for different screen sizes */
+@media ( max-width : 576px) {
+	.modal-dialog {
+		max-width: 90%;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid bg-primary py-5 mb-5 page-header">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10 text-center">
+					<h1 class="display-3 text-white animated slideInDown">채용공고</h1>
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+							<li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+							<li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="job-info-container">
+			<div class="job-info-header">
+				<h4>채용 정보</h4>
+				<span th:text="${posting.postingStatus}">구인중</span>
+			</div>
+			<div class="job-info-row">
+				<div>업체명</div>
+				<div th:text="${posting.coName}">주식회사 000</div>
+			</div>
+			<div class="job-info-row">
+				<div>근무지역</div>
+				<div th:text="${posting.workRegion}">ㅇㅇ시 ㅇㅇㅇㅇ동</div>
+			</div>
+			<div class="job-info-row">
+				<div>모집기간</div>
+				<div>
+					<span th:text="${#dates.format(posting.startDate, 'yyyy-MM-dd')}">2024-07-30</span>
+					~ <span th:text="${#dates.format(posting.endDate, 'yyyy-MM-dd')}">2024-08-07</span>
+				</div>
+			</div>
+			<div class="job-info-row">
+				<div>업종</div>
+				<div th:text="${posting.job}">아파트 방역소독원</div>
+			</div>
+			<div class="job-info-row">
+				<div>연령</div>
+				<div th:text="${posting.age}">~64세</div>
+			</div>
+			<div class="job-info-row">
+				<div>성별</div>
+				<div th:text="${posting.gender}">여</div>
+			</div>
+			<div class="job-info-row">
+				<div>고용형태</div>
+				<div th:text="${posting.empType}">계약직</div>
+			</div>
+			<div class="job-info-row">
+				<div>근무시간</div>
+				<div>
+					<span th:text="${posting.workDay}">주 5일</span> <span
+						th:text="${posting.workTime}">09:30~15:30</span>
+				</div>
+			</div>
+			<div class="job-info-row">
+				<div>급여</div>
+				<div th:text="${posting.sal}">월 145만원</div>
+			</div>
+			<div class="job-info-row">
+				<div>모집인원</div>
+				<div th:text="${posting.party} + 명">2명</div>
+			</div>
+			<div class="job-info-row">
+				<div>근무내용</div>
+				<div th:text="${posting.workContent}">블라</div>
+			</div>
+			<div class="job-info-row">
+				<div>우대사항</div>
+				<div th:text="${posting.priContent}">블라</div>
+			</div>
+			<div class="job-info-row">
+				<div>추가내용</div>
+				<div th:text="${posting.etcContent}">블라</div>
+			</div>
+			<div class="btn-container">
+				<button class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#applyModal">지원하기</button>
+				<button class="btn btn-secondary" th:onclick="goList()">목록</button>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="applyModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">나의 이력서</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered text-center">
+						<thead>
+							<tr>
+								<th scope="col">선택</th>
+								<th scope="col">이력서 제목</th>
+								<th scope="col">등록일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="radio" name="resume" id="resume1"></td>
+								<td>홍길동의 이력서입니다</td>
+								<td>24/07/31</td>
+							</tr>
+							<tr>
+								<td><input type="radio" name="resume" id="resume1"></td>
+								<td>홍길동의 이력서입니다</td>
+								<td>24/07/31</td>
+							</tr>
+							<tr>
+								<td><input type="radio" name="resume" id="resume1"></td>
+								<td>홍길동의 이력서입니다</td>
+								<td>24/07/31</td>
+							</tr>
+							<tr>
+								<td><input type="radio" name="resume" id="resume2"></td>
+								<td>(주) XX기업 지원</td>
+								<td>24/07/31</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- Pagination -->
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-center">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#">4</a></li>
+							<li class="page-item"><a class="page-link" href="#">5</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function goList() {
+			location.href = `/posting`;
+		}
+	</script>
+</body>
+</html>
