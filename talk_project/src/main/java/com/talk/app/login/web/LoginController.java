@@ -15,4 +15,5 @@ public class LoginController {
     public String loginsel() {
         return "login/loginSelect"; // templates 폴더 아래의 login/login.html로 매핑
     }
+	
 }

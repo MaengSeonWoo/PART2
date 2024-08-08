@@ -5,24 +5,86 @@
 	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>일반회원 로그인</title>
+<title>회원 로그인</title>
+<style>
+.loginForm {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.loginForm h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.loginForm div {
+    margin-bottom: 15px;
+}
+
+.loginForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.loginForm input[type="text"],
+.loginForm input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.loginForm button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.loginForm button:hover {
+    background-color: #0056b3;
+}
+
+.loginForm button:nth-of-type(2) {
+    background-color: #6c757d;
+}
+
+.loginForm button:nth-of-type(2):hover {
+    background-color: #5a6268;
+}
+</style>
 </head>
 <body>
-	<div>
-		<h2>일반회원 로그인</h2>
+	<div class="loginForm">
+		<h2>회원 로그인</h2>
 		<form th:action="@{/login}" method="post">
 			<div>
-				<label for="userId">아이디:</label> <input type="text" id="userId"
+				<label for="userId">아이디</label> <input type="text" id="userId"
 					name="userId" required autofocus />
 			</div>
 			<div>
-				<label for="userPw">비밀번호:</label> <input type="password" id="userPw"
+				<label for="userPw">비밀번호</label> <input type="password" id="userPw"
 					name="userPw" required />
 			</div>
 			<button type="submit">로그인</button>
 			<br>
-			<button>회원가입</button>
-			<button>아이디/비밀번호 찾기</button>
+				<button>회원가입</button>
+				<button>아이디/비밀번호 찾기</button>
 		</form>
 	</div>
 </body>

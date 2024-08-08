@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.talk.app.common.service.Criteria;
+import com.talk.app.common.service.PageDTO;
 import com.talk.app.posting.service.PostingService;
 import com.talk.app.posting.service.PostingVO;
 
@@ -21,8 +23,8 @@ public class HomeController {
 	private final PostingService postingService;
 
 	@GetMapping("/")
-	public String mainPage(Model model) {
-		List<PostingVO> postingList = postingService.postingList();
+	public String mainPage(Model model, Criteria cri) {
+		List<PostingVO> postingList = postingService.postingList(cri);
 		model.addAttribute("pList", postingList);
 		return "home/home";
 	}

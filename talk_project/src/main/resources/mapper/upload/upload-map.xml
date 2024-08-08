@@ -3,7 +3,7 @@
 <mapper namespace="com.talk.app.common.mapper.UploadMapper">
 
 	<insert id="insertUploadedFile" parameterType="UploadFileVO">
-		<selectKey keyProperty="file_no" resultType="long" order="BEFORE">
+		<selectKey keyProperty="fileNo" resultType="long" order="BEFORE">
 			SELECT NVL(MAX(file_no), 0) + 1
 			FROM files
 		</selectKey>

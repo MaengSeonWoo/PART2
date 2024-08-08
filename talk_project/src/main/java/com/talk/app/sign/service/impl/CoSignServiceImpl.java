@@ -18,5 +18,10 @@ public class CoSignServiceImpl implements CoSignService{
 		
 		return result == 1 ? couserVO.getCoUserNo() : -1;
 	}
+
+	@Override
+	public CoUserVO selectCheckCoUser(String CoUserId) {
+		return cosignMapper.selectCheckCoUser(CoUserId);
+	}
 	
 }

@@ -4,17 +4,17 @@ import lombok.Data;
 
 @Data
 public class UserVO {
-	private Integer userNo; 	//È¸¿ø¹øÈ£
-	private String userName;	//ÀÌ¸§
-	private String userId;		//¾ÆÀÌµğ
-	private String userPw;		//ºñ¹Ğ¹øÈ£
-	private String Tel;			//¿¬¶ôÃ³
-	private String postNo;		//¿ìÆí¹øÈ£
-	private String addr;		//±âº»ÁÖ¼Ò
-	private String detailAddr;	//»ó¼¼ÁÖ¼Ò
-	private String email;		//ÀÌ¸ŞÀÏ
-	private String birth;		//»ı³â¿ùÀÏ
-	private String household;	//°¡±¸»óÈ²
-	private String gender;		//¼ºº°
-	private String authority;	//±ÇÇÑ
+	private Integer userNo; 	//íšŒì›ë²ˆí˜¸
+	private String userName;	//ì´ë¦„
+	private String userId;		//ì•„ì´ë””
+	private String userPw;		//ë¹„ë°€ë²ˆí˜¸
+	private String Tel;			//ì—°ë½ì²˜
+	private String postNo;		//ìš°í¸ë²ˆí˜¸
+	private String addr;		//ê¸°ë³¸ì£¼ì†Œ
+	private String detailAddr;	//ìƒì„¸ì£¼ì†Œ
+	private String email;		//ì´ë©”ì¼
+	private String birth;		//ìƒë…„ì›”ì¼
+	private String household;	//ê°€êµ¬ìƒí™©
+	private String gender;		//ì„±ë³„
+	private String authority;	//ê¶Œí•œ
 }

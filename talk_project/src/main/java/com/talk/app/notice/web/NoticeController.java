@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.notice.service.NoticeService;
 import com.talk.app.notice.service.NoticeVO;
@@ -45,10 +46,12 @@ public class NoticeController {
 	@GetMapping("noticeInfo")
 	public String noticeInfo(NoticeVO noticeVO, Model model) {
 		NoticeVO findVO = noticeService.noticeInfo(noticeVO);
+		noticeService.plusViewCnt(noticeVO.getNoticeNo());
 		model.addAttribute("noticeInfo", findVO);
+		List<UploadFileVO> images = uploadServcie.selectFilesByDomain("Notice", (long) noticeVO.getNoticeNo() );
+		model.addAttribute("file", images);
 		return "notice/noticeInfo";
 	}
-	
 	
 	// 등록
 	@GetMapping("noticeInsert")
@@ -63,7 +66,7 @@ public class NoticeController {
 		
 		uploadServcie.imageUpload(uploadFiles, "Notice", (long) nno);
 		
-		return "redircet:noticeInfo?noticeNo=" + nno;
+		return "redirect:noticeInfo?noticeNo=" + nno;
 	}
 	
 	// 수정

@@ -11,7 +11,7 @@
 	           viewcnt,
 	           imnotice
 		FROM notice
-		ORDER BY notice_no
+		ORDER BY imnotice DESC, notice_no DESC
 	</select>
 	
 	<!-- 단건조회  -->
@@ -28,6 +28,12 @@
 	
 	<!-- 등록 -->
 	<insert id="insertNoticeInfo" parameterType="NoticeVO">
+		<selectKey keyProperty="noticeNo"
+		           resultType="Integer"
+		           order="BEFORE">
+			SELECT NVL(MAX(notice_no), 100) + 1
+			FROM notice  
+		</selectKey>
 		INSERT INTO notice
 					(
 					 notice_no,
@@ -54,7 +60,6 @@
 		SET	
 			notice_title = #{noticeTitle},
 			notice_content = #{noticeContent}
-			
 		WHERE notice_no = #{noticeNo}	
 	</update>
 	
@@ -63,4 +68,13 @@
 		DELETE FROM notice
 		WHERE notice_no = #{noticeNo}
 	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="plusViewCnt" parameterType="int">
+		UPDATE notice
+		SET viewcnt = viewcnt + 1
+		WHERE notice_no = #{noticeNo}
+	</update>
+	
+	
 </mapper>

@@ -5,9 +5,28 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
+<style>
+	.submit-btn{float:right;}
+</style>
 <title>공지사항</title>
 </head>
 <body>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">공지사항</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="container">
 		<h3>공지사항 목록</h3>
 		<table class="table">
@@ -23,7 +42,8 @@
 			<tbody>
 				<th:block th:each="notice : ${noticeList}">
 					<tr th:onclick="|location.href='@{/noticeInfo(noticeNo=${notice.noticeNo})}'|">
-						<td th:text="${notice.noticeNo}">100</td>
+						<td th:if="${notice.imNotice == 1}" th:text="${notice.imNotice}">
+						<td th:if="${notice.imNotice == 0}" th:text="${notice.noticeNo}">100</td>
 						<td th:text="${notice.noticeTitle}">문의</td>
 						<td th:text="${notice.noticeContent}">내용</td>
 						<td th:text="${#dates.format(notice.createDate, 'yyyy년MM월dd일')}">yyyy-mm-dd</td>
@@ -33,9 +53,60 @@
 			</tbody>
 		</table>
 		<div>
-			<button type="button" th:onclick="|location.href='@{/noticeInsert}'|">등록</button>
+			<button type="button" class="submit-btn" th:onclick="|location.href='@{/noticeInsert}'|">등록</button>
 		</div>
+		
+		
+		<nav>
+			<ul class="pagination">
+				<li class="page-item"><a class="page-link" href="#"><<</a></li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item"><a class="page-link" href="#">4</a></li>
+				<li class="page-item"><a class="page-link" href="#">5</a></li>
+				<li class="page-item"><a class="page-link" href="#">>></a></li>
+			</ul>
+		</nav>
 	</div>
 	
+	
+	
+	
+	
 </body>
+<script>
+
+// 글자수 10자 제한
+let content = document.querySelectorAll('tbody tr td:nth-child(3)')
+
+function textControl() {
+	for(let i=0; i<content.length; i++){
+		if(content[i].innerHTML.length > 10){
+			content[i].innerHTML = content[i].innerHTML.substr(0, 10) + '...';
+		}
+	}
+}
+textControl();
+
+// 중요공지
+let imNotice = document.querySelectorAll('tbody td:nth-child(1)')
+
+function importantNotice(){
+	for(let i=0; i<imNotice.length; i++){
+		if(imNotice[i].innerHTML.trim() == 1){
+			imNotice[i].innerHTML = '중요공지';
+						
+		}
+	}
+}
+importantNotice();
+
+function colorChange(){
+	if(imNotice.innerHTML ='중요공지'){
+		imNotice.style.color='red';	
+		}
+}
+
+</script>
 </html>

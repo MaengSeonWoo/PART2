@@ -19,4 +19,7 @@ public interface NoticeService {
 	
 	// 삭제
 	public int deleteNotice(int noticeVO);
+	
+	// 조회수
+	public int plusViewCnt(int noticeVO);
 }

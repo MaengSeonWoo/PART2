@@ -20,4 +20,7 @@ public interface NoticeMapper {
 	
 	// 삭제 : 조건 - no
 	public int deleteNoticeInfo(int noticeNo);
+	
+	// 조회수 증가
+	public int plusViewCnt(int viewCnt);
 }

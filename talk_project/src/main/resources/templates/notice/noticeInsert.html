@@ -5,8 +5,11 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<style>
+	.container{margin-top:40px;}
+</style>
+<title>공지사항 등록</title>
+</head>	
 <body>
 	<div class="container">
 		<h3>공지사항 등록</h3>	
@@ -16,8 +19,13 @@
 			  enctype="multipart/form-data">
 			  <table>
 			  	  <tr>
-			  		<th>번호</th>
-			  		<td><input type="text" name="noticeNo"></td>
+			  	  	<th>공지분류</th>
+			  	  	<td>
+				  	  	<select name="imNotice">
+				  	  		<option value="0">일반공지</option>
+				  	  		<option value="1">중요공지</option>
+				  	  	</select>
+			  	  	</td>
 			  	  </tr>
 				  <tr>
 			  		<th>제목</th>
@@ -25,15 +33,11 @@
 			  	  </tr>
 			  	  <tr>
 			  		<th>내용</th>
-			  		<td><textarea name="noticeContent"> </textarea></td>
-			  	  </tr>
-			  	  <tr>	
-			  	  	<th>이미지</th>
-			  	  	<td><input type="text">
+			  		<td><textarea name="noticeContent"></textarea></td>
 			  	  </tr>
 			  	  <tr>
 			  	  	<th>첨부파일</th>
-			  	  	<td><input type="file" id="files" name="uploadFiles" multiple>
+			  	  	<td><input type="file" id="files" name="uploadFiles" multiple></td>
 			  	  </tr>
 			  </table>
 		<button type="submit">등록</button>
@@ -52,15 +56,14 @@
          e.preventDefault();
 
          let noticeTitle = document.querySelector('input[name="noticeTitle"]');
-         if (noticeTitle.value == '') {
+         if (noticeTitle.value.trim() == '') {
             alert('제목은 필수입니다.');
             noticeTitle.focus();
             return;
          }
-         let noticeContent = document
-               .querySelector('textarea[name="noticeContent"]');
-         if (noticeContent.value == '') {
-            alert('작성자는 필수입니다.');
+         let noticeContent = document.querySelector('textarea[name="noticeContent"]');
+         if (noticeContent.value.trim() == '') {
+            alert('내용은 필수입니다.');
             noticeContent.focus();
             return;
          }

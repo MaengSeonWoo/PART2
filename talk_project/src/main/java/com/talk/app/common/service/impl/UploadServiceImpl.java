@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,7 +76,7 @@ public class UploadServiceImpl implements UploadService {
 			uploadedFile.setFileName(fileName);
 			uploadedFile.setFileType(uploadFile.getContentType());
 			uploadedFile.setFileSize(uploadFile.getSize());
-			uploadedFile.setUploadTime(LocalDateTime.now());
+			uploadedFile.setUploadTime(new Date());
 			uploadedFile.setFilePath(uploadFileName2);
 			uploadedFile.setDomainType(domainType);
 			uploadedFile.setDomainId(domainId);
