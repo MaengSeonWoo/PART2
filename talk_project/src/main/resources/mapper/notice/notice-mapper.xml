@@ -11,7 +11,7 @@
 	           viewcnt,
 	           imnotice
 		FROM notice
-		ORDER BY notice_no
+		ORDER BY imnotice DESC, notice_no DESC
 	</select>
 	
 	<!-- 단건조회  -->
@@ -60,7 +60,6 @@
 		SET	
 			notice_title = #{noticeTitle},
 			notice_content = #{noticeContent}
-			
 		WHERE notice_no = #{noticeNo}	
 	</update>
 	
@@ -69,4 +68,13 @@
 		DELETE FROM notice
 		WHERE notice_no = #{noticeNo}
 	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="plusViewCnt" parameterType="int">
+		UPDATE notice
+		SET viewcnt = viewcnt + 1
+		WHERE notice_no = #{noticeNo}
+	</update>
+	
+	
 </mapper>

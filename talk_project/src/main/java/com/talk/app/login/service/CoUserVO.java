@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class CoUserVO {
 	private Integer CoUserNo;
-	private Integer CoRegNo;
+	private Long CoRegNo;
 	private String CoName;
 	private String Industry;
 	private String RepName;
@@ -23,6 +23,7 @@ public class CoUserVO {
 	private String Etc;
 	private String CoUserId;
 	private String CoUserPw;
+	private String CheckPw;
 	private String MgrName;
 	private String MgrEmail;
 	private String MgrTel;

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/main/layouts/default_layout}"
 	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
+<meta name = "csrf_name" th:value("${csrf.paramenterName}">
+<meta name = "csrf_value" th:value("${csrf.token})">
 <title>회원가입 유형 선택</title>
 </head>
 <body>
@@ -17,5 +20,16 @@
 		<h3>기업회원</h3>
 		<a href = '/cosignInsert'>기업회원 가입</a>
 	</div>
+	<th:block sec:authorize="isAuthenticated()"> <!-- 비회원할때 하면 될 듯 -->
+		<div>
+			<h4>로그인 정보</h4>
+			<p sec:authentication="name"></p>
+			<p sec:authentication="principal.username"></p>
+			<p sec:authentication="principal.authorities"></p>
+		</div>
+		<form th:action="@{/logout}" method="post">
+			<button type="submit">로그아웃</button>
+		</form>
+	</th:block>
 </body>
 </html>

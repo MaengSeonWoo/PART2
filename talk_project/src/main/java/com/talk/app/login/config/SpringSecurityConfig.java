@@ -23,7 +23,7 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/**", "/img/**", "/signInsert","/login", "/cologin","/main/**",  "/docs/**", "/production/**").permitAll() // 회원, 비회원, 관리자
+                .antMatchers("/**", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login", "/signsel","/cologin","/main/**",  "/docs/**", "/production/**").permitAll() // 회원, 비회원, 관리자
                 .antMatchers("/admin").hasRole("ADMIN") // 관리자
                 .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") // 회원
                 .anyRequest().authenticated()

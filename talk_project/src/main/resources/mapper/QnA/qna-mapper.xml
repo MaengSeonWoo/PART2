@@ -3,7 +3,7 @@
 <mapper namespace="com.talk.app.QnA.mapper.QnAMapper">
 
 	<!-- 전체조회 -->
-	<select id="selectQnaAll" resultType="QnAVO">
+	<select id="selectQnAAll" resultType="QnAVO">
 		SELECT qna_no,
        		   qna_title,
        		   qna_content,
@@ -12,7 +12,7 @@
                user_no,
                co_user_no
         FROM qna
-        ORDER BY qna_no
+        ORDER BY qna_no DESC
 	</select>
 
 	<!-- 단건조회 -->

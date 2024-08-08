@@ -5,28 +5,82 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title></title>
+<style>
+	.container{margin-top:40px;}
+</style>
+<title>공지사항 수정</title>
 </head>
 <body>
 	<div class="container">
 		<h3>공지사항 수정</h3>	
 		<form name="updateForm" th:object="${noticeInfo}" >
 			  <table>
-			  	  <tr>
-			  		<th>번호</th>
-			  		<td><input type="text" th:field="*{noticeNo}" readonly></td>
-			  	  </tr>
-				  <tr>
-			  		<th>제목</th>
-			  		<td><input type="text" th:field="*{noticeTitle}"></td>
-			  	  </tr>
-			  	  <tr>
-			  		<th>내용</th>
-			  		<td><input type="text" th:field="*{noticeContent}"></td>
-			  	  </tr>
+			  		<tr>
+			  			<th>번호</th>
+			  			<td>
+			  				<input type="text" th:field="${noticeInfo.noticeNo}" readonly>
+			  			</td>
+			  		</tr>
+				    <tr>
+			  			<th>제목</th>
+			  		    <td>
+			  		     	<input type="text" th:field="*{noticeTitle}">
+			  		     </td>
+			  	    </tr>
+			  	    <tr>
+			  			<th>내용</th>
+			  			<td>
+			  				<input type="text" th:field="*{noticeContent}">
+			  			</td>
+			  	    </tr>
+			   	    <tr>
+			  	  		<th>첨부파일</th>
+			  	  		<td>
+			  	  			<input type="file" id="files" name="uploadFiles" multiple>
+			  	  		</td>
+			  	    </tr> 
 			  </table>
-		<button type="submit">수정</button>
+		<button type="button" id="updateBtn">수정</button>
 		</form>
 	</div>
 </body>
+	<script>
+		$('#updateBtn').on('click', noticeUpdateAjax);
+		
+		function noticeUpdateAjax(event){
+			//1) 보낼 데이터 확인
+			let info = getNoticeInfo();
+			
+			//2) AJAX
+			$.ajax('noticeUpdate',{
+				type:'post',
+				contentType : 'application/json',
+				data : JSON.stringify(info)
+			})
+			.done(data => {
+				if(data.result){
+					alert('정상적으로 수정되었습니다.');
+					location.href="noticeList";
+				}else{
+					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+				}
+			})
+			.fail(err => console.log(err));			
+		};
+		
+		function getNoticeInfo(){
+			let formData= $('form[name="updateForm"]').serializeArray();
+			console.log('1) serializeArray', formData);
+			
+			let objData = {};
+			$.each(formData, (idx, input) => {
+				console.log('2) input', idx, input);
+				objData[input.name] = input.value;
+			});
+			
+			console.log('3) objData', objData);
+			return objData;
+		};
+			
+	</script>
 </html>

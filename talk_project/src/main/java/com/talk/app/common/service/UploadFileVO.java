@@ -1,6 +1,6 @@
 package com.talk.app.common.service;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ public class UploadFileVO {
     private String fileName;
     private String fileType;
     private Long fileSize;
-    private LocalDateTime uploadTime;
+    private Date uploadTime;
     private String filePath;
     private String domainType;
     private Long domainId;
