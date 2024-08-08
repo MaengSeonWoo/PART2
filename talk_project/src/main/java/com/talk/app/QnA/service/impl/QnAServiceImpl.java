@@ -52,9 +52,5 @@ public class QnAServiceImpl implements QnAService {
 		return map;
 	}
 
-	@Override
-	public int deleteQnA(int qnavo) {
-		return qnaMapper.deleteQnAInfo(null);
-	}
 	
 }

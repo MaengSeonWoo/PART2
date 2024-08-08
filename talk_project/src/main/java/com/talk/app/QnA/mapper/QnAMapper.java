@@ -17,6 +17,4 @@ public interface QnAMapper {
 	// 수정
 	public int updateQnAInfo(qnaVO qnaVO);
 	
-	// 삭제 
-	public int deleteQnAInfo(qnaVO qnaNo);
 }
