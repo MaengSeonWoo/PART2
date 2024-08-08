@@ -2,6 +2,8 @@ package com.talk.app.posting.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +36,12 @@ public class PostingController {
 		return "posting/list";
 	}
 	@GetMapping("/{postingNo}")
-	public String postingInfo(Model model, @PathVariable Integer postingNo) {
+	public String postingInfo(HttpSession session, Model model, @PathVariable Integer postingNo) {
 		// 기능 수행
 		PostingVO postingInfo = postingService.postingInfo(postingNo);
 		// 채용공고 리스트 전달
 		model.addAttribute("posting", postingInfo);
+		model.addAttribute("login", session.getAttribute("id"));		
 		// 출력 페이지
 		return "posting/info";
 	}
