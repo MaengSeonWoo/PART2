@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>회원 로그인</title>
 <style>
+
 .loginForm {
     background-color: #ffffff;
     padding: 20px;
@@ -67,9 +68,48 @@
 .loginForm button:nth-of-type(2):hover {
     background-color: #5a6268;
 }
+
+.tuto {
+	text-align:center;
+	margin-top:40px;
+}
+
+.tutoModal{
+	width:200px;
+	height:fit-content;
+	top:300px;
+	float:right;
+	display:none;
+}
+
+.pwHelp{
+	display:none;
+}
+
+.tutoBtn{
+	background-color: pink;
+}
+
+.tutoCloseBtn{
+	display:flex;
+	justify-content:center;
+	width:100%;
+	margin:auto;
+}
 </style>
 </head>
 <body>
+	<div class="tuto">
+		<h5>튜토리얼(해당 사이트의 이용을 돕기위한 도움기능)<br></h5>
+		<h5>이 준비되어 있습니다. 사용을 원하신다면 아래를 클릭해주세요.</h5>
+		<button type="button" class="tutoBtn" onclick="tutorialStart()">튜토리얼 실행</button>
+	</div>
+	
+	<div class="tutoModal">
+			<p class="tip">이곳에 아이디(계정)을 입력해주세요. 이 곳 사이트에 계정이 없으시다면 좌측 하단 회원가입을 클릭해주세요</p>
+			<button type="button" class="tutoCloseBtn" onclick="tutorialEnd()">X</button>
+		</div>
+		
 	<div class="loginForm">
 		<h2>회원 로그인</h2>
 		<form th:action="@{/login}" method="post">
@@ -81,11 +121,14 @@
 				<label for="userPw">비밀번호</label> <input type="password" id="userPw"
 					name="userPw" required />
 			</div>
+
 			<input type="checkbox" id="idSaveCheck">아이디 저장하기
-			<button type="submit">로그인</button>
+			
+
+			<button type="submit" class="loginBtn">로그인</button>
+
 			<br>
-				<button>회원가입</button>
-				<button>아이디/비밀번호 찾기</button>
+
 				<!-- kakao button -->
 			<div class="text-center">
 			    <a href="https://kauth.kakao.com/oauth/authorize"
@@ -93,6 +136,9 @@
 			        <img src="/images/kakao_login_medium_narrow.png">
 			    </a>
 			</div>
+
+				<button class="signBtn">회원가입</button>
+				<button class="findInfoBtn">아이디/비밀번호 찾기</button>
 		</form>
 		<script>
 		// 아이디 저장
@@ -150,5 +196,82 @@
 		}
 		</script>
 	</div>
+	
 </body>
+<script>
+	let body = document.querySelector('body'); 
+	let tutoModal = document.querySelector('.tutoModal');
+	let loginForm = document.querySelector('.loginForm');
+	let tip = document.querySelector('.tip');
+	let tutoBtn = document.querySelector('.tutoBtn');
+	let userId = document.querySelector('input[name="userId"]');
+	let userPw = document.querySelector('input[name="userPw"]');
+	let loginBtn = document.querySelector('.loginBtn');
+	let signBtn = document.querySelector('.signBtn');
+	let findInfoBtn = document.querySelector('.findInfoBtn');
+	let state = 0;
+	
+	function tutorialStart(){
+		console.log('튜토리얼 시작');
+		$(".tutoModal").show();
+		tip.innerHTML = "이곳에 아이디(계정)을 입력해주세요. 이 곳 사이트에 계정이 없으시다면 좌측 하단 회원가입을 클릭해주세요";
+		body.style.backgroundColor="gray";	
+		loginForm.style.backgroundColor="gray";
+		tutoBtn.style.backgroundColor="gray";
+		userPw.style.backgroundColor="gray";
+		tutoModal.style.backgroundColor="white";
+		signBtn.style.border="2px solid red";
+		userId.value = '';
+		state = 1;
+		userId.focus();
+		userId.addEventListener("change", function(e) {
+		console.log("onchange", e.target.value);
+		    if(state == 1){
+		    userPw.value='';
+		    passWordHelp();
+		    }
+		})
+	}
+	
+	function passWordHelp(){
+		userPw.focus();
+		tip.innerHTML ="이 곳에 비밀번호를 입력해주세요 비밀번호를 잃어버리셨다면 아래쪽 아이디/비밀번호 찾기를 클릭해주세요";
+		signBtn.style.border="none";
+		userId.style.backgroundColor="gray";
+		userPw.style.backgroundColor="white";
+		findInfoBtn.style.border="2px solid red"
+		userPw.addEventListener("change", function(e) {
+			if(state == 1){
+				loginBtn.style.border="2px solid red";
+				loginModal();
+			}
+		})
+	}
+	
+	function loginModal(){
+		state=2;
+		tip.innerHTML ="계정과 비밀번호를 모두 맞게 입력하셨다면 로그인을 눌러주세요";
+		loginBtn.style.border="2px solid red";
+		findInfoBtn.style.border="none";
+	}
+	
+
+	function tutorialEnd(){
+		console.log('튜토리얼 종료');
+		$(".tutoModal").hide();
+		body.style.backgroundColor="white";
+		tutoBtn.style.backgroundColor="pink";
+		userId.style.backgroundColor="white";
+		loginForm.style.backgroundColor="white";
+		userPw.style.backgroundColor="white";
+		findInfoBtn.style.border="none";
+		loginBtn.style.border="none";
+		signBtn.style.border="none";
+		
+	
+		state = 0;
+	}
+	
+	
+</script>
 </html>

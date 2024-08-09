@@ -63,6 +63,11 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeMapper.plusViewCnt(viewCnt);
 	}
 
+	@Override
+	public List<NoticeVO> serachNotice(String noticeVO) {
+		return noticeMapper.searchResult();
+	}
+
 
 
 }

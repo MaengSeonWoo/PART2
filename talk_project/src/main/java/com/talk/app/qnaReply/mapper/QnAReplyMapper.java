@@ -6,7 +6,7 @@ import com.talk.app.qnaReply.service.QnAReplyVO;
 
 public interface QnAReplyMapper  {
 	
-	public List<QnAReplyVO> ReplyAll();
+	public List<QnAReplyVO> replyList();
 	
 	// 단건조회
 	public QnAReplyVO selectQnAInfo(QnAReplyVO replyVO);
