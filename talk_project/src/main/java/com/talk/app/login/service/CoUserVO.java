@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class CoUserVO {
+public class CoUserVO {		// 기업회원
 	private Integer CoUserNo;
 	private Long CoRegNo;
 	private String CoName;

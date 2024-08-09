@@ -2,12 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
-
 <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>복지 목록 <small>조회</small></h3>
+                <h3>기업가입신청 목록<small>조회</small></h3>
               </div>
 
               <div class="title_right">
@@ -27,7 +26,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
               <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>목록조회 <small>Administer</small></h2>
+                    <h2>기업가입신청 목록 조회 <small>Administer</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -52,25 +51,25 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                 	<div>
 					<button type="button" class="btn btn-info btn-xs"  th:onclick="|location.href='@{/admin/new}'|">새글</button>
                 	
-                	
                 	</div>
                 	
                     <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr>
-                          <th>서비스 아이디</th>
-                          <th>서비스 요약</th>
-                          <th>지원주기명</th>
-                          <th>제공유형명</th>
+                          <th>번호</th>
+                          <th>기업회원명</th>
+                          <th>신청날짜</th>
+                          <th>승인상태</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <th:block th:each="wel : ${welfare}">
-                        <tr th:onclick="|location.href='@{/admin/detail(wid=${wel.wid})}'|">
-                          <td>[[ ${wel.servId}]]</td>
-                          <td>[[ ${wel.servName}]]</td>
-                          <td>[[ ${wel.supPeriod}]]</td>
-                          <td>[[ ${wel.provType}]]</td>
+                      <th:block th:each="list : ${list}">
+                        <!-- <tr th:onclick="|location.href='@{/admin/detail(wid=${wel.wid})}'|"> -->
+                        <tr>
+                          <td>[[ ${ list.CoUserNo}]]</td>
+                          <td>[[ ${list.CoName}]]</td>
+                          <td>[[ ${list.EstYear}]]</td>
+                          <td>[[ ${list.Region}]]</td>
                         </tr>
                       </tbody>
                     </table>
@@ -81,8 +80,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                 </div>
               </div>
 
-
             </div>
           </div>
         
+
+
+
 </html>

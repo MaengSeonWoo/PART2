@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.admember.mapper.MemberMapper">
+
+<select id="approveAll" resultType="com.talk.app.login.service.CoUserVO">
+	SELECT co_user_no
+				,co_reg_no
+				,co_name
+				,industry
+				,rep_name 
+				,est_year
+				,co_post_no
+				,co_addr
+				,co_detail_addr
+				,main_business
+				,region
+				,etc
+				,co_user_id
+				,co_user_pw
+				,mgr_name
+				,mgr_email
+				,mgr_tel
+				,approval_status
+				,co_contact 
+	FROM	company_user
+	ORDER BY co_user_no desc
+</select>
+
+<select id="userAll" resultType="com.talk.app.login.service.UserVO">
+	SELECT user_no
+				,user_name
+				,user_pw
+				,tel 
+				,post_no
+				,addr  
+				,detail_addr
+				,email
+				,birth 
+				,household
+				,gender 
+				,user_id 
+				,authority 
+	FROM users
+	ORDER BY user_no desc
+</select>
+
+
+
+
+
+
+
+</mapper>
