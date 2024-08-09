@@ -26,12 +26,17 @@
     </div>
 	<div class="container">
 		<h3>QnA 목록</h3>
+		<form action="#">
+			<input type="radio" name="member" value="normal">일반회원
+			<input type="radio" name="member" value="company">기업회원		
+		</form>
 		<table class="table">
 			<thead>
 				<tr>
 					<th>번호</th>
 					<th>제목</th>
 					<th>작성일</th>
+					<!-- <th>작성자</th> -->
 					<th>답변상태</th>
 				</tr>
 			</thead>
@@ -41,13 +46,14 @@
 						<td th:text="${qna.qnaNo}"></td>
 						<td th:text="${qna.qnaContent}"></td>
 						<td th:text="${#dates.format(qna.regDate, 'yyyy년MM월dd일')}">yyyy-mm-dd</td>
+						<!-- <td th:text=${}></td>  -->
 						<td th:text="${qna.qnaState}"></td>
 					</tr>
 				</th:block>			
 			</tbody>
 		</table>
 		<div>
-			<button></button>
+			<button type="button" th:onclick="|location.href='@{/qnaInsert}'|">등록</button>
 		</div>
 	</div>
 </body>

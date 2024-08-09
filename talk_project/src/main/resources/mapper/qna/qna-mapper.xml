@@ -26,7 +26,37 @@
 		WHERE qna_no = #{qnaNo}
 	</select>
 	
+	<!-- 등록 -->
+	<insert id="insertQnAInfo" parameterType="qnaVO">
+	<selectKey keyProperty="qnaNo"
+		       resultType="Integer"
+		       order="BEFORE">
+			SELECT NVL(MAX(qna_no), + 1
+			FROM qna  
+		</selectKey>
+		INSERT INTO qna
+					(
+					 qna_no,
+	           	     qna_title,
+	           	     qna_content,
+	                 reg_date,
+	                 
+					)
+					VALUES
+					(
+					 #{qnaNo},
+					 #{qnaTitle},
+					 #{qnaContent},
+					 sysdate,
+					 
+					)	
+	</insert>
 	
 	
 	<!-- 삭제 -->
+	<delete id="deleteQnAInfo" parameterType="int">
+		DELETE FROM qna
+		WHERE qna_no = #{qnaNo}
+	</delete>
+	
 </mapper>

@@ -76,5 +76,17 @@
 		WHERE notice_no = #{noticeNo}
 	</update>
 	
+	<!-- 검색 -->
+	<select id="" resultType="noticeVO" >
+			SELECT notice_no,
+	           notice_title,
+	           notice_content,
+	           create_date,
+	           viewcnt,
+	           imnotice
+		FROM notice
+		WHERE notice_title LIKE '%' || #{noticeTitle} || '%';
+	
+	</select>
 	
 </mapper>

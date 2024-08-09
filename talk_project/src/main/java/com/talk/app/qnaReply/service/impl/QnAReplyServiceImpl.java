@@ -53,8 +53,8 @@ public class QnAReplyServiceImpl implements QnAReplyService {
 	}
 
 	@Override
-	public List<QnAReplyVO> replyList(int replyVO) {
-		return replyMapper.ReplyAll();
+	public List<QnAReplyVO> replyList() {
+		return replyMapper.replyList();
 	}
 
 }

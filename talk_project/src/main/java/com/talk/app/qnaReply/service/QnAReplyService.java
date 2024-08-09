@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface QnAReplyService {
 	
-	public List<QnAReplyVO> replyList(int replyVO);
+	public List<QnAReplyVO> replyList();
 	
 	// 단건조회
 	public QnAReplyVO replyInfo(QnAReplyVO replyVO);
