@@ -57,7 +57,7 @@ public class UploadServiceImpl implements UploadService {
 			uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
 
 			// 파일이 저장되는 이름
-			String realUploadFilename = uuid + "_" + fileName;
+//			String realUploadFilename = uuid + "_" + fileName;
 
 			saveName = uploadPath + File.separator + uploadFileName;
 
