@@ -3,7 +3,7 @@ package com.talk.app.login.service;
 import lombok.Data;
 
 @Data
-public class UserVO {
+public class UserVO {		//일반회원
 	private Integer userNo; 	//회원번호
 	private String userName;	//이름
 	private String userId;		//아이디

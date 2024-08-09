@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
+
 public class CoUserVO {
 	private Integer coUserNo;		//기업회원번호
 	private Long coRegNo;			//사업자등록번호

@@ -7,12 +7,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.admin.service.WelfareVO;
 import com.talk.app.calendar.service.CalendarService;
+import com.talk.app.common.service.Criteria;
+import com.talk.app.common.service.PageDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +29,8 @@ public class WelfareController {
 	
 	@GetMapping("")
 	@ResponseBody
-	public String welfaremain() {
-		 List<WelfareVO> listAll = service.selectCalendar();
+	public String welfaremain(Criteria cri) {
+		 List<WelfareVO> listAll = service.selectCalendar(cri);
 		 
 	        JSONObject jsonObj = new JSONObject();
 	        JSONArray jsonArr = new JSONArray();
@@ -52,9 +55,22 @@ public class WelfareController {
 	}
 	
 	@GetMapping("list")
-	public String json(){
+	public String json(Model model, Criteria cri){
+		List<WelfareVO> list = service.selectCalendar(cri);
+		model.addAttribute("clist",list);
+		model.addAttribute("page", new PageDTO(10, service.cntWelfare(), cri));
 		return "calendar/list";
 	}
+	
+	@GetMapping("detail")
+	public String detail(Model model, WelfareVO vo) {
+		WelfareVO findvo = service.welfareDetail(vo);
+		model.addAttribute("detail",findvo);
+		return "calendar/info";
+	}
+	
+	
+	
 	
 	
 }
