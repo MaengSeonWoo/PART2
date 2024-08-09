@@ -37,7 +37,8 @@ dependencies {
 	implementation 'com.oracle.database.jdbc:ojdbc8:19.3.0.0'
 	implementation 'org.json:json:20240303'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.slf4j:slf4j-api:2.0.0' // 버전은 프로젝트에 맞게 설정
+	// implementation 'org.slf4j:slf4j-api:2.0.0' // 삭제
+	implementation 'org.springframework.boot:spring-boot-starter-logging' // 기본적으로 포함됨
 	annotationProcessor 'org.projectlombok:lombok'
 	// spring security 
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <title>WebSocket Chat</title>
+    <!-- SockJS 및 STOMP 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <!-- jQuery 라이브러리 -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+    <div>
+        <input type="text" id="name" placeholder="Enter your name"/>
+        <button onclick="connect()">Connect</button>
+        <button onclick="disconnect()">Disconnect</button>
+    </div>
+
+    <div>
+        <input type="text" id="message" placeholder="Enter message"/>
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <div id="chat"></div>
+
+    <script type="text/javascript">
+        let stompClient = null;
+
+        function connect() {
+            const socket = new SockJS('/chatbot-websocket');
+            stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe('/topic/public', function (messageOutput) {
+                    showMessage(JSON.parse(messageOutput.body));
+                });
+
+                stompClient.send("/app/chat.addUser",
+                    {},
+                    JSON.stringify({sender: $("#name").val(), type: 'JOIN'})
+                );
+            });
+        }
+
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+            console.log("Disconnected");
+        }
+
+        function sendMessage() {
+            const message = {
+                sender: $("#name").val(),
+                content: $("#message").val(),
+                type: 'CHAT'
+            };
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(message));
+        }
+
+        function showMessage(message) {
+            $("#chat").append("<div>" + message.sender + ": " + message.content + "</div>");
+        }
+    </script>
+</body>
+</html>
