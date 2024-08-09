@@ -2,21 +2,19 @@ package com.talk.app.QnA.mapper;
 
 import java.util.List;
 
-import com.talk.app.QnA.service.QnAVO;
+import com.talk.app.QnA.service.qnaVO;
 
 public interface QnAMapper {
 	// 전체조회
-	public List<QnAVO> selectQnAAll();
+	public List<qnaVO> selectQnAAll();
 	
 	// 단건조회
-	public QnAVO selectQnAInfo(QnAVO qnaVO);
+	public qnaVO selectQnAInfo(qnaVO qnaVO);
 	
 	// 등록
-	public int insertQnAInfo(QnAVO qnaVO);
+	public int insertQnAInfo(qnaVO qnaVO);
 	
 	// 수정
-	public int updateQnAInfo(QnAVO qnaVO);
+	public int updateQnAInfo(qnaVO qnaVO);
 	
-	// 삭제 
-	public int deleteQnAInfo(QnAVO qnaNo);
 }

@@ -1,4 +1,4 @@
-package com.talk.app.notice.service.iml;
+package com.talk.app.notice.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +62,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public int plusViewCnt(int viewCnt) {
 		return noticeMapper.plusViewCnt(viewCnt);
 	}
+
 
 
 }

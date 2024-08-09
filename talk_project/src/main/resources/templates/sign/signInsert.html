@@ -130,6 +130,13 @@
 				cpw.focus();
 				return;
 			}
+			
+			let tel = document.querySelector('input[name="tel"]');
+			if (tel.value == '') {
+				alert('연락처는 필수 값입니다.');
+				tel.focus();
+				return;
+			}
 
 			insertForm.submit();
 		});

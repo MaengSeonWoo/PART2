@@ -3,22 +3,17 @@ package com.talk.app.QnA.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
-
 public interface QnAService {
 	// 전체조회
-	public List<QnAVO> qnaList();
+	public List<qnaVO> qnaList();
 	
 	// 단건조회
-	public QnAVO qnaInfo(QnAVO qnaVO);
+	public qnaVO qnaInfo(qnaVO qnavo);
 	
 	// 등록
-	public int insertQnA(QnAVO qnaVO);
+	public int insertQnA(qnaVO qnavo);
 	
 	// 수정
-	public Map<String, Object> updateQnA(QnAVO qnaVO);
+	public Map<String, Object> updateQnA(qnaVO qnavo);
 	
-	// 삭제 
-	public int deleteQnA(QnAVO qnaVO);
 }

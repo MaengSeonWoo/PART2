@@ -15,6 +15,16 @@
 		<h3>공지사항 수정</h3>	
 		<form name="updateForm" th:object="${noticeInfo}" >
 			  <table>
+			   <tr>
+			  	  	<th>공지분류</th>
+			  	  	<td>
+				  	  	<select name="imNotice">
+				  	  		<option value="0">일반공지</option>
+				  	  		<option value="1">중요공지</option>
+				  	  	</select>
+			  	  	</td>
+			  	  </tr>
+				  <tr>
 			  		<tr>
 			  			<th>번호</th>
 			  			<td>
