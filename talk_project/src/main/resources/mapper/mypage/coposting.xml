@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.talk.app.mypage.mapper.CoPostingMapper">
+	<select id = "selectPostingAll" resultType="PostingVO">
+		SELECT c.co_name, posting_title, start_date, posting_status
+		FROM company_user c JOIN posting p
+		ON c.co_user_no = p.co_user_no
+		WHERE c.co_user_id = #{coUserId}
+	</select>
+</mapper>
