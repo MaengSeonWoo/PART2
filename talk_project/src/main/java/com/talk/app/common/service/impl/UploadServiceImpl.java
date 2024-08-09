@@ -34,6 +34,7 @@ public class UploadServiceImpl implements UploadService {
 	public String imageUpload(MultipartFile[] uploadFiles, String domainType, Long domainId) {
 
 		String saveName = "";
+		String uploadFileName = "";
 		// 파일 업로드 첫번째 값의 용량?이 0일때는 파일업로드 진행 안함
 //		if (uploadFiles[0].getSize() != 0) {
 		int i = 0;
@@ -53,7 +54,7 @@ public class UploadServiceImpl implements UploadService {
 			String uuid = UUID.randomUUID().toString();
 
 			// 저장할 파일 이름 중간에 "_"를 이용하여 구분
-			String uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
+			uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
 
 			// 파일이 저장되는 이름
 //			String realUploadFilename = uuid + "_" + fileName;
@@ -88,12 +89,13 @@ public class UploadServiceImpl implements UploadService {
 		}
 //		}
 
-		return saveName;
+		return uploadFileName;
 	}
 
 	// 이미지 업데이트
 	@Override
 	public String imageUpdate(MultipartFile[] uploadFiles, String domainType, Long domainId) {
+		String saveName = "";
 //		if (uploadFiles != null && uploadFiles.length > 0) {
 //			// 기존 파일 삭제
 //			List<String> filePaths = uploadedFileMapper.selectFilePathsByBoard(domainType, domainId);
@@ -125,11 +127,11 @@ public class UploadServiceImpl implements UploadService {
 	        uploadedFileMapper.deleteFilesByDomain(domainType, domainId);
 
 	        // 새 파일 업로드
-	        imageUpload(uploadFiles, domainType, domainId);
+	        saveName = imageUpload(uploadFiles, domainType, domainId);
 	    } else {
 	        log.info("업로드된 파일이 없습니다.");
 	    }
-		return null;
+		return saveName;
 	}
 
 	@Override

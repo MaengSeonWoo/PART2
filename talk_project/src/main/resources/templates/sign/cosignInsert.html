@@ -15,52 +15,52 @@
 				<tr>
 					<th>사업자등록번호</th>
 					<td>
-						<input type="text" name="CoRegNo" id="CoRegNo"> 
+						<input type="text" name="coRegNo" id="CoRegNo"> 
 						<input type="button" id="corp_button" value="사업자등록번호 조회"
 							   onclick="co_check();">
 					</td>
 				</tr>
 				<tr>
 					<th>기업명</th>
-					<td><input type="text" name="CoName"></td>
+					<td><input type="text" name="coName"></td>
 				</tr>
 				<tr>
 					<th>업종</th>
-					<td><input type="text" name="Industry"></td>
+					<td><input type="text" name="industry"></td>
 				</tr>
 				<tr>
 					<th>대표자</th>
-					<td><input type="text" name="RepName"></td>
+					<td><input type="text" name="repName"></td>
 				</tr>
 				<tr>
 					<th>설립연도</th>
-					<td><input type="Date" name="EstYear"></td>
+					<td><input type="Date" name="estYear"></td>
 				</tr>
 				<tr>
 					<th>우편번호</th>
-					<td><input type="text" name="CoPostNo" id="CoPostNo">
+					<td><input type="text" name="coPostNo" id="CoPostNo">
 						<input type="button" id="post_button" value="우편번호 찾기"
 						onclick="openZipSearch();"></td>
 				</tr>
 				<tr>
 					<th>기본주소</th>
-					<td><input type="text" name="CoAddr" id="CoAddr"></td>
+					<td><input type="text" name="coAddr" id="CoAddr"></td>
 				</tr>
 				<tr>
 					<th>상세주소</th>
-					<td><input type="text" name="CoDetailAddr" id="CoDetailAddr"></td>
+					<td><input type="text" name="coDetailAddr" id="CoDetailAddr"></td>
 				</tr>
 				<tr>
 					<th>주요사업</th>
-					<td><input type="text" name="MainBusiness"></td>
+					<td><input type="text" name="mainBusiness"></td>
 				</tr>
 				<tr>
 					<th>행정구역</th>
-					<td><input type="text" name="Region"></td>
+					<td><input type="text" name="region"></td>
 				</tr>
 				<tr>
 					<th>기타사항</th>
-					<td><input type="text" name="Etc"></td>
+					<td><input type="text" name="etc"></td>
 				</tr>
 			</table>
 			<br>
@@ -69,34 +69,34 @@
 			<table>
 				<tr>
 					<th>아이디</th>
-					<td><input type="text" name="CoUserId" id="CoUserId"> <input
+					<td><input type="text" name="coUserId" id="CoUserId"> <input
 						type="button" id="confirmId" value="중복체크">
 						<div id="message_id"></div></td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>
-					<td><input type="password" name="CoUserPw" id="pw1" class="pw"></td>
+					<td><input type="password" name="coUserPw" id="pw1" class="pw"></td>
 				</tr>
 				<tr>
 					<th>비밀번호확인</th>
-					<td><input type="password" name="CheckPw" id="pw2" class="pw">
+					<td><input type="password" name="checkPw" id="pw2" class="pw">
 						<font id="Pw_status" size="2"></font></td>
 				</tr>
 				<tr>
 					<th>담당자 이름</th>
-					<td><input type="text" name="MgrName"></td>
+					<td><input type="text" name="mgrName"></td>
 				</tr>
 				<tr>
 					<th>담당자 이메일</th>
-					<td><input type="text" name="MgrEmail"></td>
+					<td><input type="text" name="mgrEmail"></td>
 				</tr>
 				<tr>
 					<th>담당자 연락처</th>
-					<td><input type="text" name="MgrTel"></td>
+					<td><input type="text" name="mgrTel"></td>
 				</tr>
 				<tr>
 					<th>기업 연락처</th>
-					<td><input type="text" name="CoContact"></td>
+					<td><input type="text" name="coContact"></td>
 				</tr>
 			</table>
 			<button type="submit">등록</button>
@@ -104,8 +104,8 @@
 		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script>
 		//아이디 중복체크
+		let checkId = 0;
 		$(function(){
-		    let checkId = 0;
 		    $('#confirmId').click(function(){
 		        if($('#CoUserId').val().trim() == ''){
 		            $('#message_id').css('color','#fba082').text('아이디를 입력하세요');
@@ -136,7 +136,7 @@
 		        });	
 		    });
 		});
-		    $('#CoUserId').change(function(){
+		    $('#coUserId').change(function(){
 		        checkId = 0;
 		        $('#message_id').text('');
 		    });
@@ -218,7 +218,7 @@
 		document.querySelector('form[name="insertForm"]').addEventListener('submit', function(event) {
 			event.preventDefault();
 			
-			let CoRegNo = document.querySelector('input[name="CoRegNo"]');
+			let CoRegNo = document.querySelector('input[name="coRegNo"]');
 			if (CoRegNo.value === '') {
 				alert('사업자등록번호는 필수 값입니다.');
 				CoRegNo.focus();
@@ -230,70 +230,70 @@
 		        return;
 		    }
 			
-			let CoName = document.querySelector('input[name="CoName"]');
+			let CoName = document.querySelector('input[name="coName"]');
 			if (CoName.value === '') {
 				alert('기업명은 필수 값입니다.');
 				CoName.focus();
 				return;
 			}
 			
-			let Industry = document.querySelector('input[name="Industry"]');
+			let Industry = document.querySelector('input[name="industry"]');
 			if (Industry.value === '') {
 				alert('업종은 필수 값입니다.');
 				Industry.focus();
 				return;
 			}
 			
-			let RepName = document.querySelector('input[name="RepName"]');
+			let RepName = document.querySelector('input[name="repName"]');
 			if (RepName.value === '') {
 				alert('대표자는 필수 값입니다.');
 				RepName.focus();
 				return;
 			}
 			
-			let EstYear = document.querySelector('input[name="EstYear"]');
+			let EstYear = document.querySelector('input[name="estYear"]');
 			if (EstYear.value === '') {
 				alert('설립연도는 필수 값입니다.');
 				EstYear.focus();
 				return;
 			}
 			
-			let CoPostNo = document.querySelector('input[name="CoPostNo"]');
+			let CoPostNo = document.querySelector('input[name="coPostNo"]');
 			if (CoPostNo.value === '') {
 				alert('우편번호는 필수 값입니다.');
 				CoPostNo.focus();
 				return;
 			}
 			
-			let CoAddr = document.querySelector('input[name="CoAddr"]');
+			let CoAddr = document.querySelector('input[name="coAddr"]');
 			if (CoAddr.value === '') {
 				alert('기본주소는 필수 값입니다.');
 				CoAddr.focus();
 				return;
 			}
 			
-			let CoDetailAddr = document.querySelector('input[name="CoDetailAddr"]');
+			let CoDetailAddr = document.querySelector('input[name="coDetailAddr"]');
 			if (CoDetailAddr.value === '') {
 				alert('상세주소는 필수 값입니다.');
 				CoDetailAddr.focus();
 				return;
 			}
 			
-			let MainBusiness = document.querySelector('input[name="MainBusiness"]');
+			let MainBusiness = document.querySelector('input[name="mainBusiness"]');
 			if (MainBusiness.value === '') {
 				alert('주요사업은 필수 값입니다.');
 				MainBusiness.focus();
 				return;
 			}
 			
-			let Region = document.querySelector('input[name="Region"]');
+			let Region = document.querySelector('input[name="region"]');
 			if (Region.value === '') {
 				alert('행정구역은 필수 값입니다.');
 				Region.focus();
 				return;
 			}
 			
-			let CoUserId = document.querySelector('input[name="CoUserId"]');
+			let CoUserId = document.querySelector('input[name="coUserId"]');
 			if (CoUserId.value === '') {
 				alert('아이디는 필수 값입니다.');
 				CoUserId.focus();
@@ -306,41 +306,41 @@
 				return;
 			}
 			
-			let CoUserPw = document.querySelector('input[name="CoUserPw"]');
+			let CoUserPw = document.querySelector('input[name="coUserPw"]');
 			if (CoUserPw.value === '') {
 				alert('비밀번호는 필수 값입니다.');
 				CoUserPw.focus();
 				return;
 			}
 			
-			if(insertForm.CoUserPw.value != insertForm.CheckPw.value){
+			if(insertForm.coUserPw.value != insertForm.checkPw.value){
 				alert('비밀번호가 일치하지 않습니다')
-				insertForm.CoUserPw.focus();
+				insertForm.coUserPw.focus();
 				return;
 			}
 			
-			let MgrName = document.querySelector('input[name="MgrName"]');
+			let MgrName = document.querySelector('input[name="mgrName"]');
 			if (MgrName.value === '') {
 				alert('담당자 이름은 필수 값입니다.');
 				MgrName.focus();
 				return;
 			}
 			
-			let MgrEmail = document.querySelector('input[name="MgrEmail"]');
+			let MgrEmail = document.querySelector('input[name="mgrEmail"]');
 			if (MgrEmail.value === '') {
 				alert('담당자 이메일은 필수 값입니다.');
 				MgrEmail.focus();
 				return;
 			}
 			
-			let MgrTel = document.querySelector('input[name="MgrTel"]');
+			let MgrTel = document.querySelector('input[name="mgrTel"]');
 			if (MgrTel.value === '') {
 				alert('담당자 연락처는 필수 값입니다.');
 				MgrTel.focus();
 				return;
 			}
 			
-			let CoContact = document.querySelector('input[name="CoContact"]');
+			let CoContact = document.querySelector('input[name="coContact"]');
 			if (CoContact.value === '') {
 				alert('기업 연락처는 필수 값입니다.');
 				CoContact.focus();

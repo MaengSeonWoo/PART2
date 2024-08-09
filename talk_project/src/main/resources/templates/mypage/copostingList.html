@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>채용공고 조회</title>
+</head>
+<body>
+	<h3>게시판 목록</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<!-- yy년MM월dd일 -->
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="board, sts : ${boards}"> <!--/* model.addAttribute("boards", list) 이름 똑같이 */-->
+					<!--/* <tr th:name="${sts.index}"> */-->
+					<tr th:name="${sts.index}"
+							   th:onclick="|location.href='@{/boardInfo(boardNo=${board.boardNo})}'|">
+						<td th:text="${board.boardNo}"></td>
+						<td th:text="${board.boardTitle}"></td>
+						<td th:text="${board.boardWriter}"></td>
+						<td>[[ ${#dates.format(board.regdate, 'yy년MM월dd일')} ]]</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talk.app.sign.mapper.CoSignMapper">
 	<insert id = "insertCoSignInfo" parameterType="CoUserVO">
-		<selectKey keyProperty="CoUserNo" 
+		<selectKey keyProperty="coUserNo" 
 					resultType="Integer"
 					order="BEFORE"> 
 		SELECT NVL(MAX(co_user_no), 100) + 1
@@ -28,26 +28,25 @@
 						  , approval_status
 						  , co_contact
 						  )
-		VALUES(#{CoUserNo}
-			   ,#{CoRegNo}
-			   ,#{CoName}
-			   ,#{Industry}
-			   ,#{RepName}
-			   ,#{EstYear}
-			   ,#{CoPostNo}
-			   ,#{CoAddr}
-			   ,#{CoDetailAddr}
-			   ,#{MainBusiness}
-			   ,#{Region}
-			   ,#{Etc}
-			   ,#{CoUserId}
-			   ,#{CoUserPw}
-			   ,#{MgrName}
-			   ,#{MgrEmail}
-			   ,#{MgrTel}
-			   ,#{ApprovalStatus}
-			   ,#{CoContact}
-			   
+		VALUES(#{coUserNo}
+			   ,#{coRegNo}
+			   ,#{coName}
+			   ,#{industry}
+			   ,#{repName}
+			   ,#{estYear}
+			   ,#{coPostNo}
+			   ,#{coAddr}
+			   ,#{coDetailAddr}
+			   ,#{mainBusiness}
+			   ,#{region}
+			   ,#{etc}
+			   ,#{coUserId}
+			   ,#{coUserPw}
+			   ,#{mgrName}
+			   ,#{mgrEmail}
+			   ,#{mgrTel}
+			   ,#{approvalStatus}
+			   ,#{coContact} 
 			   )	    
 	</insert>
 	<select id="selectCheckCoUser" parameterType="String" resultType="CoUserVO">
@@ -59,6 +58,6 @@
 			SELECT user_id
 			FROM users
 			)
-		WHERE co_user_id = #{CoUserId}
+		WHERE co_user_id = #{coUserId}
 	</select>
 </mapper>

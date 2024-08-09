@@ -39,7 +39,6 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	// 기업회원 단건조회
 	@Override
 	public CoUserVO couserInfo(CoUserVO couserVO) {
-		// TODO Auto-generated method stub
 		return couserupdateMapper.selectCoUserInfo(couserVO);
 	}
 	
