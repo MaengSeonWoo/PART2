@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:decorate="~{common/main/layouts/comypage_layout}"
 	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
@@ -107,6 +107,7 @@
 			<button type="button" id="updateBtn">수정</button>
 		</form>
 	</div>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		$('#updateBtn').on('click', CoUserUpdateAjax);
 		
@@ -156,6 +157,25 @@
 				}
 			}
 		});
+		
+		//우편번호
+		function openZipSearch() {
+		    new daum.Postcode({
+		    	oncomplete: function(data) {     
+				var addr = ''; 
+				if (data.userSelectedType === 'R') { 
+					addr = data.roadAddress;
+				} else {
+					addr = data.jibunAddress;
+				}
+
+				$("#CoPostNo").val(data.zonecode);
+				$("#CoAddr").val(addr);
+				$("#CoDetailAddr").val("");
+				$("#CoDetailAddr").focus();
+		        }
+		    }).open();
+		}
 		
 		document.querySelector('form[name="CoUserUpdateForm"]').addEventListener('submit', function(event) {
 			event.preventDefault();

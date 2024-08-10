@@ -26,8 +26,12 @@
 			  , co_contact
 			  , authority
 			  , logo_img
-		FROM company_user
-		WHERE co_user_id = #{coUserId}
+			  <!-- , file_path -->
+			  <!-- FROM company_user c JOIN files f
+			  ON c.co_user_no = f.domain_id
+			  WHERE co_user_id = #{coUserId} -->
+			  FROM company_user
+			  WHERE co_user_id = #{coUserId}
 	</select>
 
 	<update id = "updateUserInfo">

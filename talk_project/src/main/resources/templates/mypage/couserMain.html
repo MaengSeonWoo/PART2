@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:decorate="~{common/main/layouts/comypage_layout}"
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
@@ -13,8 +13,10 @@
 		<table>
 			<tr>
 				<th>기업로고</th>
-				<td th:each="file : ${file}"><img style="height: 300px; width: 400px;"
-				th:src="@{/images/{fileName}(fileName=${company_user.filePath})}"></td>
+				<td th:each="company_user : ${company_user}">
+                    <img style="height: 300px; width: 400px;"
+                         th:src="@{/images/{fileName}(fileName=${company_user.logoImg})}" />
+                </td>
 			</tr>
 			<tr>
 				<th>회사명</th>
