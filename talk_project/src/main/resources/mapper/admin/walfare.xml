@@ -152,10 +152,23 @@
 <delete id="deleteWelfare" parameterType="int">
 DELETE FROM welfare
 WHERE wid = #{wid}
-
 </delete>
 
+<select id="getAllServIds" resultType="string">
+    SELECT serv_id FROM welfare
+</select>
 
+<update id="updateWelfareDetails">
+    UPDATE welfare
+    SET
+        start_date = #{startDate},
+        end_date = #{endDate},
+        app_way = #{appWay},
+        sup_target = #{supTarget},
+        sal_serv = #{salServ},
+        sel_standard = #{selStandard}
+    WHERE serv_id = #{servId}
+</update>
 
 
 

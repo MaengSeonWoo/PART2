@@ -10,62 +10,74 @@
 <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-	<script th:src='@{https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js}'></script>
+<script
+	th:src='@{https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js}'></script>
 <!-- <script th:src='@{/dist/index.global.js}'></script> -->
 
-<script>
 
-$(document).ready(function(){
-    $(function () {
-        var request = $.ajax({
-            url: "/calendar", // 변경하기
-            method: "GET",
-            dataType: "json"
+<script>
+    $(document).ready(function() {
+    	
+        var activeTab = sessionStorage.getItem('activeTab');
+        if (activeTab) {
+            $('#' + activeTab).tab('show');
+        }
+
+        $('.nav-tabs button').on('click', function() {
+            var activeTabId = $(this).attr('id');
+            sessionStorage.setItem('activeTab', activeTabId);
+
+            if (activeTabId === 'nav-home-tab') {
+                window.location.href = 'http://localhost:8080/calendar/list';
+            }
         });
 
-        request.done(function (data) {
-        	var events = [];
+        function loadCalendar() {
+            var request = $.ajax({
+                url: "/calendar", // 변경하기
+                method: "GET",
+                dataType: "json"
+            });
 
-            console.log(data);
+            request.done(function(data) {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,listWeek'
+                    },
+                    editable: true,
+                    selectable: true,
+                    locale: 'ko', // 한글
+                    droppable: false,
+                    events: data,
+                    eventClick : function(info) {
+                    	 var wid = info.event._def.publicId; // wid 가져오기
+                         console.log("Clicked event's wid:", wid);
+                         if (wid) {
+                             const link = 'http://localhost:8080/calendar/detail?wid=' + wid;
+                             window.location.href = link;
+                         } else {
+                             console.log("wid not found for this event.");
+                         }
+                    }
+                });
+                calendar.render();
+            });
 
-            var calendarEl = document.getElementById('calendar');
+            request.fail(function(jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+        }
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,listWeek'
-                },
-                editable: true,
-                selectable: true,
-                
-                locale: 'ko', 	//한글
-                droppable: false, 
-                 // data 로 값이 넘어온다. log 값 전달.
-                events: data,
-                dateClick: function(data) {
-                    //alert('Clicked on: ' + info.dateStr);
-                    //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    //alert('Current view: ' + info.view.type);
-                    // change the day's background color just for fun
-                    data.dayEl.style.backgroundColor = 'red';
-                    if(data.id) {
-                    	const link = 'http://localhost:8080/calendar/detail?wid=';
-                    	location.href = link + data.id;
-                		return false;               
-                			}            
-                		}
-            	});
-						calendar.render();
-					});
-					request.fail(function(jqXHR, textStatus) {
-						alert("Request failed: " + textStatus);
-					});
-				});
-			});
-			
+        loadCalendar();
+        
+        
+    });
 </script>
+
 
 <style>
 body {
@@ -78,52 +90,99 @@ body {
 #calendar {
 	max-width: 1100px;
 	margin: 0 auto;
+	height: 100%;
 }
-
-
-
 
 .fc-theme-standard td, .fc-theme-standard th {
 	font-size: 13px;
 }
 
-.row2{
+.row2 {
 	width: 100%;
 }
 
-.fc-day a{
+.fc-day a {
 	color: black;
 	text-decoration: none;
 }
 
 .fc-day-sun a {
-  color: red;
-  text-decoration: none;
+	color: red;
+	text-decoration: none;
 }
 
 /* 토요일 날짜 파란색 */
 .fc-day-sat a {
-  color: blue;
-  text-decoration: none;
+	color: blue;
+	text-decoration: none;
 }
 
-.nav-tabs{
+.nav-tabs {
 	float: right;
 }
 
 .search {
-    height: 40px;
-    display: flex !important;
-    width: 30%;
-    float : right;
+	height: 40px;
+	display: flex !important;
+	width: 30%;
+	float: right;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-item {
+    margin: 0 5px; 
+    display: flex;
+    align-items: center;
+}
+
+.page-item .page-link {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #007bff;
+    text-decoration: none;
+    background-color: white;
+}
+
+.page-item.active .page-link {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: white;
+}
+
+#regionList {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btn-group-vertical {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.btn-group-vertical button, 
+.btn-group-vertical label {
+    margin: 5px;
+}
+
+.btn-group-horizontal {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 
 
 </style>
 </head>
 <body>
-
-	<div id="container">
 
 	<div class="container-fluid bg-primary py-5 mb-5 page-header">
 		<div class="container py-5">
@@ -142,161 +201,208 @@ body {
 		</div>
 	</div>
 
-
 	<div class="container">
-	<div class="card-text pb-3 mb-4">
-                <div class="row2">
-                  <div class="col-auto" >
-                    <nav style="padding-left: 0px" class="Calendar">
-                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        
-                        <button
-                          class="nav-link active text-body"
-                          id="nav-profile-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#nav-home"
-                           aria-controls="nav-home"
-                          type="button"
-                          role="tab"
-                          aria-selected="true"
-                        >
-                          목록
-                        </button>
-                        
-                        <button
-                          class="nav-link text-body"
-                          id="nav-home-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#nav-profile"
-                          type="button"
-                          role="tab"
-                         aria-controls="nav-profile"
-                          aria-selected="false"
-                        >
-                        캘린더
-                         
-                        </button>
-                      </div>
-                    </nav>
-                    
-                    <div class="tab-content" id="nav-tabContent">
-                      
-                      <div
-                        class="tab-pane fade pt-3"
-                        style="white-space: pre-line"
-                        role="tabpanel"
-                        id="nav-home"
-                        aria-labelledby="nav-home-tab"
-                      >
-                       
-                     <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-						  <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
-						  <label class="btn btn-outline-info" for="vbtn-radio1">지역분류</label>
-						  <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-						  <label class="btn btn-outline-info" for="vbtn-radio3">주제분류</label>
+		<div class="card-text pb-3 mb-4">
+			<div class="row2">
+				<div class="col-auto">
+
+					<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+				    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
+				    <label class="btn btn-outline-info" for="vbtn-radio1" id="regionBtn">지역분류</label>
+				    <div id="regionList" class="btn-group-horizontal" style="display: none;">
+				         <button class="btn btn-outline-info region-btn" data-region="all">전국</button>
+				        <button class="btn btn-outline-info region-btn" data-region="서울특별시">서울특별시</button>
+				        <button class="btn btn-outline-info region-btn" data-region="부산광역시">부산광역시</button>
+				        <button class="btn btn-outline-info region-btn" data-region="대구광역시">대구광역시</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">인천광역시</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시" >광주광역시 24</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">대전광역시 25</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">울산광역시 26</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">세종특별자치시 29</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">경기도 31</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">강원도 32</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">충청북도 33</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">충청남도 34</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">전라북도 35</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">전라남도 36</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">경상북도 37</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">경상남도 38</button>
+				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">제주특별자치도</button>
+				    </div>
+				
+				    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+				    <label class="btn btn-outline-info" for="vbtn-radio2">주제분류</label>
+    					<div id="interestList" class="btn-group-horizontal" style="display: none;">
+        				<button class="btn btn-outline-info interest-btn">전체</button>
+				        <button class="btn btn-outline-info interest-btn">신체건강</button>
+				        <button class="btn btn-outline-info interest-btn">정신건강</button>
+				        <button class="btn btn-outline-info interest-btn">생활지원</button>
+				        <button class="btn btn-outline-info interest-btn">주거</button>
+				        <button class="btn btn-outline-info interest-btn">일자리</button>
+				        <button class="btn btn-outline-info interest-btn">문화·여가</button>
+				        <button class="btn btn-outline-info interest-btn">안전·위기</button>
+				        <button class="btn btn-outline-info interest-btn">임신·출산</button>
+				        <button class="btn btn-outline-info interest-btn">보육</button>
+				        <button class="btn btn-outline-info interest-btn">교육</button>
+				        <button class="btn btn-outline-info interest-btn">입양·위탁</button>
+				        <button class="btn btn-outline-info interest-btn">보호·돌봄</button>
+				        <button class="btn btn-outline-info interest-btn">서민금융</button>
+				        <button class="btn btn-outline-info interest-btn">법률</button>
+				    </div>
+				    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+				    <label class="btn btn-outline-info" for="vbtn-radio3">검색</label>
+				</div>
+
+
+					<nav style="padding-left: 0px" class="Calendar">
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+							<button class="nav-link  active text-body" id="nav-home-tab"
+								data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+								role="tab" aria-controls="nav-profile" aria-selected="false">
+								달력</button>
+							<button class="nav-link  text-body" id="nav-profile-tab"
+								data-bs-toggle="tab" data-bs-target="#nav-home"
+								aria-controls="nav-home" type="button" role="tab"
+								aria-selected="true">목록</button>
 						</div>
-						
-						<div class="sortbox">
-							<form class="d-flex search" role="search">
-								<button class="btn btn-outline-success" type="submit">카테고리</button>
-						        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-						        <button class="btn btn-outline-success" type="submit">검색</button>
-						      </form>
-							<button type="button" class="btn btn-secondary">정렬</button>
+					</nav>
+
+					<div class="tab-content" id="nav-tabContent">
+
+						<div class="tab-pane fade show active pt-3"
+							style="white-space: pre-line" role="tabpanel" id="nav-profile"
+							aria-labelledby="nav-profile-tab">
+							<!-- 달력 -->
+							<div id='calendar'></div>
 						</div>
-                      <a id="top"></a>
-                      
-                      <table class="table">
-						  <thead>
-						    <tr>
-						      <th scope="col">서비스 ID</th>
-						      <th scope="col">지역 </th>
-						      <th scope="col">제목</th>
-						      <th scope="col">시행일</th>
-						      <th scope="col">종료일</th>
-						    </tr>
-						  </thead>
-						  <tbody class="table-group-divider">
-						  <th:block th:each="c : ${clist}">
-						    <tr th:onclick="|location.href='@{/calendar/detail(wid=${c.wid})}'|">
-						      <th scope="row">[[ ${c.wid} ]]</th>
-						      <td>[[ ${c.servId }]]</td>
-						      <td>[[ ${c.sido }]] , [[ ${c.sgg }]]</td>
-						      <td>[[ ${c.servName} ]]</td>
-						      <td>[[ ${c.startDate} ]]</td>
-						      <td>[[ ${c.endDate} ]]</td>
-						    </tr>
-						    </th:block>
-						  </tbody>
-						</table>
-						
-						<!-- 페이징 -->
-						<div th:object="${page}">
-								<nav aria-label="Page navigation"
-									class="d-flex justify-content-center">
-									<ul class="pagination">
-										<li class="page-item" th:if="*{prev}"><a
-											class="page-link changePage" th:href="*{startPage - 1}"
-											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-										</a></li>
-										<th:block
-											th:each="num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
-											<li class="page-item"
-												th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
-												<a class="page-link changePage"
-												th:href="@{/calendar/list (pageNum=${num})}" th:text="${num}"
-												th:unless="${page.criteria.getPageNum() == num}"></a> <span
-												class="page-link" th:if="${page.criteria.getPageNum() == num}"
-												th:text="${num}"></span>
-											</li>
+
+						<div class="tab-content" id="nav-tabContent">
+							<div class="tab-pane fade    pt-3" style="white-space: pre-line"
+								role="tabpanel" id="nav-home" aria-labelledby="nav-home-tab">
+								<div class="sortbox">
+									<form class="d-flex search" role="search">
+										<button class="btn btn-outline-success" type="submit">카테고리</button>
+										<input class="form-control me-2" type="search"
+											placeholder="Search" aria-label="Search">
+										<button class="btn btn-outline-success" type="submit">검색</button>
+									</form>
+									<button type="button" class="btn btn-secondary">정렬</button>
+								</div>
+
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">서비스 ID</th>
+											<th scope="col">지역</th>
+											<th scope="col">제목</th>
+											<th scope="col">시행일</th>
+											<th scope="col">종료일</th>
+										</tr>
+									</thead>
+									<tbody class="table-group-divider">
+										<th:block th:each="c : ${clist}">
+											<tr
+												th:onclick="|location.href='@{/calendar/detail(wid=${c.wid})}'|">
+												<th scope="row">[[ ${c.wid} ]]</th>
+												<td>[[ ${c.servId }]]</td>
+												<td th:with="sgg=${c.sgg != null ? c.sgg : ' '}">
+												[[ ${c.sido +' '+ c.sgg }]]
+												</td>
+												<td>[[ ${c.servName} ]]</td>
+												<td>[[ ${c.startDate} ]]</td>
+												<td>[[ ${c.endDate} ]]</td>
+											</tr>
 										</th:block>
-										<li class="page-item" th:if="*{next}"><a
-											class="page-link changePage" th:href="*{endPage + 1}"
-											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-										</a></li>
-									</ul>
-								</nav>
-								<form action="/calendar/list" th:object="${criteria}" name="pageForm">
-									<input type="hidden" name="pageNum" th:field="*{pageNum}"> 
-									<input type="hidden" name="amount" th:field="*{amount}">
-								</form>
+									</tbody>
+								</table>
+								<!-- 페이징 -->
+								<div th:object="${page}">
+									<nav aria-label="Page navigation"
+										class="d-flex justify-content-center">
+										<ul class="pagination">
+											<li class="page-item" th:if="*{prev}"><a
+												class="page-link changePage"
+												th:href="@{/calendar/list(pageNum=${page.startPage - 1})}"
+												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a></li>
+											<th:block
+												th:each="num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
+												<li class="page-item"
+													th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
+													<a class="page-link changePage"
+													th:href="@{/calendar/list (pageNum=${num})}"
+													th:text="${num}"
+													th:unless="${page.criteria.getPageNum() == num}"></a> <span
+													class="page-link"
+													th:if="${page.criteria.getPageNum() == num}"
+													th:text="${num}"></span>
+												</li>
+											</th:block>
+											<li class="page-item" th:if="*{next}"><a
+												class="page-link changePage"
+												th:href="@{/calendar/list(pageNum=${page.endPage + 1})}"
+												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a></li>
+										</ul>
+									</nav>
+									<form action="/calendar/list" th:object="${criteria}"
+										name="pageForm">
+										<input type="hidden" name="pageNum" th:field="*{pageNum}">
+										<input type="hidden" name="amount" th:field="*{amount}">
+									</form>
+								</div>
+								<!-- 페이징 끝 -->
+
 							</div>
-							<!-- 페이징 끝 -->
-	                      
-	                      </div>
-                      
-                      <div
-                        class="tab-pane fade show active pt-3"
-                        style="white-space: pre-line"
-                        role="tabpanel"
-                        
-                        id="nav-profile"
-                        aria-labelledby="nav-profile-tab"
-                      >
-                       <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-						  <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
-						  <label class="btn btn-outline-info" for="vbtn-radio1">지역분류</label>
-						  <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-						  <label class="btn btn-outline-info" for="vbtn-radio3">주제분류</label>
 						</div>
-                      <!-- 달력 -->
-                       <div id='calendar'></div>
-                       
-                      </div>
-                      
-                      
-	                    </div>
-	                  </div>
-	                </div>
-	              </div>
+					</div>
+				</div>
+				</div>
+			</div>
 		</div>
 
-		</div>
- 	<script type="text/javascript">
-		function goInfo(no) {
-			location.href = `/calendar/list/${no}`;
-		}
-	</script>
+<script type="text/javascript">
+	function goInfo(no) {
+		location.href = `/calendar/list/${no}`;
+	}
+	 $(document).ready(function() {
+	        $('#regionBtn').on('click', function() {
+	            $('#regionList').toggle(); // 지역분류 버튼들 토글
+	        });
+
+	        $('#vbtn-radio2').on('click', function() {
+	            $('#interestList').toggle(); // 관심주제 버튼들 토글
+	        });
+
+	        $('#resetBtn').on('click', function() {
+	            $('.btn-check').prop('checked', false); // 모든 라디오 버튼 리셋
+	            $('.interest-btn').removeClass('active'); // 모든 관심주제 버튼 비활성화
+	            $('.region-btn').removeClass('active'); // 모든 지역 버튼 비활성화
+	            $('#regionList').hide(); // 지역분류 리스트 숨기기
+	            $('#interestList').hide(); // 관심주제 리스트 숨기기
+	        });
+	        $('.region-btn').on('click', function() {
+	            $('.region-btn').removeClass('active');
+	            $(this).addClass('active');
+	            
+	            if ($(this).data('region') === 'all') {
+	                $('.region-btn').removeClass('active'); // 모든 지역 선택 해제
+	            }
+	        });
+
+	        // 관심주제 버튼 활성화 토글
+	        $('.interest-btn').on('click', function() {
+	            if ($(this).text() === '전체') {
+	                $('.interest-btn').removeClass('active'); // 모든 주제 선택 해제
+	            } else {
+	                $(this).toggleClass('active'); // 선택/해제
+	            }
+	        });
+	    });
+
+</script>
+	
+		
 </body>
 
 

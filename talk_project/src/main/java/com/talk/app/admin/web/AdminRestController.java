@@ -27,5 +27,17 @@ public class AdminRestController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+    
+    @PostMapping("/detail")
+    public ResponseEntity<String> detailData() {
+        try {
+            sampleService.fetchAndUpdateWelfareDetails();
+            return ResponseEntity.ok("서비스ok");
+        } catch (Exception e) {
+        	//오류적어줌
+        	e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
 
 }

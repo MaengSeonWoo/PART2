@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>Wish🍕🙄</title>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/speechkitt.min.js"></script>
+</head>
+<body>
+
+	<div id="state"></div>
+	<div id="analyzedText"></div>
+	<div id="recognizedText"></div>
+
+	<script type="text/javascript">
+
+	if (annyang) {
+        const urlMapping = {
+            '복지': 'http://localhost:8080/calendar/list'
+        };
+        // 문장 서버로전송후분석
+        annyang.addCallback('result', function(phrases) {
+            document.getElementById('recognizedText').innerHTML = "Recognized: " + phrases[0];
+            console.log("Recognized phrases: ", phrases);
+            annyang.debug(); 
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: phrases[0] }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('analyzedText').innerHTML = "Analyzed: " + data.join(', ');
+				//단어매칭
+                data.forEach(word => {
+                    if (urlMapping[word]) {
+                        window.location.href = urlMapping[word];
+                    }
+                });
+            });
+        });
+        annyang.setLanguage('ko');
+        SpeechKITT.annyang();
+        SpeechKITT.setStylesheet('//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/themes/flat.css');
+        SpeechKITT.vroom();
+    }
+	</script>
+
+</body>
+</html>
