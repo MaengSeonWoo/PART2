@@ -1,304 +1,474 @@
 <!DOCTYPE html>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="floatFragment">
-<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
-    <style>
-        /* 플로팅 메뉴 전체 스타일 */
-        .floatMenu {
-            position: fixed;
-            right: 20px; /* 오른쪽에 위치 */
-            bottom: 20px; /* 하단에 위치 */
-            z-index: 1000;
-            background-color: #ffffff; /* 배경색 */
-            border-radius: 10px; /* 둥근 모서리 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-            padding: 10px;
+<th:block xmlns:th="http://www.thymeleaf.org"
+	th:fragment="floatFragment">
+	<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+	<style>
+/* 플로팅 메뉴 전체 스타일 */
+.floatMenu {
+	position: fixed;
+	right: 20px; /* 오른쪽에 위치 */
+	bottom: 20px; /* 하단에 위치 */
+	z-index: 1000;
+	background-color: #ffffff; /* 배경색 */
+	border-radius: 10px; /* 둥근 모서리 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+	padding: 10px;
+}
+
+/* 각 버튼 스타일 */
+.floatMenu button {
+	display: block; /* 버튼들을 세로로 정렬 */
+	margin: 10px 0; /* 버튼 간격 */
+	width: 50px;
+	height: 50px;
+	background-color: #00b4d8; /* 버튼 배경색 (사이트의 메인 색상과 일치시킴) */
+	color: #fff;
+	border: none;
+	border-radius: 50%; /* 둥근 버튼 */
+	cursor: pointer;
+	transition: background-color 0.3s; /* 마우스 오버 시 색상 변화 */
+}
+
+.floatMenu button:hover {
+	background-color: #0077b6; /* 마우스 오버 시 색상 */
+}
+
+.floatMenu img {
+	width: 30px; /* 이미지 크기 조절 */
+	height: 30px;
+	object-fit: cover;
+	margin: auto; /* 이미지 중앙 정렬 */
+}
+
+/* 채팅창 스타일 */
+#chatbot {
+	position: fixed;
+	right: 20px;
+	bottom: 80px;
+	width: 400px; /* 크기를 늘림 */
+	max-height: 500px; /* 높이를 추가 */
+	background-color: #ffffff;
+	border: 1px solid #0077b6;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	display: none; /* 기본적으로 숨김 */
+	flex-direction: column;
+	z-index: 2000;
+}
+
+/* 챗봇 컨테이너 */
+.chatbot-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+/* 챗봇 헤더 */
+.chatbot-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px;
+	background-color: #0077b6;
+	color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: 1px solid #006494;
+}
+
+/* 챗봇 본문 */
+.chatbot-body {
+	padding: 15px;
+	flex-grow: 1;
+	overflow-y: auto; /* 채팅 내용이 많아지면 스크롤 생김 */
+}
+
+/* 챗봇 푸터 */
+.chatbot-footer {
+	display: flex;
+	padding: 15px;
+	border-top: 1px solid #ccc;
+}
+
+/* 입력 필드 스타일 */
+#chatbotInput {
+	flex-grow: 1;
+	margin-right: 10px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+/* 버튼 스타일 */
+.chatbot-footer button {
+	background-color: #00b4d8;
+	border: none;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.chatbot-footer button:hover {
+	background-color: #0077b6;
+}
+
+/* STT 버튼 스타일 */
+#sttButton {
+	background-color: #ffcc00;
+	border: none;
+	margin-right: 5px;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+#sttButton:hover {
+	background-color: #e6b800; /* STT 버튼 호버 시 색상 */
+}
+
+/* 말풍선 기본 스타일 */
+.chat-message {
+	max-width: 70%;
+	padding: 10px;
+	border-radius: 15px;
+	margin: 5px 0;
+}
+
+/* 사용자가 보낸 메시지 (오른쪽 말풍선) */
+.chat-message.user {
+	background-color: #00b4d8;
+	color: white;
+	margin-left: auto; /* 오른쪽 정렬 */
+	border-bottom-right-radius: 0;
+	text-align: right;
+}
+
+/* 챗봇이 보낸 메시지 (왼쪽 말풍선) */
+.chat-message.bot {
+	background-color: #e6e6e6;
+	color: black;
+	margin-right: auto; /* 왼쪽 정렬 */
+	border-bottom-left-radius: 0;
+}
+</style>
+
+	<div class="floatMenu">
+		<div>
+			<button type="button" class="moveTop" onclick="goTop()">TOP</button>
+			<button type="button" class="viewPlus" onclick="zoomPlus()">+</button>
+			<button type="button" class="viewMinus" onclick="zoomMinus()">-</button>
+			<button type="button" id="chatbotOpenBtn">
+				<img
+					src="https://c1.klipartz.com/pngpicture/358/1024/sticker-png-black-balloon-speech-balloon-online-chat-user-interface-blackandwhite-thumbnail.png"
+					width="50px" height="50px" alt="">
+			</button>
+		</div>
+	</div>
+
+	<!-- <div id="chatbot" class="chatbot-container" style="display: none;">
+		<div class="chatbot-header">
+			<span>손말톡톡</span>
+			<button id="chatbotCloseBtn" class="btn btn-danger btn-sm">X</button>
+		</div>
+		<div class="chatbot-body">
+			<p>무엇을 도와드릴까요?</p>
+		</div>
+		<div class="chatbot-footer">
+			<input type="text" id="chatbotInput" class="form-control"
+				placeholder="메시지 입력">
+			<button id="sttButton" class="btn btn-secondary">
+				<img
+					src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png"
+					alt="STT" width="20px" height="20px">
+			</button>
+			<button id="chatbotSendBtn" class="btn btn-primary">전송</button>
+		</div>
+	</div> -->
+
+	<div id="chatbot" class="chatbot-container" style="display: none;">
+		<div class="chatbot-header">
+			<span>손말톡톡</span>
+			<button id="chatbotCloseBtn" class="btn btn-danger btn-sm">X</button>
+		</div>
+		<div class="chatbot-body">
+			<p>무엇을 도와드릴까요?</p>
+		</div>
+		<div class="chatbot-footer">
+			<input type="text" id="chatbotInput" class="form-control"
+				placeholder="메시지 입력">
+			<button id="sttButton" class="btn btn-secondary">
+				<img
+					src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png"
+					alt="STT" width="20px" height="20px">
+			</button>
+			<button id="chatbotSendBtn" class="btn btn-primary">전송</button>
+		</div>
+	</div>
+
+	<script>
+		//페이지 상단으로 이동
+		function goTop() {
+			window.scroll(0, 0);
+		}
+
+		// 페이지 확대
+		let zoom = 100;
+
+		function zoomPlus() {
+			zoom = zoom + 20;
+
+			if (zoom >= 200) {
+				zoom = 200;
+			}
+			zooms();
+		}
+
+		// 페이지 축소
+		function zoomMinus() {
+			zoom = zoom - 20;
+
+			if (zoom <= 70) {
+				zoom = 70;
+			}
+			zooms();
+		}
+
+		// 페이지 확대/축소 적용
+		function zooms() {
+			document.body.style.zoom = zoom + '%';
+		}
+		
+		// 챗봇 관련
+let stompClient = null;
+let roomId = null; // 방 ID를 저장할 변수
+
+// DOM이 로드되면 이벤트 리스너를 등록
+document.addEventListener('DOMContentLoaded', function() {
+    const chatbotOpenBtn = document.getElementById('chatbotOpenBtn');
+    const chatbotCloseBtn = document.getElementById('chatbotCloseBtn');
+    const chatbotContainer = document.getElementById('chatbot');
+    const chatbotInput = document.getElementById('chatbotInput');
+
+    // 챗봇 열기 버튼 클릭 시 챗봇 창을 표시 및 방 생성
+    chatbotOpenBtn.addEventListener('click', function() {
+        if (!stompClient || !stompClient.connected) {
+            createRoom(); // 방 생성 후 웹소켓 연결
         }
-
-        /* 각 버튼 스타일 */
-        .floatMenu button {
-            display: block; /* 버튼들을 세로로 정렬 */
-            margin: 10px 0; /* 버튼 간격 */
-            width: 50px;
-            height: 50px;
-            background-color: #00b4d8; /* 버튼 배경색 (사이트의 메인 색상과 일치시킴) */
-            color: #fff;
-            border: none;
-            border-radius: 50%; /* 둥근 버튼 */
-            cursor: pointer;
-            transition: background-color 0.3s; /* 마우스 오버 시 색상 변화 */
-        }
-
-        .floatMenu button:hover {
-            background-color: #0077b6; /* 마우스 오버 시 색상 */
-        }
-
-        .floatMenu img {
-            width: 30px; /* 이미지 크기 조절 */
-            height: 30px;
-            object-fit: cover;
-            margin: auto; /* 이미지 중앙 정렬 */
-        }
-
-        /* 채팅창 스타일 */
-        #chatbot {
-            position: fixed;
-            right: 20px;
-            bottom: 80px;
-            width: 400px; /* 크기를 늘림 */
-            max-height: 500px; /* 높이를 추가 */
-            background-color: #ffffff;
-            border: 1px solid #0077b6;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: none; /* 기본적으로 숨김 */
-            flex-direction: column;
-            z-index: 2000;
-        }
-
-        /* 챗봇 컨테이너 */
-        .chatbot-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* 챗봇 헤더 */
-        .chatbot-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background-color: #0077b6;
-            color: white;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            border-bottom: 1px solid #006494;
-        }
-
-        /* 챗봇 본문 */
-        .chatbot-body {
-            padding: 15px;
-            flex-grow: 1;
-            overflow-y: auto; /* 채팅 내용이 많아지면 스크롤 생김 */
-        }
-
-        /* 챗봇 푸터 */
-        .chatbot-footer {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid #ccc;
-        }
-
-        /* 입력 필드 스타일 */
-        #chatbotInput {
-            flex-grow: 1;
-            margin-right: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        /* 버튼 스타일 */
-        .chatbot-footer button {
-            background-color: #00b4d8;
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .chatbot-footer button:hover {
-            background-color: #0077b6;
-        }
-
-        /* STT 버튼 스타일 */
-        #sttButton {
-            background-color: #ffcc00;
-            border: none;
-            margin-right: 5px;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #sttButton:hover {
-            background-color: #e6b800; /* STT 버튼 호버 시 색상 */
-        }
-        
-         /* 말풍선 기본 스타일 */
-    .chat-message {
-        max-width: 70%;
-        padding: 10px;
-        border-radius: 15px;
-        margin: 5px 0;
-    }
-
-    /* 사용자가 보낸 메시지 (오른쪽 말풍선) */
-    .chat-message.user {
-        background-color: #00b4d8;
-        color: white;
-        margin-left: auto; /* 오른쪽 정렬 */
-        border-bottom-right-radius: 0;
-        text-align: right;
-    }
-
-    /* 챗봇이 보낸 메시지 (왼쪽 말풍선) */
-    .chat-message.bot {
-        background-color: #e6e6e6;
-        color: black;
-        margin-right: auto; /* 왼쪽 정렬 */
-        border-bottom-left-radius: 0;
-    }
-    </style>
-
-    <div class="floatMenu">
-    <div>
-        <button type="button" class="moveTop" onclick="goTop()">TOP</button>
-        <button type="button" class="viewPlus" onclick="zoomPlus()">+</button>
-        <button type="button" class="viewMinus" onclick="zoomMinus()">-</button>
-        <button type="button" id="chatbotOpenBtn">
-            <img
-                src="https://c1.klipartz.com/pngpicture/358/1024/sticker-png-black-balloon-speech-balloon-online-chat-user-interface-blackandwhite-thumbnail.png"
-                width="50px" height="50px" alt="">
-        </button>
-    </div>
-</div>
-
-<div id="chatbot" class="chatbot-container" style="display:none;">
-    <div class="chatbot-header">
-        <span>손말톡톡</span>
-        <button id="chatbotCloseBtn" class="btn btn-danger btn-sm">X</button>
-    </div>
-    <div class="chatbot-body">
-        <p>무엇을 도와드릴까요?</p>
-    </div>
-    <div class="chatbot-footer">
-        <input type="text" id="chatbotInput" class="form-control" placeholder="메시지 입력">
-        <button id="sttButton" class="btn btn-secondary">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png" alt="STT" width="20px"
-                height="20px">
-        </button>
-        <button id="chatbotSendBtn" class="btn btn-primary">전송</button>
-    </div>
-</div>
-
-<script>
-    // DOM이 로드되면 이벤트 리스너를 등록
-    document.addEventListener('DOMContentLoaded', function () {
-        var chatbotOpenBtn = document.getElementById('chatbotOpenBtn');
-        var chatbotCloseBtn = document.getElementById('chatbotCloseBtn');
-        var chatbotContainer = document.getElementById('chatbot');
-        var chatbotInput = document.getElementById('chatbotInput');
-
-        // 챗봇 열기 버튼 클릭 시 챗봇 창을 표시
-        chatbotOpenBtn.addEventListener('click', function () {
-            chatbotContainer.style.display = 'flex';
-        });
-
-        // 챗봇 닫기 버튼 클릭 시 챗봇 창을 숨김
-        chatbotCloseBtn.addEventListener('click', function () {
-            chatbotContainer.style.display = 'none';
-        });
-
-        // Enter 키로 메시지 전송
-        chatbotInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
+        chatbotContainer.style.display = 'flex';
     });
 
-    // 페이지 상단으로 이동
-    function goTop() {
-        window.scroll(0, 0);
-    }
-
-    // 페이지 확대
-    let zoom = 100;
-
-    function zoomPlus() {
-        zoom = zoom + 20;
-
-        if (zoom >= 200) {
-            zoom = 200;
+    // 챗봇 닫기 버튼 클릭 시 챗봇 창을 숨김 및 방 종료
+    chatbotCloseBtn.addEventListener('click', function() {
+        chatbotContainer.style.display = 'none';
+        if (roomId) {
+            endRoom(); // 방 종료 및 웹소켓 연결 해제
         }
-        zooms();
-    }
-
-    // 페이지 축소
-    function zoomMinus() {
-        zoom = zoom - 20;
-
-        if (zoom <= 70) {
-            zoom = 70;
-        }
-        zooms();
-    }
-
-    // 페이지 확대/축소 적용
-    function zooms() {
-        document.body.style.zoom = zoom + '%';
-    }
-
-    // STOMP 웹소켓을 사용한 챗봇 통신
-    let stompClient = null;
-
+    });
+    
     document.getElementById('chatbotSendBtn').onclick = function() {
-        sendMessage();
-    };
+		sendMessage();
+	};
 
- // 메시지 전송 함수 (오른쪽 말풍선)
-    function sendMessage() {
-        const message = document.getElementById('chatbotInput').value;
-        if (message.trim() === '') return; // 메시지가 빈 문자열일 경우 전송하지 않음
-
-        const chatBody = document.querySelector('.chatbot-body');
-        const userMessage = `<div class="chat-message user"><p>${message}</p></div>`;
-        chatBody.insertAdjacentHTML('beforeend', userMessage);
-        document.getElementById('chatbotInput').value = '';
-
-        scrollToBottom(); // 메시지 전송 후 스크롤 다운
-
-        if (stompClient && stompClient.connected) {
-            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({ 'content': message }));
+    // Enter 키로 메시지 전송
+    chatbotInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
         }
+    });
+});
+
+// 메시지 전송 함수 (오른쪽 말풍선)
+function sendMessage() {
+    const message = document.getElementById('chatbotInput').value;
+    if (message.trim() === '') return; // 메시지가 빈 문자열일 경우 전송하지 않음
+
+    const chatBody = document.querySelector('.chatbot-body');
+    const userMessage = `<div class="chat-message user"><p>${message}</p></div>`;
+    chatBody.insertAdjacentHTML('beforeend', userMessage);
+    document.getElementById('chatbotInput').value = '';
+
+    scrollToBottom(); // 메시지 전송 후 스크롤 다운
+
+    if (stompClient && stompClient.connected) {
+        stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
+            'content': message,
+            'roomId': roomId // 방 ID 추가
+        }));
+    }
+}
+
+// 서버에서 받은 메시지를 화면에 출력 (왼쪽 말풍선)
+function showMessage(message) {
+    const chatBody = document.querySelector('.chatbot-body');
+    const botMessage = `<div class="chat-message bot"><p>${message.content}</p></div>`;
+    chatBody.insertAdjacentHTML('beforeend', botMessage);
+
+    scrollToBottom(); // 메시지 수신 후 스크롤 다운
+}
+
+// 채팅창을 최신 메시지에 맞게 스크롤하는 함수
+function scrollToBottom() {
+    const chatBody = document.querySelector('.chatbot-body');
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+// 방 생성 함수 및 웹소켓 연결
+function createRoom() {
+    fetch('/chatbot/createRoom', { // 방 생성 요청
+        method: 'POST'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        roomId = data.roomId;
+        console.log(`Room created with ID: ${roomId}`);
+        connect(); // 방 생성 후 웹소켓 연결
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+// 웹소켓 연결 및 메시지 수신 처리
+function connect() {
+    const socket = new SockJS('/chatbot-websocket');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe(`/topic/${roomId}`, function(message) {
+            showMessage(JSON.parse(message.body));
+        });
+    });
+}
+
+// 방 종료 함수
+function endRoom() {
+    if (!roomId) {
+        console.error('Room ID is not set. Cannot end room.');
+        return;
     }
 
-    // 서버에서 받은 메시지를 화면에 출력 (왼쪽 말풍선)
-    function showMessage(message) {
-        const chatBody = document.querySelector('.chatbot-body');
-        const botMessage = `<div class="chat-message bot"><p>${message.content}</p></div>`;
-        chatBody.insertAdjacentHTML('beforeend', botMessage);
+    fetch(`/chatbot/endRoom/${roomId}`, { // 방 종료 요청
+        method: 'POST'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Failed to end room ${roomId}`);
+        }
+        return response.text(); // 서버에서 문자열 응답을 받을 것으로 예상
+    })
+    .then(data => {
+        console.log(`Room ${roomId} ended: ${data}`);
+        disconnect(); // 웹소켓 연결 해제
+        roomId = null; // 방 ID 초기화
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
 
-        scrollToBottom(); // 메시지 수신 후 스크롤 다운
-    }
-
-    // 채팅창을 최신 메시지에 맞게 스크롤하는 함수
-    function scrollToBottom() {
-        const chatBody = document.querySelector('.chatbot-body');
-        chatBody.scrollTop = chatBody.scrollHeight;
-    }
-
-    // 웹소켓 연결 및 메시지 수신 처리
-    function connect() {
-        const socket = new SockJS('/chatbot-websocket');
-        stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/public', function (message) {
-                showMessage(JSON.parse(message.body));
-            });
+// 웹소켓 연결 종료
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect(function() {
+            console.log('Disconnected');
         });
     }
+}
+		
+		/* //// 챗봇관련
 
+		// DOM이 로드되면 이벤트 리스너를 등록
+		document.addEventListener('DOMContentLoaded', function() {
+			var chatbotOpenBtn = document.getElementById('chatbotOpenBtn');
+			var chatbotCloseBtn = document.getElementById('chatbotCloseBtn');
+			var chatbotContainer = document.getElementById('chatbot');
+			var chatbotInput = document.getElementById('chatbotInput');
 
-    connect();
-</script>
+			// 챗봇 열기 버튼 클릭 시 챗봇 창을 표시
+			chatbotOpenBtn.addEventListener('click', function() {
+				chatbotContainer.style.display = 'flex';
+			});
+
+			// 챗봇 닫기 버튼 클릭 시 챗봇 창을 숨김
+			chatbotCloseBtn.addEventListener('click', function() {
+				chatbotContainer.style.display = 'none';
+			});
+
+			// Enter 키로 메시지 전송
+			chatbotInput.addEventListener('keydown', function(event) {
+				if (event.key === 'Enter') {
+					sendMessage();
+				}
+			});
+		});
+
+		// STOMP 웹소켓을 사용한 챗봇 통신
+		let stompClient = null;
+
+		document.getElementById('chatbotSendBtn').onclick = function() {
+			sendMessage();
+		};
+
+		// 메시지 전송 함수 (오른쪽 말풍선)
+		function sendMessage() {
+			const message = document.getElementById('chatbotInput').value;
+			if (message.trim() === '')
+				return; // 메시지가 빈 문자열일 경우 전송하지 않음
+
+			const chatBody = document.querySelector('.chatbot-body');
+			const userMessage = `<div class="chat-message user"><p>${message}</p></div>`;
+			chatBody.insertAdjacentHTML('beforeend', userMessage);
+			document.getElementById('chatbotInput').value = '';
+
+			scrollToBottom(); // 메시지 전송 후 스크롤 다운
+
+			if (stompClient && stompClient.connected) {
+				stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
+					'content' : message
+				}));
+			}
+		}
+
+		// 서버에서 받은 메시지를 화면에 출력 (왼쪽 말풍선)
+		function showMessage(message) {
+			const chatBody = document.querySelector('.chatbot-body');
+			const botMessage = `<div class="chat-message bot"><p>${message.content}</p></div>`;
+			chatBody.insertAdjacentHTML('beforeend', botMessage);
+
+			scrollToBottom(); // 메시지 수신 후 스크롤 다운
+		}
+
+		// 채팅창을 최신 메시지에 맞게 스크롤하는 함수
+		function scrollToBottom() {
+			const chatBody = document.querySelector('.chatbot-body');
+			chatBody.scrollTop = chatBody.scrollHeight;
+		}
+
+		// 웹소켓 연결 및 메시지 수신 처리
+		function connect() {
+			const socket = new SockJS('/chatbot-websocket');
+			stompClient = Stomp.over(socket);
+
+			stompClient.connect({}, function(frame) {
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('/topic/public', function(message) {
+					showMessage(JSON.parse(message.body));
+				});
+			});
+		}
+
+		connect(); */
+	</script>
 
 </th:block>
