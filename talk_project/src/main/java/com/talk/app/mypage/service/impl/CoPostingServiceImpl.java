@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.talk.app.mypage.mapper.CoPostingMapper;
 import com.talk.app.mypage.service.CoPostingService;
 import com.talk.app.posting.service.PostingVO;
 
+@Service
 public class CoPostingServiceImpl implements CoPostingService{
 	
 	private CoPostingMapper copostingMapper;
@@ -19,21 +21,22 @@ public class CoPostingServiceImpl implements CoPostingService{
 	}
 
 	@Override
-	public List<PostingVO> postingList() {
+	public List<PostingVO> postingList(String coUserId) {
 		// TODO Auto-generated method stub
-		return copostingMapper.selectPostingAll();
+		return copostingMapper.selectPostingAll(coUserId);
 	}
 
 	@Override
 	public PostingVO postingInfo(PostingVO postingVO) {
 		// TODO Auto-generated method stub
-		return null;
+		return copostingMapper.selectPostingInfo(postingVO);
 	}
 
 	@Override
 	public int insertPosting(PostingVO postingVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = copostingMapper.insertPostingInfo(postingVO);
+		
+		return result == 1 ? postingVO.getPostingNo() : -1;
 	}
 
 	@Override
@@ -46,6 +49,11 @@ public class CoPostingServiceImpl implements CoPostingService{
 	public int deletePosting(int postingNo) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public int getCoUserNoById(String coUserId) {
+	    return copostingMapper.getCoUserNoById(coUserId);
 	}
 
 }

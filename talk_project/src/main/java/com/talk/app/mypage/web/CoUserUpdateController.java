@@ -30,23 +30,26 @@ public class CoUserUpdateController {
     private final CoUserUpdateService couserupdateService;
     private final UploadService uploadService;
 
-    // 기업회원 요약정보
+ // 기업회원 요약정보
     @GetMapping("CoUserMain")
-    public String couserInfo(CoUserVO couserVO, Model model, Principal principal) {
-    	couserVO.setCoUserId(principal.getName()); // 로그인 된 유저 아이디
-    	CoUserVO findVO = couserupdateService.couserInfo(couserVO);
-    	model.addAttribute("company_user", findVO);
-    	log.info("ffff={}", findVO);
-    	
-    	return "mypage/couserMain";
+    public String couserInfo(Model model, Principal principal) {
+        String coUserId = principal.getName(); // 로그인된 유저의 아이디
+        CoUserVO couserVO = new CoUserVO();
+        couserVO.setCoUserId(coUserId);
+
+        CoUserVO findVO = couserupdateService.couserInfo(couserVO);
+        model.addAttribute("company_user", findVO);
+        model.addAttribute("coUserId", coUserId); // coUserId를 모델에 추가
+
+        return "mypage/couserMain";
     }
-    
-    
+
     // 기업회원 수정 페이지
     @GetMapping("CoUserUpdate/{coUserId}")
     public String CoUserUpdateForm(@PathVariable String coUserId, Model model) {
         CoUserVO couserVO = new CoUserVO();
         couserVO.setCoUserId(coUserId);
+        log.info("기모찌={}", coUserId);
 
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
         model.addAttribute("couserInfo", findVO);
@@ -68,7 +71,7 @@ public class CoUserUpdateController {
         // 파일 수정 처리
         log.info("uploadfile length = {}",uploadFiles.length  );
         log.info("uploadfile name = {}",uploadFiles[0].getOriginalFilename()  );
-        if (uploadFiles[0].getSize() == 0  && uploadFiles.length == 1) {
+        if (uploadFiles[0].getSize() != 0  && uploadFiles.length == 1) {
                 // 파일 업로드 서비스 호출
         	for (MultipartFile multipartFile : uploadFiles) {
         		log.info("업로드 파일 수: {}", multipartFile.getSize());
@@ -76,6 +79,7 @@ public class CoUserUpdateController {
         		couserVO.setLogoImg(multipartFile.getOriginalFilename());
 			}
         	String imageUpdate = uploadService.imageUpdate(uploadFiles, "COUSER", (long)couserVO.getCoUserNo());
+        	imageUpdate = imageUpdate.replace("\\", "/");
             
         	couserVO.setLogoImg(imageUpdate);
         	

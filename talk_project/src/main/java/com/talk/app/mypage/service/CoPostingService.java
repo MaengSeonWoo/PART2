@@ -7,7 +7,7 @@ import com.talk.app.posting.service.PostingVO;
 
 public interface CoPostingService {
 	// 전체조회
-	public List<PostingVO> postingList();
+	public List<PostingVO> postingList(String coUserId);
 	
 	// 단건조회
 	public PostingVO postingInfo(PostingVO postingVO);
@@ -20,4 +20,7 @@ public interface CoPostingService {
 	
 	// 삭제
 	public int deletePosting(int postingNo);
+	
+	// 아이디 갖고오기
+	int getCoUserNoById(String coUserId);
 }

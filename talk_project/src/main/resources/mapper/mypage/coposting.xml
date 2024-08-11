@@ -1,10 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.talk.app.mypage.mapper.CoPostingMapper">
-	<select id = "selectPostingAll" resultType="PostingVO">
-		SELECT c.co_name, posting_title, start_date, posting_status
+	<select id = "selectPostingAll" parameterType="String" resultType="PostingVO">
+		SELECT c.co_name
+			   , posting_title
+			   , start_date
+			   , posting_status
+			   , posting_no
 		FROM company_user c JOIN posting p
 		ON c.co_user_no = p.co_user_no
 		WHERE c.co_user_id = #{coUserId}
 	</select>
+	
+	<select id="selectPostingInfo" resultType="PostingVO">
+		SELECT posting_status
+			   , c.co_name
+			   , work_region
+			   , start_date
+			   , end_date
+			   , job, age
+			   , gender
+			   , emp_type
+			   , work_day
+               , worktime_start
+               , worktime_end
+               , sal
+               , party
+               , work_content
+               , etc_content
+               , posting_no
+               , c.co_user_no
+		FROM company_user c JOIN posting p
+		ON c.co_user_no = p.co_user_no
+		WHERE posting_no = #{postingNo}
+	</select>
+	
+	<select id="getCoUserNoById" parameterType="String" resultType="int">
+	    SELECT co_user_no
+	    FROM company_user
+	    WHERE co_user_id = #{coUserId}
+	</select>	
+	
+	<insert id = "insertPostingInfo" parameterType="PostingVO">
+		<selectKey keyProperty="postingNo" 
+					resultType="Integer"
+					order="BEFORE"> 
+		SELECT NVL(MAX(posting_no), 100) + 1
+		FROM posting
+		</selectKey>
+			INSERT INTO posting (
+			    posting_status,
+			    co_name,             
+			    work_region,
+			    start_date,
+			    end_date,
+			    job,
+			    age,
+			    gender,
+			    emp_type,
+			    work_day,
+			    worktime_start,
+			    worktime_end,
+			    sal,
+			    party,
+			    work_content,
+			    etc_content,
+			    posting_no,
+			    co_user_no,
+    			posting_title
+		) VALUES (
+			    #{postingStatus},
+			    #{coName},
+			    #{workRegion},
+			    #{startDate},
+			    #{endDate},
+			    #{job},
+			    #{age},
+			    #{gender},
+			    #{empType},
+			    #{workDay},
+			    #{workTimeStart},
+			    #{workTimeEnd},
+			    #{sal},
+			    #{party},
+			    #{workContent},
+			    #{etcContent},
+			    #{postingNo},
+			    #{coUserNo},
+			    #{postingTitle}
+		)
+	</insert>
 </mapper>
