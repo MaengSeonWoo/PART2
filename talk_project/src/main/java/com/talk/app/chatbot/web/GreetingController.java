@@ -12,7 +12,7 @@ import com.talk.app.chatbot.service.HelloMessage;
 @Controller
 public class GreetingController {
 	
-	@GetMapping("/chatbot")
+	@GetMapping("/chatbot3")
 	public String chatbot() {
 		return "chatbot/index";
 	}
