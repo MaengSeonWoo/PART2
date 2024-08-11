@@ -6,7 +6,7 @@ public interface FAQService {
 
 	public FAQVO getFAQById(Long faqId);
 	
-	public List<FAQVO> searchFAQByKeyword(String keyword);
+	public List<FAQVO> searchFAQByKeyword(List<String> keywords);
 	
 	public List<FAQVO> getAllFAQs();
 	
