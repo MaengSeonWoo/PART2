@@ -32,4 +32,5 @@ public class CoUserVO {
 	private String coContact;		//기업연락처
 	private String authority;		//권한
 	private String logoImg;			//기업 로고
+	private String filePath;		//이미지
 }

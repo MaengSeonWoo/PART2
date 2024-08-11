@@ -2,6 +2,8 @@ package com.talk.app.posting.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 /**
  * 채용 공고
@@ -15,8 +17,10 @@ public class PostingVO {
 	// 근무지역
 	private String workRegion;
 	// 모집기간 시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
 	// 모집기간 마감일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	// 업종
 	private String job;
@@ -41,7 +45,7 @@ public class PostingVO {
 	// 우대사항
 	private String priContent;
 	// 기업 회원 번호
-	private int coUserNo;
+	private Integer coUserNo;
 	// 채용 공고 상태
 	private String postingStatus;
 	// 채용 공고 제목
@@ -49,4 +53,12 @@ public class PostingVO {
 	
 	//// 기업 로고 관련 추가
 	private String filePath;
+	
+	// 마이페이지
+	private String coUserId;
+	
+	// 근무시작시간
+	private String workTimeStart;
+	// 퇴근시간
+	private String workTimeEnd;
 }

@@ -6,7 +6,7 @@ import com.talk.app.posting.service.PostingVO;
 
 public interface CoPostingMapper {
 	// 채용공고 전체조회
-	public List<PostingVO> selectPostingAll();
+	public List<PostingVO> selectPostingAll(String coUserId);
 	
 	// 단건조회
 	public PostingVO selectPostingInfo(PostingVO postingVO);
@@ -19,4 +19,7 @@ public interface CoPostingMapper {
 	
 	// 삭제
 	public int deletePostingInfo(int postingNo);
+	
+	// 아이디 갖고오기
+	int getCoUserNoById(String coUserId);
 }

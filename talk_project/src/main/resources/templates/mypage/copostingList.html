@@ -12,22 +12,23 @@
 		<table>
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>작성일</th>
+					<th>공고번호</th>
+					<th>기업명</th>
+					<th>채용공고 제목</th>
+					<th>등록일자</th>
+					<th>등록여부</th>
 					<!-- yy년MM월dd일 -->
 				</tr>
 			</thead>
 			<tbody>
-				<th:block th:each="board, sts : ${boards}"> <!--/* model.addAttribute("boards", list) 이름 똑같이 */-->
+				<th:block th:each="posting : ${copostingList}"> <!--/* model.addAttribute("boards", list) 이름 똑같이 */-->
 					<!--/* <tr th:name="${sts.index}"> */-->
-					<tr th:name="${sts.index}"
-							   th:onclick="|location.href='@{/boardInfo(boardNo=${board.boardNo})}'|">
-						<td th:text="${board.boardNo}"></td>
-						<td th:text="${board.boardTitle}"></td>
-						<td th:text="${board.boardWriter}"></td>
-						<td>[[ ${#dates.format(board.regdate, 'yy년MM월dd일')} ]]</td>
+					<tr th:onclick="|location.href='@{/copostingInfo(postingNo=${posting.postingNo})}'|">
+						<td th:text="${posting.postingNo}"></td>
+						<td th:text="${posting.coName}"></td>
+						<td th:text="${posting.postingTitle}"></td>
+						<td th:text="${posting.startDate}"></td>
+						<td th:text="${posting.postingStatus}"></td>
 					</tr>
 				</th:block>
 			</tbody>

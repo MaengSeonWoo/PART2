@@ -4,7 +4,7 @@
         <h1>기업회원 마이페이지</h1>
         <ul>
             <li><a href="#home">지원 이력서 및 최종 채용 확인</a></li>
-            <li><a href="#services">채용공고</a></li>
+            <li><a th:href="@{/copostingList}">채용공고</a></li>
             <li><a th:href="@{/CoUserUpdate/{coUserId}(coUserId=${coUserId})}">기업회원정보 수정</a></li>
             <li><a href="#contact">회원탈퇴</a></li>
         </ul>
