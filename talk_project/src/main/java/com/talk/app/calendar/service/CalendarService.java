@@ -11,13 +11,11 @@ import com.talk.app.common.service.SearchVO;
 @Service
 public interface CalendarService {
 		
-//	public List<WelfareVO> selectCalendar(Criteria cri);
 	
 	public int cntWelfare(SearchVO vo);
 	
 	public WelfareVO welfareDetail(WelfareVO vo);
 	
-//	public List<WelfareVO> categoryData(Criteria cir, String sido, List<WelfareVO> likeSubject);
 	
 	public List<WelfareVO> categoryData(SearchVO vo);
 	

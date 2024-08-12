@@ -30,9 +30,10 @@ public class WelfareController {
 	PublicCodeService pservice;
 	
 	@GetMapping("welfarelist")
-	public List<Map<String,Object>> welfaremain(Model model, Criteria cri, SearchVO vo) {
+	public List<Map<String,Object>> welfaremain(Model model, SearchVO vo) {
+	    List<Map<String, Object>> dataList = service.calendar(vo);
+	    model.addAttribute("dataList", dataList);  // 데이터를 모델에 추가
 		 return service.calendar(vo);
-
 	}
 
 	@GetMapping("welfare")
@@ -45,13 +46,6 @@ public class WelfareController {
 		return "calendar/list";
 	}
 	
-	
-//	  @GetMapping("list") public String json(Model model, Criteria cri){
-//	  List<WelfareVO> list = service.selectCalendar(cri);
-//	  model.addAttribute("clist",list);
-//	  model.addAttribute("page", new PageDTO(10,service.cntWelfare(), cri)); 
-//	  return "calendar/list"; }
-//	 
 	
 	@GetMapping("detail")
 	public String detail(Model model, WelfareVO vo) {

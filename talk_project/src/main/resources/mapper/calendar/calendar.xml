@@ -48,7 +48,6 @@ FROM welfare
 </select>
 
 <select id="categoryData"  resultType="com.talk.app.admin.service.WelfareVO">
-	
 	SELECT *
 	FROM (
 	    SELECT 
@@ -114,7 +113,7 @@ FROM welfare
 	          	</if>
 	          	<if test="likeSubject !=null and likeSubject.size!=0">
 	          	<foreach item="item" index="index" collection="likeSubject"
-			        open="and  REGEXP_LIKE(like_subject, '" separator="|" close="')" >#{item}</foreach>
+			        open="and  REGEXP_LIKE(like_subject, '" separator="|" close="')" >${item}</foreach>
 			    </if>
 			    <if test="keyword !=null and keyword!='' ">
 	          		and serv_name like '%'||#{keyword}||'%'
