@@ -100,7 +100,7 @@ FROM welfare
 
 <select id="calendar" resultType="Map">
 SELECT  wid
-       			,serv_id ||  serv_name as "title"
+       			, serv_name as "title"
        			, to_date(start_date,'YYYY-mm-dd') "start"  
 				, to_date(end_date,'YYYY-mm-dd')  "end"    
 FROM welfare

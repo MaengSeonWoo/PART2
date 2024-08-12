@@ -37,7 +37,19 @@ public class WelfareController {
 	}
 
 	@GetMapping("welfare")
+	
 	public String category(Model model,SearchVO vo, Criteria cri) {
+		 List<Map<String, Object>> calendarData = service.calendar(vo);
+		    
+		    if (calendarData == null || calendarData.isEmpty()) {
+		        System.out.println("No calendar data found");
+		    } else {
+		        System.out.println("Calendar Data: " + calendarData);
+		    }
+		    
+		    model.addAttribute("calendarData", calendarData);
+
+	    // 리스트 데이터
 		List<WelfareVO> clist = service.categoryData(vo);
         model.addAttribute("regionCode", pservice.selectCode("0G"));
         model.addAttribute("likeCode", pservice.selectCode("0L"));

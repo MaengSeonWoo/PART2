@@ -16,7 +16,38 @@
 
 
 <script>
-    $(document).ready(function() {
+		$(document).ready(function() {
+        var calendarEl = document.getElementById('calendar');
+
+        // 데이터를 JSON 문자열로 변환
+        var events = /*[[${calendarData}]]*/ '[]'; 
+        events = JSON.parse(events); // JSON으로 변환
+        console.log(events); // 파싱된 데이터를 출력하여 확인
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listWeek'
+            },
+            editable: true,
+            selectable: true,
+            locale: 'ko',
+            events: events,
+            eventClick: function(info) {
+                var wid = info.event.extendedProps.wid;
+                if (wid) {
+                    const link = '/calendar/detail?wid=' + wid;
+                    window.location.href = link;
+                }
+            }
+        });
+
+        calendar.render();
+    });
+
+/*     $(document).ready(function() {
     	
         var activeTab = sessionStorage.getItem('activeTab');
         if (activeTab) {
@@ -74,7 +105,7 @@
             });
         }
        loadCalendar();
-    });
+    }); */
 </script>
 
 
@@ -182,7 +213,7 @@ body {
 </style>
 </head>
 <body>
-
+[[${calendarData} ]]
 	<div class="container-fluid bg-primary py-5 mb-5 page-header">
 		<div class="container py-5">
 			<div class="row justify-content-center">
