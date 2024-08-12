@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.video.mapper.VideoMapper">
+	
+	<!-- 전체조회 -->
+	<select id="selectVideoAll" resultType="videoVO">
+		SELECT *
+		FROM video
+		ORDER BY video_no DESC
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="selectVideoInfo" resultType="videoVO">
+		SELECT video_no, video_title, link, video_category, link_full, thumb_nail
+		FROM video
+		WHERE video_no = ${videoNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertVideo" parameterType="videoVO">
+		<selectKey keyProperty="videoNo"
+				   resultType="Integer"
+				   order="BEFORE">
+			SELECT NVL(MAX(video_no), + 1
+			FROM video
+		</selectKey>
+		INSERT INTO video
+					(
+					 video_no,
+					 video_title,
+					 link,
+					 link_full,
+					 thumb_nail,
+					 video_category
+					)
+				VALUES
+					(
+					 #{videoNo},
+					 #{videoTitle},
+					 #{link},
+					 REGEXP_SUBSTR(
+					 			#{linkFull}, 'src="([^"]+)"', 1, 1, NULL, 1
+					 			),
+					 'https://img.youtube.com/vi/' ||	
+					 REGEXP_SUBSTR(
+					 			#{thumbNail}, 'embed/([^?]+)', 1, 1, NULL, 1) || '/0.jpg'
+					               )		
+					 #{videoCategory}
+					)
+	</insert>
+</mapper>

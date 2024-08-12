@@ -25,6 +25,6 @@ public interface NoticeMapper {
 	public int plusViewCnt(int viewCnt);
 	
 	// 검색
-	public List<NoticeVO> searchResult();
+	public List<NoticeVO> searchResult(NoticeVO noticeVO);
 	
 }

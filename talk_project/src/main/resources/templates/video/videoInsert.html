@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h3>직업훈련 영상 등록</h3>	
+		<form name="insertForm"
+			  th:action="@{/videoInsert}" method="post"
+			  th:object="${videoInfo}">
+			  <table>
+				  <tr>
+			  		<th>제목</th>
+			  		<td><input type="text" name="videoTitle"></td>
+			  	  </tr>
+			  	  <tr>
+			  		<th>링크주소</th>
+			  		<td><textarea name="link"></textarea></td>
+			  	  </tr>
+			  	  <tr>
+			  	  	<th>풀링크</th>
+			  	  	<td><textarea name="linkFull"></textarea></td>
+			  	  </tr>
+			  	  <tr>
+			  	  	<th>썸네일</th>
+			  	  	<td><textarea name="thumbNail"></textarea></td>
+			  	  </tr>
+			  	   <tr>
+			  	  	<th>비디오카테고리</th>
+			  	  	<td><textarea name="videoCategory"></textarea></td>
+			  	  </tr>
+			  </table>
+		<button type="submit">등록</button>
+		<button type="button" onclick="goList()">취소</button>
+		</form>
+	</div>	
+</body>
+</html>

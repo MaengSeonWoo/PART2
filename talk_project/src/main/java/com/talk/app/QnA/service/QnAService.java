@@ -16,4 +16,6 @@ public interface QnAService {
 	// 수정
 	public Map<String, Object> updateQnA(qnaVO qnavo);
 	
+	// 삭제
+	public int deleteQnA(int qnavo);
 }

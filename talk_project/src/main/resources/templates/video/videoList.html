@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>직업훈련영상</title>
+<style>
+	*{
+		list-style:none;
+	}
+</style>
+</head>
+<body>
+	<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">직업훈련영상</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+	</div>
+
+	<div class="container">
+		<div class="sub_body">
+			<div class="sub_tab">
+				<ul class="tableMode">
+					<li class="col-xs-2 middle  on"><a href="video.asp?tn=tblLectureRoom&writeType=">전체</a></li>
+					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_health">건강</a></li>
+					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_hobby">문화&middot;예술</a></li>
+					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_mind">교양</a></li>
+					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_info">정보미디어</a></li>
+					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_etc">기타</a></li>
+				</ul>
+			</div>
+		</div>
+	
+		<form name="frm" method="post" action="video.asp" >
+			<input type="hidden" name="tn" value="tblLectureRoom">
+			<input type="hidden" name="writeType" value="">
+
+			<div class="col-xs-12 form-group edu_search">
+				<label for="edu_search_item">검색항목</label>
+				<div class="col-sm-2 col-xs-4 search_item">
+					<select id="keyfield" name="keyfield" class="selectpicker show-tick form-control">
+						<option value="subject" >제목</option>
+						<option value="content" >글내용</option>
+					</select>
+				</div>
+									
+			<div class="col-sm-10 col-xs-8 search_item_txt">
+				<label for="search_text"></label>
+				<input type="text" class="form-control" id="keyword" name="keyword" placeholder="검색어를 입력하세요" value="">
+			</div>
+			<div class="edu_search_btn">
+				<label for="edu_search_btn"></label>
+				<input type="submit" class="form-control" id="edu_search_btn" name="edu_search_btn" value="검색하기">
+			</div>
+			</div>
+		</form>	
+		
+		<div class="vList">
+			<th:block th:each="vl : ${videoList}">
+			<ul>
+				<li th:onclick="|location.href='@{/videoInfo(videoNo=${vl.videoNo})}'|">
+					<a th:text="${vl.videoTitle}"></a>
+					<img th:src="${vl.thumbNail}">
+				</li>
+			</ul>
+			</th:block>
+		</div>
+	<!-- end of container -->	
+	</div> 
+		
+
+</body>
+</html>

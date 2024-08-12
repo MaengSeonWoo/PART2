@@ -11,4 +11,6 @@ public interface UploadService {
 	public String imageUpdate(MultipartFile[] uploadFiles, String domainType, Long domainId);
 
 	List<UploadFileVO> selectFilesByDomain(String domainType, Long domainId);
+	
+	public void deleteFiles(String domainType, Long domainId);
 }

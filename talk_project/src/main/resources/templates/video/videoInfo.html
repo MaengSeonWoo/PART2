@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.container{
+		text-align:center;
+		margin-top:40px;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<th:block th:each="vl : ${videoInfo}">
+			<div>
+				<p th:text="${vl.videoNo}"></p>		
+				<iframe width="920" height="505" th:src="${vl.linkFull}" ></iframe>
+			</div>
+			<div>
+				<button type="button" th:onclick="|location.href='@{/videoList}'|">목록</button>
+			</div>
+		</th:block>
+	</div>
+
+</body>
+</html>

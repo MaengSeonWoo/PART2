@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.QnA.mapper.QnAMapper">
+	<!-- 전체 -->
+	<select id="selectQnAAll" resultType="qnaVO">
+		SELECT qna_no,
+			   qna_title,
+			   qna_content,
+			   reg_date,
+			   qna_state,
+			   user_no,
+			   co_user_no
+		 FROM qna
+	</select> 
+	
+	<!-- 단건 -->
+	<select id="selectQnAInfo" resultType="qnaVO">
+		SELECT qna_no,
+			   qna_title,
+			   qna_content,
+			   reg_date,
+			   qna_state,
+			   user_no,
+			   co_user_no
+		FROM qna
+		WHERE qna_no = #{qnaNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertQnAInfo" parameterType="qnaVO">
+	<selectKey keyProperty="qnaNo"
+		       resultType="Integer"
+		       order="BEFORE">
+			SELECT NVL(MAX(qna_no), + 1
+			FROM qna  
+		</selectKey>
+		INSERT INTO qna
+					(
+					 qna_no,
+	           	     qna_title,
+	           	     qna_content,
+	                 reg_date,
+	                 
+					)
+					VALUES
+					(
+					 #{qnaNo},
+					 #{qnaTitle},
+					 #{qnaContent},
+					 sysdate,
+					 
+					)	
+	</insert>
+	
+	
+	<!-- 삭제 -->
+	<delete id="deleteQnAInfo" parameterType="int">
+		DELETE FROM qna
+		WHERE qna_no = #{qnaNo}
+	</delete>
+	
+</mapper>

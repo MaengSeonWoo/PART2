@@ -15,4 +15,8 @@ public class NoticeVO {
 	private Date createDate; // 작성일
 	private int viewCnt; // 조회수
 	private int imNotice; // 중요, 일반 공지
+	
+	private String type; // 검색조건
+	private String keyword; // 검색값
+	
 }

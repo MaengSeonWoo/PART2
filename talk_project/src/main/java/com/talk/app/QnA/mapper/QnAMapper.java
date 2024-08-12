@@ -9,12 +9,18 @@ public interface QnAMapper {
 	public List<qnaVO> selectQnAAll();
 	
 	// 단건조회
-	public qnaVO selectQnAInfo(qnaVO qnaVO);
+	public qnaVO selectQnAInfo(qnaVO qnavo);
 	
-	// 등록
-	public int insertQnAInfo(qnaVO qnaVO);
+	// 등록 
+	public int insertQnAInfo(qnaVO qnavo);
 	
-	// 수정
-	public int updateQnAInfo(qnaVO qnaVO);
+	// 수정 
+	public int updateQnAInfo(qnaVO qnavo);
+	
+	// 삭제 : 조건 - no
+	public int deleteQnAInfo(int qnaNo);
+
+	
+	
 	
 }
