@@ -3,6 +3,8 @@
 	th:fragment="floatFragment">
 	<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/speechkitt.min.js"></script>
 	<style>
 /* 플로팅 메뉴 전체 스타일 */
 .floatMenu {
@@ -191,26 +193,77 @@
 	</div> -->
 
 	<div id="chatbot" class="chatbot-container" style="display: none;">
-		<div class="chatbot-header">
-			<span>손말톡톡</span>
-			<button id="chatbotCloseBtn" class="btn btn-danger btn-sm">X</button>
-		</div>
-		<div class="chatbot-body">
-			<p>무엇을 도와드릴까요?</p>
-		</div>
-		<div class="chatbot-footer">
-			<input type="text" id="chatbotInput" class="form-control"
-				placeholder="메시지 입력">
-			<button id="sttButton" class="btn btn-secondary">
-				<img
-					src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png"
-					alt="STT" width="20px" height="20px">
-			</button>
-			<button id="chatbotSendBtn" class="btn btn-primary">전송</button>
-		</div>
-	</div>
+    <div class="chatbot-header">
+        <span>손말톡톡</span>
+        <button id="chatbotCloseBtn" class="btn btn-danger btn-sm">X</button>
+    </div>
+    <div class="chatbot-body">
+        <p>무엇을 도와드릴까요?</p>
+    </div>
+    <div class="chatbot-footer">
+        <input type="text" id="chatbotInput" class="form-control" placeholder="메시지 입력">
+        <button id="sttButton" class="btn btn-secondary">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png" alt="STT" width="20px" height="20px">
+        </button>
+        <button id="chatbotSendBtn" class="btn btn-primary">전송</button>
+    </div>
+</div>
+<!-- 
+					<div id="analyzedText"></div>
+					<div id="recognizedText"></div> -->
 
+	            <!-- document.getElementById('recognizedText').innerHTML = "Recognized: " + phrases[0]; -->
 	<script>
+
+
+
+	//annyangtest
+	if (annyang) {
+	        const urlMapping = {
+	            '복지': 'http://localhost:8080/calendar/list'
+	        };
+	        // 문장 서버로전송후분석
+	        annyang.addCallback('result', function(phrases) {
+	        	 $('#chatbotInput').val(phrases[0]); // 첫 번째 인식된 문장을 input에 출력
+	            console.log("Recognized phrases: ", phrases);
+	            annyang.debug(); 
+	            fetch('/analyze', {
+	                method: 'POST',
+	                headers: {
+	                    'Content-Type': 'application/json',
+	                },
+	                body: JSON.stringify({ text: phrases[0] }),
+	            })
+	            .then(response => response.json())
+	            .then(data => {
+	            	console.log(data);
+	                document.getElementsByClassName('chat-message user').innerHTML = "Analyzed: " + data;
+					//단어매칭
+	                data.forEach(word => {
+	                    if (urlMapping[word]) {
+	                        window.location.href = urlMapping[word];
+	                    }
+	                });
+	            });
+	        });
+	        
+	        // STT 버튼 클릭 시 annyang 실행
+	        $('#sttButton').on('click', function() {
+	            if (annyang) {
+	                annyang.start(); // annyang 시작
+	            }
+	        });
+	        
+	        annyang.setLanguage('ko');
+	        SpeechKITT.annyang();
+	        SpeechKITT.setStylesheet('//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/themes/flat.css');
+	        SpeechKITT.vroom();
+	    }
+		
+		document.getElementById('skitt-listening-text__instructions').innerHTML = '무엇을 도와드릴까요?'; 
+
+
+	
 		//페이지 상단으로 이동
 		function goTop() {
 			window.scroll(0, 0);
@@ -385,6 +438,10 @@ function disconnect() {
         });
     }
 }
+
+
+
+
 		
 		/* //// 챗봇관련
 

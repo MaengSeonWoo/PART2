@@ -17,8 +17,38 @@
 
 </select>
 
-<select id="selectAll" resultType="com.talk.app.admin.service.WelfareVO">
-	<![CDATA[
+
+<select id="coutAll" resultType="int">
+	SELECT count(*) AS cnt
+	FROM welfare
+	<include refid="critera"></include>
+</select>
+
+
+<select id="selectInfo" resultType="com.talk.app.admin.service.WelfareVO">
+	SELECT  wid
+       			,serv_id
+       			, serv_name
+       			, to_date(start_date,'YYYY-mm-dd') start_date
+				, to_date(end_date,'YYYY-mm-dd') end_date
+       			, biz_dept
+       			, sido
+       			, sgg
+       			, serv_summary
+       			, household
+       			, like_subject
+       			, sup_period
+       			, prov_type
+       			, app_way
+       			, sup_target
+       			, sel_standard
+       			, sal_serv
+FROM welfare
+	WHERE wid=#{wid} 
+</select>
+
+<select id="categoryData"  resultType="com.talk.app.admin.service.WelfareVO">
+	
 	SELECT *
 	FROM (
 	    SELECT 
@@ -61,48 +91,37 @@
 	            sal_serv
 	        FROM 
 	            welfare
-	        ORDER BY 
-	            wid DESC
+	         <include refid="critera"></include>
+	        ORDER BY   wid DESC
 	    )
-	    WHERE 
-	        ROWNUM <= #{pageNum} * #{amount}
+	    WHERE       ROWNUM <![CDATA[ <= ]]> #{pageNum} * #{amount}
 	)
-	WHERE 
-	    rnum > (#{pageNum} - 1) * #{amount}
-	ORDER BY 
-	    wid DESC
-	]]>
+	WHERE 	    rnum > (#{pageNum} - 1) * #{amount}
 </select>
 
-<select id="coutAll" resultType="int">
-	SELECT count(*) AS cnt
-	FROM welfare
-</select>
-
-
-<select id="selectInfo" resultType="com.talk.app.admin.service.WelfareVO">
-	SELECT  wid
-       			,serv_id
-       			, serv_name
-       			, to_date(start_date,'YYYY-mm-dd') start_date
-				, to_date(end_date,'YYYY-mm-dd') end_date
-       			, biz_dept
-       			, sido
-       			, sgg
-       			, serv_summary
-       			, household
-       			, like_subject
-       			, sup_period
-       			, prov_type
-       			, app_way
-       			, sup_target
-       			, sel_standard
-       			, sal_serv
+<select id="calendar" resultType="Map">
+SELECT  wid
+       			,serv_id ||  serv_name as "title"
+       			, to_date(start_date,'YYYY-mm-dd') "start"  
+				, to_date(end_date,'YYYY-mm-dd')  "end"    
 FROM welfare
-	WHERE wid=#{wid} 
-	
-
 </select>
+
+<sql id="critera">
+ <where>
+	          	<if test="sido !=null and sido!='' ">
+	          		sido= #{sido}
+	          	</if>
+	          	<if test="likeSubject !=null and likeSubject.size!=0">
+	          	<foreach item="item" index="index" collection="likeSubject"
+			        open="and  REGEXP_LIKE(like_subject, '" separator="|" close="')" >#{item}</foreach>
+			    </if>
+			    <if test="keyword !=null and keyword!='' ">
+	          		and serv_name like '%'||#{keyword}||'%'
+	          	</if>
+	          </where>
+</sql>
+
 
 
 </mapper>

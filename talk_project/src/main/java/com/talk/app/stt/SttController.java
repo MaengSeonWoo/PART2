@@ -22,7 +22,6 @@ public class SttController {
 	     return "stt/annyang"; // GET 요청 시 반환할 페이지 또는 데이터
 	 }
 	 
-	 
 	 @ResponseBody
 	 @PostMapping("/analyze")
 	    public List<String> analyzeText(@RequestBody Map<String, String> payload) {
