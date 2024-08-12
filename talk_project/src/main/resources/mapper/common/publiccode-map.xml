@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.common.mapper.PublicCodeMapper">
+	<select id="selectCode">
+		SELECT main_code, code_name
+		FROM public_code
+		WHERE code_rule = #{codeRule}
+		ORDER BY main_code
+	</select>
+</mapper>

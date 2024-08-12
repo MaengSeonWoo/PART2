@@ -1,5 +1,6 @@
 package com.talk.app.mypage.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,17 @@ public class CoPostingServiceImpl implements CoPostingService{
 
 	@Override
 	public Map<String, Object> updatePosting(PostingVO postingVO) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		
+		int result = copostingMapper.updatePostingInfo(postingVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", postingVO);
+		
+		return map;
 	}
 
 	@Override

@@ -3,13 +3,7 @@
 <mapper namespace="com.talk.app.login.mapper.FindUserIdMapper">
 	<select id = "FindUserIdInfo" resultType = "String">
 		SELECT user_id
-		FROM (
-			SELECT user_id, tel, user_name
-			FROM users
-			UNION ALL
-			SELECT co_user_id, mgr_tel, mgr_name
-			FROM company_user
-			)
+		FROM loginview
 		WHERE tel = #{Tel}
 		AND user_name = #{userName}
 	</select>

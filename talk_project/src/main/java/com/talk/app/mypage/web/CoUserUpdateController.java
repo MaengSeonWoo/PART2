@@ -49,7 +49,6 @@ public class CoUserUpdateController {
     public String CoUserUpdateForm(@PathVariable String coUserId, Model model) {
         CoUserVO couserVO = new CoUserVO();
         couserVO.setCoUserId(coUserId);
-        log.info("기모찌={}", coUserId);
 
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
         model.addAttribute("couserInfo", findVO);
