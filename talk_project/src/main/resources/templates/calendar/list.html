@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/main/layouts/default_layout}"
 	layout:fragment="Content">
-
+	
 <head>
 <meta charset='utf-8' />
 <title>복지제도 일정</title>
@@ -72,7 +72,7 @@
             });
         }
 
-        loadCalendar();
+        /* loadCalendar(); */
         
         
     });
@@ -211,46 +211,20 @@ body {
 				    <label class="btn btn-outline-info" for="vbtn-radio1" id="regionBtn">지역분류</label>
 				    <div id="regionList" class="btn-group-horizontal" style="display: none;">
 				         <button class="btn btn-outline-info region-btn" data-region="all">전국</button>
-				        <button class="btn btn-outline-info region-btn" data-region="서울특별시">서울특별시</button>
-				        <button class="btn btn-outline-info region-btn" data-region="부산광역시">부산광역시</button>
-				        <button class="btn btn-outline-info region-btn" data-region="대구광역시">대구광역시</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">인천광역시</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시" >광주광역시 24</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">대전광역시 25</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">울산광역시 26</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">세종특별자치시 29</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">경기도 31</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">강원도 32</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">충청북도 33</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">충청남도 34</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">전라북도 35</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">전라남도 36</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">경상북도 37</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">경상남도 38</button>
-				        <button class="btn btn-outline-info region-btn" data-region="인천광역시">제주특별자치도</button>
+				        <button class="btn btn-outline-info region-btn" th:each="region : ${regionCode}" th:data-region="${region.codeName}"  th:text="${region.codeName}">서울특별시</button>
+				        
+				        
 				    </div>
 				
 				    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
 				    <label class="btn btn-outline-info" for="vbtn-radio2">주제분류</label>
     					<div id="interestList" class="btn-group-horizontal" style="display: none;">
-        				<button class="btn btn-outline-info interest-btn">전체</button>
-				        <button class="btn btn-outline-info interest-btn">신체건강</button>
-				        <button class="btn btn-outline-info interest-btn">정신건강</button>
-				        <button class="btn btn-outline-info interest-btn">생활지원</button>
-				        <button class="btn btn-outline-info interest-btn">주거</button>
-				        <button class="btn btn-outline-info interest-btn">일자리</button>
-				        <button class="btn btn-outline-info interest-btn">문화·여가</button>
-				        <button class="btn btn-outline-info interest-btn">안전·위기</button>
-				        <button class="btn btn-outline-info interest-btn">임신·출산</button>
-				        <button class="btn btn-outline-info interest-btn">보육</button>
-				        <button class="btn btn-outline-info interest-btn">교육</button>
-				        <button class="btn btn-outline-info interest-btn">입양·위탁</button>
-				        <button class="btn btn-outline-info interest-btn">보호·돌봄</button>
-				        <button class="btn btn-outline-info interest-btn">서민금융</button>
-				        <button class="btn btn-outline-info interest-btn">법률</button>
+        				<button class="btn btn-outline-info interest-btn" >전체</button>
+				        <button class="btn btn-outline-info interest-btn" th:each="like : ${likeCode}" th:data-like=${like.codeName} th:text="${like.codeName}">신체건강</button>
+				
 				    </div>
 				    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-				    <label class="btn btn-outline-info" for="vbtn-radio3">검색</label>
+				    <label class="btn btn-outline-info vbtn-radio3" for="vbtn-radio3">검색</label>
 				</div>
 
 
@@ -280,11 +254,11 @@ body {
 							<div class="tab-pane fade    pt-3" style="white-space: pre-line"
 								role="tabpanel" id="nav-home" aria-labelledby="nav-home-tab">
 								<div class="sortbox">
-									<form class="d-flex search" role="search">
+									<form class="d-flex search" role="search" id="dataload">
 										<button class="btn btn-outline-success" type="submit">카테고리</button>
-										<input class="form-control me-2" type="search"
+										<input class="form-control me-2" type="search" name="keyword"
 											placeholder="Search" aria-label="Search">
-										<button class="btn btn-outline-success" type="submit">검색</button>
+										<button class="btn btn-outline-success vbtn-radio3" type="button">검색</button>
 									</form>
 									<button type="button" class="btn btn-secondary">정렬</button>
 								</div>
@@ -300,7 +274,7 @@ body {
 										</tr>
 									</thead>
 									<tbody class="table-group-divider">
-										<th:block th:each="c : ${clist}">
+										<th:block th:each="c : ${list}">
 											<tr
 												th:onclick="|location.href='@{/calendar/detail(wid=${c.wid})}'|">
 												<th scope="row">[[ ${c.wid} ]]</th>
@@ -361,7 +335,28 @@ body {
 			</div>
 		</div>
 
+
 <script type="text/javascript">
+
+function search(){
+	$(".vbtn-radio3").on('click',function(){
+		var formdata = $('#dataload');
+		if($("#regionList .active").length>0){
+			formdata.append( `<input name="sido" value="${$("#regionList .active").data("region")}">`   )
+		}
+		if($("#interestList .active").length>0){
+			$.each($("#interestList .active"),function(idx,ele){
+				formdata.append(`<input name="likeSubject" value="${$(ele).data("like")}">`)
+			})
+		}
+		
+		$('#dataload').submit();
+		
+	})
+}
+
+search();
+
 	function goInfo(no) {
 		location.href = `/calendar/list/${no}`;
 	}
