@@ -16,6 +16,7 @@ public class PostingVO {
 	private String coName;
 	// 근무지역
 	private String workRegion;
+	private String workRegionNm;
 	// 모집기간 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
@@ -61,4 +62,5 @@ public class PostingVO {
 	private String workTimeStart;
 	// 퇴근시간
 	private String workTimeEnd;
+
 }

@@ -52,8 +52,10 @@
 			mgr_name = #{mgrName},
 			mgr_email = #{mgrEmail},
 			mgr_tel = #{mgrTel},
-			co_contact = #{coContact},
-			logo_img = #{logoImg}
+			<if test = "logoImg != null and logoImg != ''">
+			logo_img = #{logoImg},
+			</if>
+			co_contact = #{coContact}
 		WHERE co_user_id = #{coUserId}
 	</update>
 </mapper>

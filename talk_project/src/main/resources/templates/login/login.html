@@ -128,17 +128,8 @@
 			<button type="submit" class="loginBtn">로그인</button>
 
 			<br>
-
-				<!-- kakao button -->
-			<div class="text-center">
-			    <a href="https://kauth.kakao.com/oauth/authorize"
-			       th:href="@{https://kauth.kakao.com/oauth/authorize(client_id=${kakaoApiKey}, redirect_uri=${redirectUri}, response_type='code')}">
-			        <img src="/images/kakao_login_medium_narrow.png">
-			    </a>
-			</div>
-
-				<button class="signBtn">회원가입</button>
-				<button class="findInfoBtn">아이디/비밀번호 찾기</button>
+				<button class="signBtn" th:onclick="|location.href='@{/signsel}'|">회원가입</button>
+				<button class="findInfoBtn" th:onclick="|location.href='@{/signsel}'|">아이디/비밀번호 찾기</button>
 		</form>
 		<script>
 		// 아이디 저장
