@@ -1,0 +1,31 @@
+package com.talk.app.mypage.mapper;
+
+import java.util.List;
+
+import com.talk.app.mypage.service.CareerVO;
+import com.talk.app.mypage.service.EduVO;
+import com.talk.app.mypage.service.LicenseVO;
+import com.talk.app.mypage.service.ResumeVO;
+
+public interface ResumeMapper {
+	// 마이페이지 이력서 리스트 조회
+	public List<ResumeVO> selectResumeList(String userId);
+	// 마이페이지 이력서 상세 조회
+	public ResumeVO selectResumeByNo(int resumeNo);
+	// 마이페이지 이력서 등록
+	public int insertResume(ResumeVO resume);
+	// 마이페이지 이력서 삭제
+	public int deleteResume(int resumeNo);
+	// 마이페이지 이력서 수정
+	public int updateResume(ResumeVO resume);
+	
+	// 지원이력서 리스트
+	public List<ResumeVO> selectApplyResumeList(String userId);
+	
+	// 경력사항 조회
+	public List<CareerVO> selectCareers(int resumeNo);
+	// 자격증 조회
+	public List<LicenseVO> selectLicenses(int resumeNo);
+	// 경력사항 조회
+	public List<EduVO> selectEdus(int resumeNo);
+}
