@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/comypage_layout}"
+      layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>채용공고 수정</title>
+</head>
+<body>
+	<div>
+		<h3>채용공고 수정</h3>
+		<form th:object="${copostingInfo}" name="updateForm">
+			<table>
+			<tr>
+				<th>공고제목*</th>
+				<td><input type="text" th:field="*{postingTitle}"></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" th:field="*{coUserNo}"></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" th:field="*{postingNo}"></td>
+			</tr>
+			<tr>
+				<th>근무지역*</th>
+				<td>
+					<select th:field="*{workRegion}">
+						<option value="">지역선택</option>
+						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}" th:selected="${region.mainCode == copostingInfo.workRegion}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>모집기간*</th>
+				<td>
+					<input type="date" th:field="*{startDate}">
+					<input type="date" th:field="*{endDate}">
+				</td>
+			</tr>
+			<tr>
+				<th>업종*</th>
+				<td><input type="text" th:field="*{job}"></td>
+			</tr>
+			<tr>
+				<th>연령*</th> 
+				<td><input type="number" th:field="*{age}">세 이하</td>
+			</tr>
+			<tr>
+				<th>성별*</th>
+				<td>
+						<div th:each="gender : ${genderCode}">
+							<input type="radio" name="gender" th:value="${gender.mainCode}" th:checked="${gender.mainCode == copostingInfo.gender}"> 
+							<span th:text="${gender.codeName}"></span>
+						</div>
+					</td>
+			</tr>
+			<tr>
+				<th>고용형태*</th>
+				<td>
+					<!-- 공통 코드로 고용형태 선택 생성 -->
+					<div th:each="empType : ${empTypeCode}">
+						<input type="radio" name="empType" th:value="${empType.mainCode}" th:checked="${empType.mainCode == copostingInfo.empType}"> 
+						<span th:text="${empType.codeName}"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>근무일*</th>
+				<td><input type="text" th:field="*{workDay}" placeholder="ex)주 5일"></td>
+			</tr>
+			<tr>
+				<th>근무시간*</th>
+				<td><input type="text" th:field="*{workTime}" placeholder="ex)09:00 ~ 18:00"></td>
+			</tr>
+			<tr>
+				<th>급여*</th>
+				<td><input type="number" th:field="*{sal}"></td>
+			</tr>
+			<tr>
+				<th>모집인원*</th>
+				<td><input type="number" th:field="*{party}"></td>
+			</tr>
+			<tr>
+				<th>근무내용*</th>
+				<td><textarea th:field="*{workContent}"></textarea></td>
+			</tr>
+			<tr>
+				<th>우대사항</th>
+				<td><textarea th:field="*{etcContent}"></textarea></td>
+			</tr>
+			<tr>
+				<th>추가내용</th>
+				<td><textarea th:field="*{priContent}"></textarea></td>
+			</tr>
+			</table>
+			<button type="button" id="updateBtn">수정</button>
+		</form>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$('#updateBtn').on('click', copostingUpdateAjax);
+		
+		function copostingUpdateAjax(event){
+			//1) 보낼 데이터 확인
+			let info = getcopostingInfo();
+			
+			//2) AJAX
+			$.ajax('copostingUpdate',{
+				type:'post',
+				contentType : 'application/json',
+				data : JSON.stringify(info)
+			})
+			.done(data => {
+				if(data.result){
+					alert('정상적으로 수정되었습니다.');
+					location.href="copostingList";
+				}else{
+					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+				}
+			})
+			.fail(err => console.log(err));			
+		};
+	
+		function getcopostingInfo(){
+			let formData = $('form[name="updateForm"]').serializeArray();
+			console.log('1) serializeArray', formData);
+			
+			let objData = {};
+			$.each(formData, (idx, input) => {
+				console.log('2) input', idx, input);
+				objData[input.name] = input.value;
+			});
+			
+			console.log('3) objData', objData);
+			return objData;
+		};
+	</script>
+</body>
+</html>

@@ -10,21 +10,21 @@
 <body>
 	<div>
 		<h3>채용공고 등록</h3>
-		<form th:action="@{/copostingInsert}" method="post" name="insertForm">
+		<form th:action="@{/copostingInsert}" method="post" name="insertForm" th:object="${postingVO}">
 			<table>
 			<tr>
 				<td><input type="hidden" name="coUserNo"></td>
 			</tr>
+		
 			<tr>
-				<th>업체명</th>
-				<td><input type="text" name="coName"></td>
+				<th>근무지역*</th>
+				<td><select name="workRegion">
+				<option value="">지역선택
+				<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}">
+				</select></td>
 			</tr>
 			<tr>
-				<th>근무지역</th>
-				<td><input type="text" name="workRegion"></td>
-			</tr>
-			<tr>
-				<th>모집기간</th>
+				<th>모집기간*</th>
 				<td>
 				<input type="date" name="startDate">
 				<input type="date" name="endDate">
@@ -32,39 +32,47 @@
 			</tr>
 			
 			<tr>
-				<th>업종</th>
+				<th>업종*</th>
 				<td><input type="text" name="job"></td>
 			</tr>
 			<tr>
-				<th>연령</th> 
-				<td><input type="text" name="age"></td>
+				<th>연령*</th> 
+				<td><input type="number" name="age">세 이하</td>
 			</tr>
 			<tr>
-				<th>성별</th>
-				<td><input type="text" name="gender"></td>
+				<th>성별*</th>
+				<td>
+				<input type="radio" name="gender" value="E1">남성
+				<input type="radio" name="gender" value="E2">여성
+				<input type="radio" name="gender" value="E3">성별 제한없음
+				</td>
 			</tr>
 			<tr>
-				<th>고용형태</th>
-				<td><input type="text" name="empType"></td>
+				<th>고용형태*</th>
+				<td>
+				<input type="radio" name="empType" value="C1">계약직
+				<input type="radio" name="empType" value="C2">일용직
+				<input type="radio" name="empType" value="C3">정규직
+				</td>
 			</tr>
 			<tr>
-				<th>근무일</th>
-				<td><input type="text" name="workDay"></td>
+				<th>근무일*</th>
+				<td><input type="text" name="workDay" placeholder="ex)주 5일"></td>
 			</tr>
 			<tr>
-				<th>근무시간</th>
-				<td><input type="text" name="workTime"></td>
+				<th>근무시간*</th>
+				<td><input type="text" name="workTime" placeholder="ex)09:00 ~ 18:00"></td>
 			</tr>
 			<tr>
-				<th>급여</th>
-				<td><input type="text" name="sal"></td>
+				<th>급여*</th>
+				<td><input type="number" name="sal"></td>
 			</tr>
 			<tr>
-				<th>모집인원</th>
-				<td><input type="text" name="party"></td>
+				<th>모집인원*</th>
+				<td><input type="number" name="party"></td>
 			</tr>
 			<tr>
-				<th>근무내용</th>
+				<th>근무내용*</th>
 				<td><textarea name="workContent"></textarea></td>
 			</tr>
 			<tr>

@@ -123,8 +123,6 @@ public class SampleService {
     }
     
     
-    
-    
     public void fetchAndUpdateWelfareDetails() throws Exception {
         List<String> servIdList = mapper.getAllServIds();
 

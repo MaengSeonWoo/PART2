@@ -47,7 +47,8 @@ public class UploadServiceImpl implements UploadService {
 
 			String originalName = uploadFile.getOriginalFilename();
 			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);
-
+			log.info("originName={}",originalName);
+			log.info("fileName={}",fileName);
 			// 날짜 폴더 생성
 			String folderPath = makeFolder();
 

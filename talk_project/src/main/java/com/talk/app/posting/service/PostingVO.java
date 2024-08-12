@@ -15,7 +15,8 @@ public class PostingVO {
 	// 업체명
 	private String coName;
 	// 근무지역
-	private String workRegion;
+	private String workRegion; // 근무지역 코드 - G1
+	private String workRegionNm; // workRegion의 코드값에 대응하는 실제 값 - 서울특별시 
 	// 모집기간 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
@@ -28,8 +29,10 @@ public class PostingVO {
 	private int age;
 	// 성별
 	private String gender;
+	private String genderNm; // gender의 코드값에 대응하는 실제 값
 	// 고용형태
 	private String empType;
+	private String empTypeNm; // empType의 코드값에 대응하는 실제 값
 	// 근무시간 일
 	private String workDay;
 	// 근무시간
@@ -61,4 +64,5 @@ public class PostingVO {
 	private String workTimeStart;
 	// 퇴근시간
 	private String workTimeEnd;
+
 }

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace='com.talk.app.mypage.mapper.CoUserUpdateMapper'>
-	
-	
-	<!-- 단건조회 -->
+	<!-- 기업회원 단건조회 -->
 	<select id = "selectCoUserInfo" resultType="CoUserVO">
 		SELECT co_user_no
 			  , co_reg_no
@@ -34,8 +32,9 @@
 			  <!-- FROM company_user
 			  WHERE co_user_id = #{coUserId} -->
 	</select>
-
-	<update id = "updateUserInfo">
+	
+	<!-- 기업회원 정보 수정 -->
+	<update id = "updateCoUserInfo">
 		UPDATE company_user
 		SET co_name = #{coName},
 			industry = #{industry},
@@ -52,8 +51,46 @@
 			mgr_name = #{mgrName},
 			mgr_email = #{mgrEmail},
 			mgr_tel = #{mgrTel},
-			co_contact = #{coContact},
-			logo_img = #{logoImg}
+			<if test = "logoImg != null and logoImg != ''">
+			logo_img = #{logoImg},
+			</if>
+			co_contact = #{coContact}
 		WHERE co_user_id = #{coUserId}
+	</update>
+	
+	<!-- ======================================================================== -->
+	<select id = "selectUserInfo" resultType="UserVO">
+		SELECT USER_NO
+				,USER_NAME
+				,USER_PW
+				,TEL
+				,POST_NO
+				,ADDR
+				,DETAIL_ADDR
+				,EMAIL
+				,BIRTH
+				,HOUSEHOLD
+				,GENDER
+				,USER_ID
+				,AUTHORITY
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
+	
+	<update id = "updateUserInfo">
+		UPDATE users
+		SET user_name = #{userName}
+			<if test = "userPw != null and userPw != ''">
+			,USER_PW = #{userPw}
+			</if>
+			,TEL = #{Tel}
+			,POST_NO = #{postNo}
+			,ADDR = #{addr}
+			,DETAIL_ADDR = #{detailAddr}
+			,EMAIL = #{email}
+			,BIRTH = #{birth}
+			,HOUSEHOLD = #{household}
+			,GENDER = #{gender}
+		WHERE user_id = #{userId}
 	</update>
 </mapper>

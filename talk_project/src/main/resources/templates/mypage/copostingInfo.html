@@ -63,7 +63,7 @@
 			</div>
 			<div class="job-info-row">
 				<div>근무지역</div>
-				<div th:text="${posting.workRegion}">ㅇㅇ시 ㅇㅇㅇㅇ동</div>
+				<div th:text="${posting.workRegionNm}">ㅇㅇ시 ㅇㅇㅇㅇ동</div>
 			</div>
 			<div class="job-info-row">
 				<div>모집기간</div>
@@ -82,11 +82,11 @@
 			</div>
 			<div class="job-info-row">
 				<div>성별</div>
-				<div th:text="${posting.gender}"></div>
+				<div th:text="${posting.genderNm}"></div>
 			</div>
 			<div class="job-info-row">
 				<div>고용형태</div>
-				<div th:text="${posting.empType}"></div>
+				<div th:text="${posting.empTypeNm}"></div>
 			</div>
 			<div class="job-info-row">
 				<div>근무시간</div>
@@ -116,8 +116,9 @@
 				<div th:text="${posting.etcContent}"></div>
 			</div>
 			<div class="btn-container">
-				<button>수정하기</button>
-				<button th:onclick="goList()">목록</button>
+				<button type="button" th:onclick="|location.href='@{/copostingUpdate(postingNo=${posting.postingNo})}'|">수정하기</button>
+				<button type="button" th:onclick="|location.href='@{/copostingList}'|">목록</button>
+				<button type="button" th:onclick="|location.href='@{/copostingDelete(postingNo=${posting.postingNo})}'|">삭제</button>
 			</div>
 		</div>
 	</div>

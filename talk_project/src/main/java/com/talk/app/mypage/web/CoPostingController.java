@@ -2,6 +2,9 @@ package com.talk.app.mypage.web;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.talk.app.common.service.CommonUtil;
+import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.mypage.service.CoPostingService;
 import com.talk.app.posting.service.PostingVO;
 
@@ -21,10 +28,12 @@ public class CoPostingController {
 	private static final Logger log = LoggerFactory.getLogger(CoPostingController.class);
 	
 	private CoPostingService copostingService;
+	private PublicCodeService publiccodeService;
 	
 	@Autowired
-	public CoPostingController(CoPostingService copostingService) {
+	public CoPostingController(CoPostingService copostingService, PublicCodeService publiccodeService) {
 		this.copostingService = copostingService;
+		this.publiccodeService = publiccodeService;
 	}
 	
 	// 마이페이지 채용공고 전체조회
@@ -41,13 +50,11 @@ public class CoPostingController {
 	
 	// 마이페이지 채용공고 단건조회
 	@GetMapping("copostingInfo")
-	public String copostingInfo(@RequestParam(value = "postingNo") Integer postingNo, Model model) {
-        PostingVO postingVO = new PostingVO();
-        postingVO.setPostingNo(postingNo);
+	public String copostingInfo( PostingVO postingVO , Model model) {
         PostingVO findVO = copostingService.postingInfo(postingVO);
         
         model.addAttribute("posting", findVO);
-        log.info("Posting No: {}", postingNo);
+        log.info("Posting No: {}", postingVO.getPostingNo());
 
         return "mypage/copostingInfo";
     }
@@ -75,6 +82,7 @@ public class CoPostingController {
         int coUserNo = copostingService.getCoUserNoById(coUserId);
         postingVO.setCoUserNo(coUserNo);
         model.addAttribute("postingVO", postingVO);
+        model.addAttribute("regionCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
         return "mypage/copostingInsert";
     }
 	// 마이페이지 채용공고 등록 - 처리
@@ -85,14 +93,55 @@ public class CoPostingController {
 //		return "redirect:copostingInfo?postingNo=" + pno;
 //	}
 	@PostMapping("copostingInsert")
-	public String copostingInsertProcess(PostingVO postingVO, Principal principal) {
+	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response) {
 	    // 현재 로그인한 사용자 ID를 가져와서 coUserNo를 설정합니다.
-	    String coUserId = principal.getName();
+	    String coUserId = CommonUtil.getUserId();
 	    int coUserNo = copostingService.getCoUserNoById(coUserId);
 	    postingVO.setCoUserNo(coUserNo); // coUserNo 설정
+	    int pno;
+	   // try {
+	    	pno = copostingService.insertPosting(postingVO);
+	    	return "redirect:copostingInfo?postingNo=" + pno;
+			
+		//} catch (Exception e) {
+			//return "forward:copostingInsert";
+		//}
 
-	    int pno = copostingService.insertPosting(postingVO);
-
-	    return "redirect:copostingInfo?postingNo=" + pno;
+//	    	PrintWriter out;
+//			try {
+//				out = response.getWriter();
+//				out.println("<script>alert('등록오류'); "
+//						+ "history.go(-1);</script> ");
+//				out.flush();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}	   
+	    	
+	    
+	}
+	// 채용공고 수정페이지
+	@GetMapping("copostingUpdate")
+	public String copostingUpdateForm(PostingVO postingVO, Model model) {
+		PostingVO findVO = copostingService.postingInfo(postingVO);
+		model.addAttribute("copostingInfo", findVO);
+		model.addAttribute("regionCode", publiccodeService.selectCode("0G"));
+		model.addAttribute("empTypeCode", publiccodeService.selectCode("0C"));
+		model.addAttribute("genderCode", publiccodeService.selectCode("0E"));
+		
+		return "mypage/copostingUpdate";
+	}
+	
+	// 채용공고 수정처리
+	@PostMapping("copostingUpdate")
+	@ResponseBody
+	public Map<String, Object> copostingUpdateAJAXJSON(@RequestBody PostingVO postingVO){
+		return copostingService.updatePosting(postingVO);
+	}
+	
+	@GetMapping("copostingDelete")
+	public String copostingDelete(@RequestParam Integer postingNo) {
+		copostingService.deletePosting(postingNo);
+		
+		return "redirect:copostingList";
 	}
 }
