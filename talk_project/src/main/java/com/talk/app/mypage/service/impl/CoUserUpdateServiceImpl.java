@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.talk.app.login.service.CoUserVO;
+import com.talk.app.login.service.UserVO;
 import com.talk.app.mypage.mapper.CoUserUpdateMapper;
 import com.talk.app.mypage.service.CoUserUpdateService;
 
@@ -26,7 +27,7 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
 		
-		int result = couserupdateMapper.updateUserInfo(couserVO);
+		int result = couserupdateMapper.updateCoUserInfo(couserVO);
 		if(result == 1) {
 			isSuccessed = true;
 		}
@@ -41,5 +42,31 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	public CoUserVO couserInfo(CoUserVO couserVO) {
 		return couserupdateMapper.selectCoUserInfo(couserVO);
 	}
+
+	
+	// ===================================================================================
+	
+	// 일반회원 단건조회
+	@Override
+	public UserVO userInfo(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return couserupdateMapper.selectUserInfo(userVO);
+	}
+	
+	@Override
+	public Map<String, Object> updateUser(UserVO userVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		
+		int result = couserupdateMapper.updateUserInfo(userVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", userVO);
+		
+		return map;
+	}
+	
 	
 }

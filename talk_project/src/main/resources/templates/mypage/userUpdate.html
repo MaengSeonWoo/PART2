@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/mypage_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 로드 -->
+</head>
+<body>
+	<div>
+		<h3>일반회원 정보 수정</h3>
+		<form th:object="${userInfo}" name="UserUpdateForm">
+			<table>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" th:field="*{userName}"></td>
+				</tr>
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" th:field="*{userId}" readonly></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="userPw" id="pw1" class="pw"></td>
+				</tr>
+				<tr>
+					<th>비밀번호확인</th>
+					<td><input type="password" name="checkPw" id="pw2" class="pw">
+						<font id="Pw_status" size="2"></font></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input type="text" th:field="*{email}"></td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td><input type="text" th:field="*{Tel}"></td>
+				</tr>
+				<tr>
+					<th>우편번호</th>
+					<td>
+						<input type="text" th:field="*{postNo}">
+						<input type="button" id="post_button" value="우편번호 찾기" onclick="openZipSearch();">
+					</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td><input type="text" th:field="*{addr}"></td>
+				</tr>
+				<tr>
+					<th>상세주소</th>
+					<td><input type="text" th:field="*{detailAddr}"></td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td><input type="text" th:field="*{birth}"></td>
+				</tr>
+				<tr>
+					<th>가구상황</th>
+					<td><input type="text" th:field="*{household}"></td>
+				</tr>
+				<tr>
+					<th>성별</th>
+					<td>
+					<input type="radio" name="gender" value="E1" th:checked = "${#strings.isEmpty(userInfo.gender)} and ${userInfo.gender} == 'E1'">남성
+					<input type="radio" name="gender" value="E2" th:checked = "${#strings.isEmpty(userInfo.gender)} and ${userInfo.gender} == 'E2'">여성
+					</td>
+				</tr>
+			</table>
+			<button type="button" id="updateBtn">수정</button>
+		</form>
+	</div>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+	$('#updateBtn').on('click', UserUpdateAjax);
+	
+	function UserUpdateAjax(event) {
+        let formData = new FormData($('form[name="UserUpdateForm"]')[0]);
+
+        $.ajax({
+            url: '/userUpdate', // 서버 URL을 확인
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        })
+        .done(data => {
+            if (data.result) {
+                alert('정상적으로 수정되었습니다.');
+                location.href = "/";
+            } else {
+                alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+            }
+        })
+        .fail(err => console.log(err));
+    }
+
+	function getUserInfo(){
+	    let formData = $('form[name="UserUpdateForm"]').serializeArray();
+	    let objData = {};
+	    $.each(formData, (idx, input) => {
+	        objData[input.name] = input.value;
+	    });
+	    return objData; // JSON 문자열로 변환하지 않음
+	}
+	
+	// 비밀번호 일치 여부
+	$('.pw').keyup(function(){
+		let pass1 = $("#pw1").val();
+		let pass2 = $("#pw2").val();
+		
+		if (pass1 !== "" || pass2 !== "") {
+			if (pass1 === pass2) {
+				$("#Pw_status").html('일치').css('color', 'green');
+			} else {
+				$("#Pw_status").html('불일치').css('color', 'red');
+			}
+		}
+	});
+	
+	// 우편번호
+	function openZipSearch() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            var addr = '';
+	            if (data.userSelectedType === 'R') {
+	                addr = data.roadAddress;
+	            } else {
+	                addr = data.jibunAddress;
+	            }
+
+	            $("#postNo").val(data.zonecode);
+	            $("#addr").val(addr);
+	            $("#detailAddr").val(""); // 초기화
+	            $("#detailAddr").focus();
+	        }
+	    }).open();
+	}
+	
+	document.querySelector('form[name="UserUpdateForm"]').addEventListener('submit', function(event) {
+		event.preventDefault();
+		
+		if(UserUpdateForm.userPw.value !== UserUpdateForm.checkPw.value){
+			alert('비밀번호가 일치하지 않습니다');
+			UserUpdateForm.userPw.focus(); // 수정된 부분
+			return;
+		}
+		this.submit();
+	});
+	</script>
+</body>
+</html>

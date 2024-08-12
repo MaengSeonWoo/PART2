@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.common.service.CommonUtil;
@@ -81,7 +82,7 @@ public class CoPostingController {
         int coUserNo = copostingService.getCoUserNoById(coUserId);
         postingVO.setCoUserNo(coUserNo);
         model.addAttribute("postingVO", postingVO);
-        model.addAttribute("regionCode", publiccodeService.selectCode("0G"));
+        model.addAttribute("regionCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
         return "mypage/copostingInsert";
     }
 	// 마이페이지 채용공고 등록 - 처리
@@ -124,6 +125,8 @@ public class CoPostingController {
 		PostingVO findVO = copostingService.postingInfo(postingVO);
 		model.addAttribute("copostingInfo", findVO);
 		model.addAttribute("regionCode", publiccodeService.selectCode("0G"));
+		model.addAttribute("empTypeCode", publiccodeService.selectCode("0C"));
+		model.addAttribute("genderCode", publiccodeService.selectCode("0E"));
 		
 		return "mypage/copostingUpdate";
 	}
@@ -133,5 +136,12 @@ public class CoPostingController {
 	@ResponseBody
 	public Map<String, Object> copostingUpdateAJAXJSON(@RequestBody PostingVO postingVO){
 		return copostingService.updatePosting(postingVO);
+	}
+	
+	@GetMapping("copostingDelete")
+	public String copostingDelete(@RequestParam Integer postingNo) {
+		copostingService.deletePosting(postingNo);
+		
+		return "redirect:copostingList";
 	}
 }

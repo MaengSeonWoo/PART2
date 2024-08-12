@@ -58,7 +58,7 @@ public class CoPostingServiceImpl implements CoPostingService{
 	@Override
 	public int deletePosting(int postingNo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return copostingMapper.deletePostingInfo(postingNo);
 	}
 	
 	@Override
