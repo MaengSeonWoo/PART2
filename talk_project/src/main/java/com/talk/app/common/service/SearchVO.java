@@ -12,4 +12,7 @@ public class SearchVO {
 	private String searchCondition;
 	private String sido;
 	private List<String> likeSubject;
+	private String start;
+	private String end;
+	private String title;
 }
