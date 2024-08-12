@@ -19,7 +19,11 @@ import com.talk.app.notice.service.NoticeService;
 import com.talk.app.notice.service.NoticeVO;
 
 import lombok.RequiredArgsConstructor;
-
+/*
+ * 작성자 : 최석원
+ * 작성일자: 2024-08-08
+ * 공지사항 관리 : 조회, 등록, 수정, 삭제
+ */
 
 
 
@@ -32,13 +36,13 @@ public class NoticeController {
 	private final UploadService uploadServcie;
 	
 	// 전체조회
-	@GetMapping("noticeList")
-	public String NoticeList(Model model) {
-		List<NoticeVO> list = noticeService.noticeList();
-		model.addAttribute("noticeList", list);
-		
-		return "notice/noticeList";
-	}
+	/*
+	 * @GetMapping("noticeList") public String NoticeList(Model model) {
+	 * List<NoticeVO> list = noticeService.noticeList();
+	 * model.addAttribute("noticeList", list);
+	 * 
+	 * return "notice/noticeList"; }
+	 */
 	
 	// 단건조회
 	@GetMapping("noticeInfo")
@@ -78,7 +82,8 @@ public class NoticeController {
 	// 수정 처리
 	@PostMapping("noticeUpdate")
 	@ResponseBody
-	public Map<String, Object> noticeUpdateProcess(@RequestBody NoticeVO noticeVO){
+	public Map<String, Object> noticeUpdateProcess(NoticeVO noticeVO, @RequestPart MultipartFile[] uploadFiles){
+		uploadServcie.imageUpdate(uploadFiles, "Notice", (long) noticeVO.getNoticeNo());
 		return noticeService.updateNotice(noticeVO);
 	}
 	
@@ -86,10 +91,19 @@ public class NoticeController {
 	// 삭제
 	@GetMapping("noticeDelete")
 	public String noticeDelete(@RequestParam Integer noticeNo) {
+		uploadServcie.deleteFiles("Notice", (long) noticeNo);		
 		noticeService.deleteNotice(noticeNo);
 		return "redirect:noticeList";
 	}
-	
 
+	// 검색
+	@GetMapping("noticeList")
+	public String search(NoticeVO noticeVO, Model model) {
+		List<NoticeVO> searchList = noticeService.serachNotice(noticeVO);
+		model.addAttribute("noticeList", searchList);
+		
+		return "notice/noticeList";
+		
+	}
 	
 }

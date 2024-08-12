@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <title>WebSocket Chat</title>
+    <!-- 부트스트랩 라이브러리 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- SockJS 및 STOMP 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <!-- jQuery 라이브러리 -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        #chat {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+        .my-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+        }
+        .their-message {
+            background-color: #e9ecef;
+            align-self: flex-start;
+        }
+        #input-section {
+            display: flex;
+            justify-content: space-between;
+        }
+        #message-input {
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="chat" class="d-flex flex-column"></div>
+    <div id="input-section">
+        <input id="message-input" type="text" class="form-control" placeholder="Enter message"/>
+        <button id="send-button" class="btn btn-primary ml-2">Send</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    let stompClient = null;
+
+    function connect() {
+        console.log("Connecting to WebSocket...");
+        const socket = new SockJS('/chatbot-websocket');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log("Connected: " + frame);
+            stompClient.subscribe('/topic/public', function (messageOutput) {
+                console.log("Received message: " + messageOutput.body);
+                showMessage(JSON.parse(messageOutput.body), false);
+            });
+        });
+    }
+
+    function sendMessage() {
+        const messageInput = $("#message-input").val().trim();
+        if (messageInput) {
+            console.log("Sending message: " + messageInput);
+            showMessage({ content: messageInput }, true);
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
+                sender: "User", // 유저 네임을 동적으로 넣을 수 있습니다.
+                content: messageInput,
+                type: 'CHAT'
+            }));
+            $("#message-input").val(""); // 입력창 초기화
+        }
+    }
+
+    function showMessage(message, isMyMessage) {
+        const messageElement = $("<div>").addClass("message").text(message.content);
+        if (isMyMessage) {
+            messageElement.addClass("my-message text-right");
+        } else {
+            messageElement.addClass("their-message");
+        }
+        $("#chat").append(messageElement);
+        $("#chat").scrollTop($("#chat")[0].scrollHeight); // 스크롤을 최신 메시지로 이동
+    }
+
+    // "보내기" 버튼 클릭 이벤트 바인딩
+    $(document).ready(function () {
+        console.log("Document ready!");
+        connect();
+        $("#send-button").click(function () {
+            console.log("Send button clicked!");
+            sendMessage();
+        });
+
+        // 엔터 키 이벤트 바인딩
+        $("#message-input").keypress(function (e) {
+            if (e.which === 13) { // 엔터 키를 눌렀을 때
+                sendMessage();
+            }
+        });
+    });
+</script>
+</body>
+</html>

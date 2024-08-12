@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/comypage_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>기업회원 정보 수정</title>
+</head>
+<body>
+	<div>
+		<h3>게시글 수정</h3>
+		<form th:object="${couserInfo}" name="CoUserUpdateForm" enctype="multipart/form-data">
+			<table>
+				<tr>
+					<td>
+						<input type="hidden" th:field="*{coUserNo}" readonly> 
+					</td>
+				</tr>
+				<tr>
+					<th>사업자등록번호</th>
+					<td>
+						<input type="text" th:field="*{coRegNo}" readonly> 
+					</td>
+				</tr>
+				<tr>
+					<th>기업명</th>
+					<td><input type="text" th:field="*{coName}"></td>
+				</tr>
+				<tr>
+					<th>업종</th>
+					<td><input type="text" th:field="*{industry}"></td>
+				</tr>
+				<tr>
+					<th>대표자</th>
+					<td><input type="text" th:field="*{repName}"></td>
+				</tr>
+				<tr>
+					<th>설립연도</th>
+					<td><input type="text" th:field="*{estYear}" readonly></td>
+				</tr>
+				<tr>
+					<th>우편번호</th>
+					<td><input type="text" th:field="*{coPostNo}" id="CoPostNo">
+						<input type="button" id="post_button" value="우편번호 찾기"
+						onclick="openZipSearch();"></td>
+				</tr>
+				<tr>
+					<th>기본주소</th>
+					<td><input type="text" th:field="*{coAddr}" id="CoAddr"></td>
+				</tr>
+				<tr>
+					<th>상세주소</th>
+					<td><input type="text" th:field="*{coDetailAddr}" id="CoDetailAddr"></td>
+				</tr>
+				<tr>
+					<th>주요사업</th>
+					<td><input type="text" th:field="*{mainBusiness}"></td>
+				</tr>
+				<tr>
+					<th>행정구역</th>
+					<td><input type="text" th:field="*{region}"></td>
+				</tr>
+				<tr>
+					<th>기타사항</th>
+					<td><input type="text" th:field="*{etc}"></td>
+				</tr>
+			</table>
+			<br>
+			<hr>
+			<br>
+			<table>
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" th:field="*{coUserId}" readonly></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="coUserPw" id="pw1" class="pw"></td>
+				</tr>
+				<tr>
+					<th>비밀번호확인</th>
+					<td><input type="password" name="checkPw" id="pw2" class="pw">
+						<font id="Pw_status" size="2"></font></td>
+				</tr>
+				<tr>
+					<th>담당자 이름</th>
+					<td><input type="text" th:field="*{mgrName}"></td>
+				</tr>
+				<tr>
+					<th>담당자 이메일</th>
+					<td><input type="text" th:field="*{mgrEmail}"></td>
+				</tr>
+				<tr>
+					<th>담당자 연락처</th>
+					<td><input type="text" th:field="*{mgrTel}"></td>
+				</tr>
+				<tr>
+					<th>기업 연락처</th>
+					<td><input type="text" th:field="*{coContact}"></td>
+				</tr>
+				<tr>
+					<th>기업 로고</th>
+					<td><input type="file" id="files" name="uploadFiles" multiple></td>
+				</tr>
+			</table>
+			<button type="button" id="updateBtn">수정</button>
+		</form>
+	</div>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		$('#updateBtn').on('click', CoUserUpdateAjax);
+		
+		function CoUserUpdateAjax(event){
+			//1) 보낼 데이터 확인
+			let info = getCouserInfo();
+			let formData = new FormData($('form[name="CoUserUpdateForm"]')[0]);
+			//2) AJAX
+			$.ajax({
+				url : '/CoUserUpdate',
+				type:'POST',
+				contentType : 'application/json',
+				data: formData,
+		        processData: false, 
+		        contentType: false
+			})
+			.done(data => {
+				if(data.result){
+					alert('정상적으로 수정되었습니다.');
+					location.href="/";
+				}else{
+					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+				}
+			})
+			.fail(err => console.log(err));			
+		};
+	
+		function getCouserInfo(){
+		    let formData = $('form[name="CoUserUpdateForm"]').serializeArray();
+		    let objData = {};
+		    $.each(formData, (idx, input) => {
+		        objData[input.name] = input.value;
+		    });
+		    return objData; // JSON 문자열로 변환하지 않음
+		}
+		
+		//비밀번호 일치 여부
+		$('.pw').keyup(function(){
+			let pass1 = $("#pw1").val();
+			let pass2 = $("#pw2").val();
+			
+			if (pass1 !== "" || pass2 !== "") {
+				if (pass1 === pass2) {
+					$("#Pw_status").html('일치').attr('color', 'green');
+				} else {
+					$("#Pw_status").html('불일치').attr('color', 'red');
+				}
+			}
+		});
+		
+		//우편번호
+		function openZipSearch() {
+		    new daum.Postcode({
+		    	oncomplete: function(data) {     
+				var addr = ''; 
+				if (data.userSelectedType === 'R') { 
+					addr = data.roadAddress;
+				} else {
+					addr = data.jibunAddress;
+				}
+
+				$("#CoPostNo").val(data.zonecode);
+				$("#CoAddr").val(addr);
+				$("#CoDetailAddr").val("");
+				$("#CoDetailAddr").focus();
+		        }
+		    }).open();
+		}
+		
+		document.querySelector('form[name="CoUserUpdateForm"]').addEventListener('submit', function(event) {
+			event.preventDefault();
+			
+			if(CoUserUpdateForm.coUserPw.value != CoUserUpdateForm.checkPw.value){
+				alert('비밀번호가 일치하지 않습니다')
+				CoUserUpdateForm.coUserPw.focus();
+				return;
+			}
+			this.submit();
+		});
+	</script>
+</body>
+</html>

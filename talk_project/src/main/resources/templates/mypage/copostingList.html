@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/comypage_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>채용공고 조회</title>
+</head>
+<body>
+	<h3>게시판 목록</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>공고번호</th>
+					<th>기업명</th>
+					<th>채용공고 제목</th>
+					<th>등록일자</th>
+					<th>등록여부</th>
+					<!-- yy년MM월dd일 -->
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="posting : ${copostingList}"> <!--/* model.addAttribute("boards", list) 이름 똑같이 */-->
+					<!--/* <tr th:name="${sts.index}"> */-->
+					<tr th:onclick="|location.href='@{/copostingInfo(postingNo=${posting.postingNo})}'|">
+						<td th:text="${posting.postingNo}"></td>
+						<td th:text="${posting.coName}"></td>
+						<td th:text="${posting.postingTitle}"></td>
+						<td th:text="${posting.startDate}"></td>
+						<td th:text="${posting.postingStatus}"></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+</body>
+</html>

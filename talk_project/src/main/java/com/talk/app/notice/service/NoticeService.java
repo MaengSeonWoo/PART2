@@ -25,5 +25,6 @@ public interface NoticeService {
 	public int plusViewCnt(int noticeVO);
 	
 	// 검색
-	public List<NoticeVO> serachNotice(String noticeVO);
+	public List<NoticeVO> serachNotice(NoticeVO noticeVO);
+
 }

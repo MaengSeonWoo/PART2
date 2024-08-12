@@ -121,12 +121,81 @@
 				<label for="userPw">비밀번호</label> <input type="password" id="userPw"
 					name="userPw" required />
 			</div>
+
+			<input type="checkbox" id="idSaveCheck">아이디 저장하기
+			
+
 			<button type="submit" class="loginBtn">로그인</button>
+
 			<br>
+
+				<!-- kakao button -->
+			<div class="text-center">
+			    <a href="https://kauth.kakao.com/oauth/authorize"
+			       th:href="@{https://kauth.kakao.com/oauth/authorize(client_id=${kakaoApiKey}, redirect_uri=${redirectUri}, response_type='code')}">
+			        <img src="/images/kakao_login_medium_narrow.png">
+			    </a>
+			</div>
+
 				<button class="signBtn">회원가입</button>
 				<button class="findInfoBtn">아이디/비밀번호 찾기</button>
 		</form>
-	</div> 
+		<script>
+		// 아이디 저장
+		$(document).ready(function(){
+			  
+		     
+		    var key = getCookie("key");
+		    $("#userId").val(key); 
+		      
+		    if($("#userId").val() != ""){
+		        $("#idSaveCheck").attr("checked", true); 
+		    }
+		      
+		    $("#idSaveCheck").change(function(){ 
+		        if($("#idSaveCheck").is(":checked")){ 
+		            setCookie("key", $("#userId").val(), 7); 
+		        }else{ 
+		            deleteCookie("key");
+		        }
+		    });
+		      
+		    
+		    $("#userId").keyup(function(){ 
+		        if($("#idSaveCheck").is(":checked")){ 
+		            setCookie("key", $("#userId").val(), 7); 
+		        }
+		    });
+		});
+		  
+		function setCookie(cookieName, value, exdays){
+		    var exdate = new Date();
+		    exdate.setDate(exdate.getDate() + exdays);
+		    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+		    document.cookie = cookieName + "=" + cookieValue;
+		}
+		  
+		function deleteCookie(cookieName){
+		    var expireDate = new Date();
+		    expireDate.setDate(expireDate.getDate() - 1);
+		    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+		}
+		  
+		function getCookie(cookieName) {
+		    cookieName = cookieName + '=';
+		    var cookieData = document.cookie;
+		    var start = cookieData.indexOf(cookieName);
+		    var cookieValue = '';
+		    if(start != -1){
+		        start += cookieName.length;
+		        var end = cookieData.indexOf(';', start);
+		        if(end == -1)end = cookieData.length;
+		        cookieValue = cookieData.substring(start, end);
+		    }
+		    return unescape(cookieValue);
+		}
+		</script>
+	</div>
 	
 </body>
 <script>

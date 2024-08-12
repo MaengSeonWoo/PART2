@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/comypage_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+        .job-info-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .job-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .job-info-header span {
+            font-weight: bold;
+            color: red;
+        }
+
+        .job-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .job-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<div class="job-info-container">
+			<div class="job-info-header">
+				<p th:text="${login}"></p>
+				<h4>채용 정보</h4>
+				<span th:text="${posting.postingStatus}">구인중</span>
+			</div>
+			<div class="job-info-row">
+				<div>업체명</div>
+				<div th:text="${posting.coName}">주식회사 000</div>
+			</div>
+			<div class="job-info-row">
+				<div>근무지역</div>
+				<div th:text="${posting.workRegion}">ㅇㅇ시 ㅇㅇㅇㅇ동</div>
+			</div>
+			<div class="job-info-row">
+				<div>모집기간</div>
+				<div>
+					<span th:text="${#dates.format(posting.startDate, 'yyyy-MM-dd')}">2024-07-30</span>
+					~ <span th:text="${#dates.format(posting.endDate, 'yyyy-MM-dd')}">2024-08-07</span>
+				</div>
+			</div>
+			<div class="job-info-row">
+				<div>업종</div>
+				<div th:text="${posting.job}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>연령</div>
+				<div th:text="${posting.age}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>성별</div>
+				<div th:text="${posting.gender}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>고용형태</div>
+				<div th:text="${posting.empType}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>근무시간</div>
+				<div>
+					<span th:text="${posting.workDay}"></span> <span
+						th:text="${posting.workTime}"></span>
+				</div>
+			</div>
+			<div class="job-info-row">
+				<div>급여</div>
+				<div th:text="${posting.sal}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>모집인원</div>
+				<div th:text="${posting.party} + 명"></div>
+			</div>
+			<div class="job-info-row">
+				<div>근무내용</div>
+				<div th:text="${posting.workContent}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>우대사항</div>
+				<div th:text="${posting.priContent}"></div>
+			</div>
+			<div class="job-info-row">
+				<div>추가내용</div>
+				<div th:text="${posting.etcContent}"></div>
+			</div>
+			<div class="btn-container">
+				<button>수정하기</button>
+				<button th:onclick="goList()">목록</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

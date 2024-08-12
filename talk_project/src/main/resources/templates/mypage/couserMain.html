@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/comypage_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지 메인</title>
+</head>
+<body>
+	<div>
+		<h3>기업회원 정보</h3>
+		<table>
+			<tr>
+				<th>기업로고</th>
+				<td th:each="company_user : ${company_user}">
+                    <img style="height: 300px; width: 400px;"
+                         th:src="@{/images/{fileName}(fileName=${company_user.filePath})}" />
+                </td>
+			</tr>
+			<tr>
+				<th>회사명</th>
+				<td>[[ ${company_user.coName} ]]</td>
+			</tr>
+			<tr>
+				<th>대표</th>
+				<td>[[ ${company_user.repName} ]]</td>
+			</tr>
+			<tr>
+				<th>지역</th>
+				<td style="height: 100px; width: 200px;">
+				[[ ${company_user.region} ]]</td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<!-- /images/cat.jpg -->
+				<!-- <td><img style="height: 300px; width: 400px;"
+				th:src="|${#httpServletRequest.getContextPath()}/images/${board.image}|"></td> -->
+				<td>[[ ${company_user.coAddr} ]]</td>
+			</tr>
+			<tr>
+				<th>창립연도</th> <!-- yyyy/MM/dd -->
+				<td>[[ ${#dates.format(company_user.estYear, 'yyyy/MM/dd')} ]]</td>
+			</tr>
+			<tr>
+				<th>회사 전화번호</th>
+				<td style="height: 100px; width: 200px;">
+				[[ ${company_user.coContact} ]]</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

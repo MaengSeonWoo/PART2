@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.calendar.mapper.CalendarMapper">
+
+
+<select id="selectCalendar" resultType="com.talk.app.admin.service.WelfareVO">
+	SELECT wid
+				,serv_id
+				,serv_name
+				,to_date(start_date,'YYYY-mm-dd') start_date
+				,to_date(end_date,'YYYY-mm-dd') end_date
+				,sido
+				,sgg
+				,like_subject
+	FROM welfare
+	ORDER BY  wid desc
+
+</select>
+
+<select id="selectAll" resultType="com.talk.app.admin.service.WelfareVO">
+	<![CDATA[
+	SELECT *
+	FROM (
+	    SELECT 
+	        ROWNUM rnum, 
+	        wid, 
+	        serv_id, 
+	        serv_name, 
+	        TO_DATE(start_date, 'YYYY-MM-DD') start_date,
+	        TO_DATE(end_date, 'YYYY-MM-DD') end_date,
+	        biz_dept, 
+	        sido, 
+	        sgg, 
+	        serv_summary, 
+	        household, 
+	        like_subject, 
+	        sup_period, 
+	        prov_type, 
+	        app_way, 
+	        sup_target, 
+	        sel_standard, 
+	        sal_serv
+	    FROM (
+	        SELECT 
+	            wid, 
+	            serv_id, 
+	            serv_name, 
+	            start_date, 
+	            end_date, 
+	            biz_dept, 
+	            sido, 
+	            sgg, 
+	            serv_summary, 
+	            household, 
+	            like_subject, 
+	            sup_period, 
+	            prov_type, 
+	            app_way, 
+	            sup_target, 
+	            sel_standard, 
+	            sal_serv
+	        FROM 
+	            welfare
+	        ORDER BY 
+	            wid DESC
+	    )
+	    WHERE 
+	        ROWNUM <= #{pageNum} * #{amount}
+	)
+	WHERE 
+	    rnum > (#{pageNum} - 1) * #{amount}
+	ORDER BY 
+	    wid DESC
+	]]>
+</select>
+
+<select id="coutAll" resultType="int">
+	SELECT count(*) AS cnt
+	FROM welfare
+</select>
+
+
+<select id="selectInfo" resultType="com.talk.app.admin.service.WelfareVO">
+	SELECT  wid
+       			,serv_id
+       			, serv_name
+       			, to_date(start_date,'YYYY-mm-dd') start_date
+				, to_date(end_date,'YYYY-mm-dd') end_date
+       			, biz_dept
+       			, sido
+       			, sgg
+       			, serv_summary
+       			, household
+       			, like_subject
+       			, sup_period
+       			, prov_type
+       			, app_way
+       			, sup_target
+       			, sel_standard
+       			, sal_serv
+FROM welfare
+	WHERE wid=#{wid} 
+	
+
+</select>
+
+
+</mapper>

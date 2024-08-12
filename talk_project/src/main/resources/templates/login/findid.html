@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>아이디 찾기</title>
+</head>
+<body>
+	<div>
+		<form th:action="@{/findIdResult}" method="post" name="findIdForm">
+			<table>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" name="userName"></td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td><input type="text" name="Tel">
+				</tr>
+			</table>
+			<button type="submit">아이디 찾기</button>
+		</form>
+	</div>
+</body>
+</html>

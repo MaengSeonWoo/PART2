@@ -40,7 +40,7 @@
 			  	    <tr>
 			  			<th>내용</th>
 			  			<td>
-			  				<input type="text" th:field="*{noticeContent}">
+			  				<textarea th:field="*{noticeContent}"></textarea>
 			  			</td>
 			  	    </tr>
 			   	    <tr>
@@ -59,13 +59,14 @@
 		
 		function noticeUpdateAjax(event){
 			//1) 보낼 데이터 확인
-			let info = getNoticeInfo();
+			let info = new FormData(document.updateForm);
 			
 			//2) AJAX
 			$.ajax('noticeUpdate',{
 				type:'post',
-				contentType : 'application/json',
-				data : JSON.stringify(info)
+				processData : false,
+				contentType : false,
+				data : info
 			})
 			.done(data => {
 				if(data.result){
@@ -79,7 +80,7 @@
 		};
 		
 		function getNoticeInfo(){
-			let formData= $('form[name="updateForm"]').serializeArray();
+			let formData= new FormData(document.updateForm);
 			console.log('1) serializeArray', formData);
 			
 			let objData = {};

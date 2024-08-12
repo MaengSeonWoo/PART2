@@ -30,8 +30,14 @@
 	<div class="container">
 		<h3>공지사항 목록</h3>
 		<form action="/noticeList" method="get">
-			<input type="search" name="searchValue">
-			<button type="submit">검색</button>
+			<fieldset>
+				<select name="type">
+					<option value="T" th:selected="${noticeVO.type}=='T'">글 제목</option>				
+					<option value="C" th:selected="${noticeVO.type}=='C'">글 내용</option>				
+				</select>
+			</fieldset>
+			<input type="text" name="keyword" th:value="${noticeVO.keyword}" >
+			<button type="submit">검색</button>	
 		</form>	
 		<table class="table">
 			<thead>
@@ -103,18 +109,10 @@ function importantNotice(){
 }
 importantNotice();
 
-/* function colorChange(){
-	for(let i=0; i<imNotice.length; i++){
-		if(imNotice[i].innerHTML ='<공지>'){
-			let change = imNotice[i].innerHTML;	
-		}
-		return chagne;
-	}
-	console.log('aa');
-	change.style.color="red";
+function search(){
+	document.querySelector('input[name="keyword"]').select();
 }
 
-colorChange(); */
-
+search();
 </script>
 </html>

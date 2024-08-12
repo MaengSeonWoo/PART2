@@ -64,8 +64,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<NoticeVO> serachNotice(String noticeVO) {
-		return noticeMapper.searchResult();
+	public List<NoticeVO> serachNotice(NoticeVO noticeVO) {
+		return noticeMapper.searchResult(noticeVO);
 	}
 
 

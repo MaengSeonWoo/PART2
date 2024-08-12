@@ -16,18 +16,6 @@
 	object-fit: cover; /* 이미지를 잘라내지 않고 채웁니다 */
 }
 
-.floatMenu {
-	background-color: pink;
-	width:100px;
-	height:300px;
-	display:flex;
-	flex-direction: column;
-	align-items:center;
-	justify-content:center;
-	float:right;
-	z-index:99;
-}
-
 </style>
 </head>
 <body>
@@ -190,51 +178,13 @@
 			</div>
 		</div>
 	</div>
+
+	 
+    <script>
+    
+    </script>
 	
-<div class=floatMenu>
-	<div>
-		<button type="button" class="moveTop" onclick="goTop()">TOP</button>
-		<button type="button" class="viewPlus" onclick="zoomPlus()">+</button>
-		<button type="button" class="viewMinus" onclick="zoomMinus()">-</button>
-		<button type="button">
-			<img src="https://c1.klipartz.com/pngpicture/358/1024/sticker-png-black-balloon-speech-balloon-online-chat-user-interface-blackandwhite-thumbnail.png" 
-			 width="50px" height="50px"
-			alt="" onclick="">
-		</button>
-	</div>
-</div>
+
 </body>
-<script>
-	function goTop(){
-		window.scroll(0,0);
-	}
-	
-	let zoom = 100;
-	
-	function zoomPlus(){
-		zoom = zoom + 20;
-		
-		if(zoom >= 200){
-			zoom = 200;
-		}
-		zooms();
-	}
-	
-	function zoomMinus(){
-		zoom = zoom - 20;
-		
-		if(zoom <= 70){
-			zoom = 70;
-		}
-		zooms();
-	}
-	
-	function zooms(){
-		document.body.style.zoom = zoom + '%';
-		
-	}
-	
-	
-	
-</script>
+
 </html>

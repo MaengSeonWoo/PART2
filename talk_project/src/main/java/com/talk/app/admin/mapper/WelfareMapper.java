@@ -1,9 +1,9 @@
 package com.talk.app.admin.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.talk.app.admin.service.WelfareVO;
 
@@ -27,5 +27,15 @@ public interface WelfareMapper {
 	public int updateWelfare(WelfareVO vo);
 	
 	public int deleteWelfare(int wid);
+
+	public int updateWelfareDetails(@Param("servId") String servId,
+						            @Param("startDate") String startDate,
+						            @Param("endDate") String endDate,
+						            @Param("appWay") String appWay,
+						            @Param("supTarget") String supTarget,
+						            @Param("salServ") String salServ,
+						            @Param("selStandard") String selStandard);
+
+	public List<String> getAllServIds();
 	
 }

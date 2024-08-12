@@ -19,5 +19,8 @@ public interface QnAMapper {
 	
 	// 삭제 : 조건 - no
 	public int deleteQnAInfo(int qnaNo);
+
+	
+	
 	
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>복지상세</title>
+</head>
+<body>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10 text-center">
+					<h1 class="display-3 text-white animated slideInDown">복지제도 일정</h1>
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+							<li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+							<li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+
+<div class="page_tits">
+            <h3>게시판 관리</h3>
+            <p class="path"><strong>현재 위치 :</strong> <span>게시판 관리</span> <span>리스트형</span> <span>상세정보</span></p>
+        </div>
+
+        <div class="content">
+            <section>
+                <table class="tb tb_row">
+                    <colgroup>
+                        <col style="width:10%;" /><col style="width:23%;" /><col style="width:10%;" /><col style="width:23%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">정책 번호</th>
+                            <td th:text="${detail.servId}"></td>
+
+                            <th scope="row">시행시작일</th>
+                            <td>[[ ${detail.startDate} ]]</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">제목</th>
+                            <td>[[ ${detail.servName } ]]</td>
+
+                            <th scope="row">지역 </th>
+                            <td colspan="3">[[ ${detail.sido} ]] , [[ ${detail.sgg} ]]</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">담당부서</th>
+                            <td colspan="3">[[ ${detail. bizDept} ]]</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">내용</th>
+                            <td colspan="3">[[ ${detail. provType} ]]  /  [[ ${detail. supPeriod} ]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="btn_set">
+                    <a th:href="@{/}" class="btns btn_bdr4 btn_mid">수정</a>
+                    <button type="button" class="btns btn_bdr1 btn_mid">삭제</button>
+                    <a th:href="@{/}" class="btns btn_bdr3 btn_mid">뒤로</a>
+                </p>
+            </section>
+        </div> <!--/* .content */-->
+
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>

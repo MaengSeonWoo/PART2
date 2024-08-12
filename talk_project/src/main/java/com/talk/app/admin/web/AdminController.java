@@ -29,7 +29,6 @@ public class AdminController {
 	public String main(Model model) {
 		return "admin/main";
 	}
-	
 	//복지목록
 	@GetMapping("welfare")
 	public String welfare(Model model) {
@@ -37,7 +36,6 @@ public class AdminController {
 		model.addAttribute("welfare",list);
 		return "admin/welfare";
 	}
-	
 	//복지상세
 	@GetMapping("detail")
 	public String welfareDetail(WelfareVO vo, Model model) {
@@ -45,20 +43,17 @@ public class AdminController {
 		model.addAttribute("detail",findvo);
 		return "admin/info";
 	}
-	
 	//새글페이지
 	@GetMapping("new")
 	public String newPost() {
 		return "admin/write";
 	}
-	
 	//새글입력
 	@PostMapping("new")
 	public String newPosting(WelfareVO vo) {
 		int wid = service.welfareInsert2(vo);
 		return "redirect:detail?wid=" + wid;
 	}
-	
 	//수정페이지
 	@GetMapping("update")
 	public String updatePost(WelfareVO vo, Model model) {
@@ -66,13 +61,13 @@ public class AdminController {
 		model.addAttribute("welfare",findVO);
 		return "admin/update";
 	}
-	
+	//수정처리
 	@PostMapping("update")
 	@ResponseBody
 	public Map<String,Object> updatePosting(@RequestBody WelfareVO vo) {
 		return service.welfareUpdate(vo);
 	}
-	
+	//삭제
 	@GetMapping("delete")
 	public String welfareDelete(@RequestParam Integer wid) {
 		service.welfareDelete(wid);

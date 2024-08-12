@@ -21,7 +21,7 @@
             	<a th:href="@{/qna}" class="nav-item nav-link">Q&A</a>
             	<a th:href="@{/noticeList}" class="nav-item nav-link">공지사항</a>
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
+                <a th:href="@{/CoUserMain}" class="nav-item nav-link">마이페이지</a>
                 <a href="courses.html" class="nav-item nav-link">Courses</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -31,7 +31,7 @@
                         <a href="404.html" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a th:href="@{/calendar/list}" class="nav-item nav-link">복지제도 일정</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">
                 <form action="/search" method="get" class="d-flex">
