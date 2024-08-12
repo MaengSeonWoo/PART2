@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/comypage_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>이력서 관리</title>
+</head>
+<body>
+	<div class="container mt-5">
+		<!-- 1. 회사에 제출한 이력서 -->
+		<div class="card mb-4">
+			<div class="card-header bg-primary text-white">회사에 제출한 이력서</div>
+			<div class="card-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>이력서 제목</th>
+							<th>지원회사</th>
+							<th>지원일자</th>
+							<th>조작</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${alist}">
+							<td th:text="${item.resumeTitle}">이력서 제목</td>
+							<td th:text="${item.coName}">지원회사</td>
+							<td th:text="${item.applyDate}">지원일자</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-info">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<nav>
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled"><a class="page-link">«</a></li>
+						<li class="page-item active"><a class="page-link">1</a></li>
+						<li class="page-item"><a class="page-link">2</a></li>
+						<li class="page-item"><a class="page-link">3</a></li>
+						<li class="page-item"><a class="page-link">4</a></li>
+						<li class="page-item"><a class="page-link">5</a></li>
+						<li class="page-item"><a class="page-link">»</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+		<!-- 2. 나의 이력서 -->
+		<div class="card mb-4">
+			<div class="card-header bg-secondary text-white">나의 이력서</div>
+			<div class="card-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>이력서 제목</th>
+							<th>작성일자</th>
+							<th>조작</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${rlist}">
+							<td th:text="${item.resumeTitle}">이력서 제목</td>
+							<td th:text="${item.createDate}">작성일자</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-warning">삭제</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<nav>
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled"><a class="page-link">«</a></li>
+						<li class="page-item active"><a class="page-link">1</a></li>
+						<li class="page-item"><a class="page-link">2</a></li>
+						<li class="page-item"><a class="page-link">3</a></li>
+						<li class="page-item"><a class="page-link">4</a></li>
+						<li class="page-item"><a class="page-link">5</a></li>
+						<li class="page-item"><a class="page-link">»</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+		<!-- 3. 이력서 등록 버튼 -->
+		<div class="d-grid gap-2 col-6 mx-auto">
+			<a href="#" class="btn btn-success btn-block">이력서 등록</a>
+		</div>
+	</div>
+</body>
+</html>
