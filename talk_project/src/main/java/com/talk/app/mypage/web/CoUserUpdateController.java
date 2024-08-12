@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.talk.app.common.service.UploadService;
 import com.talk.app.login.service.CoUserVO;
+import com.talk.app.login.service.UserVO;
 import com.talk.app.mypage.service.CoUserUpdateService;
 
 import lombok.RequiredArgsConstructor;
@@ -92,4 +94,43 @@ public class CoUserUpdateController {
 
         return updateResult;
     }
+    
+    // ======================================================================================================
+    
+    // 일반회원 요약정보
+    @GetMapping("userMain")
+    public String userInfo(Model model, Principal principal) {
+        String userId = principal.getName(); // 로그인된 유저의 아이디
+        UserVO userVO = new UserVO();
+        userVO.setUserId(userId);
+        log.info(userId);
+
+        UserVO findVO = couserupdateService.userInfo(userVO);
+        model.addAttribute("users", findVO);
+        model.addAttribute("userId", userId); // userId를 모델에 추가
+
+        return "mypage/userMain";
+    }
+        
+     // 일반회원 수정 페이지
+        @GetMapping("userUpdate/{userId}")
+        public String UserUpdateForm(@PathVariable String userId, Model model) {
+            UserVO userVO = new UserVO();
+            userVO.setUserId(userId);
+
+            UserVO findVO = couserupdateService.userInfo(userVO);
+            model.addAttribute("userInfo", findVO);
+
+
+        return "mypage/userUpdate";
+    }
+        @PostMapping("userUpdate")
+        @ResponseBody
+        public Map<String, Object> userUpdateProcess(
+        	@ModelAttribute UserVO userVO,
+            @RequestPart(value = "uploadFiles", required = false) MultipartFile[] uploadFiles) {
+
+            // 파일 업로드 처리 및 사용자 정보 업데이트 로직 수행
+            return couserupdateService.updateUser(userVO);
+        }
 }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-            layout:decorate="~{common/main/layouts/comypage_layout}"
-            layout:fragment="Content">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/comypage_layout}"
+      layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>채용공고 수정</title>
 </head>
 <body>
 	<div>
@@ -13,82 +13,91 @@
 		<form th:object="${copostingInfo}" name="updateForm">
 			<table>
 			<tr>
-				<td><input type="hidden" name="coUserNo"></td>
+				<th>공고제목*</th>
+				<td><input type="text" th:field="*{postingTitle}"></td>
 			</tr>
 			<tr>
-				<td><input type="hidden" name="postingNo"></td>
+				<td><input type="hidden" th:field="*{coUserNo}"></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" th:field="*{postingNo}"></td>
 			</tr>
 			<tr>
 				<th>근무지역*</th>
-				<td><select name="workRegion">
-				<option value="">지역선택
-				<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}">
-				</select></td>
+				<td>
+					<select th:field="*{workRegion}">
+						<option value="">지역선택</option>
+						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}" th:selected="${region.mainCode == copostingInfo.workRegion}"></option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>모집기간*</th>
 				<td>
-				<input type="date" name="startDate">
-				<input type="date" name="endDate">
+					<input type="date" th:field="*{startDate}">
+					<input type="date" th:field="*{endDate}">
 				</td>
 			</tr>
-			
 			<tr>
 				<th>업종*</th>
-				<td><input type="text" name="job"></td>
+				<td><input type="text" th:field="*{job}"></td>
 			</tr>
 			<tr>
 				<th>연령*</th> 
-				<td><input type="number" name="age">세 이하</td>
+				<td><input type="number" th:field="*{age}">세 이하</td>
 			</tr>
 			<tr>
 				<th>성별*</th>
 				<td>
-				<input type="radio" name="gender" value="E1">남성
-				<input type="radio" name="gender" value="E2">여성
-				<input type="radio" name="gender" value="E3">성별 제한없음
-				</td>
+						<div th:each="gender : ${genderCode}">
+							<input type="radio" name="gender" th:value="${gender.mainCode}" th:checked="${gender.mainCode == copostingInfo.gender}"> 
+							<span th:text="${gender.codeName}"></span>
+						</div>
+					</td>
 			</tr>
 			<tr>
 				<th>고용형태*</th>
 				<td>
-				<input type="radio" name="empType" value="C1">계약직
-				<input type="radio" name="empType" value="C2">일용직
-				<input type="radio" name="empType" value="C3">정규직
+					<!-- 공통 코드로 고용형태 선택 생성 -->
+					<div th:each="empType : ${empTypeCode}">
+						<input type="radio" name="empType" th:value="${empType.mainCode}" th:checked="${empType.mainCode == copostingInfo.empType}"> 
+						<span th:text="${empType.codeName}"></span>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>근무일*</th>
-				<td><input type="text" name="workDay" placeholder="ex)주 5일"></td>
+				<td><input type="text" th:field="*{workDay}" placeholder="ex)주 5일"></td>
 			</tr>
 			<tr>
 				<th>근무시간*</th>
-				<td><input type="text" name="workTime" placeholder="ex)09:00 ~ 18:00"></td>
+				<td><input type="text" th:field="*{workTime}" placeholder="ex)09:00 ~ 18:00"></td>
 			</tr>
 			<tr>
 				<th>급여*</th>
-				<td><input type="number" name="sal"></td>
+				<td><input type="number" th:field="*{sal}"></td>
 			</tr>
 			<tr>
 				<th>모집인원*</th>
-				<td><input type="number" name="party"></td>
+				<td><input type="number" th:field="*{party}"></td>
 			</tr>
 			<tr>
 				<th>근무내용*</th>
-				<td><textarea name="workContent"></textarea></td>
+				<td><textarea th:field="*{workContent}"></textarea></td>
 			</tr>
 			<tr>
 				<th>우대사항</th>
-				<td><textarea name="etcContent"></textarea></td>
+				<td><textarea th:field="*{etcContent}"></textarea></td>
 			</tr>
 			<tr>
 				<th>추가내용</th>
-				<td><textarea name="priContent"></textarea></td>
+				<td><textarea th:field="*{priContent}"></textarea></td>
 			</tr>
-		</table>
+			</table>
 			<button type="button" id="updateBtn">수정</button>
 		</form>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		$('#updateBtn').on('click', copostingUpdateAjax);
 		
@@ -114,7 +123,7 @@
 		};
 	
 		function getcopostingInfo(){
-			let formData= $('form[name="updateForm"]').serializeArray();
+			let formData = $('form[name="updateForm"]').serializeArray();
 			console.log('1) serializeArray', formData);
 			
 			let objData = {};

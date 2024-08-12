@@ -31,17 +31,17 @@ public class SignController {
 	}
 	
 	@GetMapping("/signInsert")
-	public String signInsertForm(Model model) {
+	public String signInsertForm() {
 		return "sign/signInsert";
 	}
 	
 	@PostMapping("/signInsert")
 	public String signInsertProcess(UserVO userVO) {
-		int uno = signService.insertSign(userVO);
+		signService.insertSign(userVO);
 		return "redirect:login";
 	}
 	
-	@RequestMapping("/checkUserId")
+	@PostMapping("/checkUserId")
 	@ResponseBody
 	public Map<String, String> process(@RequestParam String userId) {
 		Map<String, String> mapAjax = new HashMap<>();

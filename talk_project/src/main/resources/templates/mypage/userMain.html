@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/mypage_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지 메인</title>
+</head>
+<body>
+	<div>
+		<h3>일반회원 정보</h3>
+		<table>
+			<tr>
+				<th>이름</th>
+				<td>[[ ${users.userName} ]]</td>
+			</tr>
+			<tr>
+				<th>아이디</th>
+				<td>[[ ${users.userId} ]]</td>
+			</tr>
+			<tr>
+				<th>연락처</th>
+				<td>[[ ${users.Tel} ]]</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

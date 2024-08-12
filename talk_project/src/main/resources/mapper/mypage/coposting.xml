@@ -21,8 +21,8 @@
 			   , end_date
 			   , job
 			   , age
-			   , gender
-			   , emp_type
+			   , get_codename(gender) as gender_nm
+			   , get_codename(emp_type) as emp_type_nm
 			   , work_day
                , worktime_start
                , worktime_end
@@ -112,8 +112,14 @@
 		    , party = #{party}
 		    , work_content = #{workContent}
 		    , etc_content = #{etcContent}
-		    , posting_no = #{postingNo}
-		    , co_user_no = #{coUserNo}
+	<!-- 	    , posting_no = #{postingNo}
+		    , co_user_no = #{coUserNo} -->
 		    , posting_title = #{postingTitle}
+		   WHERE posting_no = #{postingNo}
 	</update>
+	
+	<delete id = "deletePostingInfo" parameterType = "int">
+		DELETE FROM posting
+		WHERE posting_no = #{postingNo}
+	</delete>
 </mapper>

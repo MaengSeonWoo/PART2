@@ -29,7 +29,7 @@ public class SpringSecurityConfig {
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginPage("/login") // 로그인 페이지 설정
+                .loginPage("/login") // 로그인 페이지 설정 
                 .usernameParameter("userId")
                 .passwordParameter("userPw")
                 .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉션 설정
