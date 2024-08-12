@@ -5,12 +5,12 @@
 	<select id = "getUserInfo" resultType="UserVO">
 	SELECT *
 	FROM (
-		SELECT user_id, user_pw, authority
-		FROM users
-		UNION ALL
-		SELECT co_user_id, co_user_pw, authority
-		FROM company_user
-		)
-		WHERE user_id = #{id}
+			SELECT user_id, user_pw, authority
+			FROM users
+			UNION ALL
+			SELECT co_user_id, co_user_pw, authority
+			FROM company_user
+			)
+	WHERE user_id = #{id}
 	</select>
 </mapper>

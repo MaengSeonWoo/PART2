@@ -16,9 +16,11 @@
 		SELECT posting_status
 			   , c.co_name
 			   , work_region
+			   , get_codename(work_region) as work_region_nm
 			   , start_date
 			   , end_date
-			   , job, age
+			   , job
+			   , age
 			   , gender
 			   , emp_type
 			   , work_day
@@ -90,4 +92,28 @@
 			    #{postingTitle}
 		)
 	</insert>
+	
+	<update id = "updatePostingInfo">
+		UPDATE posting
+		SET
+			posting_status = #{postingStatus}
+			, co_name = #{coName}
+		    , work_region = #{workRegion}
+		    , start_date = #{startDate}
+		    , end_date = #{endDate}
+		    , job = #{job}
+		    , age = #{age}
+		    , gender = #{gender}
+		    , emp_type = #{empType}
+		    , work_day = #{workDay}
+		    , worktime_start = #{workTimeStart}
+		    , worktime_end = #{workTimeEnd}
+		    , sal = #{sal}
+		    , party = #{party}
+		    , work_content = #{workContent}
+		    , etc_content = #{etcContent}
+		    , posting_no = #{postingNo}
+		    , co_user_no = #{coUserNo}
+		    , posting_title = #{postingTitle}
+	</update>
 </mapper>

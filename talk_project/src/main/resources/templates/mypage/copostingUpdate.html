@@ -9,13 +9,15 @@
 </head>
 <body>
 	<div>
-		<h3>채용공고 등록</h3>
-		<form th:action="@{/copostingInsert}" method="post" name="insertForm" th:object="${postingVO}">
+		<h3>채용공고 수정</h3>
+		<form th:object="${copostingInfo}" name="updateForm">
 			<table>
 			<tr>
 				<td><input type="hidden" name="coUserNo"></td>
 			</tr>
-		
+			<tr>
+				<td><input type="hidden" name="postingNo"></td>
+			</tr>
 			<tr>
 				<th>근무지역*</th>
 				<td><select name="workRegion">
@@ -84,8 +86,46 @@
 				<td><textarea name="priContent"></textarea></td>
 			</tr>
 		</table>
-			<button type="submit">등록</button>
+			<button type="button" id="updateBtn">수정</button>
 		</form>
 	</div>
+	<script>
+		$('#updateBtn').on('click', copostingUpdateAjax);
+		
+		function copostingUpdateAjax(event){
+			//1) 보낼 데이터 확인
+			let info = getcopostingInfo();
+			
+			//2) AJAX
+			$.ajax('copostingUpdate',{
+				type:'post',
+				contentType : 'application/json',
+				data : JSON.stringify(info)
+			})
+			.done(data => {
+				if(data.result){
+					alert('정상적으로 수정되었습니다.');
+					location.href="copostingList";
+				}else{
+					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+				}
+			})
+			.fail(err => console.log(err));			
+		};
+	
+		function getcopostingInfo(){
+			let formData= $('form[name="updateForm"]').serializeArray();
+			console.log('1) serializeArray', formData);
+			
+			let objData = {};
+			$.each(formData, (idx, input) => {
+				console.log('2) input', idx, input);
+				objData[input.name] = input.value;
+			});
+			
+			console.log('3) objData', objData);
+			return objData;
+		};
+	</script>
 </body>
 </html>
