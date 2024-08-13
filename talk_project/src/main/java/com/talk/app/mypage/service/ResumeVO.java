@@ -3,17 +3,20 @@ package com.talk.app.mypage.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
 public class ResumeVO {
 	// 이력서 번호
-	private Long resumeNo;
+	private Integer resumeNo;
 	// 이력서 제목
 	private String resumeTitle;
 	// 이름
 	private String resumeName;
 	// 생년월일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birth;
 	// 주소
 	private String addr;
@@ -24,6 +27,7 @@ public class ResumeVO {
 	// 자기소개서
 	private String produce;
 	// 작성일자
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 	// 회원번호
 	private int userNo;
@@ -33,10 +37,12 @@ public class ResumeVO {
 	// 1대다 VO 리스트
 	private List<CareerVO> careers;
 	private List<EduVO> edus;
-	private List<LicenseVO> licences;
+	private List<LicenseVO> licenses;
 	
 	// 지원 이력서
 	private Integer applyNo;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date applyDate;
 	private String applyState;
 	private int postingNo;

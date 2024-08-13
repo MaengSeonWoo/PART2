@@ -8,11 +8,11 @@ public interface ResumeService {
 	// 지원이력서 리스트
 	public List<ResumeVO> applyResumeList(String userId);
 	// 이력서 상세조회
-	public ResumeVO resumeInfo(int resumeNo);
+	public ResumeVO resumeInfo(Integer resumeNo, String userId);
 	// 이력서 등록
 	public void saveResume(ResumeVO resume);
 	// 이력서 삭제
-	public void editResume(int resumeNo);
+	public void editResume(Integer resumeNo);
 	// 이력서 수정
 	public void removeResume(ResumeVO resume);
 }

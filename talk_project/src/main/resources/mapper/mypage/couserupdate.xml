@@ -24,13 +24,13 @@
 			  , co_contact
 			  , authority
 			  , logo_img
-			  , file_path
+			  , del_status
 			  <!-- , file_path -->
-			  FROM company_user c JOIN files f
+			  <!-- FROM company_user c JOIN files f
 			  ON c.co_user_no = f.domain_id
-			  WHERE co_user_id = #{coUserId}
-			  <!-- FROM company_user
 			  WHERE co_user_id = #{coUserId} -->
+			  FROM company_user
+			  WHERE co_user_id = #{coUserId}
 	</select>
 	
 	<!-- 기업회원 정보 수정 -->
@@ -58,6 +58,29 @@
 		WHERE co_user_id = #{coUserId}
 	</update>
 	
+	<!-- 기업회원 탈퇴 -->
+	<update id="updateCoUserStatus">
+	    UPDATE company_user
+	    SET del_status = 1
+	    WHERE co_user_id = #{coUserId}
+	</update>
+	
+	<!-- 기업회원 탈퇴 상태 업데이트 -->
+    <update id="cancelCoUserStatus">
+        UPDATE company_user
+        SET del_status = 0
+        WHERE co_user_id = #{coUserId}
+    </update>
+	
+	<!-- 사용자가 탈퇴할 수 있는지 확인(posting_status가 M1일때 탈퇴 불가능) -->
+	<select id="checkPostingStatus" resultType="boolean">
+	    SELECT COUNT(*)
+		FROM posting p JOIN company_user c
+		ON p.co_user_no = c.co_user_no
+		WHERE co_user_id = #{coUserId}
+		AND posting_status = 'M1'
+	</select>
+	
 	<!-- ======================================================================== -->
 	<select id = "selectUserInfo" resultType="UserVO">
 		SELECT USER_NO
@@ -73,6 +96,7 @@
 				,GENDER
 				,USER_ID
 				,AUTHORITY
+				,del_status
 		FROM users
 		WHERE user_id = #{userId}
 	</select>

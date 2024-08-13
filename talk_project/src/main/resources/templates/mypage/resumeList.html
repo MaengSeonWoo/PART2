@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/comypage_layout}"
-	layout:fragment="Content">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
+
 <head>
-<meta charset="UTF-8">
-<title>이력서 관리</title>
+	<meta charset="UTF-8">
+	<title>이력서 상세조회</title>
 </head>
+
 <body>
 	<div class="container mt-5">
 		<!-- 1. 회사에 제출한 이력서 -->
@@ -23,14 +23,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="item : ${alist}">
-							<td th:text="${item.resumeTitle}">이력서 제목</td>
-							<td th:text="${item.coName}">지원회사</td>
-							<td th:text="${item.applyDate}">지원일자</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-info">조회</button>
-							</td>
-						</tr>
+						<th:block th:each="item : ${alist}">
+							<input type="hidden" th:value="${item.resumeNo}">
+							<tr>
+								<td th:text="${item.resumeTitle}">이력서 제목</td>
+								<td th:text="${item.coName}">지원회사</td>
+								<td th:text="${item.applyDate}">지원일자</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
+								</td>
+							</tr>
+							<th:block>
 					</tbody>
 				</table>
 				<nav>
@@ -57,16 +60,23 @@
 							<th>이력서 제목</th>
 							<th>작성일자</th>
 							<th>조작</th>
+							<th>조작</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="item : ${rlist}">
-							<td th:text="${item.resumeTitle}">이력서 제목</td>
-							<td th:text="${item.createDate}">작성일자</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-warning">삭제</button>
-							</td>
-						</tr>
+						<th:block th:each="item : ${rlist}">
+							<input type="hidden" th:value="${item.resumeNo}">
+							<tr>
+								<td th:text="${item.resumeTitle}">이력서 제목</td>
+								<td th:text="${item.createDate}">작성일자</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-warning">삭제</button>
+								</td>
+							</tr>
+						</th:block>
 					</tbody>
 				</table>
 				<nav>
@@ -88,5 +98,26 @@
 			<a href="#" class="btn btn-success btn-block">이력서 등록</a>
 		</div>
 	</div>
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function (e) {
+			e.preventDefault();
+			document.querySelectorAll('.resumeInfoHandler').forEach((val, idx) => {
+				// console.log(idx, val);
+
+				val.addEventListener('click', goInfo);
+			})
+
+
+
+			function goInfo() {
+				console.log(this.parentElement.parentElement.previousElementSibling.value);
+				let rNo = this.parentElement.parentElement.previousElementSibling.value
+				location.href = `/userMain/resume/${rNo}`
+
+			}
+		})
+
+	</script>
 </body>
+
 </html>

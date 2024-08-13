@@ -12,10 +12,18 @@ public interface CoUserUpdateService {
 	// 기업회원정보 수정
 	public Map<String, Object> updateCoUser(CoUserVO couserVO);
 	
+	// 기업회원 탈퇴
+	public String deleteCoUser(String coUserId);
+	
+	// 기업회원 탈퇴취소
+	Map<String, Object> cancelCoUser(CoUserVO couserVO);
+	
 	// =======================================================================
 	
 	// 일반회원 단건조회
 	public UserVO userInfo(UserVO userVO);
+	
+	 UserVO getUserInfo(UserVO userVO); // 일반 회원 정보 조회
 	
 	// 일반회원정보 수정
 	public Map<String, Object> updateUser(UserVO userVO);
