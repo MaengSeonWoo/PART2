@@ -4,8 +4,12 @@ package com.talk.app.mypage.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.talk.app.mypage.mapper.ResumeMapper;
+import com.talk.app.mypage.service.CareerVO;
+import com.talk.app.mypage.service.EduVO;
+import com.talk.app.mypage.service.LicenseVO;
 import com.talk.app.mypage.service.ResumeService;
 import com.talk.app.mypage.service.ResumeVO;
 
@@ -45,8 +49,37 @@ public class ResumeServiceImpl implements ResumeService{
 	}
 
 	@Override
-	public void editResume(Integer resumeNo) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public void editResume(ResumeVO resumeVO) {
+		// 이력서 기본 정보 업데이트
+        resumeMapper.updateResume(resumeVO);
+        
+        // 기존 학력, 경력, 자격증 삭제
+        resumeMapper.deleteEduByNo(resumeVO.getResumeNo());
+        resumeMapper.deleteCareerByNo(resumeVO.getResumeNo());
+        resumeMapper.deleteLicenseByNo(resumeVO.getResumeNo());
+
+        // 새로운 학력, 경력, 자격증 삽입
+        if (resumeVO.getEdus() != null) {
+            for (EduVO edu : resumeVO.getEdus()) {
+                edu.setResumeNo(resumeVO.getResumeNo());
+                resumeMapper.insertEdu(edu);
+            }
+        }
+
+        if (resumeVO.getCareers() != null) {
+            for (CareerVO career : resumeVO.getCareers()) {
+                career.setResumeNo(resumeVO.getResumeNo());
+                resumeMapper.insertCareer(career);
+            }
+        }
+
+        if (resumeVO.getLicenses() != null) {
+            for (LicenseVO license : resumeVO.getLicenses()) {
+                license.setResumeNo(resumeVO.getResumeNo());
+                resumeMapper.insertLicense(license);
+            }
+        }
 		
 	}
 

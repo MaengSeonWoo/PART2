@@ -210,6 +210,71 @@
         }
     }
     
+    document.querySelector(".btn-primary").addEventListener("click", function() {
+        const resume = {
+            resumeNo: document.querySelector('input[name="resumeNo"]').value,
+            resumeName: document.querySelector('input[th\\:value="${resume.resumeName}"]').value,
+            birth: document.querySelector('input[th\\:value="${#dates.format(resume.birth, \'yyyy-MM-dd\')}"]').value,
+            addr: document.querySelector('input[th\\:value="${resume.addr}"]').value,
+            tel: document.querySelector('input[th\\:value="${resume.tel}"]').value,
+            email: document.querySelector('input[th\\:value="${resume.email}"]').value,
+            careers: [],
+            edus: [],
+            licenses: []
+        };
+
+        // 학력사항 수집
+        const eduRows = document.querySelectorAll('#educationTable tbody tr');
+        eduRows.forEach(row => {
+            const edu = {
+                school: row.querySelector('input[placeholder="학교명"]').value,
+                major: row.querySelector('input[placeholder="전공"]').value,
+                graduation: row.querySelector('input[type="month"]').value
+            };
+            resume.edus.push(edu);
+        });
+
+        // 경력사항 수집
+        const careerRows = document.querySelectorAll('#careerTable tbody tr');
+        careerRows.forEach(row => {
+            const career = {
+                workPlace: row.querySelector('input[placeholder="근무처"]').value,
+                role: row.querySelector('input[placeholder="직위/업무내용"]').value,
+                startDate: row.querySelector('input[type="date"]').value,
+                endDate: row.querySelector('input[type="date"]').value
+            };
+            resume.careers.push(career);
+        });
+
+        // 자격증 수집
+        const licenseRows = document.querySelectorAll('#certificationTable tbody tr');
+        licenseRows.forEach(row => {
+            const license = {
+                getDate: row.querySelector('input[type="date"]').value,
+                licenseName: row.querySelector('input[placeholder="자격증명"]').value,
+                licenseCompany: row.querySelector('input[placeholder="시행처"]').value
+            };
+            resume.licenses.push(license);
+        });
+
+        // 데이터를 서버로 전송
+        fetch('/resume/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(resume)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("이력서가 성공적으로 업데이트되었습니다.");
+            } else {
+                alert("업데이트 중 오류가 발생했습니다.");
+            }
+        });
+    });
+    
     
     
 </script>

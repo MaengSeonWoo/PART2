@@ -34,11 +34,11 @@ public interface ResumeMapper {
 	
 	///// 수정
 	// 경력사항 삭제
-	public void deleteCareer(int resumeNo);
+	public void deleteCareerByNo(int resumeNo);
 	// 자격증 삭제
-	public void deleteLicense(int resumeNo);
+	public void deleteLicenseByNo(int resumeNo);
 	// 학력사항 삭제
-	public void deleteEdu(int resumeNo);
+	public void deleteEduByNo(int resumeNo);
 	
 	// 경력사항 등록
 	public void insertCareer(CareerVO careerVO);
