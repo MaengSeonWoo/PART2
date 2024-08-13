@@ -61,23 +61,23 @@
                     <div class="profile-image" style="background-image: url('profile-image.png');"></div>
                 </td>
                 <th>이름</th>
-                <td><input type="text" class="form-control" th:value="${resume.resumeName}"></td>
+                <td><input type="text" class="form-control" th:value="${resume.resumeName}" id="resumeName"></td>
             </tr>
             <tr>
                 <th>생년월일</th>
-                <td><input type="date" class="form-control" th:value="${#dates.format(resume.birth, 'yyyy-MM-dd')}"></td>
+                <td><input type="date" class="form-control" th:value="${#dates.format(resume.birth, 'yyyy-MM-dd')}" id="birth"></td>
             </tr>
             <tr>
                 <th>주소</th>
-                <td><input type="text" class="form-control" th:value="${resume.addr}"></td>
+                <td><input type="text" class="form-control" th:value="${resume.addr}" id="addr"></td>
             </tr>
             <tr>
                 <th>전화번호</th>
-                <td><input type="tel" class="form-control" th:value="${resume.tel}"></td>
+                <td><input type="tel" class="form-control" th:value="${resume.tel}" id="tel"></td>
             </tr>
             <tr>
                 <th>이메일</th>
-                <td><input type="email" class="form-control" th:value="${resume.email}"></td>
+                <td><input type="email" class="form-control" th:value="${resume.email}" id="email"></td>
             </tr>
         </tbody>
     </table>
@@ -179,7 +179,7 @@
     <button type="button" class="btn btn-secondary btn-sm" onclick="addRow('certificationTable')">자격증 추가</button>
 
     <div class="text-end mt-4">
-        <button type="button" class="btn btn-primary">저장</button>
+        <button type="button" class="btn btn-primary modHandler">저장</button>
         <button type="button" class="btn btn-secondary">취소</button>
     </div>
 </div>
@@ -210,14 +210,14 @@
         }
     }
     
-    document.querySelector(".btn-primary").addEventListener("click", function() {
+    document.querySelector(".modHandler").addEventListener("click", function() {
         const resume = {
-            resumeNo: document.querySelector('input[name="resumeNo"]').value,
-            resumeName: document.querySelector('input[th\\:value="${resume.resumeName}"]').value,
-            birth: document.querySelector('input[th\\:value="${#dates.format(resume.birth, \'yyyy-MM-dd\')}"]').value,
-            addr: document.querySelector('input[th\\:value="${resume.addr}"]').value,
-            tel: document.querySelector('input[th\\:value="${resume.tel}"]').value,
-            email: document.querySelector('input[th\\:value="${resume.email}"]').value,
+            resumeNo: document.querySelector('#resumeNo').value,
+            resumeName: document.querySelector('#resumeName').value,
+            birth: document.querySelector('#birth').value,
+            addr: document.querySelector('#addr').value,
+            tel: document.querySelector('#tel').value,
+            email: document.querySelector('#email').value,
             careers: [],
             edus: [],
             licenses: []
