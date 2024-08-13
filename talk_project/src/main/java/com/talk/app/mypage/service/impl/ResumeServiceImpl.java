@@ -1,5 +1,6 @@
 package com.talk.app.mypage.service.impl;
 
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,9 +10,11 @@ import com.talk.app.mypage.service.ResumeService;
 import com.talk.app.mypage.service.ResumeVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ResumeServiceImpl implements ResumeService{
 	
 	private final ResumeMapper resumeMapper;
@@ -27,9 +30,15 @@ public class ResumeServiceImpl implements ResumeService{
 	}
 
 	@Override
-	public ResumeVO resumeInfo(int resumeNo) {
-		return resumeMapper.selectResumeByNo(resumeNo);
+	public ResumeVO resumeInfo(Integer resumeNo, String userId) {
+		if(resumeMapper.getUserNoById(userId) == resumeMapper.selectResumeByNo(resumeNo).getUserNo()) {
+			System.out.println(resumeMapper.selectResumeByNo(resumeNo).getResumeNo());
+			return resumeMapper.selectResumeByNo(resumeNo);
+		} else {
+			return null;
+		}
 	}
+
 
 	@Override
 	public void saveResume(ResumeVO resume) {
@@ -38,7 +47,7 @@ public class ResumeServiceImpl implements ResumeService{
 	}
 
 	@Override
-	public void editResume(int resumeNo) {
+	public void editResume(Integer resumeNo) {
 		// TODO Auto-generated method stub
 		
 	}

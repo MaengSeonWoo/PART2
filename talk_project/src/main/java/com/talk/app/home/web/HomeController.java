@@ -15,7 +15,11 @@ import com.talk.app.posting.service.PostingVO;
 
 import lombok.RequiredArgsConstructor;
 
-
+/*
+ * 작성자 : 김진형
+ * 작성일자 : 2024-08-05
+ * 메인페이지
+ * */
 @Controller
 @RequiredArgsConstructor
 public class HomeController {

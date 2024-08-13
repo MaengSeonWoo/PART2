@@ -3,49 +3,15 @@
 <mapper namespace="com.talk.app.mypage.mapper.ResumeMapper">
 
 	<resultMap id="resumeMap" type="ResumeVO">
+		<id property="resumeNo" column="resume_no"/>
 		<collection property="careers" javaType="ArrayList" column="resume_no" ofType="CareerVO" select="selectCareers"/>
 		<collection property="licenses" javaType="ArrayList" column="resume_no" ofType="LicenseVO" select="selectLicenses"/>
 		<collection property="edus" javaType="ArrayList" column="resume_no" ofType="EduVO" select="selectEdus"/>
 	</resultMap>
 
-	<select id="selectCareers" parameterType="int" resultType="CareerVO">
-		SELECT career_no
-				, work_place
-				, role
-				, resume_no
-				, orders
-				, career_start
-				, career_end
-		FROM careers
-		WHERE resume_no = #{resumeNo}
-		order by orders
-	</select>
-	
-	<select id="selectLicenses" parameterType="int" resultType="LicenseVO">
-		SELECT license_no
-				, get_date
-				, license_name
-				, license_company
-				, resume_no
-				, orders
-		WHERE resume_no = #{resumeNo}
-		ORDER BY orders
-	</select>
-	
-	<select id="selectEdus" parameterType="int" resultType="EduVO">
-		SELECT edu_no
-				, graduation
-				, school
-				, major
-				, resume_no
-				, orders
-		WHERE resume_no = #{resumeNo}
-		ORDER BY orders
-	</select>
-
-
 	<select id="selectResumeList" parameterType="String" resultType="ResumeVO">
-		SELECT r.resume_title,
+		SELECT r.resume_no,
+				r.resume_title,
 		    	r.create_date
 		FROM resume r
 		WHERE r.user_no = (
@@ -56,8 +22,45 @@
 		ORDER BY r.create_date DESC
 	</select>
 	
+	
+
+	<select id="selectResumeByNo" resultMap="resumeMap" parameterType="int">
+		SELECT resume_no
+				, resume_title
+				, resume_name
+				, birth
+				, addr
+				, tel
+				, email
+				, produce
+				, user_no
+				, resume_img
+		FROM resume
+		WHERE resume_no = #{resumeNo}
+	</select>
+	
+	<update id="updateResume" parameterType="ResumeVO">
+		UPDATE resume SET  resume_title = #{resumeTitle}
+				, resume_name = #{resumeName}
+				, birth = #{birth}
+				, addr= #{addr}
+				, tel = #{tel}
+				, email= #{email}
+				, produce= #{produce}
+				, resume_img= #{resumeImg}
+		WHERE resume_no = #{resumeNo}
+	</update>
+	
+	
+	<select id="getUserNoById" parameterType="String" resultType="int">
+        SELECT DISTINCT user_no 
+        FROM users
+        WHERE user_id = #{userId}
+	</select>
+	
 	<select id="selectApplyResumeList" parameterType="String" resultType="ResumeVO">
-		SELECT r.resume_title,
+		SELECT r.resume_no,
+				r.resume_title,
 			    p.co_name,
 			    ar.apply_date
 		FROM apply_resume ar
@@ -72,20 +75,43 @@
                         )
 		ORDER BY ar.apply_date DESC
 	</select>
-
-	<select id="selectResumeByNo" resultMap="resumeMap" parameterType="int">
-		SELECT resume_no
-				, resume_title
-				, resume_name
-				, birth
-				, addr
-				, tel
-				, email
-				, produce
-				, user_no
-				, resume_img
-		FROM resume
-		WHERE resume_no = 1
+	
+	
+	<select id="selectCareers" parameterType="int" resultType="CareerVO">
+		SELECT career_no
+				, work_place
+				, role
+				, resume_no
+				, orders
+				, career_start
+				, career_end
+		FROM career
+		WHERE resume_no = #{resumeNo}
+		order by orders
+	</select>
+	
+	<select id="selectLicenses" parameterType="int" resultType="LicenseVO">
+		SELECT license_no
+				, get_date
+				, license_name
+				, license_company
+				, resume_no
+				, orders
+		FROM license
+		WHERE resume_no = #{resumeNo}
+		ORDER BY orders
+	</select>
+	
+	<select id="selectEdus" parameterType="int" resultType="EduVO">
+		SELECT edu_no
+				, graduation
+				, school
+				, major
+				, resume_no
+				, orders
+		FROM edu
+		WHERE resume_no = #{resumeNo}
+		ORDER BY orders
 	</select>
 
 
