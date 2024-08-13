@@ -11,8 +11,8 @@ public interface ResumeService {
 	public ResumeVO resumeInfo(Integer resumeNo, String userId);
 	// 이력서 등록
 	public void saveResume(ResumeVO resume);
-	// 이력서 삭제
-	public void editResume(Integer resumeNo);
 	// 이력서 수정
+	public void editResume(ResumeVO resumeVO);
+	// 이력서 삭제
 	public void removeResume(ResumeVO resume);
 }

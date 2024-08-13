@@ -29,6 +29,23 @@ public interface ResumeMapper {
 	public List<CareerVO> selectCareers(int resumeNo);
 	// 자격증 조회
 	public List<LicenseVO> selectLicenses(int resumeNo);
-	// 경력사항 조회
+	// 학력사항 조회
 	public List<EduVO> selectEdus(int resumeNo);
+	
+	///// 수정
+	// 경력사항 삭제
+	public void deleteCareerByNo(int resumeNo);
+	// 자격증 삭제
+	public void deleteLicenseByNo(int resumeNo);
+	// 학력사항 삭제
+	public void deleteEduByNo(int resumeNo);
+	
+	// 경력사항 등록
+	public void insertCareer(CareerVO careerVO);
+	// 자격증 등록
+	public void insertLicense(LicenseVO licenseVO);
+	// 학력사항 등록
+	public void insertEdu(EduVO eduVO);
+	
+	
 }

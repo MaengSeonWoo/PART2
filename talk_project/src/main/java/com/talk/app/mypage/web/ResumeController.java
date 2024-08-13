@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -78,9 +79,14 @@ public class ResumeController {
 	
 	@ResponseBody
 	@PostMapping("/{resumeNo}/edit")
-	public String resumeEdit(Principal principal, ResumeVO resumeVO) {
-		String userId = principal.getName();
-		return "";
+	public String resumeEdit(Principal principal, @RequestBody ResumeVO resumeVO) {
+//		String userId = principal.getName();
+		try {
+            resumeService.editResume(resumeVO);
+            return "success";  // 성공 시 "success" 반환
+        } catch (Exception e) {
+            return "error: " + e.getMessage();  // 실패 시 에러 메시지 반환
+        }
 	}
 	
 	
