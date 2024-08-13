@@ -113,7 +113,14 @@
 		WHERE resume_no = #{resumeNo}
 		ORDER BY orders
 	</select>
+	
+	
+	<delete id="deleteCareer">
+	
+	</delete>
 
-
+	<delete id="deleteLicense">
+	
+	</delete>
 
 </mapper>

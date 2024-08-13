@@ -10,11 +10,9 @@ import com.talk.app.mypage.service.ResumeService;
 import com.talk.app.mypage.service.ResumeVO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ResumeServiceImpl implements ResumeService{
 	
 	private final ResumeMapper resumeMapper;
