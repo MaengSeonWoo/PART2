@@ -21,7 +21,7 @@
 <select id="coutAll" resultType="int">
 	SELECT count(*) AS cnt
 	FROM welfare
-	<include refid="critera"></include>
+	<where><include refid="critera"></include></where>
 </select>
 
 
@@ -90,7 +90,7 @@ FROM welfare
 	            sal_serv
 	        FROM 
 	            welfare
-	         <include refid="critera"></include>
+	        <where> <include refid="critera"></include></where>
 	        ORDER BY   wid DESC
 	    )
 	    WHERE       ROWNUM <![CDATA[ <= ]]> #{pageNum} * #{amount}
@@ -99,17 +99,32 @@ FROM welfare
 </select>
 
 <select id="calendar" resultType="Map">
-SELECT  wid
-       			, serv_name as "title"
-       			, to_date(start_date,'YYYY-mm-dd') "start"  
-				, to_date(end_date,'YYYY-mm-dd')  "end"    
+select * from( 
+SELECT  wid as "id"
+       			, serv_name || 'start' as "title"
+       			, to_date(start_date,'YYYY-MM-DD') "start"
+       			,'true'  as "allDay" 
+       			 ,like_subject 
+       			 ,sido  
 FROM welfare
+union all 
+SELECT  wid as "id"
+       			, serv_name || 'end' as "title"
+       			, to_date(end_date,'YYYY-MM-DD') "start"  
+       			,'true'  as "allDay"   
+       			,like_subject
+       			,sido
+FROM welfare
+)<where><include refid="critera"></include>
+
+and to_char("start",'YYYY-mm') between #{start} and #{end}
+</where>
+order by "id" desc
 </select>
 
 <sql id="critera">
- <where>
 	          	<if test="sido !=null and sido!='' ">
-	          		sido= #{sido}
+	          	sido= #{sido}
 	          	</if>
 	          	<if test="likeSubject !=null and likeSubject.size!=0">
 	          	<foreach item="item" index="index" collection="likeSubject"
@@ -118,7 +133,6 @@ FROM welfare
 			    <if test="keyword !=null and keyword!='' ">
 	          		and serv_name like '%'||#{keyword}||'%'
 	          	</if>
-	          </where>
 </sql>
 
 
