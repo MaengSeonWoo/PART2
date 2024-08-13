@@ -5,10 +5,10 @@
 	<select id = "getUserInfo" resultType="UserVO">
 	SELECT *
 	FROM (
-			SELECT user_id, user_pw, authority
+			SELECT user_id, user_pw, authority, del_status
 			FROM users
 			UNION ALL
-			SELECT co_user_id, co_user_pw, authority
+			SELECT co_user_id, co_user_pw, authority, del_status
 			FROM company_user
 			)
 	WHERE user_id = #{id}

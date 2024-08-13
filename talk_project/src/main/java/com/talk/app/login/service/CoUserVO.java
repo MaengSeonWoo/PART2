@@ -33,4 +33,5 @@ public class CoUserVO {
 	private String authority;		//권한
 	private String logoImg;			//기업 로고
 	private String filePath;		//이미지
+	private Integer delStatus;		//회원탈퇴 상태
 }

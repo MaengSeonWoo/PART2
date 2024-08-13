@@ -9,6 +9,15 @@ public interface CoUserUpdateMapper {
 	
 	// 기업회원정보 수정
 	public int updateCoUserInfo(CoUserVO couserVO);
+
+	// 회원탈퇴 가능 여부 판단
+	boolean checkPostingStatus(String coUserId);
+	
+	// 기업회원 탈퇴 상태(del_status = 1) 업데이트
+    public void updateCoUserStatus(CoUserVO couserVO);
+    
+    // 기업회원 탈퇴 상태(del_status = 0) 업데이트
+    public void cancelCoUserStatus(CoUserVO couserVO);
 	
 	// ========================================================
 	
