@@ -17,7 +17,7 @@ public interface CoUserUpdateMapper {
     public void updateCoUserStatus(CoUserVO couserVO);
     
     // 기업회원 탈퇴 상태(del_status = 0) 업데이트
-    public void cancelCoUserStatus(CoUserVO couserVO);
+    public int cancelCoUserStatus(CoUserVO couserVO);
 	
 	// ========================================================
 	

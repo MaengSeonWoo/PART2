@@ -64,18 +64,18 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	
 	@Override
 	public Map<String, Object> cancelCoUser(CoUserVO couserVO) {
-		 Map<String, Object> map = new HashMap<>();
-	        boolean isSuccessed = false;
+	    Map<String, Object> map = new HashMap<>();
+	    boolean isSuccessed = false;
 
-	        // del_status를 0으로 설정하여 탈퇴 취소
-	        couserVO.setDelStatus(0);
-	        couserupdateMapper.updateCoUserStatus(couserVO);
+	    // del_status를 0으로 설정하여 탈퇴 취소
+	    couserVO.setDelStatus(0);
+	    int rowsAffected = couserupdateMapper.cancelCoUserStatus(couserVO); // 수정된 메서드 호출
 
-	        isSuccessed = true; // 업데이트 성공 여부 확인
-	        map.put("result", isSuccessed);
+	    isSuccessed = (rowsAffected > 0); // 업데이트 성공 여부 확인
+	    map.put("result", isSuccessed);
 
-	        return map;
-	    }
+	    return map;
+	}
 	
 	// ===================================================================================
 	
@@ -99,6 +99,12 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 		map.put("target", userVO);
 		
 		return map;
+	}
+
+	@Override
+	public UserVO getUserInfo(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
