@@ -2,6 +2,8 @@ package com.talk.app.mypage.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -9,6 +11,7 @@ public class EduVO {
 	// 학력사항 번호
 	private Integer eduNo;
 	// 졸업년월
+	@DateTimeFormat(pattern = "yyyy-MM")
 	private Date graduation;
 	// 학교명
 	private String school;
