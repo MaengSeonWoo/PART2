@@ -58,4 +58,9 @@ public class VideoServiceImpl implements VideoService{
 		return videoMapper.deleteVideoInfo(videoVO);
 	}
 
+	@Override
+	public List<VideoVO> searchVideo(VideoVO videoVO) {
+		return videoMapper.searchVideo(videoVO);
+	}
+
 }

@@ -11,9 +11,9 @@
 	
 	<!-- 단건조회 -->
 	<select id="selectVideoInfo" resultType="videoVO">
-		SELECT video_no, video_title, link, video_category, link_full, thumb_nail
+		SELECT video_no, video_title, link, video_category, thumb_nail
 		FROM video
-		WHERE video_no = ${videoNo}
+		WHERE video_no = #{videoNo}
 	</select>
 	
 	<!-- 등록 -->
@@ -21,7 +21,7 @@
 		<selectKey keyProperty="videoNo"
 				   resultType="Integer"
 				   order="BEFORE">
-			SELECT NVL(MAX(video_no), + 1
+			SELECT NVL(MAX(video_no), 0) + 1
 			FROM video
 		</selectKey>
 		INSERT INTO video
@@ -29,7 +29,6 @@
 					 video_no,
 					 video_title,
 					 link,
-					 link_full,
 					 thumb_nail,
 					 video_category
 					)
@@ -38,14 +37,47 @@
 					 #{videoNo},
 					 #{videoTitle},
 					 #{link},
-					 REGEXP_SUBSTR(
-					 			#{linkFull}, 'src="([^"]+)"', 1, 1, NULL, 1
-					 			),
-					 'https://img.youtube.com/vi/' ||	
-					 REGEXP_SUBSTR(
-					 			#{thumbNail}, 'embed/([^?]+)', 1, 1, NULL, 1) || '/0.jpg'
-					               )		
-					 #{videoCategory}
-					)
+				        ('https://img.youtube.com/vi/' || 
+				        	REGEXP_SUBSTR(
+           								#{thumbNail},
+           								'embed/([^?]+)', 1, 1, NULL, 1
+       								  	)  || '/0.jpg'
+       					), 
+       				  #{videoCategory}
+       				 )
 	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateVideoInfo" parameterType="videoVO">
+		UPDATE video
+		SET
+			video_title = #{videoTitle},
+			link = #{link},
+			thumb_nail = 
+			('https://img.youtube.com/vi/' || 
+				        	REGEXP_SUBSTR(
+           								#{thumbNail},
+           								'embed/([^?]+)', 1, 1, NULL, 1
+       								  	)  || '/0.jpg'
+       		) 
+		WHERE video_no = #{videoNo}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteVideoInfo" parameterType="int">
+		DELETE FROM video
+		WHERE video_no = #{videoNo}
+	</delete>
+	
+	<!-- 검색 -->
+	<select id="searchVideo" resultType="videoVO" >
+		SELECT  video_no,
+				video_title,
+				link,
+				thumb_nail,
+				video_category
+		FROM video
+		WHERE video_title LIKE '%' || #{keyword} || '%'
+		ORDER BY video_no DESC
+	</select>
 </mapper>

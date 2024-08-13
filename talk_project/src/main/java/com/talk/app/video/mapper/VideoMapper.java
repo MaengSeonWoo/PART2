@@ -19,4 +19,7 @@ public interface VideoMapper {
 	
 	// 삭제 : 조건 - no
 	public int deleteVideoInfo(int videoNo);
+	
+	// 검색
+	public List<VideoVO> searchVideo(VideoVO videoVO);
 }

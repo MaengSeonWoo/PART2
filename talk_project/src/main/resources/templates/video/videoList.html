@@ -7,9 +7,51 @@
 <meta charset="UTF-8">
 <title>직업훈련영상</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 	*{
 		list-style:none;
 	}
+	.container{
+		margin:auto;
+		text-align:center;
+	}
+	.vList{
+		margin:0 auto;
+		text-align:center;
+		width:1300px;
+		display:flex;
+		flex-wrap: wrap;
+		background-Color:pink;
+	}
+	img{
+		width:300px;
+		justify-content:center;
+	}
+	.vList ul{
+		display:flex;
+		justify-content: space-evenly;
+		margin:10px;
+		border:1px solid gray;
+	}
+	.vList ul li{
+		width:300px;
+		margin:auto;
+		padding:0;
+	}
+	
+	.title{
+		font-size:18px;
+		text-decoration:none;
+		color:black;
+		font-family: "Jua", sans-serif;
+ 		font-weight: 400;
+  		font-style: normal;
+		
+	}
+	.title:hover{
+		color:black;
+	}
+	
 </style>
 </head>
 <body>
@@ -29,13 +71,13 @@
             </div>
         </div>
 	</div>
-
 	<div class="container">
+	<h2>바로가기 수정</h2>
 		<div class="sub_body">
 			<div class="sub_tab">
 				<ul class="tableMode">
 					<li class="col-xs-2 middle  on"><a href="video.asp?tn=tblLectureRoom&writeType=">전체</a></li>
-					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_health">건강</a></li>
+					<li class="col-xs-2 middle "><a th:href="#{videoVO.category}=='B01'">건강</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_hobby">문화&middot;예술</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_mind">교양</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_info">정보미디어</a></li>
@@ -44,43 +86,58 @@
 			</div>
 		</div>
 	
-		<form name="frm" method="post" action="video.asp" >
-			<input type="hidden" name="tn" value="tblLectureRoom">
-			<input type="hidden" name="writeType" value="">
-
+		<form name="frm" method="get" action="/videoList">
 			<div class="col-xs-12 form-group edu_search">
 				<label for="edu_search_item">검색항목</label>
 				<div class="col-sm-2 col-xs-4 search_item">
-					<select id="keyfield" name="keyfield" class="selectpicker show-tick form-control">
-						<option value="subject" >제목</option>
-						<option value="content" >글내용</option>
-					</select>
+					
 				</div>
-									
-			<div class="col-sm-10 col-xs-8 search_item_txt">
+		 	<!-- <div class="col-sm-10 col-xs-8 search_item_txt">
 				<label for="search_text"></label>
 				<input type="text" class="form-control" id="keyword" name="keyword" placeholder="검색어를 입력하세요" value="">
-			</div>
+			</div> --> 
+			
 			<div class="edu_search_btn">
 				<label for="edu_search_btn"></label>
-				<input type="submit" class="form-control" id="edu_search_btn" name="edu_search_btn" value="검색하기">
+				<input type="text" name="keyword" th:value="${videoVO.keyword}">
+				<button type="submit">검색</button>
 			</div>
 			</div>
 		</form>	
-		
+		<h2>스타일 수정</h2>
 		<div class="vList">
+		<!-- [[${videoList}]] -->
 			<th:block th:each="vl : ${videoList}">
-			<ul>
-				<li th:onclick="|location.href='@{/videoInfo(videoNo=${vl.videoNo})}'|">
-					<a th:text="${vl.videoTitle}"></a>
-					<img th:src="${vl.thumbNail}">
-				</li>
-			</ul>
-			</th:block>
+				<ul>
+					<li th:onclick="|location.href='@{/videoInfo(videoNo=${vl.videoNo})}'|">
+						<div>
+							<img th:src="${vl.thumbNail}">						
+						</div>
+						<a class="title" th:text="${vl.videoTitle}"></a>
+					</li>
+				</ul> 
+			</th:block> 
+		</div> 
+		<!--  end if vList -->
+		<div class="btn">
+			<button type="button" th:onclick="|location.href='@{/videoInsert}'|">등록</button>		
 		</div>
-	<!-- end of container -->	
 	</div> 
+	<!-- end of container -->	
 		
 
 </body>
+<script>
+	let title = document.querySelectorAll('.title')
+	
+	function textLength(){
+		for(let i=0; i<title.length; i++){
+			if(title[i].innerHTML.length > 23){
+				title[i].innerHTML = title[i].innerHTML.substr(0, 23) + '...';
+			}
+		}
+	}
+	
+	textLength();
+</script>
 </html>
