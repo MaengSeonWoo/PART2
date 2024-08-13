@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{common/main/layouts/default_layout}"
+            layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.container{
+		margin-top:40px;
+	}
+	.title{
+		width:400px;
+	}
+	
+	.ta{
+		resize:none;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h3>직업훈련 영상 수정</h3>	
+		<form name="updateForm" th:object="${videoInfo}">
+			  <table>
+			  	  <tr>
+			  	  	<th>영상번호</th>
+			  	  	<td><input type="text" th:field="*{videoNo}"></td>
+			  	  </tr>
+				  <tr>
+			      	<th>제목</th>
+			  		<td><input  class="title" type="text" th:field="*{videoTitle}"></td>
+			  	  </tr>
+			  	  <tr>
+			  	  	<th>링크주소</th>
+			  	  	<td><textarea class="ta" cols="34" rows="5"  th:field="*{link}"></textarea></td>
+			  	  </tr>
+			  	  <tr>
+			  	  	<th>썸네일</th>
+			  	  	<td><textarea class="ta" cols="34" rows="5" th:field="*{thumbNail}"></textarea></td>
+			  	  </tr>
+			  	   <tr>
+			  	  	<th>비디오카테고리</th>
+			  	  	<td>
+			  	  		<select th:field="*{videoCategory}">
+			  	  			<option value="B01">건강</option>
+			  	  			<option value="B02">문화·예술</option>
+			  	  			<option value="B03">교양</option>
+			  	  			<option value="B04">정보미디어</option>
+			  	  			<option value="B05">기타</option>
+			  	  		</select>
+			  	  	</td>
+			  	  </tr>
+			  </table>
+		<button type="submit" id="updateBtn">수정</button>
+		</form>
+	</div>	
+</body>
+	<script>
+		$('#updateBtn').on('click', videoUpdateAjax);
+		
+		function videoUpdateAjax(event){
+			//1) 보낼 데이터 확인
+			let info = getVideoInfo();
+			
+			//2) AJAX
+			$.ajax('videoUpdate',{
+				type:'post',
+				contentType : 'application/json',
+				data : JSON.stringify(info)
+			})
+			.done(data => {
+				if(data.result){
+					alert('정상적으로 수정되었습니다.');
+					location.href="videoList";
+				}else{
+					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+				}
+			})
+			.fail(err => console.log(err));			
+		};
+		
+		function getVideoInfo(){
+			let formData= $('form[name="updateForm"]').serializeArray();
+			console.log('1) serializeArray', formData);
+			
+			let objData = {};
+			$.each(formData, (idx, input) => {
+				console.log('2) input', idx, input);
+				objData[input.name] = input.value;
+			});
+			
+			console.log('3) objData', objData);
+			return objData;
+		};
+			
+	</script>
+</html>

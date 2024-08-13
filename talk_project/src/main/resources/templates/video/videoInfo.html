@@ -7,9 +7,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 	.container{
 		text-align:center;
 		margin-top:40px;
+	}
+	
+	.title{
+		font-size:30px;
+		font-family: "Jua", sans-serif;
+ 		font-weight: 400;
+  		font-style: normal;
 	}
 </style>
 </head>
@@ -17,11 +25,13 @@
 	<div class="container">
 		<th:block th:each="vl : ${videoInfo}">
 			<div>
-				<p th:text="${vl.videoNo}"></p>		
-				<iframe width="920" height="505" th:src="${vl.linkFull}" ></iframe>
+				<p class="title" th:text="${vl.videoTitle}"></p>		
+				<iframe width="920" height="505" th:src="${vl.link}" ></iframe>
 			</div>
 			<div>
-				<button type="button" th:onclick="|location.href='@{/videoList}'|">목록</button>
+			<button type="button" th:onclick="|location.href='@{/videoUpdate(videoNo=${videoInfo.videoNo})}'|">수정</button>
+			<button type="button" th:onclick="|location.href='@{/videoDelete(videoNo=${videoInfo.videoNo})}'|">삭제</button>
+			<button type="button" th:onclick="|location.href='@{/videoList}'|">목록</button>
 			</div>
 		</th:block>
 	</div>

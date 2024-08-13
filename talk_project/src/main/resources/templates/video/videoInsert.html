@@ -6,6 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.container{
+		margin-top:40px;
+	}
+	
+	.title{
+		width:400px;
+	}
+	
+	.ta{
+		resize:none;
+	}
+</style>
 </head>
 <body>
 	<div class="container">
@@ -15,24 +28,28 @@
 			  th:object="${videoInfo}">
 			  <table>
 				  <tr>
-			  		<th>제목</th>
-			  		<td><input type="text" name="videoTitle"></td>
+			      	<th>제목</th>
+			  		<td><input class="title" type="text" name="videoTitle"></td>
 			  	  </tr>
 			  	  <tr>
-			  		<th>링크주소</th>
-			  		<td><textarea name="link"></textarea></td>
-			  	  </tr>
-			  	  <tr>
-			  	  	<th>풀링크</th>
-			  	  	<td><textarea name="linkFull"></textarea></td>
+			  	  	<th>링크주소</th>
+			  	  	<td><textarea class="ta" cols="34" rows="5" name="link"></textarea></td>
 			  	  </tr>
 			  	  <tr>
 			  	  	<th>썸네일</th>
-			  	  	<td><textarea name="thumbNail"></textarea></td>
+			  	  	<td><textarea class="ta" cols="34" rows="5" name="thumbNail"></textarea></td>
 			  	  </tr>
 			  	   <tr>
 			  	  	<th>비디오카테고리</th>
-			  	  	<td><textarea name="videoCategory"></textarea></td>
+			  	  	<td>
+			  	  		<select name="videoCategory">
+			  	  			<option value="B01">건강</option>
+			  	  			<option value="B02">문화·예술</option>
+			  	  			<option value="B03">교양</option>
+			  	  			<option value="B04">정보미디어</option>
+			  	  			<option value="B05">기타</option>
+			  	  		</select>
+			  	  	</td>
 			  	  </tr>
 			  </table>
 		<button type="submit">등록</button>
@@ -40,4 +57,36 @@
 		</form>
 	</div>	
 </body>
+<script>
+	function goList() {
+		location.href = `/videoList`;
+	}
+	
+	insertForm.addEventListener('submit', videoInsertHandler);
+	
+    function videoInsertHandler(e) {
+        e.preventDefault();
+
+        let videoTitle = document.querySelector('input[name="videoTitle"]');
+        if (videoTitle.value.trim() == '') {
+           alert('제목은 필수입력항목입니다.');
+           videoTitle.focus();
+           return;
+        }
+        let link = document.querySelector('textarea[name="link"]');
+        if (link.value.trim() == '') {
+           alert('링크는 필수입력항목입니다.');
+           link.focus();
+           return;
+        }
+        let thumbNail = document.querySelector('textarea[name="thumbNail"]');
+        if(thumbNail.value.trim() == '') {
+        	alert('썸네일은 필수입력항목입니다.');
+        	link.thumbNail();
+        	return;
+        }
+        
+        insertForm.submit();
+     }
+</script>
 </html>
