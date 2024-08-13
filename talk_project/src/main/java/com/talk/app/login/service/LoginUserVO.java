@@ -52,7 +52,7 @@ public class LoginUserVO implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {  
-		return true;
+		return userVO.getDelStatus() != 2 ? true : false; // del_status가 2미만일시 로그인 가능, 그 외에는 로그인 불가
 	}
 	
 }

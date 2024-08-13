@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.common.service.CommonUtil;
+import com.talk.app.common.service.LoginException;
 import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.mypage.service.CoPostingService;
 import com.talk.app.posting.service.PostingVO;
@@ -93,7 +94,7 @@ public class CoPostingController {
 //		return "redirect:copostingInfo?postingNo=" + pno;
 //	}
 	@PostMapping("copostingInsert")
-	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response) {
+	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response) throws LoginException {
 	    // 현재 로그인한 사용자 ID를 가져와서 coUserNo를 설정합니다.
 	    String coUserId = CommonUtil.getUserId();
 	    int coUserNo = copostingService.getCoUserNoById(coUserId);
