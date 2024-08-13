@@ -6,6 +6,7 @@ import java.util.Map;
 public interface VideoService {
 	// 전체조회
 	public List<VideoVO> videoList();
+	
 	// 단건조회
 	public VideoVO videoInfo(VideoVO videoVO);
 	
@@ -17,4 +18,7 @@ public interface VideoService {
 	
 	// 삭제
 	public int deletevideo(int videoVO);
+	
+	// 검색
+	public List<VideoVO> searchVideo(VideoVO videoVO);
 }

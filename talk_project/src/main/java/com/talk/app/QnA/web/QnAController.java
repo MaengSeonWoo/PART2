@@ -1,5 +1,6 @@
 package com.talk.app.QnA.web;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.talk.app.QnA.service.QnAService;
 import com.talk.app.QnA.service.qnaVO;
+import com.talk.app.login.service.CoUserVO;
 import com.talk.app.qnaReply.service.QnAReplyService;
 import com.talk.app.qnaReply.service.QnAReplyVO;
 
@@ -25,7 +27,10 @@ public class QnAController {
 	
 	// 전체
 	@GetMapping("qna")
-	public String QnAList(Model model) {
+	public String QnAList(Model model, Principal principal) {
+		String coUserId = principal.getName();
+		CoUserVO couserVO = new CoUserVO();
+        couserVO.setCoUserId(coUserId);
 		List<qnaVO> list = qnaService.qnaList();
 		model.addAttribute("qnaList", list);
 		return "qna/qnaList";
@@ -43,7 +48,6 @@ public class QnAController {
 		
 		return "qna/qnaInfo";
 	}
-	
 	
 	// 삭제
 	@GetMapping("qnaDelete")

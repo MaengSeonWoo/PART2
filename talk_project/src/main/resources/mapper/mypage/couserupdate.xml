@@ -96,6 +96,7 @@
 				,GENDER
 				,USER_ID
 				,AUTHORITY
+				,del_status
 		FROM users
 		WHERE user_id = #{userId}
 	</select>

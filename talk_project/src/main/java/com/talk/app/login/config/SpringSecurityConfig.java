@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-//import com.talk.app.login.web.CustomAuthenticationSuccessHandler;
+import com.talk.app.login.web.CustomAuthenticationSuccessHandler;
 import com.talk.app.mypage.service.CoUserUpdateService;
 
 @Configuration
@@ -43,7 +43,7 @@ public class SpringSecurityConfig {
                 .passwordParameter("userPw")
                 .defaultSuccessUrl("/") 
                 .permitAll()
-//                .successHandler(customAuthenticationSuccessHandler()) // 성공 핸들러 설정
+                .successHandler(customAuthenticationSuccessHandler()) // 성공 핸들러 설정
                 .and()
             .logout()
                 .logoutSuccessUrl("/login") 
@@ -54,8 +54,8 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-//        return new CustomAuthenticationSuccessHandler(coUserUpdateService); // 의존성 주입
-//    }
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler(coUserUpdateService); // 의존성 주입
+    }
 }

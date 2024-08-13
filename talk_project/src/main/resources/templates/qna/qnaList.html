@@ -47,7 +47,7 @@
 						<td th:text="${qna.qnaContent}"></td>
 						<td th:text="${#dates.format(qna.regDate, 'yyyy년MM월dd일')}">yyyy-mm-dd</td>
 						<!-- <td th:text=${}></td>  -->
-						<td th:text="${qna.qnaState}"></td>
+						<td class="state" th:text="${qna.qnaState}"></td>
 					</tr>
 				</th:block>			
 			</tbody>
@@ -57,4 +57,19 @@
 		</div>
 	</div>
 </body>
+<script>
+	let state = document.querySelectorAll('.state');
+	
+	function replyState(){
+		for(let i=0; i<state.length; i++){
+			if(state[i].innerHTML == 0){
+				state[i].innerHTML = '미답변';
+			} else{
+				state[i].innerHTML = '답변완료';
+			}
+		}	
+	}
+	
+	// replyState();
+</script>
 </html>

@@ -108,6 +108,7 @@
 	<div class="tutoModal">
 			<p class="tip">이곳에 아이디(계정)을 입력해주세요. 이 곳 사이트에 계정이 없으시다면 좌측 하단 회원가입을 클릭해주세요</p>
 			<button type="button" class="tutoCloseBtn" onclick="tutorialEnd()">X</button>
+			<button class="voice-button">텍스트 듣기</button>
 		</div>
 		
 	<div class="loginForm">
@@ -263,6 +264,64 @@
 		state = 0;
 	}
 	
+	/* const button = document.querySelector('.voice-button');
+	const message = new SpeechSynthesisUtterance('test');
 	
+	button.addEventListener('click', () => {
+		console.log(button);
+		console.log(message);
+	})
+	
+	function populateVoiceList(){
+		if(typeof speechSynthesis === 'undefined'){
+			return;
+		} 
+		
+	const voices = speechSynthesis.getVoices();
+	
+	const voiceList = voices
+		.filter((voice) => {
+			return voice.lang.includes('en');
+		})
+		.map((voice) => {
+			return `${voice.name} (${voice.lang})`;
+		});
+	console.log(voiceList);
+	}
+	
+	populateVoicesList();
+	if(
+		typeof speechSynthesis !== 'undefined' &&
+		speechSynthesis.onvoiceschagned !== undefined
+	) {
+		speechSynthesis.onvoiceschanged = populateVoiceList;		
+	}
+	
+	button.addEventListener('click', () => {
+		message.lang = 'en-US';
+		message.pitch = 1;
+		message.rate = 1;
+		message.text = "HELLO WORLD";
+		message.volume = 1;
+		
+		window.speechSynthesis.speak(message);
+	}); */
+	
+	if ('speechSynthesis' in window){
+		console.log("Web Speech API supported!")
+	} else {
+		console.log("Web Speech API not supported :-(")   
+	}
+	
+	'speechSynthesis' in window ? console.log("Web Speech API supported!") : console.log("Web Speech API not supported :-(")
+
+			const synth = window.speechSynthesis
+			let ourText = "안녕하세요"
+			const utterThis = new SpeechSynthesisUtterance(ourText)
+
+			synth.speak(utterThis)
+	
+			
+			
 </script>
 </html>
