@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>이력서 수정</title>
+<style>
+        .resume-container {
+            max-width: 800px;
+            margin: 50px auto;
+            border: 2px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f7f7f7;
+        }
+        .header {
+            background-color: #e2e3e5;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            background-size: cover;
+            background-position: center;
+            margin: 10px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .table thead th {
+            font-weight: bold;
+            background-color: #e2e3e5;
+        }
+        .table-bordered td, .table-bordered th {
+            vertical-align: middle;
+        }
+        .form-control {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="resume-container">
+    <div class="header">
+        <p th:text="${resume.resumeName + '의 이력서 수정 페이지'}">홍길동의 이력서 수정 페이지</p>
+    </div>
+
+    <div class="section-title">기본 정보</div>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td rowspan="5" style="width: 120px; text-align: center;">
+                    <div class="profile-image" style="background-image: url('profile-image.png');"></div>
+                </td>
+                <th>이름</th>
+                <td><input type="text" class="form-control" th:value="${resume.resumeName}"></td>
+            </tr>
+            <tr>
+                <th>생년월일</th>
+                <td><input type="date" class="form-control" th:value="${#dates.format(resume.birth, 'yyyy-MM-dd')}"></td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td><input type="text" class="form-control" th:value="${resume.addr}"></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td><input type="tel" class="form-control" th:value="${resume.tel}"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td><input type="email" class="form-control" th:value="${resume.email}"></td>
+            </tr>
+        </tbody>
+    </table>
+	<hr>
+    <div class="section-title">학력사항</div>
+    <table class="table table-bordered" id="educationTable">
+        <thead>
+            <tr>
+                <th>학교명</th>
+                <th>전공</th>
+                <th>졸업년월</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<th:block th:if="${!#lists.isEmpty(resume.edus)}" th:each="edu : ${resume.edus}">
+            <tr>
+                <td><input type="text" class="form-control" placeholder="학교명" th:value="edu.school"></td>
+                <td><input type="text" class="form-control" placeholder="전공" th:value="edu.major"></td>
+                <td><input type="month" class="form-control" th:value="edu.graduation"></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+            </tr>
+           	</th:block>
+        	<th:block th:if="${#lists.isEmpty(resume.edus)}">
+            <tr>
+                <td><input type="text" class="form-control" placeholder="학교명"></td>
+                <td><input type="text" class="form-control" placeholder="전공"></td>
+                <td><input type="month" class="form-control"></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+            </tr>
+           	</th:block>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="addRow('educationTable')">학력 추가</button>
+	<hr>
+    <div class="section-title">경력사항</div>
+    <table class="table table-bordered" id="careerTable">
+        <thead>
+            <tr>
+                <th>근무처</th>
+                <th>직위/업무내용</th>
+                <th>시작일</th>
+                <th>종료일</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+	        <th:block th:if="${!#lists.isEmpty(resume.careers)}" th:each="career : ${resume.careers}">
+            <tr>
+                <td><input type="text" class="form-control" placeholder="근무처" th:value="career.workPlace"></td>
+                <td><input type="text" class="form-control" placeholder="직위/업무내용" th:value="career.role"></td>
+                <td><input type="date" class="form-control" th:value="career.startDate"></td>
+                <td><input type="date" class="form-control" th:value="career.endDate"></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+            </tr>
+            </th:block>
+            <th:block th:if="${#lists.isEmpty(resume.careers)} ">
+            <tr>
+                <td><input type="text" class="form-control" placeholder="근무처"></td>
+                <td><input type="text" class="form-control" placeholder="직위/업무내용"></td>
+                <td><input type="date" class="form-control"></td>
+                <td><input type="date" class="form-control"></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+            </tr>
+            </th:block>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="addRow('careerTable')">경력 추가</button>
+	<hr>
+    <div class="section-title">보유기술/자격증</div>
+    <table class="table table-bordered" id="certificationTable">
+        <thead>
+            <tr>
+                <th>취득일</th>
+                <th>자격증명</th>
+                <th>시행처</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<th:block th:if="${!#lists.isEmpty(resume.licenses)} " th:each="license : ${resume.licenses}">
+            <tr>
+                <td><input type="date" class="form-control" th:value="${#dates.format(license.getDate, 'yyyy-MM-dd')}"></td>
+                <td><input type="text" class="form-control" placeholder="자격증명" th:value="${license.licenseName}"></td>
+                <td><input type="text" class="form-control" placeholder="시행처" th:value="${license.licenseCompany}"></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+            </tr>
+            </th:block>
+            <th:block th:if="${#lists.isEmpty(resume.licenses)} ">
+					<tr>
+						<td><input type="date" class="form-control"></td>
+		                <td><input type="text" class="form-control" placeholder="자격증명"></td>
+		                <td><input type="text" class="form-control" placeholder="시행처"></td>
+		                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+					</tr>
+				</th:block>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="addRow('certificationTable')">자격증 추가</button>
+
+    <div class="text-end mt-4">
+        <button type="button" class="btn btn-primary">저장</button>
+        <button type="button" class="btn btn-secondary">취소</button>
+    </div>
+</div>
+
+
+<script>
+    function addRow(tableId) {
+        const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+        const newRow = table.rows[0].cloneNode(true);
+
+        // Clear input values in the new row
+        const inputs = newRow.getElementsByTagName('input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
+        }
+
+        table.appendChild(newRow);
+    }
+
+    function removeRow(button) {
+        const row = button.closest('tr');
+        const table = row.closest('tbody');
+
+        if (table.rows.length > 1) {
+            table.removeChild(row);
+        } else {
+            alert('마지막 행은 삭제할 수 없습니다.');
+        }
+    }
+    
+    
+    
+</script>
+</body>
+</html>

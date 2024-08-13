@@ -19,6 +19,9 @@ public interface ResumeMapper {
 	// 마이페이지 이력서 수정
 	public int updateResume(ResumeVO resume);
 	
+	// 이력서 조회 수정시 사용자 검증
+	public int getUserNoById(String userId);
+	
 	// 지원이력서 리스트
 	public List<ResumeVO> selectApplyResumeList(String userId);
 	

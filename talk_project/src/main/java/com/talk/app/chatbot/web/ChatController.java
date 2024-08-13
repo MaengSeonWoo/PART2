@@ -23,6 +23,11 @@ import com.talk.app.chatbot.service.ChatbotService;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 작성자 : 김진형
+ * 작성일자 : 2024-08-10
+ * 챗봇 : 챗봇 방 생성, 챗봇 방 폐쇄, 메시지 보내기
+ * */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/chatbot")

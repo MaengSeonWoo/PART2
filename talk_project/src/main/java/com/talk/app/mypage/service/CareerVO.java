@@ -2,6 +2,8 @@ package com.talk.app.mypage.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -17,7 +19,9 @@ public class CareerVO {
 	// 순번
 	private int orders;
 	// 시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date careerStart;
 	// 종료일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date careerEnd;
 }
