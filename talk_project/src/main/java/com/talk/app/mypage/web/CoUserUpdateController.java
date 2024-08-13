@@ -80,7 +80,7 @@ public class CoUserUpdateController {
         
         log.info("ddd={}" ,couserVO.getCoUserNo());
         // 파일 수정 처리
-        log.info("uploadfile length = {}",uploadFiles.length  );
+        log.info("uploadfile length = {}",uploadFiles.length);
         log.info("uploadfile name = {}",uploadFiles[0].getOriginalFilename()  );
         if (uploadFiles[0].getSize() != 0  && uploadFiles.length == 1) {
                 // 파일 업로드 서비스 호출
