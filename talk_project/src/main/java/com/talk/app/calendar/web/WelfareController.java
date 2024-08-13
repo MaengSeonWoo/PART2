@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.admin.service.WelfareVO;
 import com.talk.app.calendar.service.CalendarService;
@@ -28,27 +30,15 @@ public class WelfareController {
 	
 	@Autowired
 	PublicCodeService pservice;
-	
-	@GetMapping("welfarelist")
-	public List<Map<String,Object>> welfaremain(Model model, SearchVO vo) {
-	    List<Map<String, Object>> dataList = service.calendar(vo);
-	    model.addAttribute("dataList", dataList);  // 데이터를 모델에 추가
-		 return service.calendar(vo);
+
+	@ResponseBody
+	@GetMapping("calendar")
+	public List<Map<String, Object>> calendar(SearchVO vo){
+	 return service.calendar(vo);
 	}
-
-	@GetMapping("welfare")
 	
+	@GetMapping("welfare")
 	public String category(Model model,SearchVO vo, Criteria cri) {
-		 List<Map<String, Object>> calendarData = service.calendar(vo);
-		    
-		    if (calendarData == null || calendarData.isEmpty()) {
-		        System.out.println("No calendar data found");
-		    } else {
-		        System.out.println("Calendar Data: " + calendarData);
-		    }
-		    
-		    model.addAttribute("calendarData", calendarData);
-
 	    // 리스트 데이터
 		List<WelfareVO> clist = service.categoryData(vo);
         model.addAttribute("regionCode", pservice.selectCode("0G"));
@@ -58,6 +48,12 @@ public class WelfareController {
 		return "calendar/list";
 	}
 	
+	@GetMapping("/updateMonth")
+	@ResponseBody
+	public List<WelfareVO> updateMonthData(@RequestParam("month") String month, SearchVO vo) {
+	    vo.setMonth(month); 
+	    return service.categoryData(vo); 
+	}
 	
 	@GetMapping("detail")
 	public String detail(Model model, WelfareVO vo) {

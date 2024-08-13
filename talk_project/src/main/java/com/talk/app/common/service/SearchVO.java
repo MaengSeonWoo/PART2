@@ -15,6 +15,7 @@ public class SearchVO {
 	private String start;
 	private String end;
 	private String title;
-    private String wid; // 필요에 따라 추가
+    private String id; // 필요에 따라 추가
+    private String month;
 
 }
