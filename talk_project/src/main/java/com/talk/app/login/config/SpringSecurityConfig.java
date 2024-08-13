@@ -7,40 +7,55 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.talk.app.login.web.CustomAuthenticationSuccessHandler;
+import com.talk.app.mypage.service.CoUserUpdateService;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-    
+
+    private final CoUserUpdateService coUserUpdateService;
+
+    // 생성자 주입
+    public SpringSecurityConfig(CoUserUpdateService coUserUpdateService) {
+        this.coUserUpdateService = coUserUpdateService;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-    
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/**", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login", "/signsel","/cologin","/main/**",  "/docs/**", "/production/**").permitAll() // 회원, 비회원, 관리자
-                .antMatchers("/admin").hasRole("ADMIN") // 관리자
-                .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") // 회원
+                .antMatchers("/", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login", "/signsel","/cologin","/main/**",  "/docs/**", "/production/**").permitAll() 
+                .antMatchers("/admin").hasRole("ADMIN") 
+                .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginPage("/login") // 로그인 페이지 설정 
+                .loginPage("/login") 
                 .usernameParameter("userId")
                 .passwordParameter("userPw")
-                .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉션 설정
+                .defaultSuccessUrl("/") 
                 .permitAll()
+                .successHandler(customAuthenticationSuccessHandler()) // 성공 핸들러 설정
                 .and()
             .logout()
-                .logoutSuccessUrl("/login") // 로그아웃 후 리다이렉션 설정
+                .logoutSuccessUrl("/login") 
                 .permitAll()
                 .and()
-            .csrf().disable(); // CSRF 보호 비활성화
-        
+            .csrf().disable(); 
+      
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler(coUserUpdateService); // 의존성 주입
     }
 }
