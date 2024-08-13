@@ -3,7 +3,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/main/layouts/default_layout}"
 	layout:fragment="Content">
-	
 <head>
 <meta charset='utf-8' />
 <title>복지제도 일정</title>
@@ -14,98 +13,79 @@
 	th:src='@{https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js}'></script>
 <!-- <script th:src='@{/dist/index.global.js}'></script> -->
 
+<script th:inline="javascript">
 
-<script>
-		$(document).ready(function() {
-        var calendarEl = document.getElementById('calendar');
+$(document).ready(function() {
+	
+    var activeTab = sessionStorage.getItem('activeTab');
+    if (activeTab) {
+        $('#' + activeTab).tab('show');
+    }
 
-        // 데이터를 JSON 문자열로 변환
-        var events = /*[[${calendarData}]]*/ '[]'; 
-        events = JSON.parse(events); // JSON으로 변환
-        console.log(events); // 파싱된 데이터를 출력하여 확인
+    $('.nav-tabs button').on('click', function() {
+        var activeTabId = $(this).attr('id');
+        sessionStorage.setItem('activeTab', activeTabId);
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,listWeek'
-            },
-            editable: true,
-            selectable: true,
-            locale: 'ko',
-            events: events,
-            eventClick: function(info) {
-                var wid = info.event.extendedProps.wid;
-                if (wid) {
-                    const link = '/calendar/detail?wid=' + wid;
-                    window.location.href = link;
-                }
+        if (activeTabId === 'nav-home-tab') {
+            window.location.href = 'http://localhost:8080/calendar/welfare';
+        } 
+    });
+	
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    	
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listWeek'
+        },
+        editable: true,
+        selectable: true,
+        locale: 'ko',
+        events :function( info, successCallback, failureCallback ) { 
+        	console.log(info)
+        	 var start = info.startStr.substring(0,7)
+        	 var end =info.endStr.substring(0,7)
+             $.ajax({
+                 url: `/calendar/calendar?start=${start}&end=${end}`,
+                 method: 'GET',
+                 success: function(response) {
+                      if (response) {
+                			successCallback(response);
+            		} else {
+                		console.error('calendarData가 비어있습니다.');
             }
-        });
-
-        calendar.render();
+                 },
+                 error: function(err) {
+                     failureCallback(err);
+                 }
+             });
+        	
+        },
+         eventDidMount: function(info) {
+            if (info.event.title.includes('start')) {
+                info.el.style.backgroundColor = 'blue';
+                info.el.style.borderColor = 'blue';
+            }
+            else if (info.event.title.includes('end')) {
+                info.el.style.backgroundColor = 'red';
+                info.el.style.borderColor = 'red';
+            }
+        }, 
+        eventClick: function(info) {
+            if (info.event.id != null & info.event.id !='') {
+                const link = '/calendar/detail?wid=' + info.event.id;
+                window.location.href = link;
+            }
+        }
     });
 
-/*     $(document).ready(function() {
-    	
-        var activeTab = sessionStorage.getItem('activeTab');
-        if (activeTab) {
-            $('#' + activeTab).tab('show');
-        }
+    calendar.render();
+    
+});
 
-        $('.nav-tabs button').on('click', function() {
-            var activeTabId = $(this).attr('id');
-            sessionStorage.setItem('activeTab', activeTabId);
-
-            if (activeTabId === 'nav-home-tab') {
-                window.location.href = 'http://localhost:8080/calendar/welfare';
-            } 
-        });
-
-        function loadCalendar() {
-        	$.ajax({
-                 url: "/calendar/welfarelist",
-                 method: "GET",
-                 success: function(response) {
-                     $('#calendar').html(response);
-                     
-                 }}) 
- 
-            request.done(function(data) {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,listWeek'
-                    },
-                    editable: true,
-                    selectable: true,
-                    locale: 'ko', // 한글
-                    droppable: false,
-                    events: data,
-                    eventClick : function(info) {
-                    	 var wid = info.event._def.publicId; // wid 가져오기
-                         console.log("Clicked event's wid:", wid);
-                         if (wid) {
-                             const link = 'http://localhost:8080/calendar/detail?wid=' + wid;
-                             window.location.href = link;
-                         } else {
-                             console.log("wid not found for this event.");
-                         }
-                    }
-                });
-                calendar.render();
-            });
-
-            request.fail(function(jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
-        }
-       loadCalendar();
-    }); */
 </script>
 
 
@@ -213,7 +193,6 @@ body {
 </style>
 </head>
 <body>
-[[${calendarData} ]]
 	<div class="container-fluid bg-primary py-5 mb-5 page-header">
 		<div class="container py-5">
 			<div class="row justify-content-center">
@@ -372,9 +351,12 @@ body {
 				</div>
 			</div>
 		</div>
-
-
+ 
+ 
 <script type="text/javascript">
+
+
+ 
 
 function gopage(p){
 	frmSearch.pageNum.value = p;
