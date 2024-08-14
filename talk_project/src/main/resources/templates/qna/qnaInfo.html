@@ -15,37 +15,52 @@
 	<div class="container">
 		<h3>QnA 정보</h3>
 		<table>
-			<th:block th:each="qna : ${qnaInfo}">
 			<tr>
 				<th>번호</th>
-				<td th:text="${qna.qnaNo}">
+				<td th:text="${qnaInfo.qnaNo}"></td>
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td th:text="${qna.qnaTitle}">
+				<td th:text="${qnaInfo.qnaTitle}"></td>
 			</tr>
 			<tr class="no-content">
 				<th>내용</th>
-				<td th:text="${qna.qnaContent}">
+				<td th:text="${qnaInfo.qnaContent}"></td>
 			</tr>
-			</th:block>
 		</table>
 		
-		<table>
-			<th:block th:each="reply : ${reply}">
+		<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
+			<table>
 				<tr>
-					<th>답글내용</th>
-					<td th:text=${reply.replyCotnent}></td>
+					<td>
+						<textarea cols="50" rows="5" th:text="${qnaInfo.replyContent}"></textarea>
+					</td>
 				</tr>
 				<tr>
-					<th>작성일</th>
-					<td th:text="${#dates.format(reply.regDate, 'yyyy년MM월dd일')}"></td>
+					<td>
+						<button type="button">댓글삭제</button>
+					</td>
 				</tr>
-			</th:block>
-		</table>
-		<div>
-			<button type="button" th:onclick="|location.href='@{/deleteQnAInfo(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
+			</table>
 		</div>
+	
+		<form name="insertForm"
+			th:action="@{/qnaReplyInsert}" method="post"
+		  	th:if="${qnaInfo.qnaState} == '0'">
+			<table>
+				<tr>
+					<td>
+						<textarea name="replyContent"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button type="submit">등록</button>
+					</td>
+				</tr>
+			</table>
+		</form>
 	</div>
+	<!-- end of container -->
 </body>
 </html>

@@ -43,6 +43,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-logging' // 기본적으로 포함됨
 	implementation 'com.github.shin285:KOMORAN:3.3.9'
 
+
+
+	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-texttospeech
+	implementation 'com.google.cloud:google-cloud-texttospeech:2.48.0'
+
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	// spring security 

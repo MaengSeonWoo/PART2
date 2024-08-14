@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
+
+<head>
+	<meta charset="UTF-8">
+	<title>이력서 관리</title>
+
+<style>
+	.resume-container {
+		max-width: 800px;
+		margin: 50px auto;
+		border: 2px solid #ccc;
+		padding: 20px;
+		border-radius: 10px;
+		background-color: #f7f7f7;
+	}
+
+	.header {
+		background-color: #e2e3e5;
+		padding: 10px;
+		border-radius: 5px;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	.profile-image {
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		border: 2px solid #ccc;
+		background-image: url('profile-image.png');
+		/* 이미지 URL */
+		background-size: cover;
+		background-position: center;
+		margin: 10px;
+	}
+
+	.section-title {
+		font-weight: bold;
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+
+	.table thead th {
+		font-weight: bold;
+		background-color: #e2e3e5;
+	}
+
+	.table-bordered td,
+	.table-bordered th {
+		vertical-align: middle;
+	}
+</style>
+</head>
+
+<body>
+	<div class="resume-container">
+		<div class="header">
+			<p th:text="${resume.resumeName + '의 이력서입니다'}">홍길동의 이력서입니다</p>
+		</div>
+
+		<div class="section-title">기본 정보</div>
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<td rowspan="5" style="width: 120px; text-align: center;">
+						<div class="profile-image"></div>
+					</td>
+					<th>이름</th>
+					<td th:text="${resume.resumeName}">홍길동</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td th:text="${resume.birth}">1958-08-06</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td th:text="${resume.addr}">대구광역시 중구 중앙대로 403 504호</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td th:text="${resume.tel}">010-4212-4800</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td th:text="${resume.email}">hong@email.com</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="section-title">학력사항</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>학교명</th>
+					<th>전공</th>
+					<th>졸업년월</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.edus)}" th:each="edu : ${resume.edus}">
+					<tr>
+						<td>OO대학교</td>
+						<td>컴퓨터공학</td>
+						<td>1980-02</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.edus)}">
+					<tr>
+						<td></td>
+						<td> </td>
+						<td> </td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="section-title">경력사항</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>근무처</th>
+					<th>직위/업무내용</th>
+					<th>시작일</th>
+					<th>종료일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.careers)}" th:each="career : ${resume.careers}">
+					<tr>
+						<td>OO회사</td>
+						<td>개발팀장 / 소프트웨어 개발</td>
+						<td>1980-03-01</td>
+						<td>1990-06-30</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.careers)} ">
+					<tr>
+						<td></td>
+						<td> </td>
+						<td> </td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="section-title">보유기술/자격증</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>취득일</th>
+					<th>자격증명</th>
+					<th>시행처</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.licenses)} " th:each="license : ${resume.licenses}">
+					<tr>
+						<td th:text="${license.getDate}">1982-05-01</td>
+						<td th:text="${license.licenseName}">정보처리기사</td>
+						<td th:text="${license.licenseCompany}">한국산업인력공단</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.licenses)} ">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="text-end">
+			<button type="button" class="btn btn-secondary" th:onclick="'modHandler(' + ${resume.resumeNo} + ')'">수정</button>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	function modHandler(no) {
+		location.href = `/userMain/resume/${no}/edit`;
+	}
+</script>
+
+</html>

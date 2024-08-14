@@ -1,5 +1,6 @@
 package com.talk.app.login.service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-
 public class CoUserVO {
 	private Integer coUserNo;		//기업회원번호
 	private Long coRegNo;			//사업자등록번호
@@ -33,4 +33,6 @@ public class CoUserVO {
 	private String authority;		//권한
 	private String logoImg;			//기업 로고
 	private String filePath;		//이미지
+	private Integer delStatus;		//회원탈퇴 상태
+	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 }

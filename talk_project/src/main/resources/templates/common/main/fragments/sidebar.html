@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="sideFragment">
-    <div class="sidebar">
-        <h1>일반회원 마이페이지</h1>
+    <div class="move-container-left">
+    <div class="inner">
+      	<h3 class="title-t ty3">마이페이지</h3>
         <ul>
             <li><a href="#home">지원 이력서 및 최종 채용 확인</a></li>
-            <li><a th:href="@{/copostingList}">채용공고</a></li>
-            <li><a th:href="@{/userUpdate/{userId}(userId=${userId})}">회원정보 수정</a></li>
-            <li><a href="#contact">회원탈퇴</a></li>
+            <li><a th:href="@{/}">건드리지마시오</a></li>
+            <li><a th:href="@{/userupdate}">회원정보 수정</a></li>
+            <li><a th:href="@{/userdelete}">회원탈퇴</a></li>
         </ul>
     </div>
+    </div>
 </th:block>
+

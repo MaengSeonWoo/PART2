@@ -90,6 +90,9 @@
 	background-color: pink;
 }
 
+.voiceBtn{
+	display:flex;
+}
 .tutoCloseBtn{
 	display:flex;
 	justify-content:center;
@@ -108,6 +111,10 @@
 	<div class="tutoModal">
 			<p class="tip">이곳에 아이디(계정)을 입력해주세요. 이 곳 사이트에 계정이 없으시다면 좌측 하단 회원가입을 클릭해주세요</p>
 			<button type="button" class="tutoCloseBtn" onclick="tutorialEnd()">X</button>
+			<div class="voiceBtn">
+				<button type="submit"class="voicePlayBtn">텍스트 재생</button>
+				<button type="submit" class="voiceStopBtn">텍스트 중지</button>
+			</div>
 		</div>
 		
 	<div class="loginForm">
@@ -263,6 +270,106 @@
 		state = 0;
 	}
 	
+	/* tts --------------------------------------------------------------------------------*/
 	
+	/* const button = document.querySelector('.voice-button');
+	const message = new SpeechSynthesisUtterance('test');
+	
+	button.addEventListener('click', () => {
+		console.log(button);
+		console.log(message);
+	})
+	
+	function populateVoiceList(){
+		if(typeof speechSynthesis === 'undefined'){
+			return;
+		} 
+		
+	const voices = speechSynthesis.getVoices();
+	
+	const voiceList = voices
+		.filter((voice) => {
+			return voice.lang.includes('en');
+		})
+		.map((voice) => {
+			return `${voice.name} (${voice.lang})`;
+		});
+	console.log(voiceList);
+	}
+	
+	populateVoicesList();
+	if(
+		typeof speechSynthesis !== 'undefined' &&
+		speechSynthesis.onvoiceschagned !== undefined
+	) {
+		speechSynthesis.onvoiceschanged = populateVoiceList;		
+	}
+	
+	button.addEventListener('click', () => {
+		message.lang = 'en-US';
+		message.pitch = 1;
+		message.rate = 1;
+		message.text = "HELLO WORLD";
+		message.volume = 1;
+		
+		window.speechSynthesis.speak(message);
+	}); */
+	
+/* 	if ('speechSynthesis' in window){
+		console.log("Web Speech API supported!")
+	} else {
+		console.log("Web Speech API not supported :-(")   
+	} */
+	
+	function populateVoiceList() {
+		  if (typeof speechSynthesis === 'undefined') {
+		    return;
+		  }
+
+		  const voices = speechSynthesis.getVoices();
+
+		  const voiceList = voices
+		    .filter((voice) => {
+		      return voice.lang.includes('en');
+		    })
+		    .map((voice) => {
+		      return `${voice.name} (${voice.lang})`;
+		    });
+		  console.log(voiceList);
+		}
+
+		populateVoiceList();
+		if (
+		  typeof speechSynthesis !== 'undefined' &&
+		  speechSynthesis.onvoiceschanged !== undefined
+		) {
+		  speechSynthesis.onvoiceschanged = populateVoiceList;
+		}
+	
+	const checkBrowserCompatibility = () => {
+		  "speechSynthesis" in window
+		    ? console.log("Web Speech API supported!")
+		    : console.log("Web Speech API not supported :-(")
+		}
+	const utterThis = new SpeechSynthesisUtterance()
+	const synth = window.speechSynthesis
+	
+	checkBrowserCompatibility();	
+	
+	let playText = document.querySelector('.voicePlayBtn');
+	let stopText = document.querySelector('.voiceStopBtn');
+	let text = '';
+	
+	playText.addEventListener('click', function() {
+		event.preventDefault()
+		text = tip.innerHTML
+		utterThis.text = text
+		console.log(text)
+		synth.speak(utterThis)
+	})
+	
+	stopText.addEventListener('click', function() {
+		window.speechSynthesis.cancel()
+	})
 </script>
 </html>

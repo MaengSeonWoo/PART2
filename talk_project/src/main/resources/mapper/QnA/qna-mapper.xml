@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talk.app.QnA.mapper.QnAMapper">
-	<!-- 전체 -->
+	<!-- 전체(관리자) -->
 	<select id="selectQnAAll" resultType="qnaVO">
 		SELECT qna_no,
 			   qna_title,
@@ -11,19 +11,39 @@
 			   user_no,
 			   co_user_no
 		 FROM qna
+		 ORDER BY qna_no DESC
 	</select> 
+	
+	
+	<!-- 전체(유저아이디) -->
+	<!-- <select id="myQnaAll" resultType="qnaVO">
+		SELECT qna_no,
+       		   qna_title,
+               qna_content,
+       		   reg_date,
+       		   qna_state,
+       		   q.user_no,
+       		   u.user_id
+		FROM qna q 
+    	JOIN users u
+    		ON q.user_no = u.user_no
+		WHERE user_id = #{userId}
+		ORDER BY qna_no DESC;
+	</select> -->
 	
 	<!-- 단건 -->
 	<select id="selectQnAInfo" resultType="qnaVO">
-		SELECT qna_no,
-			   qna_title,
-			   qna_content,
-			   reg_date,
-			   qna_state,
-			   user_no,
-			   co_user_no
-		FROM qna
-		WHERE qna_no = #{qnaNo}
+			SELECT reply_no, 
+				  qna_title,
+				  qna_content,
+		       reply_content, 
+		       regdate, 
+		       qr.qna_no,
+		       qna_state
+		FROM qna q
+    		LEFT OUTER JOIN qna_reply qr
+    		ON qr.qna_no = q.qna_no
+		WHERE q.qna_no = #{qnaNo} 
 	</select>
 	
 	<!-- 등록 -->
@@ -59,4 +79,5 @@
 		WHERE qna_no = #{qnaNo}
 	</delete>
 	
+
 </mapper>
