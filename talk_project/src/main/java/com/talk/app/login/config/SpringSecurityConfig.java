@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/**", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login", "/signsel","/cologin","/main/**",  "/docs/**", "/production/**").permitAll() 
+                .antMatchers("/", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login", "/signsel","/cologin","/main/**",  "/docs/**", "/production/**").permitAll() 
                 .antMatchers("/admin").hasRole("ADMIN") 
                 .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
                 .anyRequest().authenticated()
