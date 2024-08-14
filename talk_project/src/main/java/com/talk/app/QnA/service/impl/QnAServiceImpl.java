@@ -21,6 +21,11 @@ public class QnAServiceImpl implements QnAService {
 		this.qnaMapper = qnaMapper;
 	}
 	
+	/*
+	 * @Override public List<qnaVO> myQnaList(qnaVO qnavo) { return
+	 * qnaMapper.myQnaAll(qnavo); }
+	 */
+	
 	@Override
 	public List<qnaVO> qnaList() {
 		return qnaMapper.selectQnAAll();
@@ -57,6 +62,8 @@ public class QnAServiceImpl implements QnAService {
 	public int deleteQnA(int qnavo) {
 		return qnaMapper.deleteQnAInfo(qnavo);
 	}
+
+	
 
 	
 }

@@ -7,6 +7,9 @@ public interface QnAService {
 	// 전체조회
 	public List<qnaVO> qnaList();
 	
+	// 본인 전체조회
+	/* public List<qnaVO> myQnaList(qnaVO qnavo); */
+	
 	// 단건조회
 	public qnaVO qnaInfo(qnaVO qnavo);
 	

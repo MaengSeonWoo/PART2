@@ -3,6 +3,8 @@ package com.talk.app.qnaReply.service;
 import java.util.List;
 import java.util.Map;
 
+import com.talk.app.QnA.service.qnaVO;
+
 public interface QnAReplyService {
 	
 	public List<QnAReplyVO> replyList();
