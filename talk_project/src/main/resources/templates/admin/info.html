@@ -68,29 +68,29 @@
                               <p class="date"> 작성 일자 들어갈 자리</p>
                             </div>
                             <div class="col-md-12">
-                              <h4>[[ ${detail.servName} ]]</h4>
+                              <h4>< [[ ${detail.servName} ]] ></h4>
                               <p>서비스ID : [[ ${{detail.servId}} ]]</p>
                             </div>
                           </div>
                           <div class="view-mail">
                             <strong>복지 내용 들어갈 자리</strong>
-                            <div>시행 시작 일자 : [[ ${{detail.startDate}} ]]</div>
-                            <div>시행 종료 일자 : [[ ${{detail.endDate}} ]]</div>
-                            <div>사업담당부서명 : [[ ${{detail.bizDept}} ]]</div>
-                            <div>시도명 : [[ ${{detail.sido}} ]]</div>
-                            <div>시군구명 : [[ ${{detail.sgg}} ]]</div>
-                            <div>가구상황명 : [[ ${{detail.household}} ]]</div>
-                            <div>관심주제명 : [[ ${{detail.likeSubject}} ]]</div>
-                            <div>지원주기명 : [[ ${{detail.supPeriod}} ]]</div>
-                            <div>제공유형명 : [[ ${{detail.provType}} ]]</div>
-                            <div>지원대상 내용 : [[ ${{detail.supTarget}} ]]</div>
-                            <div>급여서비스 내용 : [[ ${{detail.salServ}} ]]</div>
-                            <div>신청방법 내용 : [[ ${{detail.appWay}} ]]</div>
-                            <div>선정기준 내용 : [[ ${{detail.selStandard}} ]]</div>
-                            <div>서비스 요약 : [[ ${{detail.servSummary}} ]]</div>
+                            <div><strong>시행 시작 일자 : </strong>[[ ${{detail.startDate}} ]]</div>
+                            <div><strong>시행 종료 일자 : </strong>[[ ${{detail.endDate}} ]]</div>
+                            <div><strong>사업담당부서명 : </strong>[[ ${{detail.bizDept}} ]]</div>
+                            <div><strong>시도명 : </strong>[[ ${{detail.sido}} ]]</div>
+                            <div><strong>시군구명 : </strong>[[ ${{detail.sgg}} ]]</div>
+                            <div><strong>가구상황명 : </strong>[[ ${{detail.household}} ]]</div>
+                            <div><strong>관심주제명 : </strong>[[ ${{detail.likeSubject}} ]]</div>
+                            <div><strong>지원주기명 : </strong>[[ ${{detail.supPeriod}} ]]</div>
+                            <div><strong>제공유형명 : </strong>[[ ${{detail.provType}} ]]</div>
+                            <div><strong>지원대상 내용 : </strong>[[ ${{detail.supTarget}} ]]</div>
+                            <div><strong>급여서비스 내용 : </strong>[[ ${{detail.salServ}} ]]</div>
+                            <div><strong>신청방법 내용 : </strong>[[ ${{detail.appWay}} ]]</div>
+                            <div><strong>선정기준 내용 : </strong>[[ ${{detail.selStandard}} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${{detail.servSummary}} ]]</div>
                           </div>
                           <hr>
-
+                          
                           <div class="attachment">
                             <p>
                               <span><i class="fa fa-paperclip"></i> 3 attachments — </span>
@@ -98,52 +98,12 @@
                               <a href="#">View all images</a>
                             </p>
                             <ul>
-                              <li>
-                                <a href="#" class="atch-thumb">
-                                  <img th:src="@{/production/images/inbox.png}" alt="img" />
-                                </a>
-
-                                <div class="file-name">
-                                  image-name.jpg
-                                </div>
-                                <span>12KB</span>
-
-
-                                <div class="links">
-                                  <a href="#">View</a> -
-                                  <a href="#">Download</a>
-                                </div>
-                              </li>
-
-                              <li>
-                                <a href="#" class="atch-thumb">
-                                  <img th:src="@{/production/images/inbox.png}" alt="img" />
-                                </a>
-
-                                <div class="file-name">
-                                  img_name.jpg
-                                </div>
-                                <span>40KB</span>
-
-                                <div class="links">
-                                  <a href="#">View</a> -
-                                  <a href="#">Download</a>
-                                </div>
-                              </li>
-                              <li>
-                                <a href="#" class="atch-thumb">
-                                  <img th:src="@{/production/images/inbox.png}" alt="img" />
-                                </a>
-
-                                <div class="file-name">
-                                  img_name.jpg
-                                </div>
-                                <span>30KB</span>
-
-                                <div class="links">
-                                  <a href="#">View</a> -
-                                  <a href="#">Download</a>
-                                </div>
+                              <li th:each="file : ${file}">
+	                                <div class="links">
+	                                바로보기 :
+	                                <br> 
+	                                  <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb"> [[${file.fileName}]]</a>
+	                                </div>
                               </li>
 
                             </ul>

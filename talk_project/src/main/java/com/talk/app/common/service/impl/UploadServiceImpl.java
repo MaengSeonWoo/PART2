@@ -40,10 +40,10 @@ public class UploadServiceImpl implements UploadService {
 //		if (uploadFiles[0].getSize() != 0) {
 		int i = 0;
 		for (MultipartFile uploadFile : uploadFiles) {
-			if (!uploadFile.getContentType().startsWith("image")) {
-				System.err.println("this file is not image type");
-				return null;
-			}
+//			if (!uploadFile.getContentType().startsWith("image")) {
+//				System.err.println("this file is not image type");
+//				return null;
+//			}
 
 			String originalName = uploadFile.getOriginalFilename();
 			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);
@@ -126,8 +126,6 @@ public class UploadServiceImpl implements UploadService {
 	                }
 	            }
 	        }
-	        
-	    
 
 	        // 새 파일 업로드
 	        deleteFiles(domainType, domainId);
@@ -167,7 +165,6 @@ public class UploadServiceImpl implements UploadService {
 		List<UploadFileVO> uploadList = uploadedFileMapper.selectFilesByDomain(domainType, domainId);
 		for(int i=0; i<uploadList.size(); i++) {
 			File file = new File(uploadPath+"/"+uploadList.get(i).getFilePath());
-	        
 	    	if( file.exists() ){
 	    		file.delete();
 	    	}	
@@ -175,5 +172,11 @@ public class UploadServiceImpl implements UploadService {
 		uploadedFileMapper.deleteFilesByDomain(domainType, domainId);
 		
 	}
+
+	@Override
+	public String pdfData(String domainType, Long domainId, String filePath) {
+		return uploadedFileMapper.selectPdf(domainType, domainId, filePath);
+	}
+	
 	
 }

@@ -46,6 +46,11 @@
                             <th scope="row">시행시작일</th>
                             <td>[[ ${detail.startDate} ]]</td>
                         </tr>
+                        <tr class="img">
+							<td th:each="file : ${file}">
+								<img width="50%" th:src="@{/images/{fileName}(fileName=${file.filePath})}">
+							</td>
+						</tr>
                         <tr>
                             <th scope="row">제목</th>
                             <td>[[ ${detail.servName } ]]</td>
@@ -61,12 +66,15 @@
                             <th scope="row">내용</th>
                             <td colspan="3">[[ ${detail. provType} ]]  /  [[ ${detail. supPeriod} ]]</td>
                         </tr>
+                        <tr th:each="file : ${file}">
+                            <th scope="row">첨부파일</th>
+                            <td> <img th:src="@{/images/{fileName}(fileName=${file.filePath})}" alt="img" /></td>
+                            <td>  [[${file.fileName}]] </td>
+                        </tr>
                     </tbody>
                 </table>
                 <p class="btn_set">
-                    <a th:href="@{/}" class="btns btn_bdr4 btn_mid">수정</a>
-                    <button type="button" class="btns btn_bdr1 btn_mid">삭제</button>
-                    <a th:href="@{/}" class="btns btn_bdr3 btn_mid">뒤로</a>
+                    <a th:href="@{/calendar/welfare}" class="btns btn_bdr3 btn_mid">뒤로</a>
                 </p>
             </section>
         </div> <!--/* .content */-->

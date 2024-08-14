@@ -224,9 +224,7 @@ body {
 				                    th:each="region : ${regionCode}" 
 				                    th:classappend="${ searchVO.sido} == ${region.codeName} ? 'active' "
 				                    th:data-region="${region.codeName}"  th:text="${region.codeName}">서울특별시</button>
-				        
 				    </div>
-				
 				    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
 				    <label class="btn btn-outline-info" for="vbtn-radio2">주제분류</label>
     					<div id="interestList" class="btn-group-horizontal" style="display: none;">
