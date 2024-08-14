@@ -73,7 +73,7 @@
 									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
 								</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-warning">삭제</button>
+									<button type="button" class="btn btn-sm btn-warning resumeRemoveHamdler">삭제</button>
 								</td>
 							</tr>
 						</th:block>
@@ -115,6 +115,21 @@
 				location.href = `/userMain/resume/${rNo}`
 
 			}
+			
+			document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
+				let rno = val.parentElement.parentElement.previousElementSibling.value;
+				val.addEventListener('click', function(){
+					let form = document.createElement('form');
+					form.setAttribute('action', `/userMain/resume/${rno}/remove`);
+					form.setAttribute('method', 'post');
+					
+					document.querySelector('body').appendChild(form);
+
+					form.submit();
+			})
+			})
+			
+			
 		})
 
 	</script>
