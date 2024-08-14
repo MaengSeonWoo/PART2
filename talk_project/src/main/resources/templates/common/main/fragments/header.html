@@ -22,8 +22,13 @@
             	<a th:href="@{/qna}" class="nav-item nav-link">Q&A</a>
             	<a th:href="@{/noticeList}" class="nav-item nav-link">공지사항</a>
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
-                <a th:href="@{/CoUserMain}" class="nav-item nav-link">마이페이지</a>
-                <a th:href="@{/login}" class="nav-item nav-link">로그인</a>
+                <a th:href="${userAuthority == 'ROLE_USER' ? '/userMain' : '/CoUserMain'}" class="nav-item nav-link">마이페이지</a>
+                <th:block th:if="${userAuthority == null}">
+                    <a th:href="@{/login}" class="nav-item nav-link">로그인</a>
+                </th:block>
+                <th:block th:if="${userAuthority != null}">
+                    <a th:href="@{/logout}" class="nav-item nav-link">로그아웃</a>
+                </th:block>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">

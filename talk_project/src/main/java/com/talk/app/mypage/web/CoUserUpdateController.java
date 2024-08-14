@@ -1,6 +1,7 @@
 package com.talk.app.mypage.web;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -155,6 +157,14 @@ public class CoUserUpdateController {
             // 탈퇴 취소 실패 시 메시지와 함께 메인 페이지로 리다이렉트
             return "redirect:/?error=탈퇴%20취소에%20실패했습니다.";
         }
+        
+        
+    }
+    
+    @Scheduled(fixedRate = 600000)
+    public void processScheduledDeletion() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 30 * 1000); 
+        couserupdateService.RealDelCoUser(timestamp);
     }
     // ======================================================================================================
     

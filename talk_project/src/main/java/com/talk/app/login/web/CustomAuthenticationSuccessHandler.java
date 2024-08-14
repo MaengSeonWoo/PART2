@@ -51,7 +51,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 if (coUser.getDelStatus() == 0) {
                     response.sendRedirect(request.getContextPath() + "/");
                 } else if (coUser.getDelStatus() == 1) {
-                    response.sendRedirect(request.getContextPath() + "/mypage/cancelDel");
+                    response.sendRedirect(request.getContextPath() + "/cancelDel");
                 } else {
                     response.sendRedirect(request.getContextPath() + "/login?error");
                 }
