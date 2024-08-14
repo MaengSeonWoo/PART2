@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/ad_layout}" layout:fragment="Content">
-	
 	<!-- <div class="right_col" role="main"> -->
 	<div class="right_col">
                 <div class="">
@@ -10,7 +9,6 @@
                         <div class="title_left">
                             <h3>복지 정책 등록</h3>
                         </div>
-
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5 form-group pull-right top_search">
                                 <div class="input-group">
@@ -45,7 +43,11 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <form name="insertWelfare"  th:action="@{/admin/new}" method="post">
+                                    <form name="insertWelfare"  
+                                    			th:action="@{/admin/new}" 
+                                    			method="post" 
+                                    			th:object="${detaill}" 
+                                    			enctype="multipart/form-data">
                                         <p>내용을 입력해 주세요</p>
                                         <span class="section">정보 입력</span>
                                         
@@ -146,7 +148,7 @@
                                         <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">파일 첨부</label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input type="file" class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" />
+                                                <input type="file"  id="files" class="form-control" name="uploadFiles" data-validate-length-range="6" data-validate-words="2" multiple />
                                         </div>
                                         </div>
                                         <div class="field item form-group">
@@ -171,48 +173,9 @@
                 </div>
 			</div>        
             
-            
             <script type="text/javascript">
-            
-            $('form[name="insertWelfare"]').on('submit',welfareInsertHandeler);
-            
-            function welfareInsertHandeler(e){
-            	e.preventDefault();
-                let servName =$('input[name="servName"]');
-                let startDate =$('input[name="startDate"]');
-                
-  /*           let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]');
-                let servName =$('input[name="servName"]'); */
 
-                if(servName.val()=''){
-                    alert('제목은 필수입니다')
-                    servName.focus();
-                    return;
-                }
-
-
-
-
-                alert('글이 등록되었습니다.');
-                insertWelfare.submit();
-
-
-            }
-            
-            
-            
             </script>
-            
-            
             
 	    <!-- Javascript functions	-->
 <!-- 	<script>
@@ -231,7 +194,6 @@
 				slash.style.display = "none";
 				eye.style.display = "block";
 			}
-
 		}
 	</script>
 	

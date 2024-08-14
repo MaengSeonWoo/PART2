@@ -62,6 +62,7 @@
         			, sel_standard
         			, sal_serv
         FROM welfare
+        ORDER BY wid desc
 </select>
 
 <select id="selectDetail" resultType="com.talk.app.admin.service.WelfareVO">

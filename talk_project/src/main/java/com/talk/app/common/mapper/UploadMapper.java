@@ -16,4 +16,6 @@ public interface UploadMapper {
 		List<String> selectFilePathsByBoard(@Param("domainType") String domainType, @Param("domainId") Long domainId);
 		// 파일 삭제
 		void deleteFilesByDomain(@Param("domainType") String domainType, @Param("domainId") Long domainId);
+		
+		String selectPdf(@Param("domainType") String domainType, @Param("domainId") Long domainId, @Param("filePath") String filePath);
 }	
