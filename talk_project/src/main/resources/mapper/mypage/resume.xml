@@ -47,11 +47,52 @@
 				, addr = #{addr}
 				, tel = #{tel}
 				, email = #{email}
+				<if test="resumeImg != null and resumeImg != ''">
+					, resume_img = #{resumeImg}
+				</if>
 				, produce = #{produce}
-				, resume_img = #{resumeImg}
 		WHERE resume_no = #{resumeNo}
 	</update>
 	
+	<insert id="insertResume" parameterType="ResumeVO">
+		<selectKey keyProperty="resumeNo" resultType="Integer"
+			order="BEFORE">
+			SELECT NVL(MAX(resume_no), 0) + 1
+			FROM resume
+		</selectKey>
+		INSERT INTO resume 
+		(
+			resume_no,
+			resume_title,
+			resume_name,
+			birth,
+			addr,
+			tel,
+			email,
+			user_no,
+			resume_img,
+			<if test="produce != null and produce != ''">
+			produce,
+			</if>
+			create_date
+		)
+		VALUES 
+		(
+			#{resumeNo},
+			#{resumeTitle},
+			#{resumeName},
+			#{birth},
+			#{addr},
+			#{tel},
+			#{email},
+			#{userNo},
+			#{resumeImg},
+			<if test="produce != null and produce != ''">
+			#{produce},
+			</if>
+			sysdate				
+		)
+	</insert>
 	
 	<select id="getUserNoById" parameterType="String" resultType="int">
         SELECT DISTINCT user_no 
