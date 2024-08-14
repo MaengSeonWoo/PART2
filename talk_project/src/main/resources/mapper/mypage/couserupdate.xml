@@ -136,6 +136,8 @@
 				,USER_ID
 				,AUTHORITY
 				,del_status
+				,sido
+				,like_subject
 		FROM users
 		WHERE user_id = #{userId}
 	</select>
@@ -154,6 +156,8 @@
 			,BIRTH = #{birth}
 			,HOUSEHOLD = #{household}
 			,GENDER = #{gender}
+			,sido = #{sido}
+			,like_subject = #{likeSubject}
 		WHERE user_id = #{userId}
 	</update>
 	

@@ -55,7 +55,7 @@
 				</tr>
 				<tr>
 					<th>생년월일</th>
-					<td><input type="text" th:field="*{birth}"></td>
+					<td><input type="date" th:field="*{birth}"></td>
 				</tr>
 				<tr>
 					<th>가구상황</th>
@@ -67,6 +67,14 @@
 					<input type="radio" name="gender" value="E1" th:checked = "${#strings.isEmpty(userInfo.gender)} and ${userInfo.gender} == 'E1'">남성
 					<input type="radio" name="gender" value="E2" th:checked = "${#strings.isEmpty(userInfo.gender)} and ${userInfo.gender} == 'E2'">여성
 					</td>
+				</tr>
+				<tr>
+					<th>관심주제</th>
+					<td><input type="text" th:field="*{likeSubject}"></td>
+				</tr>
+				<tr>
+					<th>거주지역</th>
+					<td><input type="text" th:field="*{sido}"></td>
 				</tr>
 			</table>
 			<button type="button" id="updateBtn">수정</button>
@@ -80,7 +88,7 @@
         let formData = new FormData($('form[name="UserUpdateForm"]')[0]);
 
         $.ajax({
-            url: '/userUpdate', // 서버 URL을 확인
+            url: '/userupdate', // 서버 URL을 확인
             type: 'POST',
             data: formData,
             processData: false,
