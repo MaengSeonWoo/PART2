@@ -2,16 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talk.app.qnaReply.mapper.QnAReplyMapper">
 	
-	<!-- 단건 -->
-	<select id="selectQnAInfo" resultType="QnAReplyVO">
+	 <select id="selectQnAInfo" resultType="QnAReplyVO">
 		SELECT reply_no, 
 		       reply_content, 
 		       regdate, 
-		       qr.qna_no
-		FROM qna_reply qr
-    		JOIN qna q
+		       qr.qna_no,
+		       qna_state
+		FROM qna q
+    		LEFT OUTER JOIN qna_reply qr
     		ON qr.qna_no = q.qna_no
 		WHERE q.qna_no = #{qnaNo} 
-	</select>
-
+	</select> 
+	
+	<!-- 댓글 등록 -->
+<!-- 	<insert id="insertReplyInfo" parameterType="replyVO">
+		<selectKey keyProperty="replyNo"
+		           resultType="Integer"
+		           order="BEFORE">
+			SELECT NVL(MAX(reply_no), 0) + 1
+			FROM qna_reply
+	    </selectKey>
+		INSERT INTO qna_reply
+							(
+							reply_no,
+							reply_content,
+							regdate,
+							qna_no
+							)
+					 VALUES(
+					 		#{replyNo},
+					 		#{replyContent},
+					 		sysdate,
+							#{qnaNo}					 		
+					 		)
+	</insert> -->
+	
 </mapper>
