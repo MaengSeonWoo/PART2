@@ -25,13 +25,17 @@
 }
 
 .profile-image {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
+	width: 150px;
+	height: 200px;
 	border: 2px solid #ccc;
 	background-size: cover;
 	background-position: center;
 	margin: 10px;
+}
+
+.prorileImg{
+	width: 100%;
+	height: 100%;
 }
 
 .section-title {
@@ -68,9 +72,16 @@
 				<tbody>
 					<tr>
 						<td rowspan="4" style="width: 120px; text-align: center;">
-							<div class="profile-image"
-								style="background-image: url('profile-image.png');"></div> <input
-							type="hidden" th:value="${resume.resumeNo}" id="resumeNo">
+							<div class="profile-image toggleImg1" style="display: none">
+								<img id="preview" class="prorileImg">
+							</div>
+							<div class="toggleImg2">
+								<div th:if="${resume.resumeImg} == null" class="profile-image" style="background-image: url('/main/img/profile-image.png');"></div> 
+								<div th:if="${resume.resumeImg} != null" class="profile-image">
+									<img alt="" th:src="@{/images/{fileName}(fileName=${profile.filePath})}" class="prorileImg">
+								</div>
+							</div>
+							<input type="hidden" th:value="${resume.resumeNo}" id="resumeNo">
 						</td>
 						<th>이름</th>
 						<td><input type="text" class="form-control"
@@ -93,8 +104,8 @@
 							th:value="${resume.tel}" id="tel"></td>
 					</tr>
 					<tr>
-						<td style="text-align: center;"><input type="file"
-							id="imgUpload" name="uploadFiles" multiple style="display: none;">
+						<td style="text-align: center;">
+						<input type="file" id="imgUpload" name="uploadFiles" multiple style="display: none;" onchange="readURL(this);">
 							<label for="imgUpload" class="btn btn-primary"
 							style="cursor: pointer;">사진 변경</label></td>
 						<th>이메일</th>
@@ -176,8 +187,8 @@
 								placeholder="근무처"></td>
 							<td><input type="text" class="form-control"
 								placeholder="직위/업무내용"></td>
-							<td><input type="date" class="form-control"></td>
-							<td><input type="date" class="form-control"></td>
+							<td><input type="date" id="careerStart" class="form-control"></td>
+							<td><input type="date" id="careerEnd" class="form-control"></td>
 							<td class="text-center"><button type="button"
 									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -229,13 +240,28 @@
 
 			<div class="text-end mt-4">
 				<button type="button" class="btn btn-primary modHandler">저장</button>
-				<button type="button" class="btn btn-secondary">취소</button>
+				<button type="button" class="btn btn-secondary" th:onclick="">취소</button>
 			</div>
 		</div>
 	</form>
 
 
 	<script>
+	
+	function readURL(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+		      document.getElementById('preview').src = e.target.result;
+		      document.querySelector('.toggleImg1').style.display='block';
+		      document.querySelector('.toggleImg2').style.display='none';
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    document.getElementById('preview').src = "";
+		  }
+		}
+	
     function addRow(tableId) {
         const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
         const newRow = table.rows[0].cloneNode(true);
@@ -329,6 +355,7 @@
         .then(data => {
             if (data.success) {
                 alert("이력서가 성공적으로 업데이트되었습니다.");
+                location.href = `/userMain/resume/${rno}/`;
             } else {
                 alert("업데이트 중 오류가 발생했습니다.");
             }

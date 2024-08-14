@@ -45,7 +45,9 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <form name="insertWelfare"  th:action="@{/admin/new}" method="post">
+                                    <form name="updateWelfare" 
+                                    			th:object="${welfare}" >
+                                    			<input type="hidden" name="wid" th:field="${welfare.wid}" >
                                         <p>내용을 입력해 주세요</p>
                                         <span class="section">정보 입력</span>
                                         
@@ -138,9 +140,9 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                                             </div>
                                         </div>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">😭😭 첨부파일 😭😭 </label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align"> 첨부파일  </label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input type="file" class="form-control" data-validate-length-range="6" data-validate-words="2"  name="name" />
+                                                <input type="file" class="form-control" data-validate-length-range="6" data-validate-words="2" id="files" name="uploadFiles" multiple />
                                         </div>
                                         </div>
                                         <div class="field item form-group">
@@ -151,7 +153,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                                         <div class="ln_solid">
                                             <div class="form-group">
                                                 <div class="col-md-6 offset-md-3">
-                                                    <button type='submit' class="btn btn-primary" id="updateBtn">등록</button>
+                                                    <button type="button" class="btn btn-primary" id="updateBtn">등록</button>
                                                    <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/welfare}'|">취소</button>
                                                     
                                                 </div>
@@ -166,60 +168,49 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 			</div>        
 
 
-            <script>
-            //$('form[name="updateForm" button]').on('click',updateAjax);
-            $('#updateBtn').on('click', updateAjax);
-    
-            function updateAjax(event) {
-                let dataObj = getEmpObj();
-    
-                console.log(dataObj);
-                $.ajax('update', {
-                    type: 'post',	// 통신할 때 method : get, post, put, delete
-                    // => 아래 한줄 : 커맨드객체, @RequestParam
-                    //data : dataObj		// 데이타는 기본 객체타입만 받는다, 자동으로 QueryString변환
-    
-                    // => 아래 두줄 : @RequestBody
-                    contentType: 'application/json',
-                    data: JSON.stringify(dataObj)	//@RequestBody로 요청된것이라 json으로보냄
-                })
-                    .done(result => {
-                        console.log(result);
-                    })
-                    .fail(err => console.log(err));
-    
-    
-                $ajax('update', {
-                    type: 'post',
-                    data: dataObj
-                })
-                    .done(r => {
-                        console.log(r);
-                    })
-                    .fail(err => console.log(err));
-            }
-    
-            function getEmpObj() {
-                let formAry = $('form[name="updateForm"]').serializeArray();
-                // serializeArray => [{ name : 'empid', value : '205'},{ name : 'empname', value : '사쿠'}, ... ]
-                // 폼은 배열형태로 넘어갈수 없어서 객체로 만들어줘야함 
-                // javascript에선 FormData
-    
-                let formObj = {};
-                $.each(formAry, function (idx, input) {
-                    // input = { name : 'empid', value : '205'} 형태를
-                    // => { empid : 205 } 형태로 바꿔줘야함
-                    formObj[input.name] = input.value;
-                    // formObj['empid'] = '205';
-                    // formObj.empid == formObj['empid']  
-                });
-    
-                return formObj;
-                console.log(formAry);
-                //=> { empid : 205 } 로 나옴
-    
-            }
+            <script th:inline="javascript">
+            var wid = /*[[${welfare.wid}]]*/
+            console.log('wid : ',wid);
 
+            $('#updateBtn').on('click', UpdateAjax);
+            
+    		
+    		function UpdateAjax(event){
+    			//1) 보낼 데이터 확인
+    			let info = new FormData(document.updateWelfare);
+    			
+    			//2) AJAX
+    			$.ajax('/admin/update',{
+    				type:'post',
+    				processData : false,
+    				contentType : false,
+    				data : info
+    			})
+    			.done(data => {
+    				if(data.result){
+    					alert('정상적으로 수정되었습니다.');
+    					location.href="/admin/detail?wid="+ wid;
+    				}else{
+    					alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+    				}
+    			})
+    			.fail(err => console.log(err));			
+    		};
+    		
+    		function getNoticeInfo(){
+    			let formData= new FormData(document.updateWelfare);
+    			console.log('1) serializeArray', formData);
+    			
+    			let objData = {};
+    			$.each(formData, (idx, input) => {
+    				console.log('2) input', idx, input);
+    				objData[input.name] = input.value;
+    			});
+    			
+    			console.log('3) objData', objData);
+    			return objData;
+    		};
+    			
 </script>
 
 </html>
