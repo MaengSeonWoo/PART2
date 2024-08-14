@@ -25,6 +25,7 @@
 			  , authority
 			  , logo_img
 			  , del_status
+			  , status_update_time
 			  <!-- , file_path -->
 			  <!-- FROM company_user c JOIN files f
 			  ON c.co_user_no = f.domain_id
@@ -61,7 +62,8 @@
 	<!-- 기업회원 탈퇴 -->
 	<update id="updateCoUserStatus">
 	    UPDATE company_user
-	    SET del_status = 1
+	    SET del_status = 1,
+	    	status_update_time = #{statusUpdateTime}
 	    WHERE co_user_id = #{coUserId}
 	</update>
 	
@@ -80,6 +82,43 @@
 		WHERE co_user_id = #{coUserId}
 		AND posting_status = 'M1'
 	</select>
+	
+	<!-- 10분이 지난 탈퇴 처리된 사용자 목록 조회 -->
+    <select id="findStaleUsers" parameterType="java.sql.Timestamp" resultType="CoUserVO">
+    	<![CDATA[
+        SELECT co_user_id
+        FROM company_user
+        WHERE del_status = 1
+        AND status_update_time <= #{timestamp}
+        ]]>
+    </select>
+
+    <!-- 나머지 필드를 공백으로 업데이트 -->
+    <update id="updateCoUserBlank">
+    	<![CDATA[
+        UPDATE company_user
+        SET 
+        	co_name = ' ',
+            industry = ' ',
+            rep_name = ' ',
+            est_year = sysdate,
+            co_post_no = ' ',
+            co_addr = ' ',
+            co_detail_addr = ' ',
+            main_business = ' ',
+            region = ' ',
+            etc = ' ',
+            co_user_pw = ' ',
+            mgr_name = ' ',
+            mgr_email = ' ',
+            mgr_tel = ' ',
+            co_contact = ' ',
+            logo_img = ' ',
+            del_status = 2
+        WHERE del_status = 1
+        AND status_update_time <= #{timestamp}
+        ]]>
+    </update>
 	
 	<!-- ======================================================================== -->
 	<select id = "selectUserInfo" resultType="UserVO">
