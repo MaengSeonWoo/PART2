@@ -44,7 +44,7 @@
 				<th:block th:each="qna : ${qnaList}">
 					<tr th:onclick="|location.href='@{/qnaInfo(qnaNo=${qna.qnaNo})}'|">
 						<td th:text="${qna.qnaNo}"></td>
-						<td th:text="${qna.qnaContent}"></td>
+						<td th:text="${qna.qnaTitle}"></td>
 						<td th:text="${#dates.format(qna.regDate, 'yyyy년MM월dd일')}">yyyy-mm-dd</td>
 						<!-- <td th:text=${}></td>  -->
 						<td class="state" th:text="${qna.qnaState}"></td>
