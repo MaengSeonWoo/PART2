@@ -22,6 +22,12 @@ public class QnAReplyServiceImpl implements QnAReplyService {
 	}
 	
 	@Override
+	public List<QnAReplyVO> replyList() {
+		// TODO Auto-generated method stub
+		return replyMapper.replyList();
+	}
+	
+	@Override
 	public QnAReplyVO replyInfo(QnAReplyVO replyVO) {
 		return replyMapper.selectQnAInfo(replyVO);
 	}
@@ -52,9 +58,6 @@ public class QnAReplyServiceImpl implements QnAReplyService {
 		return replyMapper.deleteReplyInfo(replyVO);
 	}
 
-	@Override
-	public List<QnAReplyVO> replyList() {
-		return replyMapper.replyList();
-	}
+
 
 }

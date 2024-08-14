@@ -1,5 +1,7 @@
 package com.talk.app.login.service;
 
+import java.sql.Timestamp;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -21,4 +23,5 @@ public class UserVO {		//일반회원
 	private String gender;		//성별
 	private String authority;	//권한
 	private Integer delStatus;		//회원탈퇴 상태
+	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 }

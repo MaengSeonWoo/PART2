@@ -17,6 +17,8 @@ import com.talk.app.common.service.Criteria;
 import com.talk.app.common.service.PageDTO;
 import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.common.service.SearchVO;
+import com.talk.app.common.service.UploadFileVO;
+import com.talk.app.common.service.UploadService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,9 @@ public class WelfareController {
 	
 	@Autowired
 	CalendarService service;
+	
+	@Autowired
+	UploadService uservice;
 	
 	@Autowired
 	PublicCodeService pservice;
@@ -58,6 +63,8 @@ public class WelfareController {
 	@GetMapping("detail")
 	public String detail(Model model, WelfareVO vo) {
 		WelfareVO findvo = service.welfareDetail(vo);
+		List<UploadFileVO> images = uservice.selectFilesByDomain("Welfare", (long) vo.getWid());
+		model.addAttribute("file",images);
 		model.addAttribute("detail",findvo);
 		return "calendar/info";
 	}

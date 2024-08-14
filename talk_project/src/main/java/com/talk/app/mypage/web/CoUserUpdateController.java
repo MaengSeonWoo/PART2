@@ -1,6 +1,7 @@
 package com.talk.app.mypage.web;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,6 +42,8 @@ public class CoUserUpdateController {
 
     private final CoUserUpdateService couserupdateService;
     private final UploadService uploadService;
+    
+    
 
  // 기업회원 요약정보
     @GetMapping("CoUserMain")
@@ -52,18 +56,37 @@ public class CoUserUpdateController {
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
         model.addAttribute("company_user", findVO);
         model.addAttribute("coUserId", coUserId); // coUserId를 모델에 추가
+        
+     // 현재 인증된 사용자의 권한 정보를 모델에 추가
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
+            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
+            UserVO user = loginUser.getUserVO();
+            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
+        }
+        
+        
 
         return "mypage/couserMain";
     }
 
     // 기업회원 수정 페이지
-    @GetMapping("CoUserUpdate/{coUserId}")
-    public String CoUserUpdateForm(@PathVariable String coUserId, Model model) {
+    @GetMapping("CoUserUpdate")
+    public String CoUserUpdateForm(Principal principal, Model model) {
+    	String coUserId = principal.getName(); // 로그인된 유저의 아이디
         CoUserVO couserVO = new CoUserVO();
         couserVO.setCoUserId(coUserId);
 
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
         model.addAttribute("couserInfo", findVO);
+        
+     // 현재 인증된 사용자의 권한 정보를 모델에 추가
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
+            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
+            UserVO user = loginUser.getUserVO();
+            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
+        }
 
         return "mypage/couserUpdate";
     }
@@ -155,6 +178,14 @@ public class CoUserUpdateController {
             // 탈퇴 취소 실패 시 메시지와 함께 메인 페이지로 리다이렉트
             return "redirect:/?error=탈퇴%20취소에%20실패했습니다.";
         }
+        
+        
+    }
+    
+    @Scheduled(fixedRate = 600000)
+    public void processScheduledDeletion() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 30 * 1000); 
+        couserupdateService.RealDelCoUser(timestamp);
     }
     // ======================================================================================================
     
@@ -169,23 +200,39 @@ public class CoUserUpdateController {
         UserVO findVO = couserupdateService.userInfo(userVO);
         model.addAttribute("users", findVO);
         model.addAttribute("userId", userId); // userId를 모델에 추가
+        
+     // 현재 인증된 사용자의 권한 정보를 모델에 추가
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
+            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
+            UserVO user = loginUser.getUserVO();
+            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
+        }
 
         return "mypage/userMain";
     }
         
      // 일반회원 수정 페이지
-        @GetMapping("userUpdate/{userId}")
-        public String UserUpdateForm(@PathVariable String userId, Model model) {
+        @GetMapping("userupdate")
+        public String UserUpdateForm(Principal principal, Model model) {
+        	String userId = principal.getName(); // 로그인된 유저의 아이디
             UserVO userVO = new UserVO();
             userVO.setUserId(userId);
 
             UserVO findVO = couserupdateService.userInfo(userVO);
             model.addAttribute("userInfo", findVO);
+            
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
+                LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
+                UserVO user = loginUser.getUserVO();
+                model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
+            }
 
 
         return "mypage/userUpdate";
     }
-        @PostMapping("userUpdate")
+        @PostMapping("userupdate")
         @ResponseBody
         public Map<String, Object> userUpdateProcess(
         	@ModelAttribute UserVO userVO,
@@ -193,5 +240,65 @@ public class CoUserUpdateController {
 
             // 파일 업로드 처리 및 사용자 정보 업데이트 로직 수행
             return couserupdateService.updateUser(userVO);
+        }
+        
+     // 탈퇴 페이지를 보여주는 메소드
+        @GetMapping("userdelete")
+        @PreAuthorize("isAuthenticated()")
+        public String showDeletePage(Model model, Principal principal) {
+            String userId = principal.getName(); // 로그인된 유저의 아이디
+            model.addAttribute("userId", userId);
+            return "mypage/userDelete";
+        }
+        
+        // 회원탈퇴 시 상태 변경
+        @PostMapping("/userdelete")
+        @ResponseBody
+        public String deleteUser(@RequestParam String userId) {
+            return couserupdateService.deleteUser(userId);
+        }
+        
+        // 탈퇴 취소 페이지를 보여주는 GET 메서드
+        @GetMapping("/canceluserdel")
+        public String showCancelPage(Model model, @AuthenticationPrincipal LoginUserVO loginUser) {
+            // 로그인된 사용자의 ID를 가져옵니다.
+            String userId = loginUser.getUsername(); 
+
+            // 모델에 사용자 ID를 추가하여 Thymeleaf 템플릿에서 사용할 수 있도록 합니다.
+            model.addAttribute("userId", userId);
+
+            // 탈퇴 취소 페이지를 반환합니다.
+            return "mypage/cancelUserDel";
+        }
+        
+        // 탈퇴 취소 처리
+        @PostMapping("/canceluserdel")
+        public String cancelUserDelete(@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) {
+            // 탈퇴 취소 처리
+            UserVO userVO = new UserVO();
+            userVO.setUserId(userId);
+
+            Map<String, Object> result = couserupdateService.cancelUser(userVO);
+
+            if ((boolean) result.get("result")) {
+                // 로그아웃 처리
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                if (auth != null) {
+                    new SecurityContextLogoutHandler().logout(request, response, auth);
+                }
+                // 메인 페이지로 리다이렉트
+                return "redirect:/";
+            } else {
+                // 탈퇴 취소 실패 시 메시지와 함께 메인 페이지로 리다이렉트
+                return "redirect:/?error=탈퇴%20취소에%20실패했습니다.";
+            }
+            
+            
+        }
+        
+        @Scheduled(fixedRate = 600000)
+        public void ScheduledDeletion() {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 30 * 1000); 
+            couserupdateService.RealDelUser(timestamp);
         }
 }

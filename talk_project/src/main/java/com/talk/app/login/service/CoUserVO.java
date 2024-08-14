@@ -1,5 +1,6 @@
 package com.talk.app.login.service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,4 +34,5 @@ public class CoUserVO {
 	private String logoImg;			//기업 로고
 	private String filePath;		//이미지
 	private Integer delStatus;		//회원탈퇴 상태
+	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 }

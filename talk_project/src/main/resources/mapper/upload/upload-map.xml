@@ -30,6 +30,16 @@
 					#{fileOrder}
 				)
 	</insert>
+	
+	<select id="selectPdf" parameterType="map"
+		resultType="UploadFileVO">
+		SELECT * 
+		FROM files
+		WHERE domain_type = #{domainType} 
+		AND domain_id = #{domainId}
+		And file_path = #{filePath}
+	</select>
+	
 
 	<select id="selectFilesByDomain" parameterType="map"
 		resultType="UploadFileVO">

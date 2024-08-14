@@ -13,4 +13,6 @@ public interface UploadService {
 	List<UploadFileVO> selectFilesByDomain(String domainType, Long domainId);
 	
 	public void deleteFiles(String domainType, Long domainId);
+	
+	public String pdfData(String domainType, Long domainId, String filePath);
 }

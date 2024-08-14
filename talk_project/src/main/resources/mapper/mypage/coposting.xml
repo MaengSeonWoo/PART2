@@ -32,6 +32,7 @@
                , etc_content
                , posting_no
                , c.co_user_no
+               , posting_title
 		FROM company_user c JOIN posting p
 		ON c.co_user_no = p.co_user_no
 		WHERE posting_no = #{postingNo}

@@ -2,6 +2,7 @@ package com.talk.app.login.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import com.talk.app.mypage.service.CoUserUpdateService;
 
 @Configuration
 @EnableWebSecurity
+@EnableScheduling
 public class SpringSecurityConfig {
 
     private final CoUserUpdateService coUserUpdateService;
