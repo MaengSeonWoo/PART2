@@ -1,5 +1,6 @@
 package com.talk.app.mypage.service.impl;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,10 +55,11 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
             return "채용공고가 모집중인 상태에서는 탈퇴가 불가능합니다.";
         }
 
-        // 탈퇴 상태로 업데이트
         CoUserVO couserVO = new CoUserVO();
         couserVO.setCoUserId(coUserId);
-//      couserVO.setDelStatus(1); // 탈퇴 상태로 설정
+        couserVO.setDelStatus(1); // 탈퇴 상태로 설정
+        couserVO.setStatusUpdateTime(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+
         couserupdateMapper.updateCoUserStatus(couserVO);
         return "탈퇴 처리 완료";
     }
@@ -69,7 +71,7 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 
 	    // del_status를 0으로 설정하여 탈퇴 취소
 	    couserVO.setDelStatus(0);
-	    int rowsAffected = couserupdateMapper.cancelCoUserStatus(couserVO); // 수정된 메서드 호출
+	    int rowsAffected = couserupdateMapper.cancelCoUserStatus(couserVO);
 
 	    isSuccessed = (rowsAffected > 0); // 업데이트 성공 여부 확인
 	    map.put("result", isSuccessed);
@@ -77,6 +79,11 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	    return map;
 	}
 	
+	// 기업회원 탈퇴처리
+	@Override
+	public void RealDelCoUser(Timestamp timestamp) {
+		couserupdateMapper.updateCoUserBlank(timestamp);
+	}
 	// ===================================================================================
 	
 	// 일반회원 단건조회

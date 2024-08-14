@@ -132,17 +132,17 @@
 	</delete>
 	
 	<insert id="insertCareer" parameterType="CareerVO">
-		INSERT INTO career (resume_no, work_place, role, start_date, end_date)
-        VALUES (#{resumeNo}, #{workPlace}, #{role}, #{startDate}, #{endDate})
+		INSERT INTO career (career_no ,resume_no, work_place, role, career_start, career_end, orders)
+        VALUES (resume_seq.nextval, #{resumeNo}, #{workPlace}, #{role}, #{careerStart}, #{careerEnd}, resume_seq.nextval)
 	</insert>
 
 	<insert id="insertLicense" parameterType="LicenseVO">
-		INSERT INTO license (resume_no, get_date, license_name, license_company)
-        VALUES (#{resumeNo}, #{getDate}, #{licenseName}, #{licenseCompany})
+		INSERT INTO license (license_no, resume_no, get_date, license_name, license_company, orders)
+        VALUES (resume_seq.nextval, #{resumeNo}, #{getDate}, #{licenseName}, #{licenseCompany}, resume_seq.nextval)
 	</insert>
 
 	<insert id="insertEdu" parameterType="EduVO">
-		INSERT INTO edu (resume_no, school, major, graduation)
-        VALUES (#{resumeNo}, #{school}, #{major}, #{graduation})
+		INSERT INTO edu (edu_no, resume_no, school, major, graduation, orders)
+        VALUES (resume_seq.nextval, #{resumeNo}, #{school}, #{major}, #{graduation}, resume_seq.nextval )
 	</insert>
 </mapper>

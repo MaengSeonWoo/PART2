@@ -1,5 +1,6 @@
 package com.talk.app.mypage.service;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import com.talk.app.login.service.CoUserVO;
@@ -12,11 +13,14 @@ public interface CoUserUpdateService {
 	// 기업회원정보 수정
 	public Map<String, Object> updateCoUser(CoUserVO couserVO);
 	
-	// 기업회원 탈퇴
+	// 기업회원 임시탈퇴
 	public String deleteCoUser(String coUserId);
 	
 	// 기업회원 탈퇴취소
 	Map<String, Object> cancelCoUser(CoUserVO couserVO);
+	
+	// 기업회원 탈퇴처리
+	public void RealDelCoUser(Timestamp timestamp);
 	
 	// =======================================================================
 	
