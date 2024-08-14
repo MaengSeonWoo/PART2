@@ -2,6 +2,10 @@ package com.talk.app.mypage.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
+
 import com.talk.app.mypage.service.CareerVO;
 import com.talk.app.mypage.service.EduVO;
 import com.talk.app.mypage.service.LicenseVO;
@@ -14,7 +18,11 @@ public interface ResumeMapper {
 	public ResumeVO selectResumeByNo(int resumeNo);
 	// 마이페이지 이력서 등록
 	public int insertResume(ResumeVO resume);
+	// 이력서 등록 시 이미지이름 수정
+	@Update("UPDATE resume SET resume_img = #{iname} WHERE resume_no = #{resumeNo}")
+	public void updateImg(@Param("iname") String iname, @Param("resumeNo") int resumeNo);
 	// 마이페이지 이력서 삭제
+	@Delete("DELETE FROM resume WHERE resume_no = #{resumeNo}")
 	public int deleteResume(int resumeNo);
 	// 마이페이지 이력서 수정
 	public int updateResume(ResumeVO resume);

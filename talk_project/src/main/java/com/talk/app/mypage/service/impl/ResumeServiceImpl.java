@@ -2,10 +2,13 @@ package com.talk.app.mypage.service.impl;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.talk.app.common.service.UploadService;
 import com.talk.app.mypage.mapper.ResumeMapper;
 import com.talk.app.mypage.service.CareerVO;
 import com.talk.app.mypage.service.EduVO;
@@ -20,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class ResumeServiceImpl implements ResumeService{
 	
 	private final ResumeMapper resumeMapper;
+	private final UploadService uploadService;
 	
 	@Override
 	public List<ResumeVO> resumeList(String userId) {
@@ -43,9 +47,45 @@ public class ResumeServiceImpl implements ResumeService{
 
 
 	@Override
-	public void saveResume(ResumeVO resume) {
-		// TODO Auto-generated method stub
-		
+	@Transactional
+	public void saveResume(ResumeVO resumeVO, MultipartFile[] uploadFiles, String userId) {
+		String saveName = " ";
+		int userNo = resumeMapper.getUserNoById(userId);
+        resumeVO.setResumeImg(saveName);
+        resumeVO.setUserNo(userNo);
+        System.out.println(resumeVO);
+        // 이력서 저장
+        resumeMapper.insertResume(resumeVO);
+
+        // 경력 저장
+        List<CareerVO> careers = resumeVO.getCareers();
+        if (careers != null) {
+            for (CareerVO career : careers) {
+                career.setResumeNo(resumeVO.getResumeNo());  // 이력서 번호 설정
+                resumeMapper.insertCareer(career);
+            }
+        }
+
+        // 자격증 저장
+        List<LicenseVO> licenses = resumeVO.getLicenses();
+        if (licenses != null) {
+            for (LicenseVO license : licenses) {
+                license.setResumeNo(resumeVO.getResumeNo());  // 이력서 번호 설정
+                resumeMapper.insertLicense(license);
+            }
+        }
+
+        // 학력 저장
+        List<EduVO> edus = resumeVO.getEdus();
+        if (edus != null) {
+            for (EduVO edu : edus) {
+                edu.setResumeNo(resumeVO.getResumeNo());  // 이력서 번호 설정
+                resumeMapper.insertEdu(edu);
+            }
+        }
+        // 파일 로직 구현
+        saveName = uploadService.imageUpload(uploadFiles, "RESUME", (long)resumeVO.getResumeNo());
+        resumeMapper.updateImg(saveName, resumeVO.getResumeNo());
 	}
 
 	@Override
@@ -84,9 +124,8 @@ public class ResumeServiceImpl implements ResumeService{
 	}
 
 	@Override
-	public void removeResume(ResumeVO resume) {
-		// TODO Auto-generated method stub
-		
+	public void removeResume(Integer resumeNo) {
+		resumeMapper.deleteResume(resumeNo);
 	}
 
 
