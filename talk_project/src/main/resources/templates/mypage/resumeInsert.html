@@ -80,20 +80,19 @@
 									style="background-image: url('/main/img/profile-image.png');"></div>
 							</div>
 						</td>
-						<th>이름</th>
-						<td><input type="text" class="form-control" id="resumeName">
-						</td>
+						<th>이름*</th>
+						<td><input type="text" class="form-control" id="resumeName"></td>
 					</tr>
 					<tr>
-						<th>생년월일</th>
+						<th>생년월일*</th>
 						<td><input type="date" class="form-control" id="birth"></td>
 					</tr>
 					<tr>
-						<th>주소</th>
+						<th>주소*</th>
 						<td><input type="text" class="form-control" id="addr"></td>
 					</tr>
 					<tr>
-						<th>전화번호</th>
+						<th>전화번호*</th>
 						<td><input type="tel" class="form-control" id="tel"></td>
 					</tr>
 					<tr>
@@ -101,11 +100,12 @@
 							<input type="file" id="imgUpload" name="uploadFiles" multiple style="display: none;" onchange="readURL(this);"> 
 							<label for="imgUpload" class="btn btn-primary" style="cursor: pointer;">사진 등록</label>
 						</td>
-						<th>이메일</th>
+						<th>이메일*</th>
 						<td><input type="email" class="form-control" id="email"></td>
 					</tr>
 				</tbody>
 			</table>
+
 			<hr>
 			<div class="section-title">학력사항</div>
 			<table class="table table-bordered" id="educationTable">
@@ -176,13 +176,16 @@
 			<button type="button" class="btn btn-secondary btn-sm" onclick="addRow('certificationTable')">자격증
 				추가</button>
 
+			<hr>
+			<div class="section-title">자기소개</div>
+			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
+
 			<div class="text-end mt-4">
 				<button type="button" class="btn btn-primary saveHandler">저장</button>
-				<button type="button" class="btn btn-secondary">취소</button>
+				<button type="button" class="btn btn-secondary" onclick="goList()">취소</button>
 			</div>
 		</div>
 	</form>
-
 
 	<script>
         function readURL(input) {
@@ -198,18 +201,58 @@
                 document.getElementById('preview').src = "";
             }
         }
+        
+        function addRow(tableId) {
+            const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            const newRow = table.rows[0].cloneNode(true);
+
+            // Clear input values in the new row
+            const inputs = newRow.getElementsByTagName('input');
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].value = '';
+            }
+
+            table.appendChild(newRow);
+        }
+
+        function removeRow(button) {
+            const row = button.closest('tr');
+            const table = row.closest('tbody');
+
+            if (table.rows.length > 1) {
+                table.removeChild(row);
+            } else {
+                alert('마지막 행은 삭제할 수 없습니다.');
+            }
+        }
 
         document.querySelector(".saveHandler").addEventListener("click", function () {
+        	
+        	// 필수 입력값 체크
+            const resumeTitle = document.querySelector('#resumeTitle').value.trim();
+            const resumeName = document.querySelector('#resumeName').value.trim();
+            const birth = document.querySelector('#birth').value;
+            const addr = document.querySelector('#addr').value.trim();
+            const tel = document.querySelector('#tel').value.trim();
+            const email = document.querySelector('#email').value.trim();
+            const imgfiles = document.getElementById('imgUpload').files;
+            const produce = document.querySelector('#produce').value.trim();
 
+            if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || imgfiles.length === 0 || !produce) {
+                alert("이력서 제목을 포함한 모든 필수 항목을 입력하고 사진을 등록해야 합니다.");
+                return; // 서버로 전송하지 않음
+            }
+        	
             const formData = new FormData();
 
             const resume = {
-                resumeTitle: document.querySelector('#resumeTitle').value,
-                resumeName: document.querySelector('#resumeName').value,
-                birth: document.querySelector('#birth').value,
-                addr: document.querySelector('#addr').value,
-                tel: document.querySelector('#tel').value,
-                email: document.querySelector('#email').value,
+                resumeTitle: resumeTitle,
+                resumeName: resumeName,
+                birth: birth,
+                addr: addr,
+                tel: tel,
+                email: email,
+                produce: produce,
                 careers: [],
                 edus: [],
                 licenses: []
@@ -251,6 +294,12 @@
 
             // JSON 데이터를 FormData에 추가
             formData.append("resumeData", JSON.stringify(resume));
+            
+         	// 파일 추가
+            const files = document.querySelector('#imgUpload').files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append("uploadFiles", files[i]);
+            }
 
             // 데이터를 서버로 전송
             fetch("/userMain/resume/save", {
@@ -267,6 +316,10 @@
                 }
             });
         });
+
+        function goList() {
+        	location.href = `/userMain/resume`;
+        }
     </script>
 </body>
 

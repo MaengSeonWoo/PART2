@@ -237,6 +237,9 @@
 			</table>
 			<button type="button" class="btn btn-secondary btn-sm"
 				onclick="addRow('certificationTable')">자격증 추가</button>
+			<hr>
+			<div class="section-title">자기소개</div>
+			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
 
 			<div class="text-end mt-4">
 				<button type="button" class="btn btn-primary modHandler">저장</button>
@@ -286,7 +289,27 @@
         }
     }
     
+    function goInfo() {
+    	let rno = document.querySelector('#resumeNo').value;
+    	location.href = `/userMain/resume/${rno}`;
+    }
+    
     document.querySelector(".modHandler").addEventListener("click", function() {
+    	
+    	// 필수 입력값 체크
+        const resumeTitle = document.querySelector('#resumeTitle').value.trim();
+        const resumeName = document.querySelector('#resumeName').value.trim();
+        const birth = document.querySelector('#birth').value;
+        const addr = document.querySelector('#addr').value.trim();
+        const tel = document.querySelector('#tel').value.trim();
+        const email = document.querySelector('#email').value.trim();
+        const imgfiles = document.getElementById('imgUpload').files;
+        const produce = document.querySelector('#produce').value.trim();
+
+        if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || imgfiles.length === 0 || !produce) {
+            alert("이력서 제목을 포함한 모든 필수 항목을 입력하고 사진을 등록해야 합니다.");
+            return; // 서버로 전송하지 않음
+        }
     	
     	const formData = new FormData(document.getElementById('resumeForm'));
     	
@@ -298,6 +321,7 @@
             addr: document.querySelector('#addr').value,
             tel: document.querySelector('#tel').value,
             email: document.querySelector('#email').value,
+            produce: document.querySelector('#produce').value,
             careers: [],
             edus: [],
             licenses: []
