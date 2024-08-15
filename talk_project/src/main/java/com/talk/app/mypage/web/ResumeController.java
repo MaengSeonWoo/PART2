@@ -24,6 +24,7 @@ import com.talk.app.mypage.service.ResumeService;
 import com.talk.app.mypage.service.ResumeVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * 작성자 : 김진형
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
  * 이력서 관리 : 이력서 목록조회, 이력서상세조회/수정/삭제, 이력서등록
  * */
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/userMain/resume")
@@ -74,7 +76,7 @@ public class ResumeController {
 	
 	@ResponseBody
 	@PostMapping("/save")
-	public ResponseEntity<?> resumeSave(Principal principal, @RequestParam("resumeData") String resumeData, @RequestParam("uploadFiles") MultipartFile[] uploadFiles) {
+	public ResponseEntity<?> resumeSave(Principal principal, @RequestParam("resumeData") String resumeData, @RequestPart("uploadFiles") MultipartFile[] uploadFiles) {
 		String userId = principal.getName();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -83,6 +85,7 @@ public class ResumeController {
             return ResponseEntity.ok().body(Map.of("success", true));
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("exception={}", e);
             return ResponseEntity.ok().body(Map.of("success", false));
         }
 	}
