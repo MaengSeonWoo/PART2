@@ -239,11 +239,11 @@
 				onclick="addRow('certificationTable')">자격증 추가</button>
 			<hr>
 			<div class="section-title">자기소개</div>
-			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
+			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요" th:utext="${#strings.escapeXml(resume.produce)}"></textarea>
 
 			<div class="text-end mt-4">
 				<button type="button" class="btn btn-primary modHandler">저장</button>
-				<button type="button" class="btn btn-secondary" th:onclick="">취소</button>
+				<button type="button" class="btn btn-secondary" th:onclick="goInfo()">취소</button>
 			</div>
 		</div>
 	</form>
@@ -306,7 +306,11 @@
         const imgfiles = document.getElementById('imgUpload').files;
         const produce = document.querySelector('#produce').value.trim();
 
-        if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || imgfiles.length === 0 || !produce) {
+     	// 기존 이미지가 있는지 확인
+        const hasExistingImage = document.querySelector('.toggleImg2 img') !== null;
+
+        // 이미지가 없고 새로 업로드된 파일도 없는 경우에만 경고
+        if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || (!hasExistingImage && imgfiles.length === 0) || !produce) {
             alert("이력서 제목을 포함한 모든 필수 항목을 입력하고 사진을 등록해야 합니다.");
             return; // 서버로 전송하지 않음
         }

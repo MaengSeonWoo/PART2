@@ -5,17 +5,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>이력서 상세조회</title>
+	<!-- 필요한 경우 추가적인 스타일을 위한 클래스 정의 -->
+	<style>
+		.custom-card-header {
+			font-weight: bold;
+			font-size: 1.2rem;
+		}
+
+		.custom-table-header {
+			background-color: #f8f9fa;
+			text-align: center;
+		}
+
+		.custom-table-cell {
+			text-align: center;
+		}
+
+		.custom-btn {
+			width: 100%;
+		}
+
+		.custom-pagination {
+			margin-top: 20px;
+		}
+
+		.custom-d-grid {
+			margin-top: 30px;
+		}
+	</style>
 </head>
 
 <body>
 	<div class="container mt-5">
 		<!-- 1. 회사에 제출한 이력서 -->
 		<div class="card mb-4">
-			<div class="card-header bg-primary text-white">회사에 제출한 이력서</div>
+			<div class="card-header bg-primary text-white text-center custom-card-header">회사에 제출한 이력서</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
-						<tr>
+						<tr class="custom-table-header">
 							<th>이력서 제목</th>
 							<th>지원회사</th>
 							<th>지원일자</th>
@@ -26,18 +54,18 @@
 						<th:block th:each="item : ${alist}">
 							<input type="hidden" th:value="${item.resumeNo}">
 							<tr>
-								<td th:text="${item.resumeTitle}">이력서 제목</td>
-								<td th:text="${item.coName}">지원회사</td>
-								<td th:text="${item.applyDate}">지원일자</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
+								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
+								<td th:text="${item.coName}" class="custom-table-cell">지원회사</td>
+								<td th:text="${item.applyDate}" class="custom-table-cell">지원일자</td>
+								<td class="custom-table-cell">
+									<button type="button" class="btn btn-sm btn-info custom-btn resumeInfoHandler">조회</button>
 								</td>
 							</tr>
-							<th:block>
+						</th:block>
 					</tbody>
 				</table>
 				<nav>
-					<ul class="pagination justify-content-center">
+					<ul class="pagination justify-content-center custom-pagination">
 						<li class="page-item disabled"><a class="page-link">«</a></li>
 						<li class="page-item active"><a class="page-link">1</a></li>
 						<li class="page-item"><a class="page-link">2</a></li>
@@ -52,35 +80,35 @@
 
 		<!-- 2. 나의 이력서 -->
 		<div class="card mb-4">
-			<div class="card-header bg-secondary text-white">나의 이력서</div>
+			<div class="card-header bg-secondary text-white text-center custom-card-header">나의 이력서</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
-						<tr>
+						<tr class="custom-table-header">
 							<th>이력서 제목</th>
 							<th>작성일자</th>
-							<th>조작</th>
-							<th>조작</th>
+							<th>조회</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody>
 						<th:block th:each="item : ${rlist}">
 							<input type="hidden" th:value="${item.resumeNo}">
 							<tr>
-								<td th:text="${item.resumeTitle}">이력서 제목</td>
-								<td th:text="${item.createDate}">작성일자</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
+								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
+								<td th:text="${item.createDate}" class="custom-table-cell">작성일자</td>
+								<td class="custom-table-cell">
+									<button type="button" class="btn btn-sm btn-info custom-btn resumeInfoHandler">조회</button>
 								</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-warning resumeRemoveHamdler">삭제</button>
+								<td class="custom-table-cell">
+									<button type="button" class="btn btn-sm btn-warning custom-btn resumeRemoveHamdler">삭제</button>
 								</td>
 							</tr>
 						</th:block>
 					</tbody>
 				</table>
 				<nav>
-					<ul class="pagination justify-content-center">
+					<ul class="pagination justify-content-center custom-pagination">
 						<li class="page-item disabled"><a class="page-link">«</a></li>
 						<li class="page-item active"><a class="page-link">1</a></li>
 						<li class="page-item"><a class="page-link">2</a></li>
@@ -94,44 +122,41 @@
 		</div>
 
 		<!-- 3. 이력서 등록 버튼 -->
-		<div class="d-grid gap-2 col-6 mx-auto">
-			<a href="#" class="btn btn-success btn-block">이력서 등록</a>
+		<div class="d-grid gap-2 col-6 mx-auto custom-d-grid">
+			<button type="button" class="btn btn-primary" th:onclick="goSave()">이력서 등록</button>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', function (e) {
-			e.preventDefault();
-			document.querySelectorAll('.resumeInfoHandler').forEach((val, idx) => {
-				// console.log(idx, val);
+	function goSave() {
+		location.href = `/userMain/resume/save`;
+	}
 
-				val.addEventListener('click', goInfo);
-			})
+	document.addEventListener('DOMContentLoaded', function (e) {
+		e.preventDefault();
 
+		// 조회 버튼 핸들러
+		document.querySelectorAll('.resumeInfoHandler').forEach((val, idx) => {
+			val.addEventListener('click', goInfo);
+		});
 
+		function goInfo() {
+			let rNo = this.parentElement.parentElement.previousElementSibling.value;
+			location.href = `/userMain/resume/${rNo}`;
+		}
 
-			function goInfo() {
-				console.log(this.parentElement.parentElement.previousElementSibling.value);
-				let rNo = this.parentElement.parentElement.previousElementSibling.value
-				location.href = `/userMain/resume/${rNo}`
-
-			}
-			
-			document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
-				let rno = val.parentElement.parentElement.previousElementSibling.value;
-				val.addEventListener('click', function(){
-					let form = document.createElement('form');
-					form.setAttribute('action', `/userMain/resume/${rno}/remove`);
-					form.setAttribute('method', 'post');
-					
-					document.querySelector('body').appendChild(form);
-
-					form.submit();
-			})
-			})
-			
-			
-		})
-
+		// 삭제 버튼 핸들러
+		document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
+			let rno = val.parentElement.parentElement.previousElementSibling.value;
+			val.addEventListener('click', function(){
+				let form = document.createElement('form');
+				form.setAttribute('action', `/userMain/resume/${rno}/remove`);
+				form.setAttribute('method', 'post');
+				document.querySelector('body').appendChild(form);
+				form.submit();
+			});
+		});
+	});
 	</script>
 </body>
 
