@@ -59,7 +59,7 @@
 <body>
 	<div class="resume-container">
 		<div class="header">
-			<p th:text="${resume.resumeName + '의 이력서입니다'}">홍길동의 이력서입니다</p>
+			<p th:text="${resume.resumeTitle}">홍길동의 이력서입니다</p>
 		</div>
 
 		<div class="section-title">기본 정보</div>
@@ -176,9 +176,13 @@
 				</th:block>
 			</tbody>
 		</table>
+		<hr>
+			<div class="section-title">자기소개</div>
+			<p th:utext="${#strings.escapeXml(resume.produce)}" style="white-space: pre-wrap; border: 1px #e2e3e5 solid"></p>
 
 		<div class="text-end">
-			<button type="button" class="btn btn-secondary" th:onclick="'modHandler(' + ${resume.resumeNo} + ')'">수정</button>
+			<button type="button" class="btn btn-primary" th:onclick="'modHandler(' + ${resume.resumeNo} + ')'">수정</button>
+			<button type="button" class="btn btn-secondary" th:onclick="goList()">목록</button>
 		</div>
 	</div>
 </body>
@@ -186,6 +190,10 @@
 <script type="text/javascript">
 	function modHandler(no) {
 		location.href = `/userMain/resume/${no}/edit`;
+	}
+	
+	function goList() {
+		location.href = `/userMain/resume/`;
 	}
 </script>
 
