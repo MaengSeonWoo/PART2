@@ -10,52 +10,64 @@
 <meta name = "csrf_value" th:value("${csrf.token})">
 <title>회원가입 유형 선택</title>
 <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .section {
-            width: 45%;
-        }
-        .section h3 {
-            margin: 0 0 10px;
-        }
-        .section a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        .section a:hover {
-            text-decoration: underline;
-        }
-        .logout-form {
-            margin-top: 20px;
-        }
-    </style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .SelectForm {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .signSelectForm {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+    }
+    .signSelectForm div {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        width: 200px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .signSelectForm div h3 {
+        margin-bottom: 15px;
+    }
+    .signSelectForm div a {
+        display: block;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #000;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+    }
+    .signSelectForm div a:hover {
+        background-color: #e0e0e0;
+    }
+    .signSelectForm div img {
+        width: 80px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+</style>
 </head>
 <body>
 	<div class="SelectForm">
 		<h1>회원가입 유형 선택</h1>
 	</div>
 	<div class="signSelectForm">
-		<h3>일반회원</h3>
-		<a href = '/signInsert'>일반회원 가입</a>
-		<h3>기업회원</h3>
-		<a href = '/cosignInsert'>기업회원 가입</a>
-	</div>
-	<th:block sec:authorize="isAuthenticated()"> <!-- 비회원할때 하면 될 듯 -->
-		<form th:action="@{/logout}" method="post">
-			<button type="submit">로그아웃</button>
-		</form>
 		<div>
-			<h4>로그인 정보</h4>
-			<p sec:authentication="name"></p>
-			<p sec:authentication="principal.username"></p>
-			<p sec:authentication="principal.authorities"></p>
+			<img src="path_to_individual_icon" alt="개인회원 아이콘">
+			<h3>개인회원 가입</h3>
+			<a href='/signInsert'>개인회원 가입</a>
 		</div>
-	</th:block>
+		<div>
+			<img src="path_to_company_icon" alt="기업회원 아이콘">
+			<h3>기업회원 가입</h3>
+			<a href='/cosignInsert'>기업회원 가입</a>
+		</div>
+	</div>
 </body>
 </html>

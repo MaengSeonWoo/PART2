@@ -26,5 +26,6 @@ public class UserVO {			//일반회원
 	private Integer delStatus;		//회원탈퇴 상태
 	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 	private String sido;		//회원 시도명
+	private String sidoNm;
 	private String likeSubject; //관심주제
 }

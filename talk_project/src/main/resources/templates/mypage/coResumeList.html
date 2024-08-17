@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>이력서 상세조회</title>
+    <style>
+
+        /* 카드 바디 스타일 */
+        .card-body {
+            padding: 20px;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: none; /* 테두리 제거 */
+            text-align: center;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        /* 페이지네이션 스타일 */
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page-link {
+            padding: 8px 16px;
+            margin: 0 4px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .page-item.disabled .page-link {
+            color: #ccc;
+            pointer-events: none;
+        }
+
+        .page-item.active .page-link {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .page-link:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <!-- 1. 회사에 제출한 이력서 -->
+        <div>
+            <h3>이력서 조회</h3>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>이력서번호</th>
+                            <th>지원회사</th>
+                            <th>이력서 제목</th>
+                            <th>지원일자</th>
+                            <th>채용여부</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="coresume : ${coresume}">
+                            <input type="hidden" th:value="${coresume.resumeNo}">
+                            <tr th:onclick="|location.href='@{/coresumeinfo/{resumeNo}(resumeNo=${coresume.resumeNo})}'|">
+                                <td th:text="${coresume.resumeNo}"></td>
+                                <td th:text="${coresume.coName}">지원회사</td>
+                                <td th:text="${coresume.resumeTitle}">이력서 제목</td>
+                                <td th:text="${coresume.applyDate}">지원일자</td>
+                                <td th:text="${coresume.applyState}"></td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a class="page-link">«</a></li>
+                        <li class="page-item active"><a class="page-link">1</a></li>
+                        <li class="page-item"><a class="page-link">2</a></li>
+                        <li class="page-item"><a class="page-link">3</a></li>
+                        <li class="page-item"><a class="page-link">4</a></li>
+                        <li class="page-item"><a class="page-link">5</a></li>
+                        <li class="page-item"><a class="page-link">»</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

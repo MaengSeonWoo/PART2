@@ -1,12 +1,75 @@
 <!DOCTYPE html>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="cosideFragment">
-    <div class="sidebar">
-        <h1>기업회원 마이페이지</h1>
-        <ul>
-            <li><a href="#home">지원 이력서 및 최종 채용 확인</a></li>
-            <li><a th:href="@{/copostingList}">채용공고</a></li>
-            <li><a th:href="@{/CoUserUpdate}">기업회원정보 수정</a></li>
-            <li><a th:href="@{/couserdelete}">회원탈퇴</a></li>
-        </ul>
-    </div>
-</th:block>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="cosideFragment">
+        <div style="
+            width: 250px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            height: 100%;
+            border: 1px solid #ddd; /* 얇은 외곽선 추가 */
+        ">
+            <h1 style="
+                font-size: 25px;
+                font-weight: bold;
+                margin-top: 10px;
+                margin-bottom: 40px;
+            ">기업회원 마이페이지</h1>
+            <ul style="
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            ">
+            	<li style="
+                    margin-bottom: 5px;
+                "><a th:href="@{/CoUserMain}" style="
+                    text-decoration: none;
+                    color: #666; /* 링크 글자색 설정 */
+                    display: block;
+                    padding: 5px 0;
+                    transition: color 0.3s;
+                ">기업회원 정보</a></li>
+                <li style="
+                    margin-bottom: 5px;
+                "><a th:href="@{/coresumelist}" style="
+                    text-decoration: none;
+                    color: #666; /* 링크 글자색 설정 */
+                    display: block;
+                    padding: 5px 0;
+                    transition: color 0.3s;
+                ">지원 이력서 및 최종 채용 확인</a></li>
+                <li style="
+                    margin-bottom: 5px;
+                "><a th:href="@{/copostingList}" style="
+                    text-decoration: none;
+                    color: #666; /* 링크 글자색 설정 */
+                    display: block;
+                    padding: 5px 0;
+                    transition: color 0.3s;
+                ">채용공고</a></li>
+                <li style="
+                    margin-bottom: 5px;
+                "><a th:href="@{/CoUserUpdate}" style="
+                    text-decoration: none;
+                    color: #666; /* 링크 글자색 설정 */
+                    display: block;
+                    padding: 5px 0;
+                    transition: color 0.3s;
+                ">기업회원정보 수정</a></li>
+                <li style="
+                    margin-bottom: 5px;
+                "><a th:href="@{/couserdelete}" style="
+                    text-decoration: none;
+                    color: #666; /* 링크 글자색 설정 */
+                    display: block;
+                    padding: 5px 0;
+                    transition: color 0.3s;
+                ">회원탈퇴</a></li>
+            </ul>
+        </div>
+    </th:block>
+</html>

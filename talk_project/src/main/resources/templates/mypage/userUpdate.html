@@ -73,9 +73,12 @@
 					<td><input type="text" th:field="*{likeSubject}"></td>
 				</tr>
 				<tr>
-					<th>거주지역</th>
-					<td><input type="text" th:field="*{sido}"></td>
-				</tr>
+				<th>거주지역</th>
+				<td><select name="sido">
+				<option value="">지역선택
+				<option th:each="sido : ${sidoCode}" th:value="${sido.mainCode}" th:text="${sido.codeName}">
+				</select></td>
+			</tr>
 			</table>
 			<button type="button" id="updateBtn">수정</button>
 		</form>
