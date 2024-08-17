@@ -1,53 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-            layout:decorate="~{common/main/layouts/comypage_layout}"
-            layout:fragment="Content">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/comypage_layout}"
+      layout:fragment="Content">
 <head>
-<meta charset="UTF-8">
-<title>마이페이지 메인</title>
+    <meta charset="UTF-8">
+    <title>마이페이지 메인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: none; /* 테두리 제거 */
+            text-align: left;
+            padding: 0; /* 가로 간격 최소화 */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle; /* 이미지와 텍스트 정렬 */
+            margin-right: 2px; /* 이미지와 텍스트 간격 조정 */
+        }
+
+        .address {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    </style>
 </head>
 <body>
-	<div>
-		<h3>기업회원 정보</h3>
-		<table>
-			<tr>
-				<th>기업로고</th>
-				<td th:each="company_user : ${company_user}">
-                    <img style="height: 300px; width: 400px;"
-                         th:src="@{/images/{fileName}(fileName=${company_user.logoImg})}" />
+    <div>
+        <h3>기업회원 정보</h3>
+        <table>
+            <tr>
+                <th>기업로고</th>
+                <td th:each="company_user : ${company_user}">
+                    <img th:src="@{/images/{fileName}(fileName=${company_user.logoImg})}" />
                 </td>
-			</tr>
-			<tr>
-				<th>회사명</th>
-				<td>[[ ${company_user.coName} ]]</td>
-			</tr>
-			<tr>
-				<th>대표</th>
-				<td>[[ ${company_user.repName} ]]</td>
-			</tr>
-			<tr>
-				<th>지역</th>
-				<td style="height: 100px; width: 200px;">
-				[[ ${company_user.region} ]]</td>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<!-- /images/cat.jpg -->
-				<!-- <td><img style="height: 300px; width: 400px;"
-				th:src="|${#httpServletRequest.getContextPath()}/images/${board.image}|"></td> -->
-				<td>[[ ${company_user.coAddr} ]]</td>
-			</tr>
-			<tr>
-				<th>창립연도</th> <!-- yyyy/MM/dd -->
-				<td>[[ ${#dates.format(company_user.estYear, 'yyyy/MM/dd')} ]]</td>
-			</tr>
-			<tr>
-				<th>회사 전화번호</th>
-				<td style="height: 100px; width: 200px;">
-				[[ ${company_user.coContact} ]]</td>
-			</tr>
-		</table>
-	</div>
+            </tr>
+            <tr>
+                <th>회사명</th>
+                <td>[[ ${company_user.coName} ]]</td>
+            </tr>
+            <tr>
+                <th>대표</th>
+                <td>[[ ${company_user.repName} ]]</td>
+            </tr>
+            <tr>
+                <th>지역</th>
+                <td>[[ ${company_user.region} ]]</td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td>[[ ${company_user.coAddr} ]]</td>
+            </tr>
+            <tr>
+                <th>창립연도</th>
+                <td>[[ ${#dates.format(company_user.estYear, 'yyyy/MM/dd')} ]]</td>
+            </tr>
+            <tr>
+                <th>회사 전화번호</th>
+                <td>[[ ${company_user.coContact} ]]</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
