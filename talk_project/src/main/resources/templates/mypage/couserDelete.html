@@ -7,10 +7,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 탈퇴</title>
+    <style>
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        textarea {
+            width: 70%;
+            height: 300px; /* Adjust height as needed */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            resize: none; /* Prevent resizing */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>회원 탈퇴</h1>
+        <textarea readonly>
+[회원 탈퇴 약관]
+
+1. 탈퇴 신청 시, 회원님의 계정과 모든 개인 정보는 즉시 삭제됩니다. 이로 인해 계정과 관련된 모든 서비스에 접근할 수 없습니다.
+
+2. 회원 탈퇴 후, 복구가 불가능하므로 신중하게 결정해 주시기 바랍니다.
+
+3. 탈퇴 후, 보유 중인 포인트나 쿠폰은 소멸됩니다. 환급은 불가능합니다.
+
+4. 탈퇴 신청 후, 계정 삭제까지 최대 7일의 시간이 소요될 수 있습니다. 이 기간 동안 재가입을 원할 경우, 고객센터로 연락해 주시기 바랍니다.
+
+5. 탈퇴 처리 후에도 법적 의무에 의해 일부 정보는 보관될 수 있습니다. 이는 개인정보 보호법에 명시된 범위 내에서만 사용됩니다.
+
+6. 탈퇴 절차에 대한 문의는 고객센터를 통해 확인하실 수 있습니다.
+
+(위 약관에 동의하시면, '탈퇴하기' 버튼을 클릭해 주세요.)
+        </textarea>
         <form action="/couserdelete" method="post">
             <input type="hidden" name="coUserId" th:value="${coUserId}">
             <button type="submit">탈퇴하기</button>

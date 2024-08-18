@@ -6,6 +6,90 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+    h3 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+
+    th {
+        text-align: left;
+        padding-bottom: 10px;
+        font-weight: bold;
+        font-size: 14px;
+        color: #555;
+        text-transform: uppercase;
+        background-color: #f2f2f2; /* 헤더 배경색 */
+    }
+
+    td {
+        padding: 10px; /* 셀 패딩 */
+    }
+
+    td input[type="text"],
+    td input[type="password"],
+    td input[type="button"],
+    td input[type="file"],
+    td select,
+    td textarea {
+        width: calc(100% - 20px); /* 가로 길이를 100%로 설정하고 패딩을 고려 */
+        padding: 10px;
+        margin: 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        background-color: #fff;
+    }
+
+    td input[type="button"] {
+        width: auto;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 4px;
+        padding: 10px 15px;
+    }
+
+    td input[type="button"]:hover {
+        background-color: #0056b3;
+    }
+
+    button#updateBtn,
+    button[type="submit"] {
+        padding: 12px 25px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    button#updateBtn:hover,
+    button[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+    #Pw_status {
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    textarea {
+        width: 100%; /* textarea 너비 설정 */
+        height: 100px; /* textarea 높이 설정 */
+        resize: vertical; /* 세로로만 크기 조절 가능 */
+    }
+</style>
 </head>
 <body>
 	<div>
