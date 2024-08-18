@@ -6,185 +6,188 @@
 <head>
 <meta charset="UTF-8">
 <title>손말톡톡</title>
-<style>
-.owl-carousel-item {
-	height: 400px; /* 원하는 높이로 설정하세요 */
+<style type="text/css">
+/* 메인 캐러셀 스타일링 */
+.header-carousel .owl-carousel-item {
+    height: 500px; /* 캐러셀 높이 설정 */
 }
 
-.owl-carousel-item img {
-	height: 100%;
-	object-fit: cover; /* 이미지를 잘라내지 않고 채웁니다 */
+.header-carousel .owl-carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 캐러셀을 가득 채우도록 설정 */
 }
 
+.header-carousel .carousel-caption {
+    background-color: rgba(24, 29, 56, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* 두번째 캐러셀 스타일링 */
+.vendor-carousel .owl-carousel-item img {
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.vendor-carousel .owl-carousel-item img:hover {
+    transform: scale(1.05); /* 호버 시 이미지 확대 */
+}
+
+.vendor-carousel {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* 채용공고 카드 스타일링 */
+.posting-container {
+    display: flex;
+    justify-content: center;
+}
+
+.posting-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.job-card {
+    transition: transform 0.3s ease-in-out;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    margin: 15px;
+    flex: 1 1 calc(25% - 30px); /* 한 줄에 4개씩 배치되도록 설정 */
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 카드 이미지 스타일 */
+.card-img-top {
+    height: 150px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* 카드 하단 정보 스타일 */
+.card-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+/* 공지사항 섹션 스타일링 */
+.notice-section {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.notice-section .list-group-item {
+    padding: 15px 20px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.notice-section .list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+.notice-section .badge {
+    font-size: 0.8rem;
+}
 </style>
 </head>
 <body>
-	<div class="container-fluid p-0 mb-5">
+	<!-- 메인 캐러셀 -->
+	<div class="container-fluid p-0 mb-3">
 		<div class="owl-carousel header-carousel position-relative">
 			<div class="owl-carousel-item position-relative">
-				<img class="img-fluid" th:src="@{/main/img/carousel-1.jpg}" alt="">
-				<div
-					class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
-					style="background: rgba(24, 29, 56, .7);">
-					<div class="container">
-						<div class="row justify-content-start">
-							<div class="col-sm-10 col-lg-8">
-								<h5
-									class="text-primary text-uppercase mb-3 animated slideInDown">Best
-									Online Courses</h5>
-								<h1 class="display-3 text-white animated slideInDown">The
-									Best Online Learning Platform</h1>
-								<p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita
-									lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et
-									diam justo clita et kasd rebum sea sanctus eirmod elitr.</p>
-								<a href=""
-									class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read
-									More</a> <a href=""
-									class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join
-									Now</a>
-							</div>
-						</div>
-					</div>
-				</div>
+				<img class="img-fluid" th:src="@{/main/img/remote-working.jpg}" alt="">
 			</div>
 			<div class="owl-carousel-item position-relative">
-				<img class="img-fluid" th:src="@{/main/img/carousel-2.jpg}" alt="">
-				<div
-					class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
-					style="background: rgba(24, 29, 56, .7);">
-					<div class="container">
-						<div class="row justify-content-start">
-							<div class="col-sm-10 col-lg-8">
-								<h5
-									class="text-primary text-uppercase mb-3 animated slideInDown">Best
-									Online Courses</h5>
-								<h1 class="display-3 text-white animated slideInDown">Get
-									Educated Online From Your Home</h1>
-								<p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita
-									lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et
-									diam justo clita et kasd rebum sea sanctus eirmod elitr.</p>
-								<a href=""
-									class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read
-									More</a> <a href=""
-									class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join
-									Now</a>
-							</div>
-						</div>
-					</div>
-				</div>
+				<img class="img-fluid" th:src="@{/main/img/resume-home.png}" alt="">
 			</div>
 		</div>
 	</div>
-	<!-- Carousel End -->
-	<div class="container">
-		<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-			<div class="container py-5 mb-5">
-				<div class="bg-white">
-					<div class="owl-carousel vendor-carousel">
-						<img th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt=""> <img
-							th:src="@{/main/img/cccc.jpg}" alt="">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-6 mb-4 d-flex">
-				<div class="job-card card">
-					<div class="card-body">
-						<h5 class="card-title">유안타증권</h5>
-						<p class="card-text">IT본부 경력직 모집</p>
-						<p class="card-text">경력</p>
-						<p class="card-text">(~08/01)</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- 메인 캐러셀 끝 -->
 
-	 
-    <script>
-    
-    </script>
-	
+	<!-- 지역 선택 섹션 -->
+	<div class="container-fluid py-3 mb-3 wow fadeInUp" data-wow-delay="0.1s">
+		<div class="container py-3 mb-3">
+			<div class="region-select-section bg-white">
+				<h4>지역을 선택하세요</h4>
+				<a href="https://example.com/search?region=서울특별시" class="btn btn-outline-primary btn-region">서울특별시</a>
+				<a href="https://example.com/search?region=부산광역시" class="btn btn-outline-primary btn-region">부산광역시</a>
+				<a href="https://example.com/search?region=대구광역시" class="btn btn-outline-primary btn-region">대구광역시</a>
+				<a href="https://example.com/search?region=인천광역시" class="btn btn-outline-primary btn-region">인천광역시</a>
+				<a href="https://example.com/search?region=광주광역시" class="btn btn-outline-primary btn-region">광주광역시</a>
+				<a href="https://example.com/search?region=대전광역시" class="btn btn-outline-primary btn-region">대전광역시</a>
+				<a href="https://example.com/search?region=울산광역시" class="btn btn-outline-primary btn-region">울산광역시</a>
+				<a href="https://example.com/search?region=세종특별자치시" class="btn btn-outline-primary btn-region">세종특별자치시</a>
+				<a href="https://example.com/search?region=경기도" class="btn btn-outline-primary btn-region">경기도</a>
+				<a href="https://example.com/search?region=충청북도" class="btn btn-outline-primary btn-region">충청북도</a>
+				<a href="https://example.com/search?region=충청남도" class="btn btn-outline-primary btn-region">충청남도</a>
+				<a href="https://example.com/search?region=전라북도" class="btn btn-outline-primary btn-region">전라북도</a>
+				<a href="https://example.com/search?region=전라남도" class="btn btn-outline-primary btn-region">전라남도</a>
+				<a href="https://example.com/search?region=경상북도" class="btn btn-outline-primary btn-region">경상북도</a>
+				<a href="https://example.com/search?region=경상남도" class="btn btn-outline-primary btn-region">경상남도</a>
+				<a href="https://example.com/search?region=강원특별자치도" class="btn btn-outline-primary btn-region">강원특별자치도</a>
+				<a href="https://example.com/search?region=제주특별자치도" class="btn btn-outline-primary btn-region">제주특별자치도</a>
+			</div>
+		</div>
+	</div>
+	<!-- 지역 선택 섹션 끝 -->
+	<!-- 채용공고 섹션 -->
+<div class="container posting-container">
+    <div class="row posting-row justify-content-center">
+    <th:block th:each="post : ${pList}" th:if="${postStat.index} < 8">
+        <div class="col-md-3 col-sm-6 mb-4 d-flex">
+            <div class="job-card card">
+                <img th:src="@{/images/{fileName}(fileName=${post.filePath})}" class="card-img-top" alt="Job Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${post.coName}">유안타증권</h5>
+                    <p class="card-text" th:text="${post.postingTitle}">IT본부 경력직 모집</p>
+                    <p class="card-text" th:text="${post.empType}">경력</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted" th:text="'마감일: ' + ${#dates.format(post.endDate, 'MM/dd')}">마감일: 08/01</small>
+                </div>
+            </div>
+        </div>
+        </th:block>
+    </div>
+</div>
+	<!-- 채용공고 섹션 끝 -->
+
+	<!-- 공지사항 섹션 -->
+	<div class="container-fluid py-3 mb-3 wow fadeInUp" data-wow-delay="0.1s">
+		<div class="container py-3 mb-3">
+			<div class="notice-section bg-white">
+				<h4>공지사항</h4>
+				<ul class="list-group">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						공지사항 제목 1 <span class="badge bg-primary rounded-pill">NEW</span>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						공지사항 제목 2 <span class="badge bg-primary rounded-pill">NEW</span>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						공지사항 제목 3 <span class="badge bg-primary rounded-pill">NEW</span>
+					</li>
+					<!-- 추가 공지사항들 -->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 공지사항 섹션 끝 -->
 
 </body>
-
 </html>
