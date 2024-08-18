@@ -7,38 +7,34 @@
     <meta charset="UTF-8">
     <title>마이페이지 메인</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-
         h3 {
             color: #333;
             margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            border: none; /* 테두리 제거 */
+        th {
+            background-color: #f2f2f2; /* 헤더 배경색 */
+            font-weight: bold;
+            padding-right: 10px; /* 헤더의 오른쪽 패딩을 줄여서 td와의 간격을 좁힘 */
             text-align: left;
-            padding: 0; /* 가로 간격 최소화 */
+        }
+
+        td {
+            padding-left: 10px; /* 데이터 셀의 왼쪽 패딩을 헤더와 맞춤 */
         }
 
         img {
-            max-width: 100%;
+            max-width: 100px; /* 이미지의 최대 너비 */
             height: auto;
             vertical-align: middle; /* 이미지와 텍스트 정렬 */
-            margin-right: 2px; /* 이미지와 텍스트 간격 조정 */
+            margin-right: 10px; /* 이미지와 텍스트 간격 조정 */
         }
 
         .address {
-            white-space: pre-wrap;
-            word-break: break-word;
+            white-space: pre-wrap; /* 줄 바꿈 유지 */
+            word-break: break-word; /* 긴 단어가 줄을 넘어가지 않도록 */
         }
     </style>
 </head>

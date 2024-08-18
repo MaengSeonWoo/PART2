@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.talk.app.mypage.mapper.UserWelfareMapper">
+	<select id = "selectWelfareAll" parameterType="String" resultType="WelfareVO">
+		SELECT
+		    serv_name,
+		    MIN(serv_id) AS serv_id, 
+		    MIN(wid) AS wid,
+		    MIN(start_date) AS start_date,
+		    MAX(end_date) AS end_date,
+		    MAX(biz_dept) AS biz_dept,
+		    MIN(u.sido) AS sido,
+		    MAX(sgg) AS sgg,
+		    MAX(serv_summary) AS serv_summary,
+		    MIN(u.household) AS household,
+		    MIN(u.like_subject) AS like_subject,
+		    MIN(sup_period) AS sup_period,
+		    MIN(prov_type) AS prov_type,
+		    MIN(app_way) AS app_way,
+		    MIN(sup_target) AS sup_target,
+		    MIN(sel_standard) AS sel_standard,
+		    MIN(sal_serv) AS sal_serv
+		FROM users u
+		JOIN welfare w ON u.household = w.household
+		WHERE user_id = #{userId}
+		  AND u.sido = w.sido
+		  AND u.like_subject = w.like_subject
+		GROUP BY serv_name
+	</select>
+	
+	<!-- 조건중 1개의 값이 null이여도 조회 -->
+	<!-- <select id = "">
+	SELECT
+	    serv_name,
+	    MIN(serv_id) AS serv_id,
+	    MIN(wid) AS wid,
+	    MIN(start_date) AS start_date,
+	    MAX(end_date) AS end_date,
+	    MAX(biz_dept) AS biz_dept,
+	    MIN(u.sido) AS sido,
+	    MAX(sgg) AS sgg,
+	    MAX(serv_summary) AS serv_summary,
+	    MIN(u.household) AS household,
+	    MIN(u.like_subject) AS like_subject,
+	    MIN(sup_period) AS sup_period,
+	    MIN(prov_type) AS prov_type,
+	    MIN(app_way) AS app_way,
+	    MIN(sup_target) AS sup_target,
+	    MIN(sel_standard) AS sel_standard,
+	    MIN(sal_serv) AS sal_serv
+	FROM users u
+	JOIN welfare w ON u.household = w.household
+	WHERE user_id = 'user01'
+	  AND (u.sido = w.sido OR u.sido IS NULL)
+	  AND (u.like_subject = w.like_subject OR u.like_subject IS NULL)
+	GROUP BY serv_name
+	</select> -->
+</mapper>
