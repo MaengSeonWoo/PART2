@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.talk.app.common.service.PageDTO;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.mypage.service.ResumeService;
@@ -45,8 +46,12 @@ public class ResumeController {
 	@GetMapping
 	public String resumeList(Principal principal, Model model)	 {
 		String userId = principal.getName();
-		List<ResumeVO> resumeList = resumeService.resumeList(userId);
+		ResumeVO resume = new ResumeVO();
+		resume.setUserId(userId);
+		log.info("resumeVO={}", resume);
+		List<ResumeVO> resumeList = resumeService.resumeList(resume);
 		List<ResumeVO> applyResumeList = resumeService.applyResumeList(userId);
+		model.addAttribute("rpage", new PageDTO(10, resumeService.getResumeTotal(userId), resume));
 		model.addAttribute("rlist", resumeList);
 		model.addAttribute("alist", applyResumeList);
 		

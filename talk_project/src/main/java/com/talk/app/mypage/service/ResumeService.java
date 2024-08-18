@@ -6,7 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ResumeService {
 	// 이력서 리스트
-	public List<ResumeVO> resumeList(String userId);
+	public List<ResumeVO> resumeList(ResumeVO resumeVO);
+	// 이력서 총 개수
+	public int getResumeTotal(String userId);
 	// 지원이력서 리스트
 	public List<ResumeVO> applyResumeList(String userId);
 	// 이력서 상세조회

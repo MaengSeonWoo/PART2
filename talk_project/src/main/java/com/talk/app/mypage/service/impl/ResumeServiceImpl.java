@@ -26,8 +26,8 @@ public class ResumeServiceImpl implements ResumeService{
 	private final UploadService uploadService;
 	
 	@Override
-	public List<ResumeVO> resumeList(String userId) {
-		return resumeMapper.selectResumeList(userId);
+	public List<ResumeVO> resumeList(ResumeVO resumeVO) {
+		return resumeMapper.selectResumeList(resumeVO);
 	}
 	
 	@Override
@@ -126,6 +126,11 @@ public class ResumeServiceImpl implements ResumeService{
 	@Override
 	public void removeResume(Integer resumeNo) {
 		resumeMapper.deleteResume(resumeNo);
+	}
+
+	@Override
+	public int getResumeTotal(String userId) {
+		return resumeMapper.getResumeTotal(userId);
 	}
 
 
