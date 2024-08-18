@@ -11,9 +11,9 @@ public class SmsConfig {
     @Bean
     public DefaultMessageService defaultMessageService() {
         // API Key와 API Secret Key를 환경 변수나 설정 파일로부터 읽어오는 것이 좋습니다.
-        String apiKey = ""; // 카톡에 저장된 apikey 사용
-        String apiSecretKey = ""; // 카톡에 저장된 secretkey사용
-        String apiUrl = ""; // 카톡에 저장됨
+    	String apiKey = "NCSQRKAPNVAMDRBB"; 
+        String apiSecretKey = "UY6ZGS3NPUU6JKCWXDER6K96GXX5UNP6"; 
+        String apiUrl = "https://api.coolsms.co.kr"; 
 
         return NurigoApp.INSTANCE.initialize(apiKey, apiSecretKey, apiUrl);
     }
