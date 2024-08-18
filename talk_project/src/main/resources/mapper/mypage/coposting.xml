@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="selectPostingInfo" resultType="PostingVO">
-		SELECT posting_status
+		SELECT get_codename(posting_status) as posting_status_nm
 			   , c.co_name
 			   , work_region
 			   , get_codename(work_region) as work_region_nm
@@ -52,7 +52,6 @@
 		FROM posting
 		</selectKey>
 			INSERT INTO posting (
-			    posting_status,
 			    co_name,             
 			    work_region,
 			    start_date,
@@ -72,7 +71,6 @@
 			    co_user_no,
     			posting_title
 		) VALUES (
-			    #{postingStatus},
 			    #{coName},
 			    #{workRegion},
 			    #{startDate},

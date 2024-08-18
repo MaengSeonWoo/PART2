@@ -51,6 +51,7 @@ public class PostingVO {
 	private Integer coUserNo;
 	// 채용 공고 상태
 	private String postingStatus;
+	private String postingStatusNm; // postingStatus의 코드값에 대응하는 실제 값
 	// 채용 공고 제목
 	private String postingTitle;
 	

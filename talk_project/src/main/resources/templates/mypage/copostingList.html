@@ -1,38 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-            layout:decorate="~{common/main/layouts/comypage_layout}"
-            layout:fragment="Content">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/comypage_layout}"
+      layout:fragment="Content">
 <head>
-<meta charset="UTF-8">
-<title>채용공고 조회</title>
+    <meta charset="UTF-8">
+    <title>채용공고 조회</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: none; /* 테두리 제거 */
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        /* 버튼 스타일 제거 */
+        .btn {
+            padding: 10px 20px;
+            color: #007bff; /* 버튼 글자색 설정 */
+            background-color: transparent; /* 버튼 배경색 투명 */
+            border: 1px solid #007bff; /* 버튼 테두리 추가 */
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #e0e0e0; /* 버튼 호버 시 배경색 변경 */
+            color: #0056b3; /* 버튼 호버 시 글자색 변경 */
+        }
+    </style>
 </head>
 <body>
-	<h3>게시판 목록</h3>
-		<table>
-			<thead>
-				<tr>
-					<th>공고번호</th>
-					<th>기업명</th>
-					<th>채용공고 제목</th>
-					<th>등록일자</th>
-					<th>등록여부</th>
-					<!-- yy년MM월dd일 -->
-				</tr>
-			</thead>
-			<tbody>
-				<th:block th:each="posting : ${copostingList}"> <!--/* model.addAttribute("boards", list) 이름 똑같이 */-->
-					<!--/* <tr th:name="${sts.index}"> */-->
-					<tr th:onclick="|location.href='@{/copostingInfo(postingNo=${posting.postingNo})}'|">
-						<td th:text="${posting.postingNo}"></td>
-						<td th:text="${posting.coName}"></td>
-						<td th:text="${posting.postingTitle}"></td>
-						<td th:text="${posting.startDate}"></td>
-						<td th:text="${posting.postingStatus}"></td>
-					</tr>
-				</th:block>
-			</tbody>
-		</table>
-				<button type="button" th:onclick="|location.href='@{/copostingInsert}'|">등록</button>
+    <h3>채용공고 목록</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>공고번호</th>
+                <th>기업명</th>
+                <th>채용공고 제목</th>
+                <th>등록일자</th>
+                <th>모집여부</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="posting : ${copostingList}">
+                <tr th:onclick="|location.href='@{/copostingInfo(postingNo=${posting.postingNo})}'|">
+                    <td th:text="${posting.postingNo}"></td>
+                    <td th:text="${posting.coName}"></td>
+                    <td th:text="${posting.postingTitle}"></td>
+                    <td th:text="${posting.startDate}"></td>
+                    <td th:text="${posting.postingStatus}"></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    <button type="button" th:onclick="|location.href='@{/copostingInsert}'|" class="btn">등록</button>
 </body>
 </html>
