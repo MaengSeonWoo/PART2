@@ -9,17 +9,28 @@
 		<collection property="edus" javaType="ArrayList" column="resume_no" ofType="EduVO" select="selectEdus"/>
 	</resultMap>
 
-	<select id="selectResumeList" parameterType="String" resultType="ResumeVO">
-		SELECT r.resume_no,
-				r.resume_title,
-		    	r.create_date
-		FROM resume r
-		WHERE r.user_no = (
-                                                select user_no
-                                                from users
-                                                where user_id = #{userId}
-                        )
-		ORDER BY r.create_date DESC
+	<select id="selectResumeList" parameterType="ResumeVO" resultType="ResumeVO">
+		<![CDATA[
+		SELECT  resume_no,
+				resume_title,
+		    	create_date
+		FROM (
+		            SELECT  ROWNUM rn,
+		                        r.resume_no,
+		                        r.resume_title,
+		                        r.create_date
+		                    
+		                FROM resume r
+		                WHERE ROWNUM <= #{pageNum} * #{amount} AND r.user_no = (
+		                                                        SELECT user_no
+		                                                        FROM USERS
+		                                                        WHERE user_id = #{userId}
+		                                )
+		)
+		
+		WHERE rn > (#{pageNum} - 1) * #{amount}
+		ORDER BY create_date DESC
+		]]>
 	</select>
 	
 	

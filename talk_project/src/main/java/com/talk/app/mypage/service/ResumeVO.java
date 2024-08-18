@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.talk.app.common.service.Criteria;
+
 import lombok.Data;
 
 @Data
-public class ResumeVO {
+public class ResumeVO extends Criteria{
 	// 이력서 번호
 	private Integer resumeNo;
 	// 이력서 제목
@@ -50,7 +52,15 @@ public class ResumeVO {
 	private String userName;
 	private String coName;
 	
-	
+	private String userId;
+
+	public ResumeVO() {
+        super();  // 부모 클래스의 기본 생성자 호출
+    }
+
+    public ResumeVO(int pageNum, int amount) {
+        super(pageNum, amount);  // 부모 클래스의 특정 생성자 호출
+    }
 	
 	
 }

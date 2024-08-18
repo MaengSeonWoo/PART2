@@ -108,7 +108,7 @@
 					<tr>
 						<td th:text="${edu.school}">OO대학교</td>
 						<td th:text="${edu.major}">컴퓨터공학</td>
-						<td th:text="${#dates.format(edu.graduation, 'yyyy-MM')}">1980/02</td>
+						<td th:text="${#dates.format(edu.graduation, 'yyyy년MM월')}">1980/02</td>
 					</tr>
 				</th:block>
 				<th:block th:if="${#lists.isEmpty(resume.edus)}">
@@ -137,7 +137,7 @@
 						<td th:text="${career.workPlace}">OO회사</td>
 						<td th:text="${career.role}">개발팀장 / 소프트웨어 개발</td>
 						<td th:text="${#dates.format(career.careerStart, 'yyyy/MM/dd')}">1980-03-01</td>
-						<td th:text="${#dates.format(career.careerEnd, 'yyyy-MM-dd')}">1990-06-30</td>
+						<td th:text="${#dates.format(career.careerEnd, 'yyyy/MM/dd')}">1990-06-30</td>
 					</tr>
 				</th:block>
 				<th:block th:if="${#lists.isEmpty(resume.careers)} ">

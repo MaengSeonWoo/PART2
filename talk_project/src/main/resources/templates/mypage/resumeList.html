@@ -39,7 +39,7 @@
 	<div class="container mt-5">
 		<!-- 1. 회사에 제출한 이력서 -->
 		<div class="card mb-4">
-			<div class="card-header bg-primary text-white text-center custom-card-header">회사에 제출한 이력서</div>
+			<div class="card-header bg-primary text-white text-center custom-card-header">제출한 이력서</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
@@ -47,7 +47,7 @@
 							<th>이력서 제목</th>
 							<th>지원회사</th>
 							<th>지원일자</th>
-							<th>조작</th>
+							<th> </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -56,9 +56,9 @@
 							<tr>
 								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
 								<td th:text="${item.coName}" class="custom-table-cell">지원회사</td>
-								<td th:text="${item.applyDate}" class="custom-table-cell">지원일자</td>
+								<td th:text="${#dates.format(item.applyDate, 'yyyy/MM/dd')}" class="custom-table-cell">지원일자</td>
 								<td class="custom-table-cell">
-									<button type="button" class="btn btn-sm btn-info custom-btn resumeInfoHandler">조회</button>
+									<button type="button" class="btn btn-sm btn-primary custom-btn resumeInfoHandler">조회</button>
 								</td>
 							</tr>
 						</th:block>
@@ -79,16 +79,17 @@
 		</div>
 
 		<!-- 2. 나의 이력서 -->
+		<a th:text="${rpage}"></a>
 		<div class="card mb-4">
-			<div class="card-header bg-secondary text-white text-center custom-card-header">나의 이력서</div>
+			<div class="card-header bg-primary text-white text-center custom-card-header">나의 이력서</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
 						<tr class="custom-table-header">
 							<th>이력서 제목</th>
 							<th>작성일자</th>
-							<th>조회</th>
-							<th>삭제</th>
+							<th> </th>
+							<th> </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -96,12 +97,12 @@
 							<input type="hidden" th:value="${item.resumeNo}">
 							<tr>
 								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
-								<td th:text="${item.createDate}" class="custom-table-cell">작성일자</td>
+								<td th:text="${#dates.format(item.createDate, 'yyyy/MM/dd')}" class="custom-table-cell">작성일자</td>
 								<td class="custom-table-cell">
-									<button type="button" class="btn btn-sm btn-info custom-btn resumeInfoHandler">조회</button>
+									<button type="button" class="btn btn-sm btn-primary custom-btn resumeInfoHandler">조회</button>
 								</td>
 								<td class="custom-table-cell">
-									<button type="button" class="btn btn-sm btn-warning custom-btn resumeRemoveHamdler">삭제</button>
+									<button type="button" class="btn btn-sm btn-primary custom-btn resumeRemoveHamdler">삭제</button>
 								</td>
 							</tr>
 						</th:block>
