@@ -32,6 +32,33 @@
 		ORDER BY create_date DESC
 		]]>
 	</select>
+	<select id="selectApplyResumeList" parameterType="ResumeVO" resultType="ResumeVO">
+	<![CDATA[
+		SELECT 		resume_no,
+					resume_title,
+				    co_name,
+				    apply_date
+		FROM (
+				SELECT ROWNUM rn,
+					r.resume_no,
+					r.resume_title,
+				    p.co_name,
+				    ar.apply_date
+				FROM apply_resume ar
+				JOIN resume r 
+				ON ar.resume_no = r.resume_no
+				JOIN posting p 
+				ON ar.posting_no = p.posting_no
+				WHERE ROWNUM <= #{pageNum} * #{amount} AND r.user_no = (
+		                                                select user_no
+		                                                from users
+		                                                where user_id = #{userId}
+		                        )
+		)
+			WHERE rn > (#{pageNum} - 1) * #{amount}
+			ORDER BY apply_date DESC
+		]]>
+	</select>
 	
 	
 
@@ -111,23 +138,7 @@
         WHERE user_id = #{userId}
 	</select>
 	
-	<select id="selectApplyResumeList" parameterType="String" resultType="ResumeVO">
-		SELECT r.resume_no,
-				r.resume_title,
-			    p.co_name,
-			    ar.apply_date
-		FROM apply_resume ar
-		JOIN resume r 
-		ON ar.resume_no = r.resume_no
-		JOIN posting p 
-		ON ar.posting_no = p.posting_no
-		WHERE r.user_no = (
-                                                select user_no
-                                                from users
-                                                where user_id = #{userId}
-                        )
-		ORDER BY ar.apply_date DESC
-	</select>
+	
 	
 	
 	<select id="selectCareers" parameterType="int" resultType="CareerVO">

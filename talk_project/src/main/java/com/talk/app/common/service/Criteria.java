@@ -16,7 +16,7 @@ public class Criteria {
 	
 	// 기본 페이지를 1페이지 10개씩 보여준다는 의미
 	public Criteria() {
-		this(1, 10);
+		this(1, 8);
 		
 	}
 

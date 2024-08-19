@@ -38,6 +38,7 @@
 <body>
 	<div class="container mt-5">
 		<!-- 1. 회사에 제출한 이력서 -->
+		<!--제출 이력서 -->
 		<div class="card mb-4">
 			<div class="card-header bg-primary text-white text-center custom-card-header">제출한 이력서</div>
 			<div class="card-body">
@@ -64,22 +65,39 @@
 						</th:block>
 					</tbody>
 				</table>
-				<nav>
-					<ul class="pagination justify-content-center custom-pagination">
-						<li class="page-item disabled"><a class="page-link">«</a></li>
-						<li class="page-item active"><a class="page-link">1</a></li>
-						<li class="page-item"><a class="page-link">2</a></li>
-						<li class="page-item"><a class="page-link">3</a></li>
-						<li class="page-item"><a class="page-link">4</a></li>
-						<li class="page-item"><a class="page-link">5</a></li>
-						<li class="page-item"><a class="page-link">»</a></li>
-					</ul>
-				</nav>
+				<div th:object="${arpage}">
+			<nav aria-label="Page navigation"
+				class="d-flex justify-content-center">
+				<ul class="pagination">
+					<li class="page-item" th:if="*{prev}"><a
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum1=${arpage.startPage - 1})}"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<th:block
+						th:each="num : ${#numbers.sequence(arpage.getStartPage(), arpage.getEndPage())}">
+						<li class="page-item"
+							th:classappend="${arpage.criteria.getPageNum() == num} ? 'active'">
+							<a class="page-link changePage"
+							th:href="@{/userMain/resume (pageNum1=${num})}" th:text="${num}"
+							th:unless="${arpage.criteria.getPageNum() == num}"></a> <span
+							class="page-link" th:if="${arpage.criteria.getPageNum() == num}"
+							th:text="${num}"></span>
+						</li>
+					</th:block>
+					<li class="page-item" th:if="*{next}"><a
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum1=${arpage.endPage + 1})}"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		<!-- 	<form action="/userMain/resume" th:object="${resumeVO}" name="pageForm">
+				<input type="hidden" name="pageNum2" th:field="*{pageNum}"> <input
+					type="hidden" name="amount" th:field="*{amount}">
+			</form> -->
+		</div>
 			</div>
 		</div>
-
 		<!-- 2. 나의 이력서 -->
-		<a th:text="${rpage}"></a>
 		<div class="card mb-4">
 			<div class="card-header bg-primary text-white text-center custom-card-header">나의 이력서</div>
 			<div class="card-body">
@@ -108,17 +126,38 @@
 						</th:block>
 					</tbody>
 				</table>
-				<nav>
-					<ul class="pagination justify-content-center custom-pagination">
-						<li class="page-item disabled"><a class="page-link">«</a></li>
-						<li class="page-item active"><a class="page-link">1</a></li>
-						<li class="page-item"><a class="page-link">2</a></li>
-						<li class="page-item"><a class="page-link">3</a></li>
-						<li class="page-item"><a class="page-link">4</a></li>
-						<li class="page-item"><a class="page-link">5</a></li>
-						<li class="page-item"><a class="page-link">»</a></li>
-					</ul>
-				</nav>
+				
+		<!-- 나의 이력서 -->		
+				<div th:object="${rpage}">
+			<nav aria-label="Page navigation"
+				class="d-flex justify-content-center">
+				<ul class="pagination">
+					<li class="page-item" th:if="*{prev}"><a
+						class="page-link changePage" th:href="*{startPage - 1}"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<th:block
+						th:each="num : ${#numbers.sequence(rpage.getStartPage(), rpage.getEndPage())}">
+						<li class="page-item"
+							th:classappend="${rpage.criteria.getPageNum() == num} ? 'active'">
+							<a class="page-link changePage"
+							th:href="@{/userMain/resume (pageNum2=${num})}" th:text="${num}"
+							th:unless="${rpage.criteria.getPageNum() == num}"></a> <span
+							class="page-link" th:if="${rpage.criteria.getPageNum() == num}"
+							th:text="${num}"></span>
+						</li>
+					</th:block>
+					<li class="page-item" th:if="*{next}"><a
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum2=${rpage.endPage + 1})}"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		<!-- 	<form action="/userMain/resume" th:object="${resumeVO}" name="pageForm">
+				<input type="hidden" name="pageNum2" th:field="*{pageNum}"> <input
+					type="hidden" name="amount" th:field="*{amount}">
+			</form> -->
+		</div>
 			</div>
 		</div>
 

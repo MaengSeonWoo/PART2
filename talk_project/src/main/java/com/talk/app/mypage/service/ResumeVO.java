@@ -53,14 +53,16 @@ public class ResumeVO extends Criteria{
 	private String coName;
 	
 	private String userId;
+	
+	
 
-	public ResumeVO() {
-        super();  // 부모 클래스의 기본 생성자 호출
-    }
-
-    public ResumeVO(int pageNum, int amount) {
-        super(pageNum, amount);  // 부모 클래스의 특정 생성자 호출
-    }
+//	public ResumeVO() {
+//        super();  // 부모 클래스의 기본 생성자 호출
+//    }
+//
+//    public ResumeVO(int pageNum, int amount) {
+//        super(pageNum, amount);  // 부모 클래스의 특정 생성자 호출
+//    }
 	
 	
 }
