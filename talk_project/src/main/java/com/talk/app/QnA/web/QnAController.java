@@ -17,22 +17,21 @@ import com.talk.app.qnaReply.service.QnAReplyVO;
 
 import lombok.RequiredArgsConstructor;
 
-
-
 @Controller
 @RequiredArgsConstructor
 public class QnAController {
-	
+
 	private final QnAService qnaService;
 	private final QnAReplyService replyService;
-	
+
 	// 전체
-	@GetMapping("qna")
-	public String QnAList(Model model, Principal principal, qnaVO qnavo) {
+	@GetMapping("qnaList")
+	public String QnAList(Model model, Principal principal, qnaVO qnavo, String role) {
 		String coUserId = principal.getName();
+		System.out.println("아이디" + coUserId);
 		CoUserVO couserVO = new CoUserVO();
-        couserVO.setCoUserId(coUserId);
-		List<qnaVO> list = qnaService.qnaList();
+		couserVO.setCoUserId(coUserId);
+		List<qnaVO> list = qnaService.qnaList(role);
 		model.addAttribute("qnaList", list);
 		return "qna/qnaList";
 	}
@@ -42,37 +41,45 @@ public class QnAController {
 	public String QnAInfo(qnaVO qnavo, Model model) {
 		qnaVO findVO = qnaService.qnaInfo(qnavo);
 		model.addAttribute("qnaInfo", findVO);
-		
+
 		return "qna/qnaInfo";
 	}
+
 	// 등록
 	@GetMapping("qnaInsert")
 	public String qnaInsertForm() {
 		return "qna/qnaInsert";
 	}
-	
+
 	// 등록 처리
 	@PostMapping("qnaInsert")
 	public String qnaInsert(qnaVO qnavo) {
-		
+
 		int nno = qnaService.insertQnA(qnavo);
-		
+
 		return "redirect:qnaInfo?qnaNo=" + nno;
 	}
-	
+
 	// 댓글등록
-	/*
-	 * @PostMapping("qnaInfo") public String replyInsert(QnAReplyVO replyVO, Model
-	 * model) { List<QnAReplyVO> findVO = replyService.replyList();
-	 * model.addAttribute("reply", findVO);
-	 * 
-	 * return "qna/qnaInfo"; }
-	 */
-	
+	@PostMapping("replyInsert")
+	public String replyInsert(QnAReplyVO replyVO, Model model) {
+		int replyNo = replyService.insertReply(replyVO);
+		model.addAttribute("reply", replyNo);
+		
+		return "redirect:qnaInfo?qnaNo=" + replyVO.getQnaNo();
+	}
+
 	// 삭제
-	@GetMapping("qnaDelete")
+	@GetMapping("deleteQna")
 	public String deleteQnA(@RequestParam Integer qnaNo) {
 		qnaService.deleteQnA(qnaNo);
+		return "redirect:qnaList";
+	}
+
+	// 댓글삭제
+	@GetMapping("deleteReply")
+	public String getMethodName(@RequestParam Integer replyNo) {
+		replyService.deleteReply(replyNo);
 		return "redirect:qnaList";
 	}
 	

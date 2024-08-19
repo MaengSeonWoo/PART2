@@ -28,6 +28,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
 
+            if(authentication.getAuthorities().contains("ROLE_USER")) {
+            	request.getSession().setAttribute("ROLE", "user");
+            } else if(authentication.getAuthorities().contains("ROLE_ADMIN")){
+            	request.getSession().setAttribute("ROLE", "admin");
+            } else {
+            	request.getSession().setAttribute("ROLE", "co_user");
+            }
             // 일반 회원 처리
             UserVO userVO = new UserVO();
             userVO.setUserId(username);

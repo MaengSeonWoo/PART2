@@ -6,12 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.container{margin-top:40px;}
+	.container{
+	margin-top:40px;
+	}
+	
 </style>
 <title>Insert title here</title>
 </head>
 <body>
-
 	<div class="container">
 		<h3>QnA 정보</h3>
 		<table>
@@ -23,6 +25,10 @@
 				<th>제목</th>
 				<td th:text="${qnaInfo.qnaTitle}"></td>
 			</tr>
+			<tr>
+				<th>작성일시</th>
+				<td th:text="${qnaInfo.regDate}"></td>
+			</tr>
 			<tr class="no-content">
 				<th>내용</th>
 				<td th:text="${qnaInfo.qnaContent}"></td>
@@ -33,7 +39,7 @@
 			<table>
 				<tr>
 					<td>
-						<textarea cols="50" rows="5" th:text="${qnaInfo.replyContent}"></textarea>
+						<textarea cols="50" rows="5" th:text="${qnaInfo.replyContent}" readonly></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -45,12 +51,16 @@
 		</div>
 	
 		<form name="insertForm"
-			th:action="@{/qnaReplyInsert}" method="post"
+			th:action="@{/replyInsert}" method="post"
 		  	th:if="${qnaInfo.qnaState} == '0'">
+		  	<input type="hidden" name="qnaNo" th:value="${qnaInfo.qnaNo}">
+		  	
+		  	
 			<table>
+			
 				<tr>
 					<td>
-						<textarea name="replyContent"></textarea>
+						<textarea name="replyContent" th:value="${qnaInfo.replyContent}"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -60,6 +70,10 @@
 				</tr>
 			</table>
 		</form>
+		
+		<div>
+			<button type="button" th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
+		</div>
 	</div>
 	<!-- end of container -->
 </body>

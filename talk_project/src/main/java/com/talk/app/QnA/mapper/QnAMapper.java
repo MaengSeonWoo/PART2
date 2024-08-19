@@ -6,7 +6,7 @@ import com.talk.app.QnA.service.qnaVO;
 
 public interface QnAMapper {
 	// 전체조회
-	public List<qnaVO> selectQnAAll();
+	public List<qnaVO> selectQnAAll(String role);
 	
 	// 본인 전체조회
 	/* public List<qnaVO> myQnaAll(qnaVO qnavo); */

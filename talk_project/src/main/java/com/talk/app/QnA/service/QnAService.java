@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface QnAService {
 	// 전체조회
-	public List<qnaVO> qnaList();
+	public List<qnaVO> qnaList(String role);
 	
 	// 본인 전체조회
 	/* public List<qnaVO> myQnaList(qnaVO qnavo); */
