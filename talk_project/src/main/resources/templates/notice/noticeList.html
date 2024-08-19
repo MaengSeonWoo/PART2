@@ -6,7 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.submit-btn{float:right;}
+	.submit-btn {
+		float:right;
+	}
+	
+	tbody tr:hover {
+		cursor:pointer;
+		background-color:pink;
+	}
 </style>
 <title>공지사항</title>
 </head>
@@ -102,7 +109,7 @@ let imNotice = document.querySelectorAll('tbody td:nth-child(1)')
 function importantNotice(){
 	for(let i=0; i<imNotice.length; i++){
 		if(imNotice[i].innerHTML.trim() == 1){
-			imNotice[i].innerHTML = '<공지>';
+			imNotice[i].innerHTML = '공지';
 						
 		}
 	}
@@ -114,5 +121,18 @@ function search(){
 }
 
 search();
+
+function colorChange() {
+    for(let i=0; i<imNotice.length; i++){
+        if(imNotice[i].innerHTML == '공지'){
+            let red = imNotice[i];
+            red.innerHTML = '[ ' + red.innerHTML +' ]'
+            red.style.color="blue";
+            red.style.fontWeight="bold";
+        }
+    }
+}
+
+colorChange();
 </script>
 </html>
