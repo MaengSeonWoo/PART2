@@ -35,7 +35,10 @@ public interface ResumeMapper {
 	public int getUserNoById(String userId);
 	
 	// 지원이력서 리스트
-	public List<ResumeVO> selectApplyResumeList(String userId);
+	public List<ResumeVO> selectApplyResumeList(ResumeVO resumeVO);
+	// 마이페이지 이력서 총 개수
+	@Select("SELECT COUNT(*) FROM apply_resume a JOIN RESUME r ON a.resume_no = r.resume_no WHERE user_no = (select user_no from users where user_id = #{userId})")
+	public int getApplyResumeTotal(String userId);
 	
 	// 경력사항 조회
 	public List<CareerVO> selectCareers(int resumeNo);

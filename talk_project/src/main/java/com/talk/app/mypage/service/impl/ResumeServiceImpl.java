@@ -31,8 +31,8 @@ public class ResumeServiceImpl implements ResumeService{
 	}
 	
 	@Override
-	public List<ResumeVO> applyResumeList(String userId) {
-		return resumeMapper.selectApplyResumeList(userId);
+	public List<ResumeVO> applyResumeList(ResumeVO resumeVO) {
+		return resumeMapper.selectApplyResumeList(resumeVO);
 	}
 
 	@Override
@@ -131,6 +131,12 @@ public class ResumeServiceImpl implements ResumeService{
 	@Override
 	public int getResumeTotal(String userId) {
 		return resumeMapper.getResumeTotal(userId);
+	}
+
+	@Override
+	public int getApplyResumeTotal(String userId) {
+		// TODO Auto-generated method stub
+		return resumeMapper.getApplyResumeTotal(userId);
 	}
 
 

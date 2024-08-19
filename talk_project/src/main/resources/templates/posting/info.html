@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/default_layout}"
-	layout:fragment="Content">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}" layout:fragment="Content">
+
 <head>
 	<meta charset="UTF-8">
 	<title>채용공고</title>
@@ -88,6 +87,7 @@
 		}
 	</style>
 </head>
+
 <body>
 	<div class="container-fluid bg-primary py-5 mb-5 page-header">
 		<div class="container py-5">
@@ -202,42 +202,32 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><input type="radio" name="resume" id="resume1"></td>
-								<td>홍길동의 이력서입니다</td>
-								<td>24/07/31</td>
-							</tr>
-							<tr>
-								<td><input type="radio" name="resume" id="resume1"></td>
-								<td>홍길동의 이력서입니다</td>
-								<td>24/07/31</td>
-							</tr>
-							<tr>
-								<td><input type="radio" name="resume" id="resume1"></td>
-								<td>홍길동의 이력서입니다</td>
-								<td>24/07/31</td>
-							</tr>
-							<tr>
-								<td><input type="radio" name="resume" id="resume2"></td>
-								<td>(주) XX기업 지원</td>
-								<td>24/07/31</td>
-							</tr>
+							<th:block th:each="resume : ${rList}">
+								<tr>
+									<td>
+										<input type="hidden" th:value="${resume.resumeNo}" class="resumeNoHidden">
+										<input type="radio" name="resume" class="resumeRadio">
+									</td>
+									<td th:text="${resume.resumeTitle}">홍길동의 이력서입니다</td>
+									<td th:text="${#dates.format(resume.createDate, 'yy/MM/dd')}">24/07/31</td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 					<!-- Pagination -->
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<li class="page-item"><a class="page-link" href="#" aria-label="Previous">
-								<span aria-hidden="true">&laquo;</span>
-							</a></li>
+									<span aria-hidden="true">&laquo;</span>
+								</a></li>
 							<li class="page-item"><a class="page-link" href="#">1</a></li>
 							<li class="page-item"><a class="page-link" href="#">2</a></li>
 							<li class="page-item"><a class="page-link" href="#">3</a></li>
 							<li class="page-item"><a class="page-link" href="#">4</a></li>
 							<li class="page-item"><a class="page-link" href="#">5</a></li>
 							<li class="page-item"><a class="page-link" href="#" aria-label="Next">
-								<span aria-hidden="true">&raquo;</span>
-							</a></li>
+									<span aria-hidden="true">&raquo;</span>
+								</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -250,9 +240,25 @@
 	</div>
 
 	<script type="text/javascript">
+		// 모든 라디오 버튼에 change 이벤트 리스너를 추가
+		document.querySelectorAll('.resumeRadio').forEach(radio => {
+			radio.addEventListener('change', function () {
+				if (this.checked) {
+					// 선택된 라디오 버튼의 부모 <tr> 요소 찾기
+					const tr = this.closest('tr');
+					// 해당 <tr> 내의 히든 필드 값 가져오기
+					const resumeNo = tr.querySelector('.resumeNoHidden').value;
+					console.log(resumeNo);
+					// 필요한 곳에 resumeNo 값을 사용하면 됩니다.
+				}
+			});
+		});
 		function goList() {
 			location.href = `/posting`;
 		}
+
+
 	</script>
 </body>
+
 </html>
