@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/mypage_layout}" layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR 결과</title>
+</head>
+<body>
+<h1>OCR 결과</h1>
+<ul>
+    <!-- OCR 결과를 반복하며 각 항목을 리스트로 출력 -->
+    <li th:each="result : ${ocrResult}" th:text="${result}"></li>
+</ul>
+<script th:inline="javascript">
+    // OCR 결과 배열
+    /* let data = [[${ocrResult}]]; */
+    let parsedata = JSON.parse(data);
+    
+    console.log(data);
+    console.log(parsedata);
+    console.log(parsedata.ocrResult);
+    // 특정 단어의 위치 찾기   
+    let name = parsedata.ocrResult[parsedata.ocrResult.indexOf("이름")+1];
+    let birth = parsedata.ocrResult[parsedata.ocrResult.indexOf("생년월일")+1];
+    let addr = parsedata.ocrResult[parsedata.ocrResult.indexOf("주소")+1];
+    let tel = parsedata.ocrResult[parsedata.ocrResult.indexOf("전화번호")+1];
+    let email = parsedata.ocrResult[parsedata.ocrResult.indexOf("이메일")+1];
+    let school = parsedata.ocrResult[parsedata.ocrResult.indexOf("졸업년월")+1];
+    let major = parsedata.ocrResult[parsedata.ocrResult.indexOf(school)+1];
+    let graduation = parsedata.ocrResult[parsedata.ocrResult.indexOf(major)+1];
+    let work = parsedata.ocrResult[parsedata.ocrResult.indexOf("종료일")+1];
+    let job = parsedata.ocrResult[parsedata.ocrResult.indexOf(work)+1];
+    let start = parsedata.ocrResult[parsedata.ocrResult.indexOf(job)+1];
+    let end = parsedata.ocrResult[parsedata.ocrResult.indexOf(start)+1];
+    let get = parsedata.ocrResult[parsedata.ocrResult.indexOf("자격증명")+2];
+    let license = parsedata.ocrResult[parsedata.ocrResult.indexOf("자격증명")+3];
+    let company = parsedata.ocrResult[parsedata.ocrResult.indexOf(license)+1];
+    
+    console.log(name, birth, addr, tel, email, school, major, graduation, work, job, start, end, get, license, company); 
+</script>
+</body>
+<button type="button" th:onclick="|location.href='@{/userMain/resume/save}'|">자동등록</button>
+</html>
