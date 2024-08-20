@@ -47,5 +47,23 @@
 		SELECT count(*) AS cnt
 		FROM posting
 	</select>
+	
+	<insert id="applyResuem" parameterType="ResumeVO">
+		<selectKey keyProperty="applyNo" resultType="Integer"
+			order="BEFORE">
+			SELECT NVL(MAX(apply_no), 0) + 1
+			FROM apply_resume
+		</selectKey>
+		INSERT INTO apply_resume (
+				apply_no,
+				resume_no,
+				posting_no						
+		)
+		VALUES (
+				#{applyNo},
+				#{resumeNo},
+				#{postingNo}
+		)
+	</insert>
 
 </mapper>
