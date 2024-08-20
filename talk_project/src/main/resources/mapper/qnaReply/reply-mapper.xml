@@ -42,4 +42,18 @@
 		END;
 	</insert> 
 	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReplyInfo" parameterType="int">
+		BEGIN
+				UPDATE qna SET qna_state = 0 WHERE qna_no IN(
+                                                SELECT qr.qna_no
+                                                FROM qna_reply qr
+                                                WHERE reply_no = #{replyNo}
+                                            );
+			DELETE FROM qna_reply
+			WHERE reply_no = #{replyNo};
+			
+		
+		END;
+	</delete>
 </mapper>

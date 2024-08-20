@@ -91,4 +91,19 @@
 		END;
 	</delete>
 	
+	
+	<!-- 유저정보 판단? -->
+	<select id="userInfo" resultType="UserVO">
+		BEGIN
+			SELECT user_no
+			FROM users
+			WHERE user_id = #{userId};
+			
+			SELECT co_user_no
+			FROM company_user
+			WHERE co_user_id = #{coUserId};
+	
+		END;
+	
+	</select>
 </mapper>

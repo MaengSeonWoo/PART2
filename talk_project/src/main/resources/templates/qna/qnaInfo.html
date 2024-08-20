@@ -6,75 +6,190 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.container{
+	.container {
+	margin:auto;
 	margin-top:40px;
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+	margin-bottom:20px;
+	padding:0;
+	width:60%;
 	}
 	
+	.numberRow {
+		border-bottom: 1px dotted gray;
+		line-height: 40px;
+	}
+	
+	.titleRow {
+		border-bottom: 1px dashed black;
+		margin:10px;
+	}
+	
+	.titleRow td {
+		line-height:55px;
+	}
+		
+	.container h3 {
+		padding:10px;
+	}
+	
+	.container table {
+		width:100%;
+		padding:10px;
+	}
+	
+	.container th{
+		width:100px;
+		text-align:center;
+		padding:5px;
+	}
+	
+	.container td {
+		padding:5px;
+	}	
+	
+	.replyInput, .replyContent {
+		width:500px;
+		height:100px;
+	}
+	
+	td:has(.replyContent), td:has(.replyInput) {
+		text-align:center;
+	}
+	
+	
+	.qnaTitle {
+		font-size : 25px;
+		font-weight: bold;
+		width:800px;
+	}
+	
+	.no-content {
+		line-height: 300px;
+	}
+	
+	.btnAll {
+		text-align:center;
+	}
+	
+	.qnaList {
+		border:none;
+		padding:10px;
+		border-radius:10px;
+		color:white;
+		background-color:#9bce26;
+		width:84px;
+	}
+	
+	.qnaDel {
+		border:none;
+		padding:10px;
+		border-radius:10px;
+		color:white;
+		background-color:red;
+		width:84px;
+	}
+	
+	.qnaContent {
+		margin-top:20px;
+		position:absolute;
+		table-layout:fixed;
+		word-break:break-all;
+		max-width:1040px;
+	}
+	
+	.insertForm, .answer{
+		margin-top:20px;
+		display:flex;
+		justify-content:center;
+	}
+	
+	.insertReplyBtn {
+		float:right;
+		border:none;
+		padding:10px;
+		width:84px;
+		border-radius:10px;
+		background-color:#0ea06f;
+		color:white;
+	}
+	
+	.replyDelBtn {
+		float:right;
+		border:none;
+		padding:10px;
+		width:84px;
+		border-radius:10px;
+		background-color:red;
+		color:white;
+	}
 </style>
 <title>Insert title here</title>
 </head>
 <body>
 	<div class="container">
-		<h3>QnA 정보</h3>
 		<table>
-			<tr>
-				<th>번호</th>
+			<tr class="numberRow">
+				<th>글 번호</th>
 				<td th:text="${qnaInfo.qnaNo}"></td>
 			</tr>
-			<tr>
-				<th>제목</th>
-				<td th:text="${qnaInfo.qnaTitle}"></td>
+			<tr class="titleRow">
+				<th class="bar">제목</th>
+				<td class="qnaTitle" th:text="${qnaInfo.qnaTitle}"></td>
+				<th class="bar">작성일</th>
+				<td class="regDate" th:text="${qnaInfo.regDate}"></td>
 			</tr>
+	
 			<tr>
-				<th>작성일시</th>
-				<td th:text="${qnaInfo.regDate}"></td>
 			</tr>
-			<tr class="no-content">
-				<th>내용</th>
-				<td th:text="${qnaInfo.qnaContent}"></td>
+			<tr >
+				<th class="no-content">내용</th>
+				<td class="qnaContent" th:text="${qnaInfo.qnaContent}"></td>
 			</tr>
 		</table>
-		
-		<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
-			<table>
-				<tr>
-					<td>
-						<textarea cols="50" rows="5" th:text="${qnaInfo.replyContent}" readonly></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="button">댓글삭제</button>
-					</td>
-				</tr>
-			</table>
-		</div>
 	
-		<form name="insertForm"
+		
+	</div>
+	<!-- end of container -->
+	
+	<div class="btnAll">
+		<button type="button" class="qnaList" th:onclick="|location.href='@{/qnaList}'|">목록보기</button>
+		<button type="button" class="qnaDel"th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
+	</div>
+	
+	<form class="insertForm" name="insertForm"
 			th:action="@{/replyInsert}" method="post"
 		  	th:if="${qnaInfo.qnaState} == '0'">
 		  	<input type="hidden" name="qnaNo" th:value="${qnaInfo.qnaNo}">
 		  	
-		  	
 			<table>
-			
 				<tr>
 					<td>
-						<textarea name="replyContent" th:value="${qnaInfo.replyContent}"></textarea>
+						<textarea  class="replyContent" name="replyContent" th:value="${qnaInfo.replyContent}"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<button type="submit">등록</button>
+						<button type="submit" class="insertReplyBtn">댓글등록</button>
 					</td>
 				</tr>
 			</table>
 		</form>
 		
-		<div>
-			<button type="button" th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
-		</div>
-	</div>
-	<!-- end of container -->
+	<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
+			<table>
+				<tr>
+					<td>
+						<textarea class="replyInput" th:text="${qnaInfo.replyContent}" readonly></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button type="button" class="replyDelBtn" th:onclick="|location.href='@{/deleteReply(replyNo=${qnaInfo.replyNo})}'|">댓글삭제</button>
+					</td>
+				</tr>
+			</table>
+	</div>	
 </body>
 </html>
