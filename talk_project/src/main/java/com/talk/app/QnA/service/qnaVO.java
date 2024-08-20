@@ -16,5 +16,6 @@ public class qnaVO {
 	private String qnaState; // 답변상태
 	private int userNo; // 회원번호
 	private int coUserNo; // 기업회원번호
+	private int replyNo;
 	private String replyContent; // 댓글내용
 }

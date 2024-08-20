@@ -78,8 +78,9 @@ public class QnAController {
 
 	// 댓글삭제
 	@GetMapping("deleteReply")
-	public String getMethodName(@RequestParam Integer replyNo) {
+	public String replyDelete(@RequestParam Integer replyNo, QnAReplyVO replyVO) {
 		replyService.deleteReply(replyNo);
+		
 		return "redirect:qnaList";
 	}
 	

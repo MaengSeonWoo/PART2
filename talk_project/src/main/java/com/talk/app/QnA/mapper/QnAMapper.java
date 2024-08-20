@@ -3,6 +3,7 @@ package com.talk.app.QnA.mapper;
 import java.util.List;
 
 import com.talk.app.QnA.service.qnaVO;
+import com.talk.app.login.service.UserVO;
 
 public interface QnAMapper {
 	// 전체조회
@@ -23,7 +24,8 @@ public interface QnAMapper {
 	// 삭제 : 조건 - no
 	public int deleteQnAInfo(int qnaNo);
 
-	
+	// 유저정보 받기
+	public UserVO userInfo(String userId);
 	
 	
 }
