@@ -44,6 +44,7 @@ dependencies {
 	implementation 'com.github.shin285:KOMORAN:3.3.9'
 	implementation 'net.nurigo:sdk:4.3.0' // 문자메세지 전송
 
+
 	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-texttospeech
 	implementation 'com.google.cloud:google-cloud-texttospeech:2.48.0'
 

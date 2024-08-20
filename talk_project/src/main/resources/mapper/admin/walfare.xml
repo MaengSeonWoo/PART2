@@ -171,7 +171,13 @@ WHERE wid = #{wid}
     WHERE serv_id = #{servId}
 </update>
 
-
+<select id="sendMsg" resultType="com.talk.app.admin.service.UserWelfareVO">
+	SELECT u.user_no, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
+	FROM users u
+	JOIN welfare w ON u.sido = w.sido
+	WHERE (u.like_subject = #{likeSubject} OR #{likeSubject} IS NULL)
+	AND (u.household = #{household} OR #{household} IS NULL)
+</select>
 
 
 </mapper>

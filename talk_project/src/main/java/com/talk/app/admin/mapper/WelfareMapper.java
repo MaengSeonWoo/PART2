@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareVO;
+import com.talk.app.login.service.UserVO;
 
 @Mapper
 public interface WelfareMapper {
@@ -37,5 +39,8 @@ public interface WelfareMapper {
 						            @Param("selStandard") String selStandard);
 
 	public List<String> getAllServIds();
+	
+	public List<UserWelfareVO> sendMsg(UserWelfareVO vo);
+
 	
 }
