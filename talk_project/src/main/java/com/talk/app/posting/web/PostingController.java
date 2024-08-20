@@ -46,26 +46,34 @@ public class PostingController {
 	private final ResumeService resumeService;
 	private final UploadService uploadService;
 	
+//	@GetMapping
+//	public String postingList(Model model, Criteria cri) {
+//		// 기능 수행
+//		List<PostingVO> postingList = postingService.postingList(cri);
+//		// 채용공고 리스트 전달
+//		model.addAttribute("pList", postingList);
+//		// 채용공고 페이징 처리를 위한 데이터 전달
+//		model.addAttribute("page", new PageDTO(10, postingService.getTotal(), cri));
+//		// 출력 페이지
+//		return "posting/list";
+//	}
 	@GetMapping
-	public String postingList(Model model, Criteria cri) {
-		// 기능 수행
-		List<PostingVO> postingList = postingService.postingList(cri);
-		// 채용공고 리스트 전달
-		model.addAttribute("pList", postingList);
-		// 채용공고 페이징 처리를 위한 데이터 전달
-		model.addAttribute("page", new PageDTO(10, postingService.getTotal(), cri));
-        
-		// 현재 인증된 사용자의 권한 정보를 모델에 추가
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
-            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
-            UserVO user = loginUser.getUserVO();
-            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
-        }
-		
-		// 출력 페이지
-		return "posting/list";
+
+	public String postingList(Criteria cri, Model model) {
+	    // 채용 공고 목록 조회
+	    List<PostingVO> postingList = postingService.postingList(cri);
+
+	    // 모델에 조회 결과 전달
+	    model.addAttribute("pList", postingList);
+
+	    // 페이징 처리를 위한 데이터 전달
+	    int total = postingService.getTotal(cri);
+	    model.addAttribute("page", new PageDTO(10, total, cri));
+
+	    // 반환할 뷰 이름
+	    return "posting/list";
 	}
+	
 	@GetMapping("/{postingNo}")
 	public String postingInfo(Model model, @PathVariable Integer postingNo, HttpSession session) {
 //		String userId = principal.getName();
