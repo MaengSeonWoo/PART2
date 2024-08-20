@@ -132,7 +132,7 @@
 			<div class="section-title">경력사항</div>
 			<table class="table table-bordered" id="careerTable">
 				<thead>
-					<tr id="companybody">
+					<tr>
 						<th>근무처</th>
 						<th>직위/업무내용</th>
 						<th>시작일</th>
@@ -140,7 +140,7 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="workbody">
 						<tr>
 							<td><input type="text" class="form-control" placeholder="근무처" id="work"></td>
 							<td><input type="text" class="form-control" placeholder="직위/업무내용" id="job"></td>
@@ -163,7 +163,7 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="licensebody">
 						<tr>
 							<td><input type="date" class="form-control" id="get"></td>
 							<td><input type="text" class="form-control" placeholder="자격증명" id="license"></td>
@@ -192,45 +192,65 @@
 	 const ocr = sessionStorage.getItem('OCR');
      const ocrData = JSON.parse(ocr);
      
-     function yearmonth(dateString) {
-    	    const date = new Date(dateString); 
+     function yearmonth() {
+    	    const date = new Date(); 
     	    const year = date.getFullYear(); 
     	    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
     	    return `${year}-${month}`; 
     	}
      
+     function yearmonthday() {
+ 	    const date = new Date(); 
+ 	    const year = date.getFullYear(); 
+ 	    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+ 	    const day = ('0' + date.getDate()).slice(-2);
+ 	    return `${year}-${month}-${day}`; 
+ 	}
+     
      if (ocrData) {
+    	 document.getElementById('resumeTitle').value = ocrData.resumeTitle.join(' ').replace(/,/g, '');
          document.getElementById('resumeName').value = ocrData.name;
-         document.getElementById('birth').value = ocrData.birth;
-         document.getElementById('addr').value = ocrData.addr;
+         let birthday = yearmonthday(ocrData.birth);
+         document.getElementById('birth').value = birthday;
+         document.getElementById('addr').value = ocrData.addr.join(' ').replace(/,/g, '');
          document.getElementById('tel').value = ocrData.tel;
          document.getElementById('email').value = ocrData.email;
+         document.getElementById('produce').value = ocrData.produce.join(' ').replace(/,/g, '');
          
-         if(ocrData.school.length > 3){
-	         for(i = 0; i < ocrData.school.length/3; i++){
-	         	if(i!=0) 
-	         		addRow('educationTable')
-	         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#school').value = ocrData.school[i*3];
-	         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#major').value = ocrData.school[i*3+1];
-	         	let date = yearmonth(ocrData.school[i*3+2]);
-	         	// 날짜를 'yyyy-MM' 형식으로 변환하여 설정
-	            document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#graduation').value = date;
-	         }
+        
+         for(i = 0; i < ocrData.school.length/3; i++){
+         	if(i!=0) 
+         		addRow('educationTable')
+         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#school').value = ocrData.school[i*3];
+         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#major').value = ocrData.school[i*3+1];
+         	let date = yearmonth(ocrData.school[i*3+2]);
+            document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#graduation').value = date;
          }
-         if(ocrData.company.length > 4){
-	         for(i = 0; i < ocrData.company.length/4; i++){
-	         	if(i!=0) 
-	         		addRow('educationTable')
-	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#work').value = ocrData.work[i*4];
-	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#job').value = ocrData.work[i*4+1];
-	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#start').value = ocrData.work[i*4+2];
-	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#end').value = ocrData.work[i*4+3];
-	         }
-         }  
-         document.getElementById('get').value = ocrData.get;
-         document.getElementById('license').value = ocrData.license;
-     }
+         
      
+         
+         for(i = 0; i < ocrData.work.length/4; i++){
+         	if(i!=0) 
+         		addRow('careerTable')
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#work').value = ocrData.work[i*4];
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#job').value = ocrData.work[i*4+1];
+         	let date1 = yearmonthday(ocrData.work[i*4+2]);
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#start').value = date1;
+         	let date2 = yearmonthday(ocrData.work[i*4+3]);
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#end').value = date2;
+         }
+         
+         for(i = 0; i < ocrData.get.length/3; i++){
+          	if(i!=0) 
+          		addRow('certificationTable')
+          	let getdate = yearmonthday(ocrData.get[i*3]);
+          	document.querySelectorAll(`#licensebody tr`)[i].querySelector('#get').value = getdate;
+          	document.querySelectorAll(`#licensebody tr`)[i].querySelector('#license').value = ocrData.get[i*3+1];
+            document.querySelectorAll(`#licensebody tr`)[i].querySelector('#company').value = ocrData.get[i*3+2];
+          }
+         
+     
+     }  
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -359,7 +379,9 @@
                 }
             });
         });
-
+        
+        /* sessionStorage.removeItem('OCR',JSON.stringify(ocrData)); */
+        
         function goList() {
         	location.href = `/userMain/resume`;
         }
