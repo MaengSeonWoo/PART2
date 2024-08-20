@@ -3,6 +3,7 @@ package com.talk.app.posting.mapper;
 import java.util.List;
 
 import com.talk.app.common.service.Criteria;
+import com.talk.app.mypage.service.ResumeVO;
 import com.talk.app.posting.service.PostingVO;
 
 public interface PostingMapper {
@@ -12,7 +13,10 @@ public interface PostingMapper {
 	// 채용 공고 상세 조회
 	public PostingVO selectPostingInfo(Integer postingNo);
 	
-	// 채용공고 gettotal
+	// 채용공고 총 개수
 	public int getTotal();
+	
+	// 채용 지원
+	public int applyResuem(ResumeVO resumeVO);
 	
 }

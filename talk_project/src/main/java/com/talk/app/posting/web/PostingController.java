@@ -2,12 +2,17 @@ package com.talk.app.posting.web;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.common.service.Criteria;
 import com.talk.app.common.service.PageDTO;
@@ -19,12 +24,14 @@ import com.talk.app.posting.service.PostingService;
 import com.talk.app.posting.service.PostingVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * 작성자 : 김진형
  * 작성일자 : 2024-08-06
  * 채용공고 조회 : 채용공고 리스트, 채용공고 상세조회
  * */
+@Slf4j
 @Controller
 @RequestMapping("/posting")
 @RequiredArgsConstructor
@@ -46,8 +53,10 @@ public class PostingController {
 		return "posting/list";
 	}
 	@GetMapping("/{postingNo}")
-	public String postingInfo(Principal principal, Model model, @PathVariable Integer postingNo) {
-		String userId = principal.getName();
+	public String postingInfo(Model model, @PathVariable Integer postingNo, HttpSession session) {
+//		String userId = principal.getName();
+		String userId = (String)session.getAttribute("userId");
+		log.info("userId={}", userId);
 		ResumeVO resume = new ResumeVO();
 		resume.setUserId(userId);
 		// 기능 수행
@@ -60,6 +69,7 @@ public class PostingController {
 		// 출력 페이지
 		return "posting/info";
 	}
+	
 	@GetMapping("/{postingNo}/resume/{resumeNo}")
 	public String myResumeInfo(Principal principal, Model model, @PathVariable Integer postingNo, @PathVariable Integer resumeNo) {
 		String userId = principal.getName();
@@ -81,5 +91,17 @@ public class PostingController {
 			return "redirect:/userMain/posting/"+postingNo;
 		}
 		// 출력 페이지
+	}
+	
+	@ResponseBody
+	@PostMapping("/{postingNo}/resume/{resumeNo}")
+	public Map<String, Object> applyResume(Model model, @PathVariable Integer postingNo, @PathVariable Integer resumeNo) {
+		ResumeVO resume = new ResumeVO();
+		resume.setPostingNo(postingNo);
+		resume.setResumeNo(resumeNo);
+		
+		Map<String, Object> applyResume = postingService.applyResume(resume);
+		
+		return applyResume;
 	}
 }

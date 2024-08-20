@@ -5,26 +5,26 @@
 	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>이력서 수정</title>
+<title>채용지원</title>
 <style>
-.resume-container {
-	max-width: 800px;
-	margin: 50px auto;
-	border: 2px solid #ccc;
-	padding: 20px;
-	border-radius: 10px;
-	background-color: #f7f7f7;
-}
+	.resume-container {
+		max-width: 800px;
+		margin: 50px auto;
+		border: 2px solid #ccc;
+		padding: 20px;
+		border-radius: 10px;
+		background-color: #f7f7f7;
+	}
 
-.header {
-	background-color: #e2e3e5;
-	padding: 10px;
-	border-radius: 5px;
-	text-align: center;
-	font-weight: bold;
-}
+	.header {
+		background-color: #e2e3e5;
+		padding: 10px;
+		border-radius: 5px;
+		text-align: center;
+		font-weight: bold;
+	}
 
-.profile-image {
+	.profile-image {
 	width: 150px;
 	height: 200px;
 	border: 2px solid #ccc;
@@ -38,360 +38,219 @@
 	height: 100%;
 }
 
-.section-title {
-	font-weight: bold;
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
+	.section-title {
+		font-weight: bold;
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
 
-.table thead th {
-	font-weight: bold;
-	background-color: #e2e3e5;
-}
+	.table thead th {
+		font-weight: bold;
+		background-color: #e2e3e5;
+	}
 
-.table-bordered td, .table-bordered th {
-	vertical-align: middle;
-}
-
-.form-control {
-	width: 100%;
-}
+	.table-bordered td,
+	.table-bordered th {
+		vertical-align: middle;
+	}
 </style>
 </head>
+
 <body>
-
-	<form id="resumeForm" enctype="multipart/form-data">
-		<div class="resume-container">
-			<div class="header">
-				<input class="form-control" th:value="${resume.resumeTitle}"
-					id="resumeTitle" placeholder="이력서 제목">
-			</div>
-
-			<div class="section-title">기본 정보</div>
-			<table class="table table-bordered">
-				<tbody>
-					<tr>
-						<td rowspan="4" style="width: 120px; text-align: center;">
-							<div class="profile-image toggleImg1" style="display: none">
-								<img id="preview" class="prorileImg">
-							</div>
-							<div class="toggleImg2">
-								<div th:if="${resume.resumeImg} == null" class="profile-image" style="background-image: url('/main/img/profile-image.png');"></div> 
-								<div th:if="${resume.resumeImg} != null" class="profile-image">
-									<img alt="" th:src="@{/images/{fileName}(fileName=${profile.filePath})}" class="prorileImg">
-								</div>
-							</div>
-							<input type="hidden" th:value="${resume.resumeNo}" id="resumeNo">
-						</td>
-						<th>이름</th>
-						<td><input type="text" class="form-control"
-							th:value="${resume.resumeName}" id="resumeName"></td>
-					</tr>
-					<tr>
-						<th>생년월일</th>
-						<td><input type="date" class="form-control"
-							th:value="${#dates.format(resume.birth, 'yyyy-MM-dd')}"
-							id="birth"></td>
-					</tr>
-					<tr>
-						<th>주소</th>
-						<td><input type="text" class="form-control"
-							th:value="${resume.addr}" id="addr"></td>
-					</tr>
-					<tr>
-						<th>전화번호</th>
-						<td><input type="tel" class="form-control"
-							th:value="${resume.tel}" id="tel"></td>
-					</tr>
-					<tr>
-						<td style="text-align: center;">
-						<input type="file" id="imgUpload" name="uploadFiles" multiple style="display: none;" onchange="readURL(this);">
-							<label for="imgUpload" class="btn btn-primary"
-							style="cursor: pointer;">사진 변경</label></td>
-						<th>이메일</th>
-						<td><input type="email" class="form-control"
-							th:value="${resume.email}" id="email"></td>
-					</tr>
-				</tbody>
-			</table>
-			<hr>
-			<div class="section-title">학력사항</div>
-			<table class="table table-bordered" id="educationTable">
-				<thead>
-					<tr>
-						<th>학교명</th>
-						<th>전공</th>
-						<th>졸업년월</th>
-						<th>삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<th:block th:if="${!#lists.isEmpty(resume.edus)}"
-						th:each="edu : ${resume.edus}">
-						<tr>
-							<td><input type="text" class="form-control"
-								placeholder="학교명" th:value="${edu.school}"></td>
-							<td><input type="text" class="form-control" placeholder="전공"
-								th:value="${edu.major}"></td>
-							<td><input type="month" class="form-control"
-								th:value="${#dates.format(edu.graduation, 'yyyy-MM')}"></td>
-							<td class="text-center"><button type="button"
-									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-						</tr>
-					</th:block>
-					<th:block th:if="${#lists.isEmpty(resume.edus)}">
-						<tr>
-							<td><input type="text" class="form-control"
-								placeholder="학교명"></td>
-							<td><input type="text" class="form-control" placeholder="전공"></td>
-							<td><input type="month" class="form-control"></td>
-							<td class="text-center"><button type="button"
-									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-						</tr>
-					</th:block>
-				</tbody>
-			</table>
-			<button type="button" class="btn btn-secondary btn-sm"
-				onclick="addRow('educationTable')">학력 추가</button>
-			<hr>
-			<div class="section-title">경력사항</div>
-			<table class="table table-bordered" id="careerTable">
-				<thead>
-					<tr>
-						<th>근무처</th>
-						<th>직위/업무내용</th>
-						<th>시작일</th>
-						<th>종료일</th>
-						<th>삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<th:block th:if="${!#lists.isEmpty(resume.careers)}"
-						th:each="career : ${resume.careers}">
-						<tr>
-							<td><input type="text" class="form-control"
-								placeholder="근무처" th:value="${career.workPlace}"></td>
-							<td><input type="text" class="form-control"
-								placeholder="직위/업무내용" th:value="${career.role}"></td>
-							<td><input type="date" id="careerStart" class="form-control"
-								th:value="${#dates.format(career.careerStart, 'yyyy-MM-dd')}"></td>
-							<td><input type="date" id="careerEnd" class="form-control"
-								th:value="${#dates.format(career.careerEnd, 'yyyy-MM-dd')}"></td>
-							<td class="text-center"><button type="button"
-									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-						</tr>
-					</th:block>
-					<th:block th:if="${#lists.isEmpty(resume.careers)} ">
-						<tr>
-							<td><input type="text" class="form-control"
-								placeholder="근무처"></td>
-							<td><input type="text" class="form-control"
-								placeholder="직위/업무내용"></td>
-							<td><input type="date" id="careerStart" class="form-control"></td>
-							<td><input type="date" id="careerEnd" class="form-control"></td>
-							<td class="text-center"><button type="button"
-									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-						</tr>
-					</th:block>
-				</tbody>
-			</table>
-			<button type="button" class="btn btn-secondary btn-sm"
-				onclick="addRow('careerTable')">경력 추가</button>
-			<hr>
-			<div class="section-title">보유기술/자격증</div>
-			<table class="table table-bordered" id="certificationTable">
-				<thead>
-					<tr>
-						<th>취득일</th>
-						<th>자격증명</th>
-						<th>시행처</th>
-						<th>삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<th:block th:if="${!#lists.isEmpty(resume.licenses)} "
-						th:each="license : ${resume.licenses}">
-						<tr>
-							<td><input type="date" class="form-control"
-								th:value="${#dates.format(license.getDate, 'yyyy-MM-dd')}"></td>
-							<td><input type="text" class="form-control"
-								placeholder="자격증명" th:value="${license.licenseName}"></td>
-							<td><input type="text" class="form-control"
-								placeholder="시행처" th:value="${license.licenseCompany}"></td>
-							<td class="text-center"><button type="button"
-									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-						</tr>
-					</th:block>
-					<th:block th:if="${#lists.isEmpty(resume.licenses)} ">
-						<tr>
-							<td><input type="date" class="form-control"></td>
-							<td><input type="text" class="form-control"
-								placeholder="자격증명"></td>
-							<td><input type="text" class="form-control"
-								placeholder="시행처"></td>
-							<td class="text-center"><button type="button"
-									class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-						</tr>
-					</th:block>
-				</tbody>
-			</table>
-			<button type="button" class="btn btn-secondary btn-sm"
-				onclick="addRow('certificationTable')">자격증 추가</button>
-			<hr>
-			<div class="section-title">자기소개</div>
-			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요" th:utext="${#strings.escapeXml(resume.produce)}"></textarea>
-
-			<div class="text-end mt-4">
-				<button type="button" class="btn btn-primary modHandler">저장</button>
-				<button type="button" class="btn btn-secondary" th:onclick="goInfo()">취소</button>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10 text-center">
+					<h1 class="display-3 text-white animated slideInDown">채용공고</h1>
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+							<li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+							<li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+						</ol>
+					</nav>
+				</div>
 			</div>
 		</div>
-	</form>
+	</div>
+	<div class="resume-container">
+		<div class="header">
+			<p th:text="${resume.resumeTitle}">홍길동의 이력서입니다</p>
+		</div>
 
+		<div class="section-title">기본 정보</div>
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<td rowspan="5" style="width: 120px; text-align: center;">
+						<div th:if="${resume.resumeImg} == null" class="profile-image" style="background-image: url('/main/img/profile-image.png');"></div> 
+						<div th:if="${resume.resumeImg} != null" class="profile-image">
+							<img alt="" th:src="@{/images/{fileName}(fileName=${profile.filePath})}" class="prorileImg">
+						</div>
+					</td>
+					<th>이름</th>
+					<td th:text="${resume.resumeName}">홍길동</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td th:text="${#dates.format(resume.birth, 'yyyy/MM/dd')}">1958-08-06</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td th:text="${resume.addr}">대구광역시 중구 중앙대로 403 504호</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td th:text="${resume.tel}">010-4212-4800</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td th:text="${resume.email}">hong@email.com</td>
+				</tr>
+			</tbody>
+		</table>
 
-	<script>
+		<div class="section-title">학력사항</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>학교명</th>
+					<th>전공</th>
+					<th>졸업년월</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.edus)}" th:each="edu : ${resume.edus}">
+					<tr>
+						<td th:text="${edu.school}">OO대학교</td>
+						<td th:text="${edu.major}">컴퓨터공학</td>
+						<td th:text="${#dates.format(edu.graduation, 'yyyy년MM월')}">1980/02</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.edus)}">
+					<tr>
+						<td></td>
+						<td> </td>
+						<td> </td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="section-title">경력사항</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>근무처</th>
+					<th>직위/업무내용</th>
+					<th>시작일</th>
+					<th>종료일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.careers)}" th:each="career : ${resume.careers}">
+					<tr>
+						<td th:text="${career.workPlace}">OO회사</td>
+						<td th:text="${career.role}">개발팀장 / 소프트웨어 개발</td>
+						<td th:text="${#dates.format(career.careerStart, 'yyyy/MM/dd')}">1980-03-01</td>
+						<td th:text="${#dates.format(career.careerEnd, 'yyyy/MM/dd')}">1990-06-30</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.careers)} ">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="section-title">보유기술/자격증</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>취득일</th>
+					<th>자격증명</th>
+					<th>시행처</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.licenses)} " th:each="license : ${resume.licenses}">
+					<tr>
+						<td th:text="${#dates.format(license.getDate, 'yyyy/MM/dd')}">1982-05-01</td>
+						<td th:text="${license.licenseName}">정보처리기사</td>
+						<td th:text="${license.licenseCompany}">한국산업인력공단</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.licenses)} ">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<hr>
+			<div class="section-title">자기소개</div>
+			<p th:utext="${#strings.escapeXml(resume.produce)}" style="white-space: pre-wrap; border: 1px #e2e3e5 solid"></p>
+
+		<div class="text-end">
+			<button type="button" class="btn btn-primary" th:onclick="applyHandler()">지원하기</button>
+			<button type="button" class="btn btn-secondary" th:onclick="goList()">취소</button>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+
+	const path = window.location.pathname; // 예: "/posting/1/resume/2"
+	const regex = /\/posting\/(\d+)\/resume\/(\d+)/;
+	const matches = path.match(regex);
+	let pno;
+	if (matches) {
+	    const param1 = matches[1]; // "1"
+	    const param2 = matches[2]; // "2"
+	    
+	    pno = param1;
+	}
 	
-	function readURL(input) {
-		  if (input.files && input.files[0]) {
-		    var reader = new FileReader();
-		    reader.onload = function(e) {
-		      document.getElementById('preview').src = e.target.result;
-		      document.querySelector('.toggleImg1').style.display='block';
-		      document.querySelector('.toggleImg2').style.display='none';
-		    };
-		    reader.readAsDataURL(input.files[0]);
-		  } else {
-		    document.getElementById('preview').src = "";
-		  }
-		}
 	
-    function addRow(tableId) {
-        const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
-        const newRow = table.rows[0].cloneNode(true);
-
-        // Clear input values in the new row
-        const inputs = newRow.getElementsByTagName('input');
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-
-        table.appendChild(newRow);
-    }
-
-    function removeRow(button) {
-        const row = button.closest('tr');
-        const table = row.closest('tbody');
-
-        if (table.rows.length > 1) {
-            table.removeChild(row);
-        } else {
-            alert('마지막 행은 삭제할 수 없습니다.');
-        }
-    }
-    
-    function goInfo() {
-    	let rno = document.querySelector('#resumeNo').value;
-    	location.href = `/userMain/resume/${rno}`;
-    }
-    
-    document.querySelector(".modHandler").addEventListener("click", function() {
-    	
-    	// 필수 입력값 체크
-        const resumeTitle = document.querySelector('#resumeTitle').value.trim();
-        const resumeName = document.querySelector('#resumeName').value.trim();
-        const birth = document.querySelector('#birth').value;
-        const addr = document.querySelector('#addr').value.trim();
-        const tel = document.querySelector('#tel').value.trim();
-        const email = document.querySelector('#email').value.trim();
-        const imgfiles = document.getElementById('imgUpload').files;
-        const produce = document.querySelector('#produce').value.trim();
-
-     	// 기존 이미지가 있는지 확인
-        const hasExistingImage = document.querySelector('.toggleImg2 img') !== null;
-
-        // 이미지가 없고 새로 업로드된 파일도 없는 경우에만 경고
-        if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || (!hasExistingImage && imgfiles.length === 0) || !produce) {
-            alert("이력서 제목을 포함한 모든 필수 항목을 입력하고 사진을 등록해야 합니다.");
-            return; // 서버로 전송하지 않음
-        }
-    	
-    	const formData = new FormData(document.getElementById('resumeForm'));
-    	
-        const resume = {
-            resumeNo: document.querySelector('#resumeNo').value,
-            resumeTitle: document.querySelector('#resumeTitle').value,
-            resumeName: document.querySelector('#resumeName').value,
-            birth: document.querySelector('#birth').value,
-            addr: document.querySelector('#addr').value,
-            tel: document.querySelector('#tel').value,
-            email: document.querySelector('#email').value,
-            produce: document.querySelector('#produce').value,
-            careers: [],
-            edus: [],
-            licenses: []
-        };
-
-        // 학력사항 수집
-        const eduRows = document.querySelectorAll('#educationTable tbody tr');
-        eduRows.forEach(row => {
-            const edu = {
-                school: row.querySelector('input[placeholder="학교명"]').value,
-                major: row.querySelector('input[placeholder="전공"]').value,
-                graduation: row.querySelector('input[type="month"]').value
-            };
-            resume.edus.push(edu);
-        });
-
-        // 경력사항 수집
-        const careerRows = document.querySelectorAll('#careerTable tbody tr');
-        careerRows.forEach(row => {
-            const career = {
-                workPlace: row.querySelector('input[placeholder="근무처"]').value,
-                role: row.querySelector('input[placeholder="직위/업무내용"]').value,
-                careerStart: row.querySelector('#careerStart').value,
-                careerEnd: row.querySelector('#careerEnd').value
-            };
-            resume.careers.push(career);
-        });
-
-        // 자격증 수집
-        const licenseRows = document.querySelectorAll('#certificationTable tbody tr');
-        licenseRows.forEach(row => {
-            const license = {
-                getDate: row.querySelector('input[type="date"]').value,
-                licenseName: row.querySelector('input[placeholder="자격증명"]').value,
-                licenseCompany: row.querySelector('input[placeholder="시행처"]').value
-            };
-            resume.licenses.push(license);
-        });
-        
-        // json 데이터를 FormData에 추가
-        formData.append("resumeData", JSON.stringify(resume));
-        
-        
-		let rno = document.querySelector('#resumeNo').value;
-        // 데이터를 서버로 전송
-        fetch(`/userMain/resume/${rno}/edit`, {
-            method: 'POST',
-            /* 
-            headers: {
-                'Content-Type': 'application/json'
-            }, */
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("이력서가 성공적으로 업데이트되었습니다.");
-                location.href = `/userMain/resume/${rno}/`;
-            } else {
-                alert("업데이트 중 오류가 발생했습니다.");
-            }
-        });
-    });
-    
-    
-    
+	/* function modHandler() {
+		fetch(`/posting/${param1}/resume/${param2}`, {
+			method: 'POST',
+			headers: {
+	            'Content-Type': 'application/json',
+	        },
+	        body: JSON.stringify(paramData) // 데이터를 JSON 형식으로 변환
+			
+		})
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+		})
+	} */
+	
+	function applyHandler() {
+		fetch(window.location.href, {
+		    method: 'POST'
+		})
+		.then(response => response.json())
+		.then(data => {
+		    console.log(data); // 서버 응답 처리
+		    location.href = `/posting/`;
+		    alert('지원완료 되었습니다.');
+	
+		})
+		.catch(error => {
+		    console.error('Error:', error); // 에러 처리
+		});
+	}
+	
+	function goList() {
+		location.href = `/posting/${pno}`;
+	}
 </script>
 </body>
 </html>
