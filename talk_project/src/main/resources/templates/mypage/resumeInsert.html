@@ -311,7 +311,7 @@
             .then(data => {
                 if (data.success) {
                     alert("이력서가 성공적으로 등록되었습니다.");
-                    location.reload(true);
+                    location.href = '/userMain/resume';
                 } else {
                     alert("등록 중 오류가 발생했습니다.");
                 }
