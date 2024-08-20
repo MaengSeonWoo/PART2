@@ -11,7 +11,7 @@ public interface PostingService {
 	
 	public PostingVO postingInfo(int postingNo);
 	
-	public int getTotal();
+	public int getTotal(Criteria cri);
 	
 	public Map<String, Object> applyResume(ResumeVO resumeVO);
 }

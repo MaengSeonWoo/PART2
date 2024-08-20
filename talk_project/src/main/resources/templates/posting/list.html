@@ -1,110 +1,129 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/default_layout}"
-	layout:fragment="Content">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}" layout:fragment="Content">
+
 <head>
-<meta charset="UTF-8">
-<title>채용공고</title>
-<style>
-.header, .footer {
-	background-color: #f8f9fa;
-	padding: 20px;
-	text-align: center;
-}
+	<meta charset="UTF-8">
+	<title>채용공고</title>
+	<style>
+		.header,
+		.footer {
+			background-color: #f8f9fa;
+			padding: 20px;
+			text-align: center;
+		}
 
-.search-bar {
-	margin: 20px 0;
-}
+		.search-bar {
+			margin: 20px 0;
+		}
 
-.job-card {
-	border: 1px solid #e1e1e1;
-	border-radius: 10px;
-	padding: 20px;
-	text-align: center;
-	height: 350px; /* Fixed height for uniformity */
-	width: 220px; /* Increased width for a wider card */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	transition: transform 0.3s, box-shadow 0.3s;
-	background-color: #ffffff;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	margin: auto; /* Center align the card horizontally */
-}
+		.job-card {
+			border: 1px solid #e1e1e1;
+			border-radius: 10px;
+			padding: 20px;
+			text-align: center;
+			height: 350px;
+			/* Fixed height for uniformity */
+			width: 220px;
+			/* Increased width for a wider card */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			transition: transform 0.3s, box-shadow 0.3s;
+			background-color: #ffffff;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			margin: auto;
+			/* Center align the card horizontally */
+		}
 
-.job-card:hover {
-	transform: translateY(-10px);
-	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-}
+		.job-card:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+		}
 
-.job-card .card-body {
-	display: flex;
-	flex-direction: column;
-	align-items: center; /* Center content horizontally */
-	justify-content: center; /* Center content vertically */
-	flex-grow: 1;
-}
+		.job-card .card-body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			/* Center content horizontally */
+			justify-content: center;
+			/* Center content vertically */
+			flex-grow: 1;
+		}
 
-.job-card img {
-	margin-bottom: 20px;
-}
+		.job-card img {
+			margin-bottom: 20px;
+		}
 
-.pagination {
-	justify-content: center;
-	margin-top: 20px;
-}
+		.pagination {
+			justify-content: center;
+			margin-top: 20px;
+		}
 
-.pagination .page-link {
-	color: #007bff;
-}
+		.pagination .page-link {
+			color: #007bff;
+		}
 
-.pagination .page-link:hover {
-	background-color: #007bff;
-	color: #ffffff;
-}
-.pagination .page-link {
-		color: #007bff; /* 기본 링크 색상: 부트스트랩 기본 파란색 */
-		background-color: #fff; /* 기본 배경 색상: 흰색 */
-		border: 1px solid #dee2e6; /* 기본 테두리 색상 */
-	}
+		.pagination .page-link:hover {
+			background-color: #007bff;
+			color: #ffffff;
+		}
 
-	.pagination .page-link:hover {
-		color: #0056b3; /* 호버 시 링크 색상: 더 어두운 파란색 */
-		background-color: #e9ecef; /* 호버 시 배경 색상: 밝은 회색 */
-		border-color: #dee2e6; /* 호버 시 테두리 색상 */
-	}
+		.pagination .page-link {
+			color: #007bff;
+			/* 기본 링크 색상: 부트스트랩 기본 파란색 */
+			background-color: #fff;
+			/* 기본 배경 색상: 흰색 */
+			border: 1px solid #dee2e6;
+			/* 기본 테두리 색상 */
+		}
 
-	.pagination .page-item.active .page-link {
-		color: #fff; /* 활성화된 링크의 텍스트 색상: 흰색 */
-		background-color: #17a2b8; /* 활성화된 링크의 배경 색상: 청록색 */
-		border-color: #17a2b8; /* 활성화된 링크의 테두리 색상: 청록색 */
-	}
+		.pagination .page-link:hover {
+			color: #0056b3;
+			/* 호버 시 링크 색상: 더 어두운 파란색 */
+			background-color: #e9ecef;
+			/* 호버 시 배경 색상: 밝은 회색 */
+			border-color: #dee2e6;
+			/* 호버 시 테두리 색상 */
+		}
 
-	.pagination .page-item.active .page-link:hover {
-		color: #fff; /* 활성화된 링크의 호버 시 텍스트 색상: 흰색 */
-		background-color: #138496; /* 활성화된 링크의 호버 시 배경 색상: 더 어두운 청록색 */
-		border-color: #138496; /* 활성화된 링크의 호버 시 테두리 색상: 더 어두운 청록색 */
-	}
+		.pagination .page-item.active .page-link {
+			color: #fff;
+			/* 활성화된 링크의 텍스트 색상: 흰색 */
+			background-color: #17a2b8;
+			/* 활성화된 링크의 배경 색상: 청록색 */
+			border-color: #17a2b8;
+			/* 활성화된 링크의 테두리 색상: 청록색 */
+		}
 
-.job-title {
-	margin: 20px 0;
-	text-align: center;
-}
+		.pagination .page-item.active .page-link:hover {
+			color: #fff;
+			/* 활성화된 링크의 호버 시 텍스트 색상: 흰색 */
+			background-color: #138496;
+			/* 활성화된 링크의 호버 시 배경 색상: 더 어두운 청록색 */
+			border-color: #138496;
+			/* 활성화된 링크의 호버 시 테두리 색상: 더 어두운 청록색 */
+		}
 
-h5.card-title {
-	font-size: 1.25rem;
-	font-weight: bold;
-	color: #333;
-	margin-bottom: 10px;
-}
+		.job-title {
+			margin: 20px 0;
+			text-align: center;
+		}
 
-p.card-text {
-	margin-bottom: 5px;
-	color: #555;
-}
-</style>
+		h5.card-title {
+			font-size: 1.25rem;
+			font-weight: bold;
+			color: #333;
+			margin-bottom: 10px;
+		}
+
+		p.card-text {
+			margin-bottom: 5px;
+			color: #555;
+		}
+	</style>
 </head>
+
 <body>
 	<div class="container-fluid bg-primary py-5 mb-5 page-header">
 		<div class="container py-5">
@@ -123,89 +142,146 @@ p.card-text {
 		</div>
 	</div>
 	<div class="container">
-		<div class="row search-bar">
-			<div class="col-md-5">
-				<input type="text" name="keyword" class="form-control" placeholder="키워드를 입력하세요.">
-			</div>
-			<div class="col-md-5">
-				<select class="form-control" name="type">
-					<option value="">전국</option>
-					<option>서울</option>
-					<option>부산</option>
-					<option>대구</option>
-					<option>인천</option>
-					<option>광주</option>
-					<option>대전</option>
-					<option>울산</option>
-					<option>경기</option>
-					<option>강원</option>
-					<option>충북</option>
-					<option>충남</option>
-					<option>경북</option>
-					<option>경남</option>
-					<option>전북</option>
-					<option>전남</option>
-				</select>
-			</div>
-			<div class="col-md-2">
-				<button class="btn btn-primary btn-block">검색</button>
-			</div>
-		</div>
+    <form action="/search" method="GET" class="row search-bar p-4 border rounded bg-light">
+        <div class="col-12">
+            <div class="form-group row mb-3">
+                <label for="sido" class="col-sm-2 col-form-label">희망지역</label>
+                <div class="col-sm-10">
+                    <select name="sido" id="sido" class="form-select" onchange="_getSidoList(1,'')">
+                        <option value="" selected="selected">시/도</option>
+                        <option value="강원">강원</option>
+                        <option value="경기">경기</option>
+                        <option value="경남">경남</option>
+                        <option value="경북">경북</option>
+                        <option value="광주">광주</option>
+                        <option value="대구">대구</option>
+                        <option value="대전">대전</option>
+                        <option value="부산">부산</option>
+                        <option value="서울">서울</option>
+                        <option value="세종">세종</option>
+                        <option value="울산">울산</option>
+                        <option value="인천">인천</option>
+                        <option value="전남">전남</option>
+                        <option value="전북">전북</option>
+                        <option value="제주">제주</option>
+                        <option value="충남">충남</option>
+                        <option value="충북">충북</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="hopeAmount1" class="col-sm-2 col-form-label">급여</label>
+                <div class="col-sm-5">
+                    <input type="text" name="hopeAmount1" id="hopeAmount1" class="form-control" placeholder="최저급여" maxlength="10" onkeydown="handlerNum()">
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" name="hopeAmount2" id="hopeAmount2" class="form-control" placeholder="최고급여" maxlength="10" onkeydown="handlerNum()">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-sm-2 col-form-label">고용형태</label>
+                <div class="col-sm-10 d-flex align-items-center">
+                    <div class="form-check me-3">
+                        <input type="radio" name="emplymStleCmmnCodeSe" id="emplymStleCmmnCodeSe1" value="J01101" class="form-check-input">
+                        <label for="emplymStleCmmnCodeSe1" class="form-check-label">상용직</label>
+                    </div>
+                    <div class="form-check me-3">
+                        <input type="radio" name="emplymStleCmmnCodeSe" id="emplymStleCmmnCodeSe2" value="J01102" class="form-check-input">
+                        <label for="emplymStleCmmnCodeSe2" class="form-check-label">계약(임시)직</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="emplymStleCmmnCodeSe" id="emplymStleCmmnCodeSe3" value="J01103" class="form-check-input">
+                        <label for="emplymStleCmmnCodeSe3" class="form-check-label">시간제</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-sm-2 col-form-label">우대조건</label>
+                <div class="col-sm-10 d-flex align-items-center flex-wrap">
+                    <div class="form-check me-3">
+                        <input type="checkbox" name="subsidTrgterEmpmnHopeCn" id="subsidTrgterEmpmnHopeCn2" value="J01901" class="form-check-input">
+                        <label for="subsidTrgterEmpmnHopeCn2" class="form-check-label">고령자</label>
+                    </div>
+                    <div class="form-check me-3">
+                        <input type="checkbox" name="subsidTrgterEmpmnHopeCn" id="subsidTrgterEmpmnHopeCn3" value="J01902" class="form-check-input">
+                        <label for="subsidTrgterEmpmnHopeCn3" class="form-check-label">여성가장</label>
+                    </div>
+                    <div class="form-check me-3">
+                        <input type="checkbox" name="subsidTrgterEmpmnHopeCn" id="subsidTrgterEmpmnHopeCn4" value="J01903" class="form-check-input">
+                        <label for="subsidTrgterEmpmnHopeCn4" class="form-check-label">장기구직자</label>
+                    </div>
+                    <div class="form-check me-3">
+                        <input type="checkbox" name="subsidTrgterEmpmnHopeCn" id="subsidTrgterEmpmnHopeCn5" value="J01904" class="form-check-input">
+                        <label for="subsidTrgterEmpmnHopeCn5" class="form-check-label">장애인</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="subsidTrgterEmpmnHopeCn" id="subsidTrgterEmpmnHopeCn6" value="J01905" class="form-check-input">
+                        <label for="subsidTrgterEmpmnHopeCn6" class="form-check-label">중·장년 훈련수료자</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="searchKwrd1" class="col-sm-2 col-form-label">키워드</label>
+                <div class="col-sm-8">
+                    <input type="text" name="searchKwrd1" id="searchKwrd1" class="form-control" maxlength="20">
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary w-100">검색</button>
+                </div>
+            </div>
+        </div>
+    </form>
 		<div class="row">
 			<th:block th:each="posting : ${pList}">
 				<div class="col-md-3 col-sm-6 mb-4 d-flex">
-					<div class="job-card card"
-						th:onclick="'goInfo(' + ${posting.postingNo} + ')'">
+					<div class="job-card card" th:onclick="'goInfo(' + ${posting.postingNo} + ')'">
 						<div class="card-body">
-							<img width="80px"
-								th:src="@{/images/{fileName}(fileName=${posting.filePath})}">
+							<img width="80px" th:src="@{/images/{fileName}(fileName=${posting.filePath})}">
 							<h5 class="card-title" th:text="${posting.coName}">유안타증권</h5>
 							<p class="card-text" th:text="${posting.postingTitle}">IT본부
 								경력직 모집</p>
 							<p class="card-text" th:text="${posting.empType}">계약직</p>
 							<p class="card-text" th:text="${posting.workRegion}">대구</p>
-							<p class="card-text"
-								th:text="${#dates.format(posting.endDate, '(~MM/dd)')}">(~08/01)</p>
+							<p class="card-text" th:text="${#dates.format(posting.endDate, '(~MM/dd)')}">(~08/01)</p>
 						</div>
 					</div>
 				</div>
 			</th:block>
 		</div>
 		<div th:object="${page}">
-			<nav aria-label="Page navigation"
-				class="d-flex justify-content-center">
+			<nav aria-label="Page navigation" class="d-flex justify-content-center">
 				<ul class="pagination">
-					<li class="page-item" th:if="*{prev}"><a
-						class="page-link changePage" th:href="*{startPage - 1}"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<th:block
-						th:each="num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
-						<li class="page-item"
-							th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
-							<a class="page-link changePage"
-							th:href="@{/posting (pageNum=${num})}" th:text="${num}"
-							th:unless="${page.criteria.getPageNum() == num}"></a> <span
-							class="page-link" th:if="${page.criteria.getPageNum() == num}"
-							th:text="${num}"></span>
+					<li class="page-item" th:if="*{prev}"><a class="page-link changePage" th:href="*{startPage - 1}"
+							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+						</a></li>
+					<th:block th:each="num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
+						<li class="page-item" th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
+							<a class="page-link changePage" th:href="@{/posting (pageNum=${num})}" th:text="${num}"
+								th:unless="${page.criteria.getPageNum() == num}"></a> <span class="page-link"
+								th:if="${page.criteria.getPageNum() == num}" th:text="${num}"></span>
 						</li>
 					</th:block>
-					<li class="page-item" th:if="*{next}"><a
-						class="page-link changePage" th:href="*{endPage + 1}"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
+					<li class="page-item" th:if="*{next}"><a class="page-link changePage" th:href="*{endPage + 1}"
+							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+						</a></li>
 				</ul>
 			</nav>
 			<form action="/posting" th:object="${criteria}" name="pageForm">
-				<input type="hidden" name="pageNum" th:field="*{pageNum}"> <input
-					type="hidden" name="amount" th:field="*{amount}">
+				<input type="hidden" name="pageNum" th:field="*{pageNum}"> <input type="hidden" name="amount"
+					th:field="*{amount}">
 			</form>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
 		function goInfo(no) {
 			location.href = `/posting/${no}`;
 		}
 	</script>
 </body>
+
 </html>

@@ -55,7 +55,6 @@ public class ResumeController {
 		// 지원이력서
 		resume1.setUserId(userId);
 		resume1.setPageNum(pageNum1);
-		System.out.println("dddddddd" + resume1.getPageNum());
 		List<ResumeVO> applyResumeList = resumeService.applyResumeList(resume1);
 		model.addAttribute("alist", applyResumeList);
 		model.addAttribute("arpage", new PageDTO(8, resumeService.getApplyResumeTotal(userId), resume1));
@@ -66,7 +65,6 @@ public class ResumeController {
 		List<ResumeVO> resumeList = resumeService.resumeList(resume2);
 		model.addAttribute("rlist", resumeList);		
 		model.addAttribute("rpage", new PageDTO(8, resumeService.getResumeTotal(userId), resume2));
-//		System.out.println("ddddd" + pageNum1);
 		
 		return "mypage/resumeList";
 	}

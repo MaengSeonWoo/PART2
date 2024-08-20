@@ -31,8 +31,8 @@ public class PostingServiceImpl implements PostingService{
 	}
 
 	@Override
-	public int getTotal() {
-		return postingMapper.getTotal();
+	public int getTotal(Criteria cri) {
+		return postingMapper.getTotal(cri);
 	}
 
 	@Override
