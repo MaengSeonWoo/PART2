@@ -14,6 +14,14 @@ public class Criteria {
 	private String type; // 검색 키워드
 	private String keyword; // 검색 유형 ex) 전체, 제목, 작성자 등
 	
+	
+	// 포스팅 검색 필드 추가
+	private String sido; // 희망지역
+	private String hopeAmount1; // 최저 급여
+	private String hopeAmount2; // 최고 급여
+	private String empType; // 고용 형태
+	
+	
 	// 기본 페이지를 1페이지 10개씩 보여준다는 의미
 	public Criteria() {
 		this(1, 8);

@@ -14,7 +14,7 @@ public interface PostingMapper {
 	public PostingVO selectPostingInfo(Integer postingNo);
 	
 	// 채용공고 총 개수
-	public int getTotal();
+	public int getTotal(Criteria cri);
 	
 	// 채용 지원
 	public int applyResuem(ResumeVO resumeVO);
