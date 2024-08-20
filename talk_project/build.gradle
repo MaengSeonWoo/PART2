@@ -42,7 +42,7 @@ dependencies {
 	// implementation 'org.slf4j:slf4j-api:2.0.0' // 삭제
 	implementation 'org.springframework.boot:spring-boot-starter-logging' // 기본적으로 포함됨
 	implementation 'com.github.shin285:KOMORAN:3.3.9'
-
+	implementation 'net.nurigo:sdk:4.2.7'
 
 
 	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-texttospeech
