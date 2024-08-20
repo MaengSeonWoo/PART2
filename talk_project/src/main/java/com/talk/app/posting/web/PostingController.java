@@ -3,6 +3,9 @@ package com.talk.app.posting.web;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,8 @@ import com.talk.app.common.service.Criteria;
 import com.talk.app.common.service.PageDTO;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
+import com.talk.app.login.service.LoginUserVO;
+import com.talk.app.login.service.UserVO;
 import com.talk.app.mypage.service.ResumeService;
 import com.talk.app.mypage.service.ResumeVO;
 import com.talk.app.posting.service.PostingService;
@@ -42,6 +47,15 @@ public class PostingController {
 		model.addAttribute("pList", postingList);
 		// 채용공고 페이징 처리를 위한 데이터 전달
 		model.addAttribute("page", new PageDTO(10, postingService.getTotal(), cri));
+        
+		// 현재 인증된 사용자의 권한 정보를 모델에 추가
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
+            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
+            UserVO user = loginUser.getUserVO();
+            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
+        }
+		
 		// 출력 페이지
 		return "posting/list";
 	}
@@ -57,6 +71,15 @@ public class PostingController {
 		// 채용공고 리스트 전달
 		model.addAttribute("posting", postingInfo);
 		model.addAttribute("rList", resumeList);
+		
+		// 현재 인증된 사용자의 권한 정보를 모델에 추가
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
+            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
+            UserVO user = loginUser.getUserVO();
+            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
+        }
+		
 		// 출력 페이지
 		return "posting/info";
 	}

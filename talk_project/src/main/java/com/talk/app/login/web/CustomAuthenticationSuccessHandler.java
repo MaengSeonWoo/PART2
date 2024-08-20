@@ -5,9 +5,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import com.talk.app.login.service.CoUserVO;
+import com.talk.app.login.service.LoginUserVO;
 import com.talk.app.login.service.UserVO;
 import com.talk.app.mypage.service.CoUserUpdateService;
 
@@ -38,6 +40,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             } else {
             	request.getSession().setAttribute("ROLE", "co_user");
             }
+            
+
             
             // 일반 회원 처리
             UserVO userVO = new UserVO();

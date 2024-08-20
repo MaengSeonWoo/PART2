@@ -29,6 +29,7 @@
                , sal
                , party
                , work_content
+               , pri_content
                , etc_content
                , posting_no
                , c.co_user_no
@@ -85,6 +86,7 @@
 			    #{sal},
 			    #{party},
 			    #{workContent},
+			    #{priContent},
 			    #{etcContent},
 			    #{postingNo},
 			    #{coUserNo},

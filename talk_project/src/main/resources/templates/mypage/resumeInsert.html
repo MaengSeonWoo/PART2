@@ -117,11 +117,11 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="schoolbody">
 						<tr>
-							<td><input type="text" class="form-control" placeholder="학교명"></td>
-							<td><input type="text" class="form-control" placeholder="전공"></td>
-							<td><input type="month" class="form-control"></td>
+							<td><input type="text" class="form-control" placeholder="학교명" id="school"></td>
+							<td><input type="text" class="form-control" placeholder="전공" id="major"></td>
+							<td><input type="month" class="form-control" id="graduation"></td>
 							<td class="text-center"><button type="button" class="btn btn-danger btn-sm"
 									onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -132,7 +132,7 @@
 			<div class="section-title">경력사항</div>
 			<table class="table table-bordered" id="careerTable">
 				<thead>
-					<tr>
+					<tr id="companybody">
 						<th>근무처</th>
 						<th>직위/업무내용</th>
 						<th>시작일</th>
@@ -142,10 +142,10 @@
 				</thead>
 				<tbody>
 						<tr>
-							<td><input type="text" class="form-control" placeholder="근무처"></td>
-							<td><input type="text" class="form-control" placeholder="직위/업무내용"></td>
-							<td><input type="date" class="form-control"></td>
-							<td><input type="date" class="form-control"></td>
+							<td><input type="text" class="form-control" placeholder="근무처" id="work"></td>
+							<td><input type="text" class="form-control" placeholder="직위/업무내용" id="job"></td>
+							<td><input type="date" class="form-control" id="start"></td>
+							<td><input type="date" class="form-control" id="end"></td>
 							<td class="text-center"><button type="button" class="btn btn-danger btn-sm"
 									onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -165,9 +165,9 @@
 				</thead>
 				<tbody>
 						<tr>
-							<td><input type="date" class="form-control"></td>
-							<td><input type="text" class="form-control" placeholder="자격증명"></td>
-							<td><input type="text" class="form-control" placeholder="시행처"></td>
+							<td><input type="date" class="form-control" id="get"></td>
+							<td><input type="text" class="form-control" placeholder="자격증명" id="license"></td>
+							<td><input type="text" class="form-control" placeholder="시행처" id="company"></td>
 							<td class="text-center"><button type="button" class="btn btn-danger btn-sm"
 									onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -189,6 +189,48 @@
 	</form>
 
 	<script>
+	 const ocr = sessionStorage.getItem('OCR');
+     const ocrData = JSON.parse(ocr);
+     
+     function yearmonth(dateString) {
+    	    const date = new Date(dateString); 
+    	    const year = date.getFullYear(); 
+    	    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+    	    return `${year}-${month}`; 
+    	}
+     
+     if (ocrData) {
+         document.getElementById('resumeName').value = ocrData.name;
+         document.getElementById('birth').value = ocrData.birth;
+         document.getElementById('addr').value = ocrData.addr;
+         document.getElementById('tel').value = ocrData.tel;
+         document.getElementById('email').value = ocrData.email;
+         
+         if(ocrData.school.length > 3){
+	         for(i = 0; i < ocrData.school.length/3; i++){
+	         	if(i!=0) 
+	         		addRow('educationTable')
+	         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#school').value = ocrData.school[i*3];
+	         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#major').value = ocrData.school[i*3+1];
+	         	let date = yearmonth(ocrData.school[i*3+2]);
+	         	// 날짜를 'yyyy-MM' 형식으로 변환하여 설정
+	            document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#graduation').value = date;
+	         }
+         }
+         if(ocrData.company.length > 4){
+	         for(i = 0; i < ocrData.company.length/4; i++){
+	         	if(i!=0) 
+	         		addRow('educationTable')
+	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#work').value = ocrData.work[i*4];
+	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#job').value = ocrData.work[i*4+1];
+	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#start').value = ocrData.work[i*4+2];
+	         	document.querySelectorAll(`#companybody tr`)[i].querySelector('#end').value = ocrData.work[i*4+3];
+	         }
+         }  
+         document.getElementById('get').value = ocrData.get;
+         document.getElementById('license').value = ocrData.license;
+     }
+     
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

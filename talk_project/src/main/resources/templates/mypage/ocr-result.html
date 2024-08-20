@@ -9,36 +9,56 @@
 <body>
 <h1>OCR 결과</h1>
 <ul>
-    <!-- OCR 결과를 반복하며 각 항목을 리스트로 출력 -->
     <li th:each="result : ${ocrResult}" th:text="${result}"></li>
 </ul>
 <script th:inline="javascript">
     // OCR 결과 배열
     /* let data = [[${ocrResult}]]; */
     let parsedata = JSON.parse(data);
+    parsedata = parsedata.ocrResult;
     
-    console.log(data);
-    console.log(parsedata);
-    console.log(parsedata.ocrResult);
     // 특정 단어의 위치 찾기   
-    let name = parsedata.ocrResult[parsedata.ocrResult.indexOf("이름")+1];
-    let birth = parsedata.ocrResult[parsedata.ocrResult.indexOf("생년월일")+1];
-    let addr = parsedata.ocrResult[parsedata.ocrResult.indexOf("주소")+1];
-    let tel = parsedata.ocrResult[parsedata.ocrResult.indexOf("전화번호")+1];
-    let email = parsedata.ocrResult[parsedata.ocrResult.indexOf("이메일")+1];
-    let school = parsedata.ocrResult[parsedata.ocrResult.indexOf("졸업년월")+1];
-    let major = parsedata.ocrResult[parsedata.ocrResult.indexOf(school)+1];
-    let graduation = parsedata.ocrResult[parsedata.ocrResult.indexOf(major)+1];
-    let work = parsedata.ocrResult[parsedata.ocrResult.indexOf("종료일")+1];
-    let job = parsedata.ocrResult[parsedata.ocrResult.indexOf(work)+1];
-    let start = parsedata.ocrResult[parsedata.ocrResult.indexOf(job)+1];
-    let end = parsedata.ocrResult[parsedata.ocrResult.indexOf(start)+1];
-    let get = parsedata.ocrResult[parsedata.ocrResult.indexOf("자격증명")+2];
-    let license = parsedata.ocrResult[parsedata.ocrResult.indexOf("자격증명")+3];
-    let company = parsedata.ocrResult[parsedata.ocrResult.indexOf(license)+1];
+    let name = parsedata[parsedata.indexOf("이름")+1];
+    let birth = parsedata[parsedata.indexOf("생년월일")+1];
+    let addr = parsedata[parsedata.indexOf("주소")+1];
+    let tel = parsedata[parsedata.indexOf("전화번호")+1];
+    let email = parsedata[parsedata.indexOf("이메일")+1];
+    let school = parsedata.slice(parsedata.indexOf("졸업년월")+1,parsedata.indexOf("경력사항"));
+    /* let major = parsedata.slice(parsedata.indexOf("학력사항")+1,parsedata.indexOf("경력사항"));
+    let graduation = parsedata.slice(parsedata.indexOf("학력사항")+1,parsedata.indexOf("경력사항")); */
     
-    console.log(name, birth, addr, tel, email, school, major, graduation, work, job, start, end, get, license, company); 
+    let work = parsedata.slice(parsedata.indexOf("종료일")+1,parsedata.indexOf("보유기술/자격증"));
+    /* let job = parsedata[parsedata.indexOf(work)+1];
+    let start = parsedata[parsedata.indexOf(job)+1];
+    let end = parsedata[parsedata.indexOf(start)+1]; */
+    let get = parsedata[parsedata.indexOf("자격증명")+2];
+    let license = parsedata[parsedata.indexOf("자격증명")+3];
+    let company = parsedata[parsedata.indexOf(license)+1];
+    
+    console.log(name, birth, addr, tel, email, school, work, get, license, company);
+    
+    function sendOcrResult() {
+        const ocrData = {
+            name: name,
+            birth: birth,
+            addr: addr,
+            tel: tel,
+            email: email,
+            school: school,
+			/* major: major,
+            graduation: graduation, */
+            work: work,
+            /* job: job,
+            start: start,
+            end: end, */
+            get: get,
+            license: license,
+            company: company
+        };
+        sessionStorage.setItem('OCR',JSON.stringify(ocrData));
+        window.location.href = `/userMain/resume/save`;   
+    }
 </script>
+<button type="button" onclick="sendOcrResult()">자동등록</button>
 </body>
-<button type="button" th:onclick="|location.href='@{/userMain/resume/save}'|">자동등록</button>
 </html>
