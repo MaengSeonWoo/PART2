@@ -61,7 +61,7 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
         couserVO.setStatusUpdateTime(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
 
         couserupdateMapper.updateCoUserStatus(couserVO);
-        return "탈퇴 처리 완료";
+        return "redirect:/login";
     }
 	
 	// 기업회원 탈퇴취소

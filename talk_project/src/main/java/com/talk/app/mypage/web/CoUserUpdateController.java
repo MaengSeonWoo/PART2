@@ -142,7 +142,13 @@ public class CoUserUpdateController {
     @PostMapping("/couserdelete")
     @ResponseBody
     public String deleteCoUser(@RequestParam String coUserId) {
-        return couserupdateService.deleteCoUser(coUserId);
+        String result = couserupdateService.deleteCoUser(coUserId);
+        // Result에 따라 응답을 결정
+        if ("success".equals(result)) {
+            return "success"; // 성공 시 "success" 반환
+        } else {
+            return "failure"; // 실패 시 "failure" 반환
+        }
     }
     
     // 탈퇴 취소 페이지를 보여주는 GET 메서드
@@ -185,7 +191,7 @@ public class CoUserUpdateController {
     
     @Scheduled(fixedRate = 600000)
     public void processScheduledDeletion() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 30 * 1000); 
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 10 * 30 * 1000); 
         couserupdateService.RealDelCoUser(timestamp);
     }
     // ======================================================================================================

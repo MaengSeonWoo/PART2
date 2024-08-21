@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/default_layout}"
+      layout:fragment="Content">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +15,7 @@
         <form action="/cancelDel" method="post">
             <input type="hidden" name="coUserId" th:value="${coUserId}">
             <button type="submit">탈퇴 취소하기</button>
+            <button type="button" th:onclick="|location.href='@{/login}'|" class="btn">로그인</button>
         </form>
     </div>
 </body>

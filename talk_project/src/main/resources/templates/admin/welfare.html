@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
-
 <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
@@ -58,19 +57,19 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                     <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr>
-                          <th>서비스 아이디</th>
+                          <th>서비스 번호</th>
                           <th>서비스 요약</th>
-                          <th>지원주기명</th>
-                          <th>제공유형명</th>
+                          <th>관심주제명</th>
+                          <th>시도명</th>
                         </tr>
                       </thead>
                       <tbody>
                       <th:block th:each="wel : ${welfare}">
                         <tr th:onclick="|location.href='@{/admin/detail(wid=${wel.wid})}'|">
-                          <td>[[ ${wel.servId}]]</td>
+                          <td>[[ ${wel.wid}]]</td>
                           <td>[[ ${wel.servName}]]</td>
-                          <td>[[ ${wel.supPeriod}]]</td>
-                          <td>[[ ${wel.provType}]]</td>
+                          <td>[[ ${wel.likeSubject}]]</td>
+                          <td>[[ ${wel.sido}]]</td>
                         </tr>
                       </tbody>
                     </table>
