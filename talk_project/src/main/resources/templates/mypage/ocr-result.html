@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/mypage_layout}" layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR 결과</title>
+</head>
+<body>
+<h1>OCR 결과</h1>
+<ul>
+    <li th:each="result : ${ocrResult}" th:text="${result}"></li>
+</ul>
+<script th:inline="javascript">
+    // OCR 결과 배열
+    /* let data = [[${ocrResult}]]; */
+    let parsedata = JSON.parse(data);
+    parsedata = parsedata.ocrResult;
+    
+    // 특정 단어의 위치 찾기
+    let resumeTitle = parsedata.slice(0, parsedata.indexOf("기본"));
+    let name = parsedata[parsedata.indexOf("이름")+1];
+    let birth = parsedata[parsedata.indexOf("생년월일")+1];
+    /* let addr = parsedata[parsedata.indexOf("주소")+1]; */
+    let addr = parsedata.slice(parsedata.indexOf("주소")+1,parsedata.indexOf("전화번호"));
+    let tel = parsedata[parsedata.indexOf("전화번호")+1];
+    let email = parsedata[parsedata.indexOf("이메일")+1];
+    let school = parsedata.slice(parsedata.indexOf("졸업년월")+1,parsedata.indexOf("경력사항"));
+    /* let major = parsedata.slice(parsedata.indexOf("학력사항")+1,parsedata.indexOf("경력사항"));
+    let graduation = parsedata.slice(parsedata.indexOf("학력사항")+1,parsedata.indexOf("경력사항")); */
+    
+    let work = parsedata.slice(parsedata.indexOf("종료일")+1,parsedata.indexOf("보유기술/자격증"));
+    /* let job = parsedata[parsedata.indexOf(work)+1];
+    let start = parsedata[parsedata.indexOf(job)+1];
+    let end = parsedata[parsedata.indexOf(start)+1]; */
+    
+    let get = parsedata.slice(parsedata.indexOf("시행처")+1,parsedata.indexOf("자기소개"));
+    /* let license = parsedata[parsedata.indexOf("자격증명")+3];
+    let company = parsedata[parsedata.indexOf(license)+1]; */
+    
+    let produce = parsedata.slice(parsedata.indexOf("자기소개")+1,);
+    
+    console.log(resumeTitle, name, birth, addr, tel, email, school, work, get, produce);
+    
+    function sendOcrResult() {
+        const ocrData = {
+        	resumeTitle: resumeTitle,
+            name: name,
+            birth: birth,
+            addr: addr,
+            tel: tel,
+            email: email,
+            school: school,
+			/* major: major,
+            graduation: graduation, */
+            work: work,
+            /* job: job,
+            start: start,
+            end: end, */
+            get: get,
+            /* license: license,
+            company: company */
+            produce: produce
+        };
+        sessionStorage.setItem('OCR',JSON.stringify(ocrData));
+        window.location.href = `/userMain/resume/save`;   
+    }
+</script>
+<button type="button" onclick="sendOcrResult()">자동등록</button>
+</body>
+</html>

@@ -38,6 +38,15 @@ public class SpringSecurityConfig {
 //                .antMatchers("/admin").hasRole("ADMIN") 
                 .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
 //                .anyRequest().authenticated()
+                .antMatchers("/", "/img/**", "/main/**",  "/docs/**", "/production/**",
+                			"/signInsert", "/cosignInsert", "/checkUserId", "/checkCoUserId","/login", "/signsel","/cologin",
+                			"/posting/**")
+                .permitAll() 
+                .antMatchers("/admin")
+                .hasRole("ADMIN") 
+                .antMatchers("/posting")
+                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
+                .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login") 

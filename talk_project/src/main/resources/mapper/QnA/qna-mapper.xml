@@ -11,7 +11,16 @@
 			   user_no,
 			   co_user_no
 		 FROM qna
-		 ORDER BY qna_no DESC
+		 WHERE
+		 <choose>
+		 	<when test="role == null">
+		 	user_no is not null
+		 	</when>
+		 	<otherwise>
+		 	co_user_no is not null
+		 	</otherwise>
+		 </choose>
+		 ORDER BY qna_state, qna_no DESC
 	</select> 
 	
 	
@@ -37,8 +46,8 @@
 				  qna_title,
 				  qna_content,
 		       reply_content, 
-		       regdate, 
-		       qr.qna_no,
+		       reg_date, 
+		       q.qna_no,
 		       qna_state
 		FROM qna q
     		LEFT OUTER JOIN qna_reply qr
@@ -51,7 +60,7 @@
 	<selectKey keyProperty="qnaNo"
 		       resultType="Integer"
 		       order="BEFORE">
-			SELECT NVL(MAX(qna_no), + 1
+			SELECT NVL(MAX(qna_no), 0) + 1
 			FROM qna  
 		</selectKey>
 		INSERT INTO qna
@@ -59,25 +68,42 @@
 					 qna_no,
 	           	     qna_title,
 	           	     qna_content,
-	                 reg_date,
-	                 
+	                 reg_date
 					)
 					VALUES
 					(
 					 #{qnaNo},
 					 #{qnaTitle},
 					 #{qnaContent},
-					 sysdate,
-					 
+					 sysdate
 					)	
 	</insert>
 	
-	
 	<!-- 삭제 -->
 	<delete id="deleteQnAInfo" parameterType="int">
-		DELETE FROM qna
-		WHERE qna_no = #{qnaNo}
+		BEGIN
+			DELETE FROM qna_reply
+			WHERE qna_no = #{qnaNo};
+			
+			DELETE FROM qna
+			WHERE qna_no = #{qnaNo};
+			
+		END;
 	</delete>
 	
-
+	
+	<!-- 유저정보 판단? -->
+	<select id="userInfo" resultType="UserVO">
+		BEGIN
+			SELECT user_no
+			FROM users
+			WHERE user_id = #{userId};
+			
+			SELECT co_user_no
+			FROM company_user
+			WHERE co_user_id = #{coUserId};
+	
+		END;
+	
+	</select>
 </mapper>

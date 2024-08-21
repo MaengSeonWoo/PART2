@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.talk.app.mypage.mapper.CoPostingMapper">
 	<select id = "selectPostingAll" parameterType="String" resultType="PostingVO">
-		SELECT c.co_name
+		SELECT p.co_name
 			   , posting_title
 			   , start_date
 			   , posting_status
@@ -13,8 +13,8 @@
 	</select>
 	
 	<select id="selectPostingInfo" resultType="PostingVO">
-		SELECT posting_status
-			   , c.co_name
+		SELECT get_codename(posting_status) as posting_status_nm
+			   , p.co_name
 			   , work_region
 			   , get_codename(work_region) as work_region_nm
 			   , start_date
@@ -29,6 +29,7 @@
                , sal
                , party
                , work_content
+               , pri_content
                , etc_content
                , posting_no
                , c.co_user_no
@@ -52,7 +53,6 @@
 		FROM posting
 		</selectKey>
 			INSERT INTO posting (
-			    posting_status,
 			    co_name,             
 			    work_region,
 			    start_date,
@@ -67,12 +67,12 @@
 			    sal,
 			    party,
 			    work_content,
+			    pri_content,
 			    etc_content,
 			    posting_no,
 			    co_user_no,
     			posting_title
 		) VALUES (
-			    #{postingStatus},
 			    #{coName},
 			    #{workRegion},
 			    #{startDate},
@@ -87,6 +87,7 @@
 			    #{sal},
 			    #{party},
 			    #{workContent},
+			    #{priContent},
 			    #{etcContent},
 			    #{postingNo},
 			    #{coUserNo},

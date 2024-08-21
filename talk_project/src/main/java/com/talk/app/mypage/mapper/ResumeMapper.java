@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.talk.app.mypage.service.CareerVO;
@@ -13,7 +14,10 @@ import com.talk.app.mypage.service.ResumeVO;
 
 public interface ResumeMapper {
 	// 마이페이지 이력서 리스트 조회
-	public List<ResumeVO> selectResumeList(String userId);
+	public List<ResumeVO> selectResumeList(ResumeVO resumeVO);
+	// 마이페이지 이력서 총 개수
+	@Select("SELECT count(*) FROM resume WHERE user_no = (select user_no from users where user_id = #{userId})")
+	public int getResumeTotal(String userId);
 	// 마이페이지 이력서 상세 조회
 	public ResumeVO selectResumeByNo(int resumeNo);
 	// 마이페이지 이력서 등록
@@ -31,7 +35,10 @@ public interface ResumeMapper {
 	public int getUserNoById(String userId);
 	
 	// 지원이력서 리스트
-	public List<ResumeVO> selectApplyResumeList(String userId);
+	public List<ResumeVO> selectApplyResumeList(ResumeVO resumeVO);
+	// 마이페이지 이력서 총 개수
+	@Select("SELECT COUNT(*) FROM apply_resume a JOIN RESUME r ON a.resume_no = r.resume_no WHERE user_no = (select user_no from users where user_id = #{userId})")
+	public int getApplyResumeTotal(String userId);
 	
 	// 경력사항 조회
 	public List<CareerVO> selectCareers(int resumeNo);

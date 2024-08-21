@@ -5,8 +5,34 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>QnA 댓글 등록</title>
 </head>
 <body>
+	<div class="container">
+		<h3>QnA 등록</h3>
+		<form name="insertForm"
+			  th:action="@{/qnaInsert}" method="post"
+			  th:object="${qnaInfo}">
+			<table>
+				<tr>
+					<th>qna 제목</th>
+					<td><input type="text" name="qnaTitle"></td>
+				</tr>
+				<tr>
+					<th>qna 내용</th>
+					<td>
+						<textarea name="qnaContent"></textarea>
+					</td>
+				</tr>
+			</table>
+			<button type="submit">등록</button>
+			<button type="button" onclick="goList()">목록</button>
+		</form>
+	</div>
 </body>
+<script>
+	function goList(){
+		location.href = `/qnaList/`
+	}
+</script>
 </html>

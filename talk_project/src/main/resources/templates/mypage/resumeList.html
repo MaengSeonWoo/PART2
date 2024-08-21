@@ -1,137 +1,202 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
+	layout:decorate="~{common/main/layouts/mypage_layout}" layout:fragment="Content">
 
 <head>
 	<meta charset="UTF-8">
 	<title>이력서 상세조회</title>
+	<!-- 필요한 경우 추가적인 스타일을 위한 클래스 정의 -->
+	<style>
+		.custom-card-header {
+			font-weight: bold;
+			font-size: 1.2rem;
+		}
+
+		.custom-table-header {
+			background-color: #f8f9fa;
+			text-align: center;
+		}
+
+		.custom-table-cell {
+			text-align: center;
+		}
+
+		.custom-btn {
+			width: 100%;
+		}
+
+		.custom-pagination {
+			margin-top: 20px;
+		}
+
+		.custom-d-grid {
+			margin-top: 30px;
+		}
+	</style>
 </head>
 
 <body>
 	<div class="container mt-5">
 		<!-- 1. 회사에 제출한 이력서 -->
+		<!--제출 이력서 -->
 		<div class="card mb-4">
-			<div class="card-header bg-primary text-white">회사에 제출한 이력서</div>
+			<div class="card-header bg-primary text-white text-center custom-card-header">제출한 이력서</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
-						<tr>
+						<tr class="custom-table-header">
 							<th>이력서 제목</th>
 							<th>지원회사</th>
 							<th>지원일자</th>
-							<th>조작</th>
+							<th> </th>
 						</tr>
 					</thead>
 					<tbody>
 						<th:block th:each="item : ${alist}">
 							<input type="hidden" th:value="${item.resumeNo}">
 							<tr>
-								<td th:text="${item.resumeTitle}">이력서 제목</td>
-								<td th:text="${item.coName}">지원회사</td>
-								<td th:text="${item.applyDate}">지원일자</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
+								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
+								<td th:text="${item.coName}" class="custom-table-cell">지원회사</td>
+								<td th:text="${#dates.format(item.applyDate, 'yyyy/MM/dd')}" class="custom-table-cell">지원일자</td>
+								<td class="custom-table-cell">
+									<button type="button" class="btn btn-sm btn-primary custom-btn resumeInfoHandler">조회</button>
 								</td>
 							</tr>
-							<th:block>
+						</th:block>
 					</tbody>
 				</table>
-				<nav>
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled"><a class="page-link">«</a></li>
-						<li class="page-item active"><a class="page-link">1</a></li>
-						<li class="page-item"><a class="page-link">2</a></li>
-						<li class="page-item"><a class="page-link">3</a></li>
-						<li class="page-item"><a class="page-link">4</a></li>
-						<li class="page-item"><a class="page-link">5</a></li>
-						<li class="page-item"><a class="page-link">»</a></li>
-					</ul>
-				</nav>
+				<div th:object="${arpage}">
+			<nav aria-label="Page navigation"
+				class="d-flex justify-content-center">
+				<ul class="pagination">
+					<li class="page-item" th:if="*{prev}"><a
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum1=${arpage.startPage - 1})}"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<th:block
+						th:each="num : ${#numbers.sequence(arpage.getStartPage(), arpage.getEndPage())}">
+						<li class="page-item"
+							th:classappend="${arpage.criteria.getPageNum() == num} ? 'active'">
+							<a class="page-link changePage"
+							th:href="@{/userMain/resume (pageNum1=${num})}" th:text="${num}"
+							th:unless="${arpage.criteria.getPageNum() == num}"></a> <span
+							class="page-link" th:if="${arpage.criteria.getPageNum() == num}"
+							th:text="${num}"></span>
+						</li>
+					</th:block>
+					<li class="page-item" th:if="*{next}"><a
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum1=${arpage.endPage + 1})}"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		<!-- 	<form action="/userMain/resume" th:object="${resumeVO}" name="pageForm">
+				<input type="hidden" name="pageNum2" th:field="*{pageNum}"> <input
+					type="hidden" name="amount" th:field="*{amount}">
+			</form> -->
+		</div>
 			</div>
 		</div>
-
 		<!-- 2. 나의 이력서 -->
 		<div class="card mb-4">
-			<div class="card-header bg-secondary text-white">나의 이력서</div>
+			<div class="card-header bg-primary text-white text-center custom-card-header">나의 이력서</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
-						<tr>
+						<tr class="custom-table-header">
 							<th>이력서 제목</th>
 							<th>작성일자</th>
-							<th>조작</th>
-							<th>조작</th>
+							<th> </th>
+							<th> </th>
 						</tr>
 					</thead>
 					<tbody>
 						<th:block th:each="item : ${rlist}">
 							<input type="hidden" th:value="${item.resumeNo}">
 							<tr>
-								<td th:text="${item.resumeTitle}">이력서 제목</td>
-								<td th:text="${item.createDate}">작성일자</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-info resumeInfoHandler">조회</button>
+								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
+								<td th:text="${#dates.format(item.createDate, 'yyyy/MM/dd')}" class="custom-table-cell">작성일자</td>
+								<td class="custom-table-cell">
+									<button type="button" class="btn btn-sm btn-primary custom-btn resumeInfoHandler">조회</button>
 								</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-warning resumeRemoveHamdler">삭제</button>
+								<td class="custom-table-cell">
+									<button type="button" class="btn btn-sm btn-primary custom-btn resumeRemoveHamdler">삭제</button>
 								</td>
 							</tr>
 						</th:block>
 					</tbody>
 				</table>
-				<nav>
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled"><a class="page-link">«</a></li>
-						<li class="page-item active"><a class="page-link">1</a></li>
-						<li class="page-item"><a class="page-link">2</a></li>
-						<li class="page-item"><a class="page-link">3</a></li>
-						<li class="page-item"><a class="page-link">4</a></li>
-						<li class="page-item"><a class="page-link">5</a></li>
-						<li class="page-item"><a class="page-link">»</a></li>
-					</ul>
-				</nav>
+				
+		<!-- 나의 이력서 -->		
+				<div th:object="${rpage}">
+			<nav aria-label="Page navigation"
+				class="d-flex justify-content-center">
+				<ul class="pagination">
+					<li class="page-item" th:if="*{prev}"><a
+						class="page-link changePage" th:href="*{startPage - 1}"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<th:block
+						th:each="num : ${#numbers.sequence(rpage.getStartPage(), rpage.getEndPage())}">
+						<li class="page-item"
+							th:classappend="${rpage.criteria.getPageNum() == num} ? 'active'">
+							<a class="page-link changePage"
+							th:href="@{/userMain/resume (pageNum2=${num})}" th:text="${num}"
+							th:unless="${rpage.criteria.getPageNum() == num}"></a> <span
+							class="page-link" th:if="${rpage.criteria.getPageNum() == num}"
+							th:text="${num}"></span>
+						</li>
+					</th:block>
+					<li class="page-item" th:if="*{next}"><a
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum2=${rpage.endPage + 1})}"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		<!-- 	<form action="/userMain/resume" th:object="${resumeVO}" name="pageForm">
+				<input type="hidden" name="pageNum2" th:field="*{pageNum}"> <input
+					type="hidden" name="amount" th:field="*{amount}">
+			</form> -->
+		</div>
 			</div>
 		</div>
 
 		<!-- 3. 이력서 등록 버튼 -->
-		<div class="d-grid gap-2 col-6 mx-auto">
-			<a href="#" class="btn btn-success btn-block">이력서 등록</a>
+		<div class="d-grid gap-2 col-6 mx-auto custom-d-grid">
+			<button type="button" class="btn btn-primary" th:onclick="goSave()">이력서 등록</button>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', function (e) {
-			e.preventDefault();
-			document.querySelectorAll('.resumeInfoHandler').forEach((val, idx) => {
-				// console.log(idx, val);
+	function goSave() {
+		location.href = `/userMain/resume/save`;
+	}
 
-				val.addEventListener('click', goInfo);
-			})
+	document.addEventListener('DOMContentLoaded', function (e) {
+		e.preventDefault();
 
+		// 조회 버튼 핸들러
+		document.querySelectorAll('.resumeInfoHandler').forEach((val, idx) => {
+			val.addEventListener('click', goInfo);
+		});
 
+		function goInfo() {
+			let rNo = this.parentElement.parentElement.previousElementSibling.value;
+			location.href = `/userMain/resume/${rNo}`;
+		}
 
-			function goInfo() {
-				console.log(this.parentElement.parentElement.previousElementSibling.value);
-				let rNo = this.parentElement.parentElement.previousElementSibling.value
-				location.href = `/userMain/resume/${rNo}`
-
-			}
-			
-			document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
-				let rno = val.parentElement.parentElement.previousElementSibling.value;
-				val.addEventListener('click', function(){
-					let form = document.createElement('form');
-					form.setAttribute('action', `/userMain/resume/${rno}/remove`);
-					form.setAttribute('method', 'post');
-					
-					document.querySelector('body').appendChild(form);
-
-					form.submit();
-			})
-			})
-			
-			
-		})
-
+		// 삭제 버튼 핸들러
+		document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
+			let rno = val.parentElement.parentElement.previousElementSibling.value;
+			val.addEventListener('click', function(){
+				let form = document.createElement('form');
+				form.setAttribute('action', `/userMain/resume/${rno}/remove`);
+				form.setAttribute('method', 'post');
+				document.querySelector('body').appendChild(form);
+				form.submit();
+			});
+		});
+	});
 	</script>
 </body>
 

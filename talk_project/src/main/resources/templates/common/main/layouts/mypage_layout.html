@@ -9,6 +9,19 @@
     <th:block th:replace="common/main/configs/home_config :: BootstrapConfig"></th:block>
     <th:block th:replace="common/main/configs/home_config :: jQueryConfig"></th:block>
     <th:block th:replace="common/main/configs/home_config :: HomeTemplateConfig"></th:block>  
+    <style>
+        /* 전체 레이아웃 설정 */
+        main {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 20px; /* 사이드바와 콘텐츠 사이의 간격 */
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <header th:insert="common/main/fragments/header :: headerFragment"></header>

@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/main/layouts/default_layout}"
 	layout:fragment="Content">
+
 <head>
 <meta charset="UTF-8">
 <title>채용공고</title>
@@ -22,15 +23,18 @@
 	border-radius: 10px;
 	padding: 20px;
 	text-align: center;
-	height: 350px; /* Fixed height for uniformity */
-	width: 220px; /* Increased width for a wider card */
+	height: 350px;
+	/* Fixed height for uniformity */
+	width: 220px;
+	/* Increased width for a wider card */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s, box-shadow 0.3s;
 	background-color: #ffffff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	margin: auto; /* Center align the card horizontally */
+	margin: auto;
+	/* Center align the card horizontally */
 }
 
 .job-card:hover {
@@ -41,8 +45,10 @@
 .job-card .card-body {
 	display: flex;
 	flex-direction: column;
-	align-items: center; /* Center content horizontally */
-	justify-content: center; /* Center content vertically */
+	align-items: center;
+	/* Center content horizontally */
+	justify-content: center;
+	/* Center content vertically */
 	flex-grow: 1;
 }
 
@@ -63,29 +69,42 @@
 	background-color: #007bff;
 	color: #ffffff;
 }
+
 .pagination .page-link {
-		color: #007bff; /* 기본 링크 색상: 부트스트랩 기본 파란색 */
-		background-color: #fff; /* 기본 배경 색상: 흰색 */
-		border: 1px solid #dee2e6; /* 기본 테두리 색상 */
-	}
+	color: #007bff;
+	/* 기본 링크 색상: 부트스트랩 기본 파란색 */
+	background-color: #fff;
+	/* 기본 배경 색상: 흰색 */
+	border: 1px solid #dee2e6;
+	/* 기본 테두리 색상 */
+}
 
-	.pagination .page-link:hover {
-		color: #0056b3; /* 호버 시 링크 색상: 더 어두운 파란색 */
-		background-color: #e9ecef; /* 호버 시 배경 색상: 밝은 회색 */
-		border-color: #dee2e6; /* 호버 시 테두리 색상 */
-	}
+.pagination .page-link:hover {
+	color: #0056b3;
+	/* 호버 시 링크 색상: 더 어두운 파란색 */
+	background-color: #e9ecef;
+	/* 호버 시 배경 색상: 밝은 회색 */
+	border-color: #dee2e6;
+	/* 호버 시 테두리 색상 */
+}
 
-	.pagination .page-item.active .page-link {
-		color: #fff; /* 활성화된 링크의 텍스트 색상: 흰색 */
-		background-color: #17a2b8; /* 활성화된 링크의 배경 색상: 청록색 */
-		border-color: #17a2b8; /* 활성화된 링크의 테두리 색상: 청록색 */
-	}
+.pagination .page-item.active .page-link {
+	color: #fff;
+	/* 활성화된 링크의 텍스트 색상: 흰색 */
+	background-color: #17a2b8;
+	/* 활성화된 링크의 배경 색상: 청록색 */
+	border-color: #17a2b8;
+	/* 활성화된 링크의 테두리 색상: 청록색 */
+}
 
-	.pagination .page-item.active .page-link:hover {
-		color: #fff; /* 활성화된 링크의 호버 시 텍스트 색상: 흰색 */
-		background-color: #138496; /* 활성화된 링크의 호버 시 배경 색상: 더 어두운 청록색 */
-		border-color: #138496; /* 활성화된 링크의 호버 시 테두리 색상: 더 어두운 청록색 */
-	}
+.pagination .page-item.active .page-link:hover {
+	color: #fff;
+	/* 활성화된 링크의 호버 시 텍스트 색상: 흰색 */
+	background-color: #138496;
+	/* 활성화된 링크의 호버 시 배경 색상: 더 어두운 청록색 */
+	border-color: #138496;
+	/* 활성화된 링크의 호버 시 테두리 색상: 더 어두운 청록색 */
+}
 
 .job-title {
 	margin: 20px 0;
@@ -105,6 +124,7 @@ p.card-text {
 }
 </style>
 </head>
+
 <body>
 	<div class="container-fluid bg-primary py-5 mb-5 page-header">
 		<div class="container py-5">
@@ -123,34 +143,73 @@ p.card-text {
 		</div>
 	</div>
 	<div class="container">
-		<div class="row search-bar">
-			<div class="col-md-5">
-				<input type="text" name="keyword" class="form-control" placeholder="키워드를 입력하세요.">
-			</div>
-			<div class="col-md-5">
-				<select class="form-control" name="type">
-					<option value="">전국</option>
-					<option>서울</option>
-					<option>부산</option>
-					<option>대구</option>
-					<option>인천</option>
-					<option>광주</option>
-					<option>대전</option>
-					<option>울산</option>
-					<option>경기</option>
-					<option>강원</option>
-					<option>충북</option>
-					<option>충남</option>
-					<option>경북</option>
-					<option>경남</option>
-					<option>전북</option>
-					<option>전남</option>
+		<form name="frmSearch" id="frmSearch" action="/posting" method="GET"
+	class="row search-bar p-4 border rounded bg-light">
+	
+	<input type="hidden" name="pageNum" value="1">
+	
+	<div class="col-12">
+		<div class="form-group row mb-3">
+			<label for="sido" class="col-sm-2 col-form-label">희망지역</label>
+			<div class="col-sm-10">
+				<select name="sido" id="sido" class="form-select" onchange="_getSidoList(1,'')">
+					<option value="" selected="selected">시/도</option>
+					<option th:each="region : ${regionCode}" th:value="${region.mainCode}"
+						th:text="${region.codeName}" th:selected="${region.mainCode}==${criteria.sido}">
+					</option>
 				</select>
 			</div>
-			<div class="col-md-2">
-				<button class="btn btn-primary btn-block">검색</button>
+		</div>
+
+		<div class="form-group row mb-3">
+			<label for="hopeAmount1" class="col-sm-2 col-form-label">급여</label>
+			<div class="col-sm-5">
+				<input type="number" name="hopeAmount1" id="hopeAmount1" class="form-control"
+					placeholder="최저급여" maxlength="10" onkeydown="handlerNum()"
+					th:value="${criteria.hopeAmount1}">
+			</div>
+			<div class="col-sm-5">
+				<input type="number" name="hopeAmount2" id="hopeAmount2" class="form-control"
+					placeholder="최고급여" maxlength="10" onkeydown="handlerNum()"
+					th:value="${criteria.hopeAmount2}">
 			</div>
 		</div>
+
+		<div class="form-group row mb-3">
+			<label class="col-sm-2 col-form-label">고용형태</label>
+			<div class="col-sm-10 d-flex align-items-center">
+					<div class="form-check me-3">
+						<input type="radio" name="empType" th:id="empType0"
+							value="" checked="checked" class="form-check-input">
+						<label th:for="empType0" class="form-check-label">전체
+						</label>
+					</div>
+				<th:block th:each="emptype, userStat : ${empTypeCode}">
+					<div class="form-check me-3">
+						<input type="radio" name="empType" th:id="'empType' + ${userStat.index+1}"
+							th:value="${emptype.mainCode}" class="form-check-input"
+							th:checked="${emptype.mainCode}==${criteria.empType}">
+						<label th:for="'empType' + ${userStat.index+1}" class="form-check-label"
+							th:text="${emptype.codeName}">
+						</label>
+					</div>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="form-group row mb-3">
+			<label for="keyword" class="col-sm-2 col-form-label">키워드</label>
+			<div class="col-sm-8">
+				<input type="text" name="keyword" id="keyword" class="form-control" maxlength="20"
+					th:value="${criteria.keyword}">
+			</div>
+			<div class="col-sm-2 d-flex">
+				<button type="submit" class="btn btn-primary w-100 me-2">검색</button>
+				<button type="reset" class="btn btn-secondary w-100">초기화</button>
+			</div>
+		</div>
+	</div>
+</form>
 		<div class="row">
 			<th:block th:each="posting : ${pList}">
 				<div class="col-md-3 col-sm-6 mb-4 d-flex">
@@ -162,8 +221,12 @@ p.card-text {
 							<h5 class="card-title" th:text="${posting.coName}">유안타증권</h5>
 							<p class="card-text" th:text="${posting.postingTitle}">IT본부
 								경력직 모집</p>
-							<p class="card-text" th:text="${posting.empType}">계약직</p>
-							<p class="card-text" th:text="${posting.workRegion}">대구</p>
+							<th:block th:each="emptype : ${empTypeCode}">
+							<p class="card-text" th:if="${emptype.mainCode} == ${posting.empType}" th:text="${emptype.codeName}">계약직</p>
+							</th:block>
+							<th:block th:each="region : ${regionCode}">
+							<p class="card-text" th:if="${region.mainCode} == ${posting.workRegion}" th:text="${region.codeName}">대구</p>
+							</th:block>
 							<p class="card-text"
 								th:text="${#dates.format(posting.endDate, '(~MM/dd)')}">(~08/01)</p>
 						</div>
@@ -176,7 +239,7 @@ p.card-text {
 				class="d-flex justify-content-center">
 				<ul class="pagination">
 					<li class="page-item" th:if="*{prev}"><a
-						class="page-link changePage" th:href="*{startPage - 1}"
+						class="page-link changePage" th:href="|javascript:gopage(${page.startPage})|"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 					</a></li>
 					<th:block
@@ -184,28 +247,31 @@ p.card-text {
 						<li class="page-item"
 							th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
 							<a class="page-link changePage"
-							th:href="@{/posting (pageNum=${num})}" th:text="${num}"
+							th:href="|javascript:gopage(${num})|" th:text="${num}"
 							th:unless="${page.criteria.getPageNum() == num}"></a> <span
 							class="page-link" th:if="${page.criteria.getPageNum() == num}"
 							th:text="${num}"></span>
 						</li>
 					</th:block>
 					<li class="page-item" th:if="*{next}"><a
-						class="page-link changePage" th:href="*{endPage + 1}"
+						class="page-link changePage" th:href="|javascript:gopage(${page.endPage})|"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 					</a></li>
 				</ul>
 			</nav>
-			<form action="/posting" th:object="${criteria}" name="pageForm">
-				<input type="hidden" name="pageNum" th:field="*{pageNum}"> <input
-					type="hidden" name="amount" th:field="*{amount}">
-			</form>
 		</div>
 	</div>
+
 	<script type="text/javascript">
 		function goInfo(no) {
 			location.href = `/posting/${no}`;
 		}
+		
+		function gopage(p) {
+			frmSearch.pageNum.value = p;
+			frmSearch.submit();
+		}
 	</script>
 </body>
+
 </html>

@@ -6,6 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	tr:has(.state.red) {
+		background-color:lightgray;
+	}	
+	
+	tr:has(.state.red):hover {
+		background-color:pink;
+	}
+	tbody tr:hover{
+		cursor:pointer;
+		background-color:pink;
+	}
+</style>
 </head>
 <body>
 <div class="container-fluid bg-primary py-5 mb-5 page-header">
@@ -27,8 +40,8 @@
 	<div class="container">
 		<h3>QnA 목록</h3>
 		<form action="#">
-			<input type="radio" name="member" value="normal">일반회원
-			<input type="radio" name="member" value="company">기업회원		
+			<input type="radio" name="role" value="" onchange="location.href='/qnaList'" th:checked="${param.role == null}">일반회원
+			<input type="radio" name="role" value="company" onchange="location.href='/qnaList?role=co'" th:checked="${param.role != null}">기업회원		
 		</form>
 		<table class="table">
 			<thead>
@@ -58,6 +71,8 @@
 	</div>
 </body>
 <script>
+	let red = document.querySelector('.red');
+	
 	let state = document.querySelectorAll('.state');
 	
 	function replyState(){
@@ -70,6 +85,20 @@
 		}	
 	}
 	
-	// replyState();
+	replyState();
+	
+	function colorChange() {
+	    for(let i=0; i<state.length; i++){
+	        if(state[i].innerHTML == '미답변'){
+	            let red = state[i] 
+	            red.innerHTML = '[ ' + red.innerHTML +' ]'
+	            red.style.color="red";
+	            red.style.fontWeight="bold";
+	            red.classList.add('red');
+	        }
+	    }
+	}
+	
+	colorChange();
 </script>
 </html>

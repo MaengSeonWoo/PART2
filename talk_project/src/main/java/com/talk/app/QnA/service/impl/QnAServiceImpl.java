@@ -27,8 +27,8 @@ public class QnAServiceImpl implements QnAService {
 	 */
 	
 	@Override
-	public List<qnaVO> qnaList() {
-		return qnaMapper.selectQnAAll();
+	public List<qnaVO> qnaList(String role) {
+		return qnaMapper.selectQnAAll(role);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.talk.app.common.service.PageDTO;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.mypage.service.ResumeService;
@@ -43,12 +44,27 @@ public class ResumeController {
 	private final UploadService uploadService;
 	
 	@GetMapping
-	public String resumeList(Principal principal, Model model)	 {
+	public String resumeList(Principal principal, 
+							Model model, 
+							ResumeVO resume1,
+							ResumeVO resume2,
+							@RequestParam(defaultValue = "1", required = false) int pageNum1, 
+							@RequestParam(defaultValue = "1", required = false) int pageNum2)	 {
 		String userId = principal.getName();
-		List<ResumeVO> resumeList = resumeService.resumeList(userId);
-		List<ResumeVO> applyResumeList = resumeService.applyResumeList(userId);
-		model.addAttribute("rlist", resumeList);
+		
+		// 지원이력서
+		resume1.setUserId(userId);
+		resume1.setPageNum(pageNum1);
+		List<ResumeVO> applyResumeList = resumeService.applyResumeList(resume1);
 		model.addAttribute("alist", applyResumeList);
+		model.addAttribute("arpage", new PageDTO(8, resumeService.getApplyResumeTotal(userId), resume1));
+		
+		// 나의 이력서		
+		resume2.setUserId(userId);
+		resume2.setPageNum(pageNum2);		
+		List<ResumeVO> resumeList = resumeService.resumeList(resume2);
+		model.addAttribute("rlist", resumeList);		
+		model.addAttribute("rpage", new PageDTO(8, resumeService.getResumeTotal(userId), resume2));
 		
 		return "mypage/resumeList";
 	}

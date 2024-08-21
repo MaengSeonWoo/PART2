@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="sideFragment">
-    <div class="move-container-left">
-    <div class="inner">
-      	<h3 class="title-t ty3">마이페이지</h3>
-        <ul>
-            <li><a href="#home">지원 이력서 및 최종 채용 확인</a></li>
-            <li><a th:href="@{/}">건드리지마시오</a></li>
-            <li><a th:href="@{/userupdate}">회원정보 수정</a></li>
-            <li><a th:href="@{/userdelete}">회원탈퇴</a></li>
-        </ul>
-    </div>
-    </div>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="sideFragment">
+	<div
+		style="width: 250px; background-color: white; padding: 20px; border-radius: 8px; position: relative; top: 20px; left: 20px; z-index: 1000; height: 100%; border: 1px solid #ddd;">
+		<h1
+			style="font-size: 25px; font-weight: bold; margin-top: 10px; margin-bottom: 40px;">일반회원
+			마이페이지</h1>
+		<ul style="list-style: none; padding: 0; margin: 0;">
+			<li style="margin-bottom: 5px;"><a th:href="@{/userMain}"
+				style="text-decoration: none; color: #666; /* 링크 글자색 설정 */ display: block; padding: 5px 0; transition: color 0.3s;">일반회원
+					정보</a></li>
+			<li style="margin-bottom: 5px;"><a th:href="@{/userMain/resume}"
+				style="text-decoration: none; color: #666; /* 링크 글자색 설정 */ display: block; padding: 5px 0; transition: color 0.3s;">이력서
+					관리</a></li>
+			<li style="margin-bottom: 5px;"><a th:href="@{/userwelfarelist}"
+				style="text-decoration: none; color: #666; /* 링크 글자색 설정 */ display: block; padding: 5px 0; transition: color 0.3s;">복지/정책
+					조회</a></li>
+			<li style="margin-bottom: 5px;"><a th:href="@{/userupdate}"
+				style="text-decoration: none; color: #666; /* 링크 글자색 설정 */ display: block; padding: 5px 0; transition: color 0.3s;">회원정보
+					수정</a></li>
+			<li style="margin-bottom: 5px;"><a th:href="@{/userdelete}"
+				style="text-decoration: none; color: #666; /* 링크 글자색 설정 */ display: block; padding: 5px 0; transition: color 0.3s;">회원탈퇴</a></li>
+		</ul>
+	</div>
 </th:block>
+</html>
 

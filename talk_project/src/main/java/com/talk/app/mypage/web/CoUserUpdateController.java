@@ -19,13 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.LoginUserVO;
@@ -42,6 +42,7 @@ public class CoUserUpdateController {
 
     private final CoUserUpdateService couserupdateService;
     private final UploadService uploadService;
+    private final PublicCodeService publiccodeService;
     
     
 
@@ -141,7 +142,13 @@ public class CoUserUpdateController {
     @PostMapping("/couserdelete")
     @ResponseBody
     public String deleteCoUser(@RequestParam String coUserId) {
-        return couserupdateService.deleteCoUser(coUserId);
+        String result = couserupdateService.deleteCoUser(coUserId);
+        // Result에 따라 응답을 결정
+        if ("success".equals(result)) {
+            return "success"; // 성공 시 "success" 반환
+        } else {
+            return "failure"; // 실패 시 "failure" 반환
+        }
     }
     
     // 탈퇴 취소 페이지를 보여주는 GET 메서드
@@ -184,7 +191,7 @@ public class CoUserUpdateController {
     
     @Scheduled(fixedRate = 600000)
     public void processScheduledDeletion() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 30 * 1000); 
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 10 * 30 * 1000); 
         couserupdateService.RealDelCoUser(timestamp);
     }
     // ======================================================================================================
@@ -221,6 +228,7 @@ public class CoUserUpdateController {
 
             UserVO findVO = couserupdateService.userInfo(userVO);
             model.addAttribute("userInfo", findVO);
+            model.addAttribute("sidoCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
             
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {

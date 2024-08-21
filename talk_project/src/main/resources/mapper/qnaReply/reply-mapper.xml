@@ -15,13 +15,14 @@
 	</select> 
 	
 	<!-- 댓글 등록 -->
-<!-- 	<insert id="insertReplyInfo" parameterType="replyVO">
+	<insert id="insertReplyInfo" parameterType="QnAReplyVO">
 		<selectKey keyProperty="replyNo"
 		           resultType="Integer"
 		           order="BEFORE">
 			SELECT NVL(MAX(reply_no), 0) + 1
 			FROM qna_reply
 	    </selectKey>
+	    BEGIN
 		INSERT INTO qna_reply
 							(
 							reply_no,
@@ -34,7 +35,25 @@
 					 		#{replyContent},
 					 		sysdate,
 							#{qnaNo}					 		
-					 		)
-	</insert> -->
+					 		);
+					 		
+		UPDATE qna SET qna_state = 1 WHERE qna_no = #{qnaNo};			 		
+		
+		END;
+	</insert> 
 	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReplyInfo" parameterType="int">
+		BEGIN
+				UPDATE qna SET qna_state = 0 WHERE qna_no IN(
+                                                SELECT qr.qna_no
+                                                FROM qna_reply qr
+                                                WHERE reply_no = #{replyNo}
+                                            );
+			DELETE FROM qna_reply
+			WHERE reply_no = #{replyNo};
+			
+		
+		END;
+	</delete>
 </mapper>

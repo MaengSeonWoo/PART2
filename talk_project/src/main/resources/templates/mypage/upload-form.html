@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/mypage_layout}" layout:fragment="Content">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload and OCR</title>
+</head>
+<body>
+<h1>Image Upload and OCR</h1>
+<form action="uploadAndOcr" method="post" enctype="multipart/form-data">
+  <input type="file" name="file" accept=".jpg, .jpeg, .png">
+  <button type="submit">Upload and OCR</button>
+</form>
+</body>
+</html>

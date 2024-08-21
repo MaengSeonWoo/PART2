@@ -55,7 +55,7 @@
 			<div class="job-info-header">
 				<p th:text="${login}"></p>
 				<h4>채용 정보</h4>
-				<span th:text="${posting.postingStatus}">구인중</span>
+				<span th:text="${posting.postingStatusNm}">구인중</span>
 			</div>
 			<div class="job-info-row">
 				<div>업체명</div>
@@ -91,8 +91,8 @@
 			<div class="job-info-row">
 				<div>근무시간</div>
 				<div>
-					<span th:text="${posting.workDay}"></span> <span
-						th:text="${posting.workTime}"></span>
+					<span th:text="${posting.workTimeStart}"></span> ~ <span
+						th:text="${posting.workTimeEnd}"></span>
 				</div>
 			</div>
 			<div class="job-info-row">

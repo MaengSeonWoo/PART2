@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
+	layout:decorate="~{common/main/layouts/mypage_layout}" layout:fragment="Content">
 
 <head>
 	<meta charset="UTF-8">
-	<title>이력서 관리</title>
+	<title>이력서 조회</title>
 
 <style>
 	.resume-container {
@@ -59,7 +59,7 @@
 <body>
 	<div class="resume-container">
 		<div class="header">
-			<p th:text="${resume.resumeName + '의 이력서입니다'}">홍길동의 이력서입니다</p>
+			<p th:text="${resume.resumeTitle}">홍길동의 이력서입니다</p>
 		</div>
 
 		<div class="section-title">기본 정보</div>
@@ -108,7 +108,7 @@
 					<tr>
 						<td th:text="${edu.school}">OO대학교</td>
 						<td th:text="${edu.major}">컴퓨터공학</td>
-						<td th:text="${#dates.format(edu.graduation, 'yyyy-MM')}">1980/02</td>
+						<td th:text="${#dates.format(edu.graduation, 'yyyy년MM월')}">1980/02</td>
 					</tr>
 				</th:block>
 				<th:block th:if="${#lists.isEmpty(resume.edus)}">
@@ -137,7 +137,7 @@
 						<td th:text="${career.workPlace}">OO회사</td>
 						<td th:text="${career.role}">개발팀장 / 소프트웨어 개발</td>
 						<td th:text="${#dates.format(career.careerStart, 'yyyy/MM/dd')}">1980-03-01</td>
-						<td th:text="${#dates.format(career.careerEnd, 'yyyy-MM-dd')}">1990-06-30</td>
+						<td th:text="${#dates.format(career.careerEnd, 'yyyy/MM/dd')}">1990-06-30</td>
 					</tr>
 				</th:block>
 				<th:block th:if="${#lists.isEmpty(resume.careers)} ">
@@ -176,9 +176,13 @@
 				</th:block>
 			</tbody>
 		</table>
+		<hr>
+			<div class="section-title">자기소개</div>
+			<p th:utext="${#strings.escapeXml(resume.produce)}" style="white-space: pre-wrap; border: 1px #e2e3e5 solid"></p>
 
 		<div class="text-end">
-			<button type="button" class="btn btn-secondary" th:onclick="'modHandler(' + ${resume.resumeNo} + ')'">수정</button>
+			<button type="button" class="btn btn-primary" th:onclick="'modHandler(' + ${resume.resumeNo} + ')'">수정</button>
+			<button type="button" class="btn btn-secondary" th:onclick="goList()">목록</button>
 		</div>
 	</div>
 </body>
@@ -186,6 +190,10 @@
 <script type="text/javascript">
 	function modHandler(no) {
 		location.href = `/userMain/resume/${no}/edit`;
+	}
+	
+	function goList() {
+		location.href = `/userMain/resume/`;
 	}
 </script>
 

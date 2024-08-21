@@ -47,6 +47,7 @@ public class LoginController {
         session.setMaxInactiveInterval(3600);
         
         model.addAttribute("userAuthority", user.getAuthority()); // 로그인한 유저의 권한을 가져옴
+        model.addAttribute("userId", user.getUserId());
         
         return "redirect:/";
     }

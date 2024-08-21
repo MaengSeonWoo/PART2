@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.mypage.mapper.CoResumeMapper">
+
+	<resultMap id="resumeMap" type="ResumeVO">
+		<id property="resumeNo" column="resume_no"/>
+		<collection property="careers" javaType="ArrayList" column="resume_no" ofType="CareerVO" select="applyCareers"/>
+		<collection property="licenses" javaType="ArrayList" column="resume_no" ofType="LicenseVO" select="applyLicenses"/>
+		<collection property="edus" javaType="ArrayList" column="resume_no" ofType="EduVO" select="applyEdus"/>
+	</resultMap>
+	
+	<select id = "selectCoResumeList" parameterType="String" resultType="ResumeVO">
+		SELECT r.resume_no, r.resume_title, p.co_name, ar.apply_date, ar.apply_state, p.posting_no
+		FROM apply_resume ar
+		JOIN resume r 
+		ON ar.resume_no = r.resume_no
+		JOIN posting p 
+		ON ar.posting_no = p.posting_no
+		JOIN company_user c
+		ON p.co_user_no = c.co_user_no
+		WHERE c.co_user_id = #{coUserId}
+	</select>
+	
+	<select id="selectCoResumeByNo" resultMap="resumeMap">
+		SELECT resume_no
+				, resume_title
+				, resume_name
+				, birth
+				, addr
+				, tel
+				, email
+				, produce
+				, resume_img
+		FROM resume
+		WHERE resume_no = #{resumeNo}
+	</select>
+	
+	<select id="applyCareers" resultType="CareerVO">
+		SELECT career_no
+				, work_place
+				, role
+				, resume_no
+				, orders
+				, career_start
+				, career_end
+		FROM career
+		WHERE resume_no = #{resumeNo}
+		order by orders
+	</select>
+	
+	<select id="applyLicenses" resultType="LicenseVO">
+		SELECT license_no
+				, get_date
+				, license_name
+				, license_company
+				, resume_no
+				, orders
+		FROM license
+		WHERE resume_no = #{resumeNo}
+		ORDER BY orders
+	</select>
+	
+	<select id="applyEdus" resultType="EduVO">
+		SELECT edu_no
+				, graduation
+				, school
+				, major
+				, resume_no
+				, orders
+		FROM edu
+		WHERE resume_no = #{resumeNo}
+		ORDER BY orders
+	</select>
+	
+	
+</mapper>

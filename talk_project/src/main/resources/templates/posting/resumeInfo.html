@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title>채용지원</title>
+<style>
+	.resume-container {
+		max-width: 800px;
+		margin: 50px auto;
+		border: 2px solid #ccc;
+		padding: 20px;
+		border-radius: 10px;
+		background-color: #f7f7f7;
+	}
+
+	.header {
+		background-color: #e2e3e5;
+		padding: 10px;
+		border-radius: 5px;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	.profile-image {
+	width: 150px;
+	height: 200px;
+	border: 2px solid #ccc;
+	background-size: cover;
+	background-position: center;
+	margin: 10px;
+}
+
+.prorileImg{
+	width: 100%;
+	height: 100%;
+}
+
+	.section-title {
+		font-weight: bold;
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+
+	.table thead th {
+		font-weight: bold;
+		background-color: #e2e3e5;
+	}
+
+	.table-bordered td,
+	.table-bordered th {
+		vertical-align: middle;
+	}
+</style>
+</head>
+
+<body>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10 text-center">
+					<h1 class="display-3 text-white animated slideInDown">채용공고</h1>
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+							<li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+							<li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="resume-container">
+		<div class="header">
+			<p th:text="${resume.resumeTitle}">홍길동의 이력서입니다</p>
+		</div>
+
+		<div class="section-title">기본 정보</div>
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<td rowspan="5" style="width: 120px; text-align: center;">
+						<div th:if="${resume.resumeImg} == null" class="profile-image" style="background-image: url('/main/img/profile-image.png');"></div> 
+						<div th:if="${resume.resumeImg} != null" class="profile-image">
+							<img alt="" th:src="@{/images/{fileName}(fileName=${profile.filePath})}" class="prorileImg">
+						</div>
+					</td>
+					<th>이름</th>
+					<td th:text="${resume.resumeName}">홍길동</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td th:text="${#dates.format(resume.birth, 'yyyy/MM/dd')}">1958-08-06</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td th:text="${resume.addr}">대구광역시 중구 중앙대로 403 504호</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td th:text="${resume.tel}">010-4212-4800</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td th:text="${resume.email}">hong@email.com</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<div class="section-title">학력사항</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>학교명</th>
+					<th>전공</th>
+					<th>졸업년월</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.edus)}" th:each="edu : ${resume.edus}">
+					<tr>
+						<td th:text="${edu.school}">OO대학교</td>
+						<td th:text="${edu.major}">컴퓨터공학</td>
+						<td th:text="${#dates.format(edu.graduation, 'yyyy년MM월')}">1980/02</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.edus)}">
+					<tr>
+						<td></td>
+						<td> </td>
+						<td> </td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="section-title">경력사항</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>근무처</th>
+					<th>직위/업무내용</th>
+					<th>시작일</th>
+					<th>종료일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.careers)}" th:each="career : ${resume.careers}">
+					<tr>
+						<td th:text="${career.workPlace}">OO회사</td>
+						<td th:text="${career.role}">개발팀장 / 소프트웨어 개발</td>
+						<td th:text="${#dates.format(career.careerStart, 'yyyy/MM/dd')}">1980-03-01</td>
+						<td th:text="${#dates.format(career.careerEnd, 'yyyy/MM/dd')}">1990-06-30</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.careers)} ">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="section-title">보유기술/자격증</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>취득일</th>
+					<th>자격증명</th>
+					<th>시행처</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:if="${!#lists.isEmpty(resume.licenses)} " th:each="license : ${resume.licenses}">
+					<tr>
+						<td th:text="${#dates.format(license.getDate, 'yyyy/MM/dd')}">1982-05-01</td>
+						<td th:text="${license.licenseName}">정보처리기사</td>
+						<td th:text="${license.licenseCompany}">한국산업인력공단</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${#lists.isEmpty(resume.licenses)} ">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<hr>
+			<div class="section-title">자기소개</div>
+			<p th:utext="${#strings.escapeXml(resume.produce)}" style="white-space: pre-wrap; border: 1px #e2e3e5 solid"></p>
+
+		<div class="text-end">
+			<button type="button" class="btn btn-primary" th:onclick="applyHandler()">지원하기</button>
+			<button type="button" class="btn btn-secondary" th:onclick="goList()">취소</button>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+
+	const path = window.location.pathname; // 예: "/posting/1/resume/2"
+	const regex = /\/posting\/(\d+)\/resume\/(\d+)/;
+	const matches = path.match(regex);
+	let pno;
+	if (matches) {
+	    const param1 = matches[1]; // "1"
+	    const param2 = matches[2]; // "2"
+	    
+	    pno = param1;
+	}
+
+
+
+	
+	
+	/* function modHandler() {
+		fetch(`/posting/${param1}/resume/${param2}`, {
+			method: 'POST',
+			headers: {
+	            'Content-Type': 'application/json',
+	        },
+	        body: JSON.stringify(paramData) // 데이터를 JSON 형식으로 변환
+			
+		})
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+		})
+	} */
+	
+	function applyHandler() {
+		fetch(window.location.href, {
+		    method: 'POST'
+		})
+		.then(response => response.json())
+		.then(data => {
+		    console.log(data); // 서버 응답 처리
+		    location.href = `/posting/`;
+		    alert('지원완료 되었습니다.');
+	
+		})
+		.catch(error => {
+		    console.error('Error:', error); // 에러 처리
+		});
+	}
+	
+	function goList() {
+		location.href = `/posting/${pno}`;
+	}
+</script>
+</body>
+</html>

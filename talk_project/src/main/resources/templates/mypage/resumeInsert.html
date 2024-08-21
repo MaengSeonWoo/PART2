@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/comypage_layout}" layout:fragment="Content">
-
+	layout:decorate="~{common/main/layouts/mypage_layout}" layout:fragment="Content">
 <head>
 	<meta charset="UTF-8">
 	<title>이력서 등록</title>
@@ -56,11 +55,86 @@
 		.form-control {
 			width: 100%;
 		}
+		
+		.tuto {
+			text-align:center;
+		}
+		
+		.tutoBtn {
+			border-radius:10px;
+			padding:10px;
+		}
+		
+		.tutoModal{
+			width:250px;
+			height:fit-content;
+			top:300px;
+			float:right;
+			margin-right:100px;
+			margin-top:90px;
+			border:2px solid black;
+			border-radius:20px;
+			background-color:white;
+			display:none;
+		}
+		
+		.tutoCloseBtn{
+			display:flex;
+			margin-left:215px;
+			background-color: transparent;
+			border:0;
+			font-size:20px;
+			padding-top:10px;
+		}
+		
+		.tip{
+			color:black;
+			padding:15px;
+		}
+		.voiceBtn {
+			margin:auto;
+			text-align:center;
+			padding-bottom:20px;
+		}
+		
+		.voicePlayBtn, .voiceStopBtn{
+			padding:10px;
+			margin:5px;
+		}
+		
+		.voicePlayBtn{
+			background-color:#007bff;
+			color:white;
+			border:none;
+			border-radius:10px;
+		}
+		
+		.voiceStopBtn{
+			background-color:none;
+			color:black;
+			border:none;
+			border-radius:10px;
+		}
 	</style>
 </head>
 
 <body>
-
+	<div class="tuto">
+		<h5>튜토리얼(해당 사이트의 이용을 돕기위한 도움기능)<br></h5>
+		<h5>이 준비되어 있습니다. 사용을 원하신다면 아래를 클릭해주세요.</h5>
+		<button type="button" class="tutoBtn" onclick="tutorialStart()">튜토리얼 실행</button>
+	</div>
+	
+	<div class="tutoModal">
+		<button type="button" class="tutoCloseBtn" onclick="tutorialEnd()">X</button>
+		<p class="tip">이곳에 이력서 제목을 입력해주세요. 입력하신 제목으로 이력서가 저장이 됩니다.</p>
+		<div class="voiceBtn">
+			<button type="submit"class="voicePlayBtn">텍스트 재생</button>
+			<button type="submit" class="voiceStopBtn">텍스트 중지</button>
+		</div>
+	</div>
+	
+	
 	<form id="resumeForm" enctype="multipart/form-data">
 		<div class="resume-container">
 			<div class="header">
@@ -98,7 +172,7 @@
 					<tr>
 						<td style="text-align: center;">
 							<input type="file" id="imgUpload" name="uploadFiles" multiple style="display: none;" onchange="readURL(this);"> 
-							<label for="imgUpload" class="btn btn-primary" style="cursor: pointer;">사진 등록</label>
+							<label for="imgUpload" id="upImg" class="btn btn-primary" style="cursor: pointer;">사진 등록</label>
 						</td>
 						<th>이메일*</th>
 						<td><input type="email" class="form-control" id="email"></td>
@@ -117,11 +191,11 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="schoolbody">
 						<tr>
-							<td><input type="text" class="form-control" placeholder="학교명"></td>
-							<td><input type="text" class="form-control" placeholder="전공"></td>
-							<td><input type="month" class="form-control"></td>
+							<td><input type="text" class="form-control" placeholder="학교명" id="school"></td>
+							<td><input type="text" class="form-control" placeholder="전공" id="major"></td>
+							<td><input type="month" class="form-control" id="graduation"></td>
 							<td class="text-center"><button type="button" class="btn btn-danger btn-sm"
 									onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -140,12 +214,12 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="workbody">
 						<tr>
-							<td><input type="text" class="form-control" placeholder="근무처"></td>
-							<td><input type="text" class="form-control" placeholder="직위/업무내용"></td>
-							<td><input type="date" class="form-control"></td>
-							<td><input type="date" class="form-control"></td>
+							<td><input type="text" class="form-control" placeholder="근무처" id="work"></td>
+							<td><input type="text" class="form-control" placeholder="직위/업무내용" id="job"></td>
+							<td><input type="date" class="form-control" id="start"></td>
+							<td><input type="date" class="form-control" id="end"></td>
 							<td class="text-center"><button type="button" class="btn btn-danger btn-sm"
 									onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -163,11 +237,11 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="licensebody">
 						<tr>
-							<td><input type="date" class="form-control"></td>
-							<td><input type="text" class="form-control" placeholder="자격증명"></td>
-							<td><input type="text" class="form-control" placeholder="시행처"></td>
+							<td><input type="date" class="form-control" id="get"></td>
+							<td><input type="text" class="form-control" placeholder="자격증명" id="license"></td>
+							<td><input type="text" class="form-control" placeholder="시행처" id="company"></td>
 							<td class="text-center"><button type="button" class="btn btn-danger btn-sm"
 									onclick="removeRow(this)">X</button></td>
 						</tr>
@@ -181,13 +255,78 @@
 			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
 
 			<div class="text-end mt-4">
+				<button type="button">OCR로 작성</button>
 				<button type="button" class="btn btn-primary saveHandler">저장</button>
 				<button type="button" class="btn btn-secondary" onclick="goList()">취소</button>
 			</div>
 		</div>
 	</form>
 
+
 	<script>
+	 const ocr = sessionStorage.getItem('OCR');
+     const ocrData = JSON.parse(ocr);
+     
+     function yearmonth() {
+    	    const date = new Date(); 
+    	    const year = date.getFullYear(); 
+    	    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+    	    return `${year}-${month}`; 
+    	}
+     
+     function yearmonthday() {
+ 	    const date = new Date(); 
+ 	    const year = date.getFullYear(); 
+ 	    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+ 	    const day = ('0' + date.getDate()).slice(-2);
+ 	    return `${year}-${month}-${day}`; 
+ 	}
+     
+     if (ocrData) {
+    	 document.getElementById('resumeTitle').value = ocrData.resumeTitle.join(' ').replace(/,/g, '');
+         document.getElementById('resumeName').value = ocrData.name;
+         let birthday = yearmonthday(ocrData.birth);
+         document.getElementById('birth').value = birthday;
+         document.getElementById('addr').value = ocrData.addr.join(' ').replace(/,/g, '');
+         document.getElementById('tel').value = ocrData.tel;
+         document.getElementById('email').value = ocrData.email;
+         document.getElementById('produce').value = ocrData.produce.join(' ').replace(/,/g, '');
+         
+        
+         for(i = 0; i < ocrData.school.length/3; i++){
+         	if(i!=0) 
+         		addRow('educationTable')
+         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#school').value = ocrData.school[i*3];
+         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#major').value = ocrData.school[i*3+1];
+         	let date = yearmonth(ocrData.school[i*3+2]);
+            document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#graduation').value = date;
+         }
+         
+     
+         
+         for(i = 0; i < ocrData.work.length/4; i++){
+         	if(i!=0) 
+         		addRow('careerTable')
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#work').value = ocrData.work[i*4];
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#job').value = ocrData.work[i*4+1];
+         	let date1 = yearmonthday(ocrData.work[i*4+2]);
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#start').value = date1;
+         	let date2 = yearmonthday(ocrData.work[i*4+3]);
+         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#end').value = date2;
+         }
+         
+         for(i = 0; i < ocrData.get.length/3; i++){
+          	if(i!=0) 
+          		addRow('certificationTable')
+          	let getdate = yearmonthday(ocrData.get[i*3]);
+          	document.querySelectorAll(`#licensebody tr`)[i].querySelector('#get').value = getdate;
+          	document.querySelectorAll(`#licensebody tr`)[i].querySelector('#license').value = ocrData.get[i*3+1];
+            document.querySelectorAll(`#licensebody tr`)[i].querySelector('#company').value = ocrData.get[i*3+2];
+          }
+         
+     
+     }  
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -310,16 +449,111 @@
             .then(data => {
                 if (data.success) {
                     alert("이력서가 성공적으로 등록되었습니다.");
-                    location.reload(true);
+                    location.href = '/userMain/resume';
                 } else {
                     alert("등록 중 오류가 발생했습니다.");
                 }
             });
         });
-
+        
+        /* sessionStorage.removeItem('OCR',JSON.stringify(ocrData)); */
+        
         function goList() {
         	location.href = `/userMain/resume`;
         }
+        
+        
+        /* 튜토리얼 ----------------------------------------------------------*/
+        	
+        /* let body = document.querySelector('body'); */	
+        let body = $('body')
+        let tutoBtn = $('.tutoBtn')
+        let resumeContainer = $('.resume-container')
+        let profileImg = $('.profile-image')
+        let tutoModal = $('.tutoModal')
+        let formControl = document.querySelectorAll('.form-control')
+        let tip = $('.tip')
+        let state = 0;
+        let upImg = $('#upImg')
+        let header = $('.header')
+        
+        function tutorialStart() {
+        	console.log('튜토리얼 실행')
+        	body.css('background', 'gray');
+        	tutoBtn.css('background', 'gray')
+        	resumeContainer.css('background', 'gray')
+        	header.css('background', 'gray')
+        	upImg.css('color', 'black')
+        	upImg.css('background', 'gray')
+        	upImg.css('border', '1px solid black')
+        	for(let i=0; i<formControl.length; i++){
+        		formControl[i].style.backgroundColor="gray"
+        	}
+        	tutoModal.show();
+        	state = 1;
+        	formControl[1].value = '';
+        	formControl[1].focus();
+        	formControl[1].style.backgroundColor="white"
+        	formControl[1].addEventListener("change", function(e) {
+        		console.log("onchange", e.target.value);
+        		if(state == 1){
+	        		next();
+        		}
+        	})
+        }    	
+        
+        function next(){
+        	console.log('next실행')
+        	tip.text("이력서에 첨부할 사진을 등록하는 곳입니다. 사진 등록을 클릭해 사진을 등록해주세요")
+        	profileImg.css('border','red 5px solid')
+        	upImg.css('border', 'red 5px solid')
+        	upImg.css('background', '#06bbcc')
+        	formControl[1].style.backgroundColor="gray";
+        	setTimeout(function(){
+        		next1()
+        	}, 5000)
+        }
+        
+      	function skipImg() {
+      		formControl[2].addEventListener('click', function(){
+      			console.log('사진등록스킵')
+      			next1();
+      		})
+      	}
+      	
+        function next1(){
+        	console.log('next1실행')
+        	tip.text("이곳에는 성함을 기재해주세요")
+        	profileImg.css('border', 'none')
+			upImg.css('border','none')
+        	formControl[2].style.backgroundColor="white";
+        	formControl[2].addEventListener("change", function(e){
+        		if(state==1){
+        			next2()
+        		}
+        	})
+        }
+        
+		function next2(){
+			
+		}		      
+        
+		function tutorialEnd(){
+			state = 0;
+			console.log('튜토리얼 종료');
+			tutoModal.hide();
+			body.css('background', 'white');
+			tutoBtn.css('background', '#f0f0f0');
+			for(let i=0; i<formControl.length; i++){
+				formControl[i].style.backgroundColor="white"
+			}
+			profileImg.css('border', 'none')
+			upImg.css('border','none')
+			upImg.css('color', 'white')
+			upImg.css('background', '#06bbcc')
+			resumeContainer.css('background', '#f7f7f7')
+			header.css('background', '#e2e3e5')
+		}
     </script>
 </body>
 

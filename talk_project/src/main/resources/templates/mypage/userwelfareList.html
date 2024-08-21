@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/mypage_layout}"
+      layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>복지/정책 조회</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+}
+
+h3 {
+    margin-bottom: 20px;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+}
+
+thead {
+    display: none; /* Hide the table header if not used */
+}
+
+tbody {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 15px; /* Space between items */
+    padding: 0;
+}
+
+tr {
+    display: contents; /* Makes <tr> behave as a container for grid items */
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.welfare-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.details-button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.details-button:hover {
+    background-color: #e0e0e0;
+}
+    </style>
+</head>
+<body>
+    <h3>복지/정책 목록</h3>
+    <table>
+        <thead>
+            <tr>
+<!--                 <th>복지 주제</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="welfare, iterStat : ${userwelfarelist}">
+                <tr>
+                    <td>
+                        <span class="welfare-title" th:text="${welfare.servName}"></span>
+                        <a th:href="@{/calendar/detail(wid=${welfare.wid})}" class="details-button">상세보기 &gt;</a>
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+</body>
+</html>
