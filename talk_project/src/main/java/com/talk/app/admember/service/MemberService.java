@@ -13,4 +13,8 @@ public interface MemberService {
 	
 	public CoUserVO coDetail(CoUserVO vo);
 	
+
+	public int coUpdate(int coUserNo);
+	
+	
 }

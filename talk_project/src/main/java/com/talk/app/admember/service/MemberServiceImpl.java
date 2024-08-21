@@ -31,6 +31,14 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.approveDetail(vo);
 	}
 
+	@Override
+	public int coUpdate(int coUserNo) {
+		return mapper.updateCo(coUserNo);
+	}
+
+
+	
+
 
 
 
