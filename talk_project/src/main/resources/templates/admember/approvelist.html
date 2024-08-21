@@ -50,9 +50,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                     </p>
                 	<div>
 					<button type="button" class="btn btn-info btn-xs"  th:onclick="|location.href='@{/admin/new}'|">새글</button>
-                	
                 	</div>
-                	
                     <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr>
@@ -68,8 +66,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           <td>[[ ${ list.coRegNo}]]</td>
                           <td>[[ ${list.coName}]]</td>
                           <td th:text="${#dates.format(list.signupDate, 'yyyy-MM-dd')}"></td>
-                          <td th:if="${list.authority == 'ROLE_TEMP'}" th:text="미승인"></td>
-                          <td th:if="${list.authority == 'ROLE_CO_USER'}" th:text="승인"></td>
+                          <td><button class="btn btn-danger" th:if="${list.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
+                          <button class="btn btn-success" th:if="${list.authority == 'ROLE_CO_USER'}" th:text="승인"></button></td>
                         </tr>
                       </tbody>
                     </table>
@@ -79,11 +77,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             </div>
                 </div>
               </div>
-
             </div>
           </div>
-        
-
-
 
 </html>

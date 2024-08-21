@@ -280,9 +280,10 @@ body {
 								<table class="table">
 									<thead>
 										<tr>
+											<th scope="col">no.</th>
 											<th scope="col">서비스 ID</th>
 											<th scope="col">지역</th>
-											<th scope="col">제목</th>
+											<th scope="col">복지</th>
 											<th scope="col">시행일</th>
 											<th scope="col">종료일</th>
 										</tr>
@@ -294,11 +295,14 @@ body {
 												<th scope="row">[[ ${c.wid} ]]</th>
 												<td>[[ ${c.servId }]]</td>
 												<td th:with="sgg=${c.sgg != null ? c.sgg : ' '}">
-												[[ ${c.sido +' '+ c.sgg }]]
+												[[ ${c.sido}]]
 												</td>
 												<td>[[ ${c.servName} ]]</td>
 												<td>[[ ${c.startDate} ]]</td>
 												<td>[[ ${c.endDate} ]]</td>
+
+												<!-- <td th:text="${#temporals.format(c.startDate, 'yyyy-MM-dd')}"></td>
+												<td th:text="${#.format(c.endDate, 'yyyy-MM-dd')}"></td> -->
 											</tr>
 										</th:block>
 									</tbody>
