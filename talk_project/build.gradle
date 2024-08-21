@@ -44,10 +44,8 @@ dependencies {
 	implementation 'com.github.shin285:KOMORAN:3.3.9'
 	implementation 'net.nurigo:sdk:4.2.7'
 
-
 	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-texttospeech
 	implementation 'com.google.cloud:google-cloud-texttospeech:2.48.0'
-
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	// spring security 

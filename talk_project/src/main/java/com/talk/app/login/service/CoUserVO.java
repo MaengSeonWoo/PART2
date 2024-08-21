@@ -34,5 +34,12 @@ public class CoUserVO {
 	private String logoImg;			//기업 로고
 	private String filePath;		//이미지
 	private Integer delStatus;		//회원탈퇴 상태
+	@DateTimeFormat(pattern="yyyy-MM-dd")//파라미터 자동변환
+	private Date signupDate;	//회원가입 신청일
 	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 }
+
+
+
+
+

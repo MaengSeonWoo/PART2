@@ -87,6 +87,27 @@
         WHERE wid =#{wid}
 </select>
 
+<select id="selectDetail2" resultType="com.talk.app.admin.service.WelfareVO">
+	        SELECT wid 
+	        		,serv_id
+        			, serv_name
+        			, start_date
+        			, end_date
+        			, biz_dept
+        			, sido
+        			, sgg
+        			, serv_summary
+        			, household
+        			, like_subject
+        			, sup_period
+        			, prov_type
+        			, app_way
+        			, sup_target
+        			, sel_standard
+        			, sal_serv
+        FROM welfare
+        WHERE wid =#{wid}
+</select>
 
 <insert id="insertWelfareDetail" parameterType="com.talk.app.admin.service.WelfareVO">
 <selectKey keyProperty="wid" resultType="Integer" order="BEFORE">
@@ -172,11 +193,19 @@ WHERE wid = #{wid}
 </update>
 
 <select id="sendMsg" resultType="com.talk.app.admin.service.UserWelfareVO">
-	SELECT u.user_no, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
+	SELECT u.user_no,w.wid,w.serv_id, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
 	FROM users u
-	JOIN welfare w ON u.sido = w.sido
-	WHERE (u.like_subject = #{likeSubject} OR #{likeSubject} IS NULL)
-	AND (u.household = #{household} OR #{household} IS NULL)
+	JOIN welfare w 
+	ON u.sido = w.sido
+	WHERE wid = #{wid}
+</select>
+
+<select id="sendMsg2" resultType="com.talk.app.admin.service.UserWelfareVO">
+	SELECT u.user_no,u.user_name,w.wid,w.serv_id, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
+	FROM users u
+	JOIN welfare w 
+	ON u.sido = w.sido
+	WHERE wid = #{wid}
 </select>
 
 
