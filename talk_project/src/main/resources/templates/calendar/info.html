@@ -67,9 +67,11 @@
                             <td colspan="3">[[ ${detail. provType} ]]  /  [[ ${detail. supPeriod} ]]</td>
                         </tr>
                         <tr th:each="file : ${file}">
-                            <th scope="row">첨부파일</th>
-                            <td> <img th:src="@{/images/{fileName}(fileName=${file.filePath})}" alt="img" /></td>
-                            <td>  [[${file.fileName}]] </td>
+                            <th scope="row">첨부파일 [바로보기]</th>
+                            <td> <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb"> [[${file.fileName}]]</a></td>
+                            
+                            <!-- <td> <img th:src="@{/images/{fileName}(fileName=${file.filePath})}" alt="img" /></td> -->
+                            <!-- <td>  [[${file.fileName}]] </td> -->
                         </tr>
                     </tbody>
                 </table>

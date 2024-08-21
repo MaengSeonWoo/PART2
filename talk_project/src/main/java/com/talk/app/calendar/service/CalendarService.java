@@ -3,7 +3,6 @@ package com.talk.app.calendar.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.talk.app.admin.service.WelfareVO;

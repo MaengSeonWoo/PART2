@@ -56,12 +56,6 @@
 	ORDER BY co_user_no desc
 </select>
 
-
-
-
-
-
-
 <select id="userAll" resultType="com.talk.app.login.service.UserVO">
 	SELECT user_no
 				,user_name
@@ -80,7 +74,11 @@
 	ORDER BY user_no desc
 </select>
 
-
+<update id="updateCo" parameterType="com.talk.app.login.service.CoUserVO">
+	UPDATE company_user
+	SET authority = 'ROLE_CO_USER'
+	WHERE co_user_no =#{coUserNo}
+</update>
 
 
 
