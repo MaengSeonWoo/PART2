@@ -81,7 +81,6 @@ public class PostingController {
 	
 	@GetMapping("/{postingNo}")
 	public String postingInfo(Model model, @PathVariable Integer postingNo, HttpSession session) {
-//		String userId = principal.getName();
 		String userId = (String)session.getAttribute("userId");
 		log.info("userId={}", userId);
 		ResumeVO resume = new ResumeVO();
@@ -89,6 +88,7 @@ public class PostingController {
 		// 기능 수행
 		PostingVO postingInfo = postingService.postingInfo(postingNo);
 		List<ResumeVO> resumeList = resumeService.resumeList(resume);
+		model.addAttribute("rpage", new PageDTO(8, resumeService.getResumeTotal(userId), resume));
 		
 		
 		model.addAttribute("regionCode", publicCodeService.selectCode("0G"));

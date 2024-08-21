@@ -133,7 +133,7 @@
 				class="d-flex justify-content-center">
 				<ul class="pagination">
 					<li class="page-item" th:if="*{prev}"><a
-						class="page-link changePage" th:href="*{startPage - 1}"
+						class="page-link changePage" th:href="@{/userMain/resume (pageNum2=${arpage.startPage - 1})}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 					</a></li>
 					<th:block
