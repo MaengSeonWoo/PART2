@@ -33,6 +33,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 세션에 userId 추가
             request.getSession().setAttribute("userId", username);
             
+            // 권한에 따라 ROLE 정보 세션에 저장
+            request.getSession().setAttribute("ROLE", authentication.getAuthorities().toString());
+            
             if(authentication.getAuthorities().contains("ROLE_USER")) {
             	request.getSession().setAttribute("ROLE", "user");
             } else if(authentication.getAuthorities().contains("ROLE_ADMIN")){

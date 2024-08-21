@@ -61,7 +61,7 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
         couserVO.setStatusUpdateTime(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
 
         couserupdateMapper.updateCoUserStatus(couserVO);
-        return "redirect:/login";
+        return "success";
     }
 	
 	// 기업회원 탈퇴취소
@@ -113,20 +113,20 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	// 일반회원 임시탈퇴
 	@Override
 	public String deleteUser(String userId) {
-		// 탈퇴가 가능한지 확인
-        boolean canDelete = couserupdateMapper.checkPostingStatus(userId);
+	    // 탈퇴가 가능한지 확인
+	    boolean canDelete = couserupdateMapper.checkPostingStatus(userId);
 
-        if (canDelete == true) {
-            return "제출한 이력서가 있는 상태에서는 탈퇴가 불가능합니다.";
-        }
+	    if (canDelete) {
+	        return "제출한 이력서가 있는 상태에서는 탈퇴가 불가능합니다.";
+	    }
 
-        UserVO userVO = new UserVO();
-        userVO.setUserId(userId);
-        userVO.setDelStatus(1); // 탈퇴 상태로 설정
-        userVO.setStatusUpdateTime(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+	    UserVO userVO = new UserVO();
+	    userVO.setUserId(userId);
+	    userVO.setDelStatus(1); // 탈퇴 상태로 설정
+	    userVO.setStatusUpdateTime(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
 
-        couserupdateMapper.updateUserStatus(userVO);
-        return "탈퇴 처리 완료";
+	    couserupdateMapper.updateUserStatus(userVO);
+	    return "success";
 	}
 	
 	// 일반회원 탈퇴취소

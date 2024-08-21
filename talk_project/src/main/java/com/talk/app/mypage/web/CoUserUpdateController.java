@@ -47,7 +47,7 @@ public class CoUserUpdateController {
     
 
  // 기업회원 요약정보
-    @GetMapping("CoUserMain")
+    @GetMapping("CoUserMain") // mypage/CoUserMain 으로 작성
     @PreAuthorize("isAuthenticated()")
     public String couserInfo(Model model, Principal principal) {
         String coUserId = principal.getName(); // 로그인된 유저의 아이디
@@ -58,7 +58,7 @@ public class CoUserUpdateController {
         model.addAttribute("company_user", findVO);
         model.addAttribute("coUserId", coUserId); // coUserId를 모델에 추가
         
-     // 현재 인증된 사용자의 권한 정보를 모델에 추가
+        // 현재 인증된 사용자의 권한 정보를 모델에 추가
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
             LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
@@ -138,7 +138,7 @@ public class CoUserUpdateController {
         return "mypage/couserDelete";
     }
     
-    // 회원탈퇴 시 상태 변경
+    // 기업회원탈퇴 시 상태 변경
     @PostMapping("/couserdelete")
     @ResponseBody
     public String deleteCoUser(@RequestParam String coUserId) {
@@ -259,11 +259,17 @@ public class CoUserUpdateController {
             return "mypage/userDelete";
         }
         
-        // 회원탈퇴 시 상태 변경
+     // 일반회원탈퇴 시 상태 변경
         @PostMapping("/userdelete")
         @ResponseBody
         public String deleteUser(@RequestParam String userId) {
-            return couserupdateService.deleteUser(userId);
+            String result = couserupdateService.deleteUser(userId);
+            // Result에 따라 응답을 결정
+            if ("success".equals(result)) {
+                return "success"; // 성공 시 "success" 반환
+            } else {
+                return "failure"; // 실패 시 "failure" 반환
+            }
         }
         
         // 탈퇴 취소 페이지를 보여주는 GET 메서드
