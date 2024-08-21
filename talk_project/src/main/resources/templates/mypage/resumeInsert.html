@@ -120,6 +120,46 @@
 			border:none;
 			border-radius:10px;
 		}
+		
+		/* 모달창 전체 스타일 */
+		.modal {
+		  display: none; /* 기본적으로 모달창을 숨깁니다. */
+		  position: fixed; /* 화면에 고정되도록 합니다. */
+		  z-index: 1; /* 다른 콘텐츠 위에 표시되도록 합니다. */
+		  left: 0;
+		  top: 0;
+		  width: 100%; /* 전체 화면 너비 */
+		  height: 100%; /* 전체 화면 높이 */
+		  overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
+		  background-color: rgb(0,0,0); /* 배경색: 검정색 */
+		  background-color: rgba(0,0,0,0.4); /* 배경 투명도 설정 */
+		}
+		
+		/* 모달창 콘텐츠 박스 스타일 */
+		.modal-content {
+		  background-color: #fefefe; /* 콘텐츠 배경색: 흰색 */
+		  margin: 15% auto; /* 위에서 15% 떨어지게 하고 중앙 정렬 */
+		  padding: 20px; /* 내부 여백 */
+		  border: 1px solid #888; /* 테두리 색상 */
+		  width: 80%; /* 콘텐츠 너비: 화면의 80% */
+		  max-width: 600px; /* 최대 너비 600px */
+		  border-radius: 5px; /* 모서리 둥글게 */
+		}
+		
+		/* 닫기 버튼 스타일 */
+		.close {
+		  color: #aaa; /* 버튼 색상: 회색 */
+		  float: right; /* 오른쪽 정렬 */
+		  font-size: 28px; /* 글자 크기 */
+		  font-weight: bold; /* 글자 굵게 */
+		}
+		
+		.close:hover,
+		.close:focus {
+		  color: black; /* 마우스 오버 또는 포커스 시 색상 변경 */
+		  text-decoration: none; /* 밑줄 제거 */
+		  cursor: pointer; /* 마우스 커서 변경 */
+		}
 	</style>
 </head>
 
@@ -260,15 +300,51 @@
 			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
 
 			<div class="text-end mt-4">
-				<button type="button" th:onclick="|location.href='@{/upload-form}'|" class="btn">OCR로 작성</button>
+				<!--/* <button type="button" th:onclick="|location.href='@{/upload-form}'|" class="btn">OCR로 작성</button> */-->
+				<button type="button" id="openModal" class="btn">OCR로 작성</button>
 				<button type="button" class="btn btn-primary saveHandler">저장</button>
 				<button type="button" class="btn btn-secondary" onclick="goList()">취소</button>
 			</div>
 		</div>
 	</form>
-
+	<div id="myModal" class="modal">
+    <div class="modal-content">
+       <span class="close">&times;</span>
+       <h1>OCR</h1><br>
+       <h4>OCR이란?</h4><br>
+       <p>OCR(Optical Character Recognition:광학 문자 인식)은 스캔한 이미지나 사진에서 문자를 인식하여 컴퓨터에서 사용 가능한 텍스트로 변환하는 기술입니다.<br> 
+       이 기술은 기계 학습, 인공지능 및 컴퓨터 비전과 같은 다양한 기술들을 결합하여 구현됩니다.<br>
+       OCR을 통해 디지털로 변환된 텍스트는 검색 및 분석을 위한 데이터로 활용할 수 있습니다.</p>
+       <form action="uploadAndOcr" method="post" enctype="multipart/form-data">
+         <input type="file" name="file" accept=".jpg, .jpeg, .png">
+         <button type="submit">사진으로 작성</button>
+       </form>
+     </div>
+    </div>
 
 	<script>
+	// OCR모달
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("openModal");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+      modal.style.display = "block";
+      sidebar.children().css('background', 'gray')
+    }
+
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "block";
+        sidebar.children().css('background', 'white')
+      }
+    }
+	
+	// 추출된 텍스트 세션에서 받아오기
 	 const ocr = sessionStorage.getItem('OCR');
      const ocrData = JSON.parse(ocr);
      
@@ -350,7 +426,6 @@
             const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
             const newRow = table.rows[0].cloneNode(true);
 
-            // Clear input values in the new row
             const inputs = newRow.getElementsByTagName('input');
             for (let i = 0; i < inputs.length; i++) {
                 inputs[i].value = '';
@@ -782,6 +857,7 @@
 			topMenu.css('background', 'white')
 			sidebar.children().css('background', 'white')
 		}
+		sessionStorage.removeItem('OCR');
     </script>
 </body>
 
