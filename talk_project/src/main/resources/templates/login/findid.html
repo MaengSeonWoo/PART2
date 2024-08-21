@@ -6,6 +6,68 @@
 <head>
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
+<style>
+table {
+	margin-left: 100px;
+	margin-top: 50px;
+    width: 40%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 16px;
+}
+
+th {
+    text-align: left;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+td input[type="text"],
+td input[type="password"],
+td input[type="button"],
+td input[type="file"] {
+    width: calc(80% - 40px);
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+td input[type="button"] {
+    width: auto;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+td input[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+button.findbutton{
+	margin-left: 50px;
+	margin-top: 50px;
+	padding: 12px 25px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+</style>
 </head>
 <body>
 	<div>
@@ -20,7 +82,26 @@
 					<td><input type="text" name="Tel">
 				</tr>
 			</table>
-			<button type="submit">아이디 찾기</button>
+			<button type="submit" class="findbutton">아이디 찾기</button>
+		</form>
+		
+		<!-- 비밀번호 찾기 폼 -->
+		<form th:action="@{/findPwResult}" method="post" name="findPasswordForm">
+			<table>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" name="userName"></td>
+				</tr>
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" name="userId"></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input type="text" name="userEmail"></td>
+				</tr>
+			</table>
+			<button type="submit" class="findbutton">비밀번호 찾기</button>
 		</form>
 	</div>
 </body>

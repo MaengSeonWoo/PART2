@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.admember.service.MemberService;
 import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
-
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Public;
 
 @Controller
 @RequestMapping("admin/approve")
@@ -38,6 +38,14 @@ public class MemberController {
 	}
 	
 	//기업회원 승인 => 
+	@GetMapping("confirm")
+	public String updateCo(int coUserNo) {
+		int wid = service.coUpdate(coUserNo);
+		return "redirect:detail?coUserNo="+ wid;
+		
+	}
+	
+	
 	
 	//기업회원 거절
 	
