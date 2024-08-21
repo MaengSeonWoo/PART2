@@ -282,7 +282,7 @@ function populateVoiceList() {
 	stopText.addEventListener('click', function() {
 		window.speechSynthesis.cancel()
 	})
-
+	
 
 	let body = document.querySelector('body'); 
 	let tutoModal = document.querySelector('.tutoModal');
@@ -295,9 +295,16 @@ function populateVoiceList() {
 	let signBtn = document.querySelector('.signBtn');
 	let findInfoBtn = document.querySelector('.findInfoBtn');
 	let state = 0;
-	
+	let topMenu = $('#navbarCollapse')
+    let navbar = document.querySelector('.navbar')
+	let search = document.querySelector('input[name=query]')    
+    function navColorChange(){
+    	navbar.className = 'navbar navbar-expand-lg bg-gray navbar-light shadow sticky-top p-0'
+    }
+    
 	function tutorialStart(){
 		console.log('튜토리얼 시작');
+		navColorChange()
 		$(".tutoModal").show();
 		tip.innerHTML = "이곳에 아이디(계정)을 입력해주세요. 이 곳 사이트에 계정이 없으시다면 좌측 하단 회원가입을 클릭해주세요";
 		body.style.backgroundColor="gray";	
@@ -314,6 +321,8 @@ function populateVoiceList() {
 		findInfoBtn.style.backgroundColor="gray";
 		findInfoBtn.style.border="1px solid black"
 		findInfoBtn.style.color="black";
+		search.style.backgroundColor='gray'
+		topMenu.css('background', 'gray')
 		userId.value = '';
 		userPw.value= '';
 		state = 1;
@@ -373,6 +382,7 @@ function populateVoiceList() {
 		signBtn.style.border="none";
 		findInfoBtn.style.border="none";
 		findInfoBtn.style.backgroundColor="#007bff";
+		topMenu.css('background', 'white')
 		findInfoBtn.style.color="";
 		window.speechSynthesis.cancel()
 		state = 0;
