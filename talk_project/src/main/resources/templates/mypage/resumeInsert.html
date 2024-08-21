@@ -62,20 +62,24 @@
 		
 		.tutoBtn {
 			border-radius:10px;
+			border:none;
+			font-weight:bold;
+			background-color:#06bbcc;
 			padding:10px;
 		}
 		
 		.tutoModal{
 			width:250px;
 			height:fit-content;
-			top:300px;
-			float:right;
-			margin-right:100px;
-			margin-top:90px;
+			margin-top:200px;
+			margin-left:120px;
 			border:2px solid black;
 			border-radius:20px;
 			background-color:white;
+			position:fixed;
 			display:none;
+			z-index:9999;
+			right:150px;
 		}
 		
 		.tutoCloseBtn{
@@ -90,6 +94,7 @@
 		.tip{
 			color:black;
 			padding:15px;
+			text-align:center;
 		}
 		.voiceBtn {
 			margin:auto;
@@ -255,7 +260,7 @@
 			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
 
 			<div class="text-end mt-4">
-				<button type="button">OCR로 작성</button>
+				<button type="button" th:onclick="|location.href='@{/upload-form}'|" class="btn">OCR로 작성</button>
 				<button type="button" class="btn btn-primary saveHandler">저장</button>
 				<button type="button" class="btn btn-secondary" onclick="goList()">취소</button>
 			</div>
@@ -463,8 +468,57 @@
         }
         
         
-        /* 튜토리얼 ----------------------------------------------------------*/
-        	
+       	/* 튜토리얼 ----------------------------------------------------------*/
+ function populateVoiceList() {
+	  if (typeof speechSynthesis === 'undefined') {
+	    return;
+	  }
+
+	  const voices = speechSynthesis.getVoices();
+
+	  const voiceList = voices
+	    .filter((voice) => {
+	      return voice.lang.includes('en');
+	    })
+	    .map((voice) => {
+	      return `${voice.name} (${voice.lang})`;
+	    });
+	  console.log(voiceList);
+	}
+
+	populateVoiceList();
+	if (
+	  typeof speechSynthesis !== 'undefined' &&
+	  speechSynthesis.onvoiceschanged !== undefined
+	) {
+	  speechSynthesis.onvoiceschanged = populateVoiceList;
+	}
+
+	const checkBrowserCompatibility = () => {
+		  "speechSynthesis" in window
+		    ? console.log("Web Speech API supported!")
+		    : console.log("Web Speech API not supported :-(")
+		}
+	const utterThis = new SpeechSynthesisUtterance()
+	const synth = window.speechSynthesis
+	
+	checkBrowserCompatibility();	
+	
+	let playText = document.querySelector('.voicePlayBtn');
+	let stopText = document.querySelector('.voiceStopBtn');
+	let text = '';
+	
+	playText.addEventListener('click', function() {
+		event.preventDefault()
+		text = tip.html()
+		utterThis.text = text
+		console.log(text)
+		synth.speak(utterThis)
+	})
+	
+	stopText.addEventListener('click', function() {
+		window.speechSynthesis.cancel()
+	})       	
         /* let body = document.querySelector('body'); */	
         let body = $('body')
         let tutoBtn = $('.tutoBtn')
@@ -476,9 +530,20 @@
         let state = 0;
         let upImg = $('#upImg')
         let header = $('.header')
+        let birth = $('#birth')
+        let sidebar = $('.sidebar')
+        let topMenu = $('#navbarCollapse')
+        let navbar = document.querySelector('.navbar')
+        
+        function navColorChange(){
+        	navbar.className = 'navbar navbar-expand-lg bg-gray navbar-light shadow sticky-top p-0'
+        }
+        
         
         function tutorialStart() {
+        	navColorChange()
         	console.log('튜토리얼 실행')
+        	tip.text("이곳에 이력서 제목을 입력해주세요. 입력하신 제목으로 이력서가 저장이 됩니다.")
         	body.css('background', 'gray');
         	tutoBtn.css('background', 'gray')
         	resumeContainer.css('background', 'gray')
@@ -486,13 +551,16 @@
         	upImg.css('color', 'black')
         	upImg.css('background', 'gray')
         	upImg.css('border', '1px solid black')
+        	topMenu.css('background', 'gray')
+        	sidebar.children().css('background', 'gray')
         	for(let i=0; i<formControl.length; i++){
         		formControl[i].style.backgroundColor="gray"
         	}
+        	formControl[0].style.backgroundColor='gray'
         	tutoModal.show();
         	state = 1;
         	formControl[1].value = '';
-        	formControl[1].focus();
+        	formControl[1].focus()
         	formControl[1].style.backgroundColor="white"
         	formControl[1].addEventListener("change", function(e) {
         		console.log("onchange", e.target.value);
@@ -501,49 +569,207 @@
         		}
         	})
         }    	
-        
+     	   
+        /* 기본정보 */
+     
         function next(){
-        	console.log('next실행')
         	tip.text("이력서에 첨부할 사진을 등록하는 곳입니다. 사진 등록을 클릭해 사진을 등록해주세요")
         	profileImg.css('border','red 5px solid')
         	upImg.css('border', 'red 5px solid')
         	upImg.css('background', '#06bbcc')
         	formControl[1].style.backgroundColor="gray";
+        	state=2;
         	setTimeout(function(){
         		next1()
+        		formControl[2].focus()
         	}, 5000)
         }
-        
-      	function skipImg() {
-      		formControl[2].addEventListener('click', function(){
-      			console.log('사진등록스킵')
-      			next1();
-      		})
-      	}
       	
+        
+        
         function next1(){
-        	console.log('next1실행')
+        	formControl[2].value=''
         	tip.text("이곳에는 성함을 기재해주세요")
-        	profileImg.css('border', 'none')
-			upImg.css('border','none')
-        	formControl[2].style.backgroundColor="white";
+        	upImg.css('color', 'black')
+        	upImg.css('background', 'gray')
+        	upImg.css('border', '1px solid black')
+           	profileImg.css('border', 'none')
+    		upImg.css('border','none')
+           	formControl[2].style.backgroundColor="white";
         	formControl[2].addEventListener("change", function(e){
-        		if(state==1){
-        			next2()
+        		console.log("onchange", e.target.value);
+        		if(state==2) {
+        			next2();
+        		}
+        	})
+        }
+
+        function next2(){
+        	formControl[3].value = '';
+        	state=3
+        	console.log('달력값' + formControl[3].value)
+        	formControl[2].style.backgroundColor="gray"
+        	formControl[3].style.backgroundColor="white"
+        	if(state==3){
+        		tip.html('오른쪽 달력 클릭 후 본인의 생년월일을 클릭해주세요.')
+        	
+        	}
+        	formControl[3].addEventListener("change", function(e){
+        		console.log("onchange", e.target.value);
+        		let regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+        		if(regex.test(formControl[3].value) == true){
+        			console.log('값 일치')
+        			next3()
+        		}
+        	})
+        }
+        function next3(){
+        	console.log('next3 실행')
+        	state = 4;
+        	tip.html('주소를 기재해주세요.')
+        	formControl[3].style.backgroundColor='gray'
+        	formControl[4].value = ''	
+        	formControl[4].focus()
+        	formControl[4].style.backgroundColor='white'
+        	formControl[4].addEventListener('change', function(e){
+        		console.log(e.target.value)
+        		next4()
+        	})
+        }
+        
+        function next4(){
+        	console.log('next4 실행')
+        	state = 5;
+        	tip.html('사용하시는 휴대전화의 연락처를 입력해주세요. 해당 번호로 합격결과문자가 전송됩니다.')
+        	formControl[4].style.backgroundColor="gray"
+        	formControl[5].style.backgroundColor="white"
+        	formControl[5].value = ''
+        	formControl[5].focus()
+        	formControl[5].addEventListener('change', function(e){
+        		console.log(e.target.value)
+        		next5()
+        	})
+        }
+        
+        function next5(){
+        	console.log('next5')
+        	state = 6;
+        	tip.html('사용하시는 이메일을 입력해주세요. 해당 이메일로 홍보 및 결과 메일이 전송됩니다.')
+        	formControl[5].style.backgroundColor='gray'
+        	formControl[6].style.backgroundColor='white'
+        	formControl[6].focus()
+        	formControl[6].addEventListener('change', function(e){
+        		next6()
+        	})
+        }
+        
+        /* 기본정보 끝 */
+        
+        /* 학려사항 */
+        function next6(){
+        	console.log('next6')
+        	state = 7
+        	tip.html('학력을 입력해주세요 좌측 하단의 학력추가 클릭시 새로운 입력창이 생성됩니다.')
+        	formControl[6].style.backgroundColor='gray'
+        	formControl[7].style.backgroundColor='white'
+        	formControl[8].style.backgroundColor='white'
+        	formControl[9].style.backgroundColor='white'
+        	formControl[7].focus()
+        	formControl[7].addEventListener('change', function(){
+				formControl[8].focus()        		
+        	})
+        	formControl[9].addEventListener('change', function(e){
+        		if(formControl[7].value != '' && formControl[8].value != '' && formControl[9].value != ''){
+        			next7()	
         		}
         	})
         }
         
-		function next2(){
-			
-		}		      
+        /* 경력사항 */
+        function next7(){
+        	console.log('next7')
+        	state = 8
+        	tip.html('경력사항을 입력해주세요')
+        	formControl[7].style.backgroundColor='gray'
+        	formControl[8].style.backgroundColor='gray'
+        	formControl[9].style.backgroundColor='gray'
+        	formControl[10].style.backgroundColor='white'
+        	formControl[11].style.backgroundColor='white'
+        	formControl[12].style.backgroundColor='white'
+        	formControl[13].style.backgroundColor='white'
+        	formControl[10].focus()
+        	formControl[10].addEventListener('change', function(){
+        		formControl[11].focus()
+        	})
+        	let regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+        	formControl[13].addEventListener('change', function(){
+        		if(formControl[10].value != '' && formControl[11].value != '' && 
+        	   	   regex.test(formControl[12].value) == true && regex.test(formControl[13].value) == true){
+        	       		next8()
+        	    }
+        	})
+        
+        }
+        
+        function next8(){
+        	console.log('next8')
+        	state = 9
+        	tip.html('보유하고 계신 자격증을 입력해주세요')
+            let regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+        	formControl[10].style.backgroundColor='gray'
+            formControl[11].style.backgroundColor='gray'
+            formControl[12].style.backgroundColor='gray'
+            formControl[13].style.backgroundColor='gray'
+            formControl[14].style.backgroundColor='white'
+            formControl[15].style.backgroundColor='white'
+            formControl[16].style.backgroundColor='white'
+            
+            formControl[14].addEventListener('change', function(){
+            	if(regex.test(formControl[14].value) == true) {
+	            	formControl[15].focus()
+            	}
+            })
+            
+            formControl[15].addEventListener('change', function(){
+            	formControl[16].focus()
+            })
+        
+			formControl[16].addEventListener('change', function(){
+				if(regex.test(formControl[14].value) == true && 
+				   formControl[15].value != '' && formControl[16].value != ''){
+					next9()
+				}
+			})	            
+        }
+        
+        function next9(){
+        	console.log('next9')
+        	tip.html('모집을 하는 기업에 자신을 소개하는 글을 쓰는곳입니다.')
+        	formControl[14].style.backgroundColor='gray'
+        	formControl[15].style.backgroundColor='gray'
+        	formControl[16].style.backgroundColor='gray'
+        	formControl[17].style.backgroundColor='white'
+        	formControl[17].focus()
+        	
+        	formControl[17].addEventListener('change', function(){
+				next10()        	
+        	})
+        }
+        
+        function next10(){
+        	tip.html('튜토리얼이 모두 종료되었습니다. 수고하셨습니다.')
+        	setTimeout(function(){
+        		tutorialEnd()
+        	},3000)
+        	
+        }
         
 		function tutorialEnd(){
 			state = 0;
 			console.log('튜토리얼 종료');
 			tutoModal.hide();
 			body.css('background', 'white');
-			tutoBtn.css('background', '#f0f0f0');
+			tutoBtn.css('background', '#06bbcc');
 			for(let i=0; i<formControl.length; i++){
 				formControl[i].style.backgroundColor="white"
 			}
@@ -553,6 +779,8 @@
 			upImg.css('background', '#06bbcc')
 			resumeContainer.css('background', '#f7f7f7')
 			header.css('background', '#e2e3e5')
+			topMenu.css('background', 'white')
+			sidebar.children().css('background', 'white')
 		}
     </script>
 </body>
