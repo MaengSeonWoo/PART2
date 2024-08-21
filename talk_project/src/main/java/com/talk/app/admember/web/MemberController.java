@@ -12,6 +12,8 @@ import com.talk.app.admember.service.MemberService;
 import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
 
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Public;
+
 @Controller
 @RequestMapping("admin/approve")
 public class MemberController {
@@ -19,13 +21,31 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	
-	//승인목록(기업목록 전체 신청desc처리)
+	//기업회원 승인목록(기업목록 전체 신청desc처리)
 	@GetMapping("")
 	public String approveAll(Model model, CoUserVO vol) {
 		List<CoUserVO> list = service.approveAll();
 		model.addAttribute("list",list);
 		return "admember/approvelist";
 	}
+	
+	//기업회원 가입신청 상세
+	@GetMapping("detail")
+	public String approveDetail(Model model, CoUserVO vo) {
+		CoUserVO findVO = service.coDetail(vo);
+		model.addAttribute("detail", findVO);
+		return "admember/coDetail";
+	}
+	
+	//기업회원 승인 => 
+	
+	//기업회원 거절
+	
+	
+	
+	
+	
+	
 	
 	//일반회원전체
 	@GetMapping("user")

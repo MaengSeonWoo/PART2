@@ -13,7 +13,7 @@ import com.talk.app.login.service.UserVO;
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired
-	MemberMapper mapper;
+	private MemberMapper mapper;
 	
 
 	@Override
@@ -25,5 +25,13 @@ public class MemberServiceImpl implements MemberService{
 	public List<UserVO> userAll() {
 		return mapper.userAll();
 	}
+
+	@Override
+	public CoUserVO coDetail(CoUserVO vo) {
+		return mapper.approveDetail(vo);
+	}
+
+
+
 
 }

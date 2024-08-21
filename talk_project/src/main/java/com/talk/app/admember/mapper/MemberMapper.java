@@ -10,8 +10,12 @@ import com.talk.app.login.service.UserVO;
 @Mapper
 public interface MemberMapper {
 
+	//기업신청목록
 	public List<CoUserVO> approveAll();
-	
+	//기업상세목록
+	public CoUserVO approveDetail(CoUserVO vo);
+	//회원목록
 	public List<UserVO> userAll();
+	
 	
 }

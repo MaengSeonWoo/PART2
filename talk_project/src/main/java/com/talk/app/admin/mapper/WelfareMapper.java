@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareVO;
-import com.talk.app.login.service.UserVO;
 
 @Mapper
 public interface WelfareMapper {
@@ -22,7 +21,10 @@ public interface WelfareMapper {
 	
 	//상세
 	public WelfareVO selectDetail(WelfareVO vo);
-
+	
+	//상세2
+	public int selectDetail2(int wid);
+	
 	//데이터 전체 입력
 	public int insertWelfareDetail(WelfareVO vo);
 	
@@ -42,5 +44,6 @@ public interface WelfareMapper {
 	
 	public List<UserWelfareVO> sendMsg(UserWelfareVO vo);
 
+	public List<UserWelfareVO> sendMsg2(int wid);
 	
 }
