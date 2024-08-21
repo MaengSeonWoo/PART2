@@ -31,15 +31,16 @@ public class SmsService {
 	        this.mapper = mapper;
 	    }
 
-	    public void sendSmsToEligibleMembers(UserWelfareVO vo) {
+	    public UserWelfareVO sendSmsToEligibleMembers(UserWelfareVO vo) {
 	        // MyBatis를 사용하여 특정 조건에 맞는 회원 조회
 	        List<UserWelfareVO> eligibleMembers = mapper.sendMsg(vo);
 
 	        for (UserWelfareVO member : eligibleMembers) {
 	            Message message = new Message();
-	            message.setFrom("01012345678"); // 발신번호
+	            message.setFrom("01025193424"); // 발신번호
 	            message.setTo(member.getTel()); // 수신번호
-	            message.setText(member.getServSummary()); // 메시지 내용
+	            String url = "https://localhost:8080/calendar/detail?wid=";
+	            message.setText("[복지톡톡]"+member.getSido()+member.getServSummary() + url + member.getWid()); // 메시지 내용
 
 	            try {
 	                SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
@@ -48,5 +49,6 @@ public class SmsService {
 	                System.out.println("문자 전송 실패: " + e.getMessage());
 	            }
 	        }
+			return vo;
 	    }
 }

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.common.service.Criteria;
 import com.talk.app.common.service.PageDTO;
+import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.login.service.LoginUserVO;
@@ -45,6 +47,7 @@ public class PostingController {
 	private final PostingService postingService;
 	private final ResumeService resumeService;
 	private final UploadService uploadService;
+	private final PublicCodeService publicCodeService;
 	
 //	@GetMapping
 //	public String postingList(Model model, Criteria cri) {
@@ -59,13 +62,15 @@ public class PostingController {
 //	}
 	@GetMapping
 
-	public String postingList(Criteria cri, Model model) {
-	    // 채용 공고 목록 조회
+	public String postingList(Criteria cri, Model model, HttpServletRequest request) {
+		// 채용 공고 목록 조회
 	    List<PostingVO> postingList = postingService.postingList(cri);
-
+	    
+	    
 	    // 모델에 조회 결과 전달
 	    model.addAttribute("pList", postingList);
-
+	    model.addAttribute("regionCode", publicCodeService.selectCode("0G"));
+	    model.addAttribute("empTypeCode", publicCodeService.selectCode("0C"));
 	    // 페이징 처리를 위한 데이터 전달
 	    int total = postingService.getTotal(cri);
 	    model.addAttribute("page", new PageDTO(10, total, cri));
@@ -76,7 +81,6 @@ public class PostingController {
 	
 	@GetMapping("/{postingNo}")
 	public String postingInfo(Model model, @PathVariable Integer postingNo, HttpSession session) {
-//		String userId = principal.getName();
 		String userId = (String)session.getAttribute("userId");
 		log.info("userId={}", userId);
 		ResumeVO resume = new ResumeVO();
@@ -84,7 +88,13 @@ public class PostingController {
 		// 기능 수행
 		PostingVO postingInfo = postingService.postingInfo(postingNo);
 		List<ResumeVO> resumeList = resumeService.resumeList(resume);
+		model.addAttribute("rpage", new PageDTO(8, resumeService.getResumeTotal(userId), resume));
 		
+		
+		model.addAttribute("regionCode", publicCodeService.selectCode("0G"));
+		model.addAttribute("empTypeCode", publicCodeService.selectCode("0C"));
+		model.addAttribute("postingCode", publicCodeService.selectCode("0M"));
+		model.addAttribute("genderCode", publicCodeService.selectCode("0E"));
 		// 채용공고 리스트 전달
 		model.addAttribute("posting", postingInfo);
 		model.addAttribute("rList", resumeList);
