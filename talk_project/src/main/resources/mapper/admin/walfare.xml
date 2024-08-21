@@ -208,5 +208,55 @@ WHERE wid = #{wid}
 	WHERE wid = #{wid}
 </select>
 
+<update id="timeUpdate">
+<selectKey keyProperty="wid" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(wid),0)+1
+			FROM welfare	
+		</selectKey>
+	    UPDATE welfare
+    		SET
+		       wid = #{wid},
+			,serv_id = #{servId},
+			, serv_name = #{servName},
+			, biz_dept = #{bizDept},
+			, sido = #{sido},
+			, sgg = #{sgg},
+			, serv_summary = #{servSummary},
+			, household = #{household},
+			, like_subject = #{likeSubject},
+			, sup_period = #{supPeriod},
+			, prov_type = #{provType}
+	    WHERE wid = #{wid}
+</update>
+
+<update id="timeUpdateDetail">
+	UPDATE welfare
+	SET
+		   start_date = #{startDate},
+	        end_date = #{endDate},
+	        app_way = #{appWay},
+	        sup_target = #{supTarget},
+	        sal_serv = #{salServ},
+	        sel_standard = #{selStandard}
+	WHERE serv_id = #{servId}
+</update>
+
+<select id="">
+	
+	
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </mapper>
