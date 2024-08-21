@@ -11,4 +11,6 @@ public interface MemberService {
 	
 	public List<UserVO> userAll();
 	
+	public CoUserVO coDetail(CoUserVO vo);
+	
 }
