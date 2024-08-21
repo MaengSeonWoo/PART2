@@ -48,7 +48,7 @@ public class SpringSecurityConfig {
                 .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
 //                .anyRequest().authenticated()
                 .and()
-            .formLogin()
+            .formLogin() 
                 .loginPage("/login") 
                 .usernameParameter("userId")
                 .passwordParameter("userPw")
