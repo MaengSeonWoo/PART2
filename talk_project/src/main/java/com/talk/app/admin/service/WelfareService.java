@@ -22,4 +22,12 @@ public interface WelfareService {
 	public List<UserWelfareVO> userMsg(UserWelfareVO vo);
 	//전송한 문자결과
 	public List<UserWelfareVO> msgResult(int wid);
+
+	//기업 미승인 목록만
+	public 
+	//일반 qna 댓글안달림
+	
+	//기업 qna 댓글안달림
+	
+	
 }

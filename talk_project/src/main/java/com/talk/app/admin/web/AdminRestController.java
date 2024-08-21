@@ -11,10 +11,14 @@ import com.talk.app.admin.service.SampleService;
 @RestController
 @RequestMapping("/samplerest")
 public class AdminRestController {
-
-
-    @Autowired
-    private SampleService sampleService;
+	@Autowired
+	private SampleService sampleService;
+	
+	/*
+	 * @Scheduled(fixedRate = 600000) public void processScheduledDeletion() {
+	 * Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 10 * 30 *
+	 * 1000); couserupdateService.RealDelCoUser(timestamp); }
+	 */
 
     @PostMapping("/fetchServIds")
     public ResponseEntity<String> fetchAndSaveServIds() {

@@ -220,7 +220,13 @@
 	//annyangtest
 	if (annyang) {
 	        const urlMapping = {
-	            '복지': 'http://localhost:8080/calendar/welfare'
+	            '복지': 'http://localhost:8080/calendar/welfare',
+	            '로그인':'http://localhost:8080/login',
+	            '이력서':'http://localhost:8080/userMain/resume/save',
+	            '오씨알':'http://localhost:8080/upload-form',
+	            '채용':'http://localhost:8080/posting',
+	            '공지':'http://localhost:8080/noticeList',
+	            '영상':'http://localhost:8080/videoList'
 	        };
 	        // 문장 서버로전송후분석
 	        annyang.addCallback('result', function(phrases) {
