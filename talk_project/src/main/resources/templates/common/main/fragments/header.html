@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="headerFragment">
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="headerFragment"
+		  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <!-- Spinner Start -->
     <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -23,12 +24,8 @@
             	<a th:href="@{/noticeList}" class="nav-item nav-link">공지사항</a>
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
                 <a th:href="${userAuthority == 'ROLE_USER' ? '/userMain' : '/CoUserMain'}" class="nav-item nav-link">마이페이지</a>
-                <th:block th:if="${userAuthority == null}">
-                    <a th:href="@{/login}" class="nav-item nav-link">로그인</a>
-                </th:block>
-                <th:block th:if="${userAuthority != null}">
-                    <a th:href="@{/logout}" class="nav-item nav-link">로그아웃</a>
-                </th:block>
+                <a th:href="@{/login}" class="nav-item nav-link" sec:authorize="isAnonymous()">로그인</a>
+                <a th:href="@{/logout}" class="nav-item nav-link" sec:authorize="isAuthenticated()">로그아웃</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">

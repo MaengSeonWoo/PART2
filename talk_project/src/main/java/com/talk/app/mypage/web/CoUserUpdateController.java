@@ -57,17 +57,8 @@ public class CoUserUpdateController {
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
         model.addAttribute("company_user", findVO);
         model.addAttribute("coUserId", coUserId); // coUserId를 모델에 추가
+              
         
-        // 현재 인증된 사용자의 권한 정보를 모델에 추가
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
-            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
-            UserVO user = loginUser.getUserVO();
-            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
-        }
-        
-        
-
         return "mypage/couserMain";
     }
 
