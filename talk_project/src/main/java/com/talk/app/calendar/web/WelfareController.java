@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.talk.app.admin.service.WelfareVO;
 import com.talk.app.calendar.service.CalendarService;
@@ -36,9 +38,18 @@ public class WelfareController {
 	@Autowired
 	PublicCodeService pservice;
 
+	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @GetMapping("calendar") public List<Map<String, Object>> calendar(SearchVO
+	 * vo){ return service.calendar(vo); }
+	 */
+	
 	@ResponseBody
 	@GetMapping("calendar")
-	public List<Map<String, Object>> calendar(SearchVO vo){
+	public List<Map<String, Object>> calendar(SearchVO vo,Model model, Criteria cri){
+		
 	 return service.calendar(vo);
 	}
 	
@@ -69,7 +80,14 @@ public class WelfareController {
 		return "calendar/info";
 	}
 	
-	
+	@GetMapping("pdf")
+	public String pdffile(Model model, WelfareVO vo, UploadFileVO fvo, @RequestPart MultipartFile[] uploadFiles) {
+		WelfareVO findvo = service.welfareDetail(vo);
+		model.addAttribute("pdfFile", findvo);
+		String pdf = uservice.pdfData("Welfare", (long) vo.getWid(), fvo.getFilePath());
+		model.addAttribute("file", pdf);
+		return "calendar/pdfview";
+	}
 	
 	
 	

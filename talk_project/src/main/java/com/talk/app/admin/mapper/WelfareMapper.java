@@ -33,12 +33,12 @@ public interface WelfareMapper {
 	public int deleteWelfare(int wid);
 
 	public int updateWelfareDetails(@Param("servId") String servId,
-						            @Param("startDate") String startDate,
-						            @Param("endDate") String endDate,
-						            @Param("appWay") String appWay,
-						            @Param("supTarget") String supTarget,
-						            @Param("salServ") String salServ,
-						            @Param("selStandard") String selStandard);
+									            @Param("startDate") String startDate,
+									            @Param("endDate") String endDate,
+									            @Param("appWay") String appWay,
+									            @Param("supTarget") String supTarget,
+									            @Param("salServ") String salServ,
+									            @Param("selStandard") String selStandard);
 
 	public List<String> getAllServIds();
 	

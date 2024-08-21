@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>pdf viewer test</title>
+</head>
+<style>
+.pdfobject-container { height: 500px; border: 1px solid #ccc; }
+</style>
+<body>
+jk;kljl
+n;;\
+klk;l]
+<div id="my-pdf"></div>
+
+<script src="https://unpkg.com/pdfobject"></script>
+<script src="../notice/pdfobject.js"></script>
+<script>
+var pdfPath = /*[[@{/images/{fileName}(fileName=${file.filePath})}]]*/ '';
+console.log(pdfPath)
+PDFObject.embed(pdfPath, "#my-pdf");
+</script>
+
+
+</body>
+</html>

@@ -17,5 +17,6 @@ public interface MemberMapper {
 	//회원목록
 	public List<UserVO> userAll();
 	
+	public int updateCo(int coUserNo);
 	
 }
