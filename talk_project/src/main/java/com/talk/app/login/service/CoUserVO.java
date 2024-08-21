@@ -35,4 +35,5 @@ public class CoUserVO {
 	private String filePath;		//이미지
 	private Integer delStatus;		//회원탈퇴 상태
 	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
+	private String domainType;		//도메인타입
 }
