@@ -22,9 +22,45 @@
 				,mgr_tel
 				,approval_status
 				,co_contact 
+				,authority
+				,SIGNUP_DATE
 	FROM	company_user
 	ORDER BY co_user_no desc
 </select>
+
+
+<select id="approveDetail" resultType="com.talk.app.login.service.CoUserVO">
+	SELECT co_user_no
+				,co_reg_no
+				,co_name
+				,industry
+				,rep_name 
+				,est_year
+				,co_post_no
+				,co_addr
+				,co_detail_addr
+				,main_business
+				,region
+				,etc
+				,co_user_id
+				,co_user_pw
+				,mgr_name
+				,mgr_email
+				,mgr_tel
+				,approval_status
+				,co_contact 
+				,authority
+				,SIGNUP_DATE
+	FROM	company_user
+	WHERE co_user_no =#{coUserNo}
+	ORDER BY co_user_no desc
+</select>
+
+
+
+
+
+
 
 <select id="userAll" resultType="com.talk.app.login.service.UserVO">
 	SELECT user_no

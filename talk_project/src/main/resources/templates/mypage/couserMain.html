@@ -7,51 +7,63 @@
     <meta charset="UTF-8">
     <title>마이페이지 메인</title>
     <style>
+
         h3 {
             color: #333;
+            padding-bottom: 10px;
             margin-bottom: 20px;
-            font-size: 24px;
-            font-weight: bold;
+        }
+
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        th, td {
+            padding: 30px;
         }
 
         th {
-            background-color: #f2f2f2; /* 헤더 배경색 */
-            font-weight: bold;
-            padding-right: 10px; /* 헤더의 오른쪽 패딩을 줄여서 td와의 간격을 좁힘 */
-            text-align: left;
+            background-color: #9ae6e6;
+            text-align: center;
+            color: #555;
         }
 
         td {
-            padding-left: 10px; /* 데이터 셀의 왼쪽 패딩을 헤더와 맞춤 */
+            background-color: #fff;
+            text-align: left;
         }
 
         img {
-            max-width: 100px; /* 이미지의 최대 너비 */
-            height: auto;
-            vertical-align: middle; /* 이미지와 텍스트 정렬 */
-            margin-right: 10px; /* 이미지와 텍스트 간격 조정 */
+            border-radius: 4px;
         }
-
-        .address {
-            white-space: pre-wrap; /* 줄 바꿈 유지 */
-            word-break: break-word; /* 긴 단어가 줄을 넘어가지 않도록 */
-        }
+        
     </style>
 </head>
 <body>
-    <div>
-        <h3>기업회원 정보</h3>
+    <div id="couserMain">
+        <h3>개인정보 > 나의 정보</h3>
         <table>
             <tr>
-                <th>기업로고</th>
-                <td th:each="company_user : ${company_user}">
-                    <img th:src="@{/images/{fileName}(fileName=${company_user.logoImg})}" />
-                </td>
-            </tr>
+			    <th class="logo-th">기업로고</th>
+                <td class="logo-td"> 
+			        <div th:if="${company_user.logoImg == null}"> 
+			             <img src= "/main/img/basic_company_img.png" style = "width: 100px; height: 100px;">
+			        </div>
+			        <div th:if="${company_user.logoImg != null}">
+			            <img th:src="@{/images/{fileName}(fileName=${company_user.logoImg})}" 
+			                 style="width: 100px; height: 100px;"/>
+			        </div>
+			    </td>
+			</tr>
             <tr>
                 <th>회사명</th>
                 <td>[[ ${company_user.coName} ]]</td>
+                <th>사업자등록번호</th>
+                <td>[[ ${company_user.coRegNo} ]]</td>
             </tr>
+
             <tr>
                 <th>대표</th>
                 <td>[[ ${company_user.repName} ]]</td>
@@ -61,8 +73,16 @@
                 <td>[[ ${company_user.region} ]]</td>
             </tr>
             <tr>
+                <th>우편번호</th>
+                <td>[[ ${company_user.coPostNo} ]]</td>
+            </tr>
+            <tr>
                 <th>주소</th>
                 <td>[[ ${company_user.coAddr} ]]</td>
+            </tr>
+            <tr>
+                <th>상세주소</th>
+                <td>[[ ${company_user.coDetailAddr} ]]</td>
             </tr>
             <tr>
                 <th>창립연도</th>

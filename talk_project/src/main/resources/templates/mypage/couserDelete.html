@@ -10,7 +10,6 @@
     <style>
         h1 {
             font-size: 24px;
-            margin-bottom: 20px;
             color: #333;
         }
 
@@ -38,8 +37,11 @@
             font-size: 14px;
             box-sizing: border-box;
             resize: none; /* Prevent resizing */
+            margin-bottom: 20px;
         }
     </style>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
     <div class="container">
@@ -61,10 +63,59 @@
 
 (위 약관에 동의하시면, '탈퇴하기' 버튼을 클릭해 주세요.)
         </textarea>
-        <form action="/couserdelete" method="post">
+        <form id="deleteForm" action="/couserdelete" method="post">
             <input type="hidden" name="coUserId" th:value="${coUserId}">
-            <button type="submit">탈퇴하기</button>
+            <button type="button" id="deleteButton">탈퇴하기</button>
         </form>
     </div>
+
+    <!-- SweetAlert2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('deleteButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            Swal.fire({
+                title: '정말 탈퇴하시겠습니까?',
+                text: '이 작업은 되돌릴 수 없습니다.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '예, 탈퇴합니다!',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/couserdelete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams(new FormData(document.getElementById('deleteForm')))
+                    })
+                    .then(response => response.text())
+                    .then(result => {
+                        if (result === 'failure') {
+                            Swal.fire({
+                                title: '탈퇴가 완료되었습니다.',
+                                icon: 'success',
+                                confirmButtonText: '확인'
+                            }).then((confirmResult) => {
+                                if (confirmResult.isConfirmed) {
+                                    window.location.href = '/login'; // Redirect to /login after confirmation
+                                }
+                            });
+                        } else {
+                            Swal.fire('탈퇴 실패', '탈퇴 처리에 실패했습니다.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('탈퇴 실패', '탈퇴 처리 중 오류가 발생했습니다.', 'error');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
