@@ -39,13 +39,13 @@ public class SpringSecurityConfig {
                 .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
 //                .anyRequest().authenticated()
                 .antMatchers("/", "/img/**", "/main/**",  "/docs/**", "/production/**",
-                			"/signInsert", "/cosignInsert", "/checkUserId", "/checkCoUserId","/login", "/signsel","/cologin",
+                			"/signInsert", "/cosignInsert", "/checkUserId", "/checkCoUserId","/login", "/signsel","/cologin", "/findId","/findIdResult",
                 			"/posting/**")
                 .permitAll() 
                 .antMatchers("/admin")
                 .hasRole("ADMIN") 
-                .antMatchers("/posting")
-                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
+                .antMatchers("/mypage/**")
+                .hasAnyRole("USER", "ADMIN", "CO_USER") 
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

@@ -76,10 +76,13 @@
 	<!-- 사용자가 탈퇴할 수 있는지 확인(posting_status가 M1인 채용 공고가 있으면 탈퇴 불가능) -->
 	<select id="checkPostingStatus" resultType="boolean">
 	    SELECT COUNT(*)
-		FROM posting p JOIN company_user c
-		ON p.co_user_no = c.co_user_no
-		WHERE co_user_id = #{coUserId}
-		AND posting_status = 'M1'
+		FROM apply_resume ar JOIN resume r
+		ON ar.resume_no = r.resume_no
+		JOIN users u
+		ON r.user_no = u.user_no
+		WHERE user_id = #{userId} 
+		OR result = 'D03'
+		OR result = 'D04'
 	</select>
 	
 	<!-- 10분이 지난 탈퇴 처리된 사용자 목록 조회 -->

@@ -260,7 +260,7 @@
 			<textarea class="form-control" id="produce" rows="5" placeholder="자기소개를 입력하세요"></textarea>
 
 			<div class="text-end mt-4">
-				<button type="button">OCR로 작성</button>
+				<button type="button" th:onclick="|location.href='@{/upload-form}'|" class="btn">OCR로 작성</button>
 				<button type="button" class="btn btn-primary saveHandler">저장</button>
 				<button type="button" class="btn btn-secondary" onclick="goList()">취소</button>
 			</div>
