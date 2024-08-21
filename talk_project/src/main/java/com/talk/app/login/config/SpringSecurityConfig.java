@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
                 .hasRole("ADMIN") 
                 .antMatchers("/mypage/**")
                 .hasAnyRole("USER", "ADMIN", "CO_USER") 
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
             .formLogin() 
                 .loginPage("/login") 

@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.talk.app.QnA.service.qnaVO;
 import com.talk.app.admin.service.SmsService;
 import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareService;
 import com.talk.app.admin.service.WelfareVO;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
+import com.talk.app.login.service.CoUserVO;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Balance;
@@ -54,8 +56,9 @@ public class AdminController {
 
 	// 메인
 	@GetMapping("")
-	// @PreAuthorize(hasRole("Admin"))
-	public String main(Model model) {
+	// @PreAuthorize(hasRole("Admin")) 
+	// 기업가입목록, 채용승인목록, 일반회원, 기업회원
+	public String main(Model model, CoUserVO cvo, qnaVO qvo) {
 		return "admin/main";
 	}
 
