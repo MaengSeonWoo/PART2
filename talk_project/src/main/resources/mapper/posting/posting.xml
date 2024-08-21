@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talk.app.posting.mapper.PostingMapper">
 	<select id="selectPostingList" resultType="PostingVO">
-
 		SELECT posting_no,
 		       co_name,
 		       work_region,
@@ -11,29 +10,30 @@
 		       posting_title,
 		       file_path
 		FROM (
-		    SELECT ROWNUM r,
-		           p.posting_no,
-		           p.co_name,
-		           p.work_region,
-		           p.end_date,
-		           p.emp_type,
-		           p.posting_title,
-		           p.file_path
-		    FROM (
-		        SELECT p.posting_no,
-		               p.co_name,
-		               p.work_region,
-		               p.end_date,
-		               p.emp_type,
-		               p.posting_title,
-		               sq.file_path
-		        FROM posting p
+			    SELECT ROWNUM r,
+			           p.posting_no,
+			           p.co_name,
+			           p.work_region,
+			           p.end_date,
+			           p.emp_type,
+			           p.posting_title,
+			           p.file_path
+			    FROM (
+				        SELECT p.posting_no,
+				               p.co_name,
+				               p.work_region,
+				               p.end_date,
+				               p.emp_type,
+				               p.posting_title,
+				               sq.file_path
+				        FROM posting p
 		        LEFT JOIN (
-		            SELECT c.co_user_no,
-		                   f.file_path
-		            FROM company_user c
-		            JOIN files f ON c.co_user_no = f.domain_id
-		            WHERE f.domain_type = 'COMPANY'
+				            SELECT c.co_user_no,
+				                   f.file_path,
+				                   c.co_name
+				            FROM company_user c
+				            JOIN files f ON c.co_user_no = f.domain_id
+				            WHERE f.domain_type = 'COMPANY'
 		        ) sq ON p.co_user_no = sq.co_user_no
 		        WHERE 1=1
 		        <if test="sido != null and sido != ''">
@@ -51,7 +51,9 @@
 		            AND p.emp_type = #{empType}
 		        </if>
 		        <if test="keyword != null and keyword != ''">
-		            AND p.posting_title LIKE '%' || #{keyword} || '%'
+		            AND (p.posting_title LIKE '%' || #{keyword} || '%'
+					OR sq.co_name LIKE '%' || #{keyword} || '%'
+					OR p.co_name LIKE '%' || #{keyword} || '%')
 		        </if>
 		        ORDER BY p.posting_no DESC
 		    ) p
@@ -70,7 +72,6 @@
 	</select>
 	
 	<select id="getTotal" resultType="int">
-		<![CDATA[
 		SELECT COUNT(*)
 		FROM posting p
 		LEFT JOIN company_user cu ON p.co_user_no = cu.co_user_no
@@ -80,19 +81,21 @@
 			AND p.work_region = #{sido}
 		</if>
 		<if test="hopeAmount1 != null and hopeAmount1 != ''">
-			AND p.salary >= #{hopeAmount1}
+			AND p.sal >= #{hopeAmount1}
 		</if>
 		<if test="hopeAmount2 != null and hopeAmount2 != ''">
-			AND p.salary <= #{hopeAmount2}
+		<![CDATA[
+			AND p.sal <= #{hopeAmount2}
+		]]>
 		</if>
 		<if test="empType != null and empType != ''">
 			AND p.emp_type = #{empType}
 		</if>
 		<if test="keyword != null and keyword != ''">
-			AND (p.posting_title LIKE CONCAT('%', #{keyword}, '%')
-			OR cu.co_name LIKE CONCAT('%', #{keyword}, '%'))
+			AND (p.posting_title LIKE '%' || #{keyword} || '%'
+			OR cu.co_name LIKE '%' || #{keyword} || '%'
+			OR p.co_name LIKE '%' || #{keyword} || '%')
 		</if>
-		]]>
 	</select>
 	
 	<insert id="applyResuem" parameterType="ResumeVO">

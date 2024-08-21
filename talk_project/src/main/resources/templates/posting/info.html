@@ -111,7 +111,9 @@
 			<div class="card-header job-header">
 				<p th:text="${login}"></p>
 				<h4>채용 정보</h4>
-				<span class="status" th:text="${posting.postingStatus}">구인중</span>
+				<th:block th:each="poststatus : ${postingCode}">
+				<span class="status" th:if="${poststatus.mainCode} == ${posting.postingStatus}" th:text="${poststatus.codeName}">구인중</span>
+				</th:block>
 			</div>
 
 			<div class="card-body job-body">
@@ -122,7 +124,9 @@
 					</div>
 					<div>
 						<div>근무지역</div>
-						<div th:text="${posting.workRegion}">ㅇㅇ시 ㅇㅇㅇㅇ동</div>
+						<th:block th:each="region : ${regionCode}">
+							<div th:if="${region.mainCode} == ${posting.workRegion}" th:text="${region.codeName}">ㅇㅇ시 ㅇㅇㅇㅇ동</div>
+						</th:block>
 					</div>
 					<div>
 						<div>모집기간</div>
@@ -141,11 +145,15 @@
 					</div>
 					<div>
 						<div>성별</div>
-						<div th:text="${posting.gender}">여</div>
+						<th:block th:each="gender : ${genderCode}">
+							<div th:if="${gender.mainCode} == ${posting.gender}" th:text="${gender.codeName}"></div>
+						</th:block>
 					</div>
 					<div>
 						<div>고용형태</div>
-						<div th:text="${posting.empType}">계약직</div>
+						<th:block th:each="emptype : ${empTypeCode}">
+							<div th:if="${emptype.mainCode} == ${posting.empType}" th:text="${emptype.codeName}">계약직</div>
+						</th:block>
 					</div>
 					<div>
 						<div>근무시간</div>
