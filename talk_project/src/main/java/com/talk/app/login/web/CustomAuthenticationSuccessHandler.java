@@ -30,6 +30,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
             
+            String role = authentication.getAuthorities().toString();
             // 세션에 userId 추가
             request.getSession().setAttribute("userId", username);
             
@@ -44,37 +45,48 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             	request.getSession().setAttribute("ROLE", "co_user");
             }
             
-
+//            // 일반 회원 처리
+//            UserVO userVO = new UserVO();
+//            userVO.setUserId(username);
+//            UserVO user = coUserUpdateService.userInfo(userVO);
+//            if (user != null) {
+//                if (user.getDelStatus() == 0) {
+//                    response.sendRedirect(request.getContextPath() + "/");
+//                } else if (user.getDelStatus() == 1) {
+//                    response.sendRedirect(request.getContextPath() + "/user/cancelDel");
+//                } else {
+//                    response.sendRedirect(request.getContextPath() + "/login?error");
+//                }
+//                return;
+//            }
+//            
+//            // 기업 회원 처리
+//            CoUserVO coUserVO = new CoUserVO();
+//            coUserVO.setCoUserId(username);
+//            CoUserVO coUser = coUserUpdateService.couserInfo(coUserVO);
+//            if (coUser != null) {
+//                if (coUser.getDelStatus() == 0) {
+//                    response.sendRedirect(request.getContextPath() + "/");
+//                } else if (coUser.getDelStatus() == 1) {
+//                    response.sendRedirect(request.getContextPath() + "/cancelDel");
+//                } else {
+//                    response.sendRedirect(request.getContextPath() + "/login?error");
+//                }
+//                return;
+//            }
             
-            // 일반 회원 처리
-            UserVO userVO = new UserVO();
-            userVO.setUserId(username);
-            UserVO user = coUserUpdateService.userInfo(userVO);
-            if (user != null) {
-                if (user.getDelStatus() == 0) {
-                    response.sendRedirect(request.getContextPath() + "/");
-                } else if (user.getDelStatus() == 1) {
-                    response.sendRedirect(request.getContextPath() + "/user/cancelDel");
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/login?error");
-                }
-                return;
+            // 사용자 권한에 따라 리다이렉트 처리
+            if (role.contains("ROLE_ADMIN")) {
+                // 관리자 페이지로 리다이렉트
+                response.sendRedirect(request.getContextPath() + "/admin");
+            } else if (role.contains("ROLE_USER")) {
+                // 일반 사용자 페이지로 리다이렉트
+                response.sendRedirect(request.getContextPath() + "/");
+            } else {
+                // 기본 리다이렉트
+                response.sendRedirect(request.getContextPath() + "/");
             }
-            
-            // 기업 회원 처리
-            CoUserVO coUserVO = new CoUserVO();
-            coUserVO.setCoUserId(username);
-            CoUserVO coUser = coUserUpdateService.couserInfo(coUserVO);
-            if (coUser != null) {
-                if (coUser.getDelStatus() == 0) {
-                    response.sendRedirect(request.getContextPath() + "/");
-                } else if (coUser.getDelStatus() == 1) {
-                    response.sendRedirect(request.getContextPath() + "/cancelDel");
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/login?error");
-                }
-                return;
-            }
+            return;
         }
 
         response.sendRedirect(request.getContextPath() + "/login?error");
