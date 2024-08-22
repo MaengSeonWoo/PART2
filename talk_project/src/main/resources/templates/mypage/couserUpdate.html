@@ -127,8 +127,12 @@ button#updateBtn:hover {
 					<td><input type="text" th:field="*{mainBusiness}"></td>
 				</tr>
 				<tr>
-					<th>행정구역</th>
-					<td><input type="text" th:field="*{region}"></td>
+				<th>행정구역</th>
+				<td>
+					<select name="region">
+						<option value="">지역선택
+						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}">
+					</select></td>
 				</tr>
 				<tr>
 					<th>기타사항</th>
@@ -170,7 +174,20 @@ button#updateBtn:hover {
 				</tr>
 				<tr>
 					<th>기업 로고</th>
-					<td><input type="file" id="files" name="uploadFiles" multiple></td>
+					<td class="logoimg"><input type="file" id="files" name="uploadFiles" multiple></td>
+				</tr>
+				<tr>
+					<th>SMS 수신 여부</th>
+						<td>
+						  <label>
+						    <input type="radio" name="receive" value="수신">
+						    수신
+						  </label>
+						  <label>
+						    <input type="radio" name="receive" value="미수신">
+						    미수신
+						  </label>
+						</td>
 				</tr>
 			</table>
 			<button type="button" id="updateBtn">수정</button>

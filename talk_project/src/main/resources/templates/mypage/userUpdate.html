@@ -127,8 +127,15 @@ button#updateBtn:hover {
 					<td><input type="date" th:field="*{birth}"></td>
 				</tr>
 				<tr>
-					<th>가구상황</th>
-					<td><input type="text" th:field="*{household}"></td>
+				  <th>가구상황</th>
+				  <td>
+				    <div th:each="household : ${householdCode}">
+				      <label>
+				        <input type="checkbox" name="household" th:value="${household.mainCode}" th:id="'household_' + ${household.mainCode}">
+				        <span th:text="${household.codeName}"></span>
+				      </label>
+				    </div>
+				  </td>
 				</tr>
 				<tr>
 					<th>성별</th>
@@ -138,16 +145,37 @@ button#updateBtn:hover {
 					</td>
 				</tr>
 				<tr>
-					<th>관심주제</th>
-					<td><input type="text" th:field="*{likeSubject}"></td>
+				  <th>관심주제</th>
+				  <td>
+				    <div th:each="likesubject : ${likesubjectCode}">
+				      <label>
+				        <input type="checkbox" name="likeSubject" th:value="${likesubject.mainCode}" th:id="'subject_' + ${likesubject.mainCode}">
+				        <span th:text="${likesubject.codeName}"></span>
+				      </label>
+				    </div>
+				  </td>
 				</tr>
 				<tr>
 				<th>거주지역</th>
-				<td><select name="sido">
-				<option value="">지역선택
-				<option th:each="sido : ${sidoCode}" th:value="${sido.mainCode}" th:text="${sido.codeName}">
-				</select></td>
-			</tr>
+				<td>
+					<select name="sido">
+						<option value="">지역선택
+						<option th:each="sido : ${sidoCode}" th:value="${sido.mainCode}" th:text="${sido.codeName}">
+					</select></td>
+				</tr>
+				<tr>
+					<th>SMS 수신 여부</th>
+						<td>
+						  <label>
+						    <input type="radio" name="receive" value="수신">
+						    수신
+						  </label>
+						  <label>
+						    <input type="radio" name="receive" value="미수신">
+						    미수신
+						  </label>
+						</td>
+				</tr>
 			</table>
 			<button type="button" id="updateBtn">수정</button>
 		</form>

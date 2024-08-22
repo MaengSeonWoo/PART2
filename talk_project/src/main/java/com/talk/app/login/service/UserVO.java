@@ -21,11 +21,14 @@ public class UserVO {			//일반회원
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date birth;		//생년월일
 	private String household;	//가구상황
+	private String householdNm; //가구상황 공통코드 처리
 	private String gender;		//성별
 	private String authority;	//권한
 	private Integer delStatus;		//회원탈퇴 상태
 	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 	private String sido;		//회원 시도명
-	private String sidoNm;
+	private String sidoNm;		//회원 시도명 공통코드 처리
 	private String likeSubject; //관심주제
+	private String likeSubjectNm; //관심주제 공통코드 처리
+	private String receive;		//문자,메일 수신여부
 }
