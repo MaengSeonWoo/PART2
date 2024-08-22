@@ -70,6 +70,7 @@
 				,gender 
 				,user_id 
 				,authority 
+				,receive
 	FROM users
 	ORDER BY user_no desc
 </select>
@@ -147,6 +148,7 @@
 	SET POSTING_APPROVE ='승인'
 	WHERE posting_no = #{postingNo}
 </update>
+
 
 
 

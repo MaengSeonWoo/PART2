@@ -241,12 +241,39 @@ WHERE wid = #{wid}
 	WHERE serv_id = #{servId}
 </update>
 
-<select id="">
-	
-	
+<select id="sendCount">
+	select count(*)
+	from welfare w
+	join users u
+	on u.sido = #{vo.sido}
+	where u.LIKE_SUBJECT = #{vo.likeSubject}
+	and u.HOUSEHOLD = #{vo.household}
+	and u.receive = '수신'
+	and w.wid = #{wid}
 </select>
 
-
+<select id="userDetail" parameterType="com.talk.app.login.service.UserVO">
+	select USER_NO
+		,USER_NAME
+		,USER_PW
+		,TEL
+		,POST_NO
+		,ADDR
+		,DETAIL_ADDR
+		,EMAIL
+		,BIRTH
+		,HOUSEHOLD
+		,GENDER
+		,USER_ID
+		,AUTHORITY
+		,DEL_STATUS
+		,STATUS_UPDATE_TIME
+		,SIDO
+		,LIKE_SUBJECT
+		,RECEIVE
+	from users
+	where USER_NO = #{userNo}
+</select>
 
 
 

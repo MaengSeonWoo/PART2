@@ -220,7 +220,7 @@
 	//annyangtest
 	if (annyang) {
 	        const urlMapping = {
-	            '복지': 'http://localhost:8080/calendar/welfare',
+	            '복지' : 'http://localhost:8080/calendar/welfare',
 	            '로그인':'http://localhost:8080/login',
 	            '이력서':'http://localhost:8080/userMain/resume/save',
 	            '오씨알':'http://localhost:8080/upload-form',
@@ -245,19 +245,43 @@
 	            	console.log(data);
 	                document.getElementsByClassName('chat-message user').innerHTML = "Analyzed: " + data;
 					//단어매칭
-	                data.forEach(word => {
-	                    if (urlMapping[word]) {
-	                        window.location.href = urlMapping[word];
-	                    }
-	                });
+	                /* if (data.includes('이동')) {
+	                	data.forEach(word => {
+		                	if (urlMapping[word]) {
+		                        window.location.href = urlMapping[word];
+		                    }
+		                });
+					} */
+	                if (Array.isArray(data) && data.includes('이동')) {
+	                    data.forEach(word => {
+	                        if (urlMapping[word]) {
+	                            window.location.href = urlMapping[word];
+	                        }
+	                    });
+	                } else if (typeof data === 'string' && data.includes('이동')) {
+	                    const words = data.split(' '); // 문자열을 단어로 분리
+	                    words.forEach(word => {
+	                        if (urlMapping[word]) {
+	                            window.location.href = urlMapping[word];
+	                        }
+	                    });
+	                }
+
+					
+					
+					
 	            });
 	        });
+	        
+	        
+	        
 	        
 	        // STT 버튼 클릭 시 annyang 실행
 	        $('#sttButton').on('click', function() {
 	            if (annyang) {
 	                annyang.start(); // annyang 시작
 	            }
+	            
 	        });
 	        
 	        annyang.setLanguage('ko');

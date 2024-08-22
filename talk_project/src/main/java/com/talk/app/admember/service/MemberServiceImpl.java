@@ -73,6 +73,11 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.postUpdate(postingNo);
 	}
 
+	@Override
+	public int sendCount(UserVO vo) {
+		return mapper.sendCount(vo);
+	}
+
 
 	
 

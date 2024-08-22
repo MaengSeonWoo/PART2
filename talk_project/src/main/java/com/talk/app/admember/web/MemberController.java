@@ -30,7 +30,7 @@ public class MemberController {
 	
 	//기업회원 가입신청 상세
 	@GetMapping("detail")
-	public String approveDetail(Model model, CoUserVO vo) {
+	public String approveDetail(Model model, CoUserVO vo, UserVO uvo) {
 		CoUserVO findVO = service.coDetail(vo);
 		model.addAttribute("detail", findVO);
 		return "admember/coDetail";
