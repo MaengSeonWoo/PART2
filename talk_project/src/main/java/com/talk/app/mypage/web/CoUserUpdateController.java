@@ -105,7 +105,7 @@ public class CoUserUpdateController {
         		log.info("파일 이름: {}, 파일 크기: {}", multipartFile.getOriginalFilename(), multipartFile.getSize());
         		couserVO.setLogoImg(multipartFile.getOriginalFilename());
 			}
-        	String imageUpdate = uploadService.imageUpdate(uploadFiles, "COUSER", (long)couserVO.getCoUserNo());
+        	String imageUpdate = uploadService.imageUpdate(uploadFiles, "COMPANY", (long)couserVO.getCoUserNo());
         	imageUpdate = imageUpdate.replace("\\", "/");
             
         	couserVO.setLogoImg(imageUpdate);
