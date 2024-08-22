@@ -110,7 +110,26 @@
                           </div>
                           <div class="btn-group">
                             <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
-                            <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button>
+							<button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
+								<!--  -->
+								<div class="modal" tabindex="-1">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title">전송할 회원</h5>
+							                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+								      </div>
+								      <div class="modal-body">
+								        <p>총 ' [[${count}]] ' 명에게 전송합니다</p>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-primary" th:onclick="confirmAndSendSms()">문자보내기</button>
+						         		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								[[${user}]]
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/update(wid=${detail.wid})}'|">수정</button>
                          	<button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/delete(wid=${detail.wid})}'|">삭제</button>
                             
@@ -129,10 +148,16 @@
 	
 	<script  th:inline="javascript">
 	
+	$('#mymodal').on('click',function(){
+		$('.modal').modal()
+	})
+	$('.btn-close').on('click',function(){
+		$('.modal').hide();
+	})
+	
 	let wid = /*[[${detail.wid}]]*/
 		
 	  function confirmAndSendSms() {
-	        if (confirm("정말 보내시겠습니까?")) {
 	            // 서버로 문자 전송 요청을 보냅니다.
 	            fetch('/admin/sendmsg', {
 	                method: 'GET'
@@ -150,7 +175,6 @@
 	                console.error('Error:', error);
 	                alert("문자 전송 중 오류가 발생했습니다.");
 	            });
-	        }
 	    }
 	</script>
 	

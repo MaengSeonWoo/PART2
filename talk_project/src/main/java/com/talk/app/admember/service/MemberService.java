@@ -30,4 +30,7 @@ public interface MemberService {
 	public PostingVO postdetail(PostingVO vo);
 	//채용승인
 	public int postUpdate(int postingNo);
+	//문자보낼사람수
+	public int sendCount(UserVO vo);
+	
 }

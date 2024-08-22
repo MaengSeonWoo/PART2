@@ -34,5 +34,7 @@ public interface MemberMapper {
 	public PostingVO postDetail(PostingVO vo);
 	//채용승인
 	public int postUpdate(int postingNo);
+	//문자보낼 인원수
+	public int sendCount(UserVO uvo);
 	
 }

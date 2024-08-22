@@ -25,6 +25,7 @@ import com.talk.app.admin.service.WelfareVO;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.login.service.CoUserVO;
+import com.talk.app.login.service.UserVO;
 import com.talk.app.posting.service.PostingVO;
 
 import net.nurigo.sdk.NurigoApp;
@@ -86,11 +87,19 @@ public class AdminController {
 
 	// 복지상세
 	@GetMapping("detail")
-	public String welfareDetail(WelfareVO vo, Model model) {
-		WelfareVO findvo = service.welfareDetail(vo);
-		model.addAttribute("detail", findvo);
+	public String welfareDetail(WelfareVO vo, Model model, UserVO uvo) {
 		List<UploadFileVO> images = uservice.selectFilesByDomain("Welfare", (long) vo.getWid());
 		model.addAttribute("file", images);
+
+		WelfareVO findvo = service.welfareDetail(vo);
+		model.addAttribute("detail", findvo);
+		
+		  uvo.setSido(findvo.getSido());
+		  uvo.setLikeSubject(findvo.getLikeSubject());
+		 uvo.setHousehold(findvo.getHousehold());
+		
+		 int count = service.sendCount(uvo, vo.getWid());
+		model.addAttribute("count",count);
 		return "admin/info";
 	}
 
@@ -252,7 +261,6 @@ public class AdminController {
 		 */
 		return null;
 	}
-	
 	
 	
 	

@@ -3,6 +3,8 @@ package com.talk.app.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import com.talk.app.login.service.UserVO;
+
 public interface WelfareService {
 	//크롤링
 	public int welfareInsert(WelfareVO vo);
@@ -22,7 +24,9 @@ public interface WelfareService {
 	public List<UserWelfareVO> userMsg(UserWelfareVO vo);
 	//전송한 문자결과
 	public List<UserWelfareVO> msgResult(int wid);
-
-	
+	//존송할사람수
+	public int sendCount(UserVO vo, int wid);
+	//유저상세
+	public UserVO userDetail(UserVO vo);
 	
 }

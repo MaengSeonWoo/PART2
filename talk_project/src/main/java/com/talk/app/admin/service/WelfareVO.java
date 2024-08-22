@@ -22,5 +22,9 @@ public class WelfareVO {
 	private String supTarget;	//지원대상 내용
 	private String salServ;		//급여서비스 내용
 	private String selStandard;//선정기준 내용
+	
+	
+	// 
+	private Integer userNo;
 
 }

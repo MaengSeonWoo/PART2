@@ -62,12 +62,12 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                         </tr>
                       </thead>
                       <tbody>
-                      <th:block th:each="sends : sends">
+                      <th:block th:each="send : sends">
                         <tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>[[${send.servId}]]</td>
+							<td>[[${send.userNo}]]</td>
+							<td>[[${send.userName}]]</td>
+							<td>[[${send.Tel}]]</td>
                         </tr>
                       </tbody>
                     </table>
@@ -77,7 +77,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             </div>
                 </div>
               </div>
-
 
             </div>
           </div>
