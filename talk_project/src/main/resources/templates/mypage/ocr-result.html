@@ -11,9 +11,10 @@
 <ul>
     <li th:each="result : ${ocrResult}" th:text="${result}"></li>
 </ul>
+<button type="button" onclick="sendOcrResult()">자동등록</button>
 <script th:inline="javascript">
     // OCR 결과 배열
-    /* let data = [[${ocrResult}]]; */ 
+    /* let data = [[${ocrResult}]]; */
     let parsedata = JSON.parse(data);
     parsedata = parsedata.ocrResult;
     
@@ -54,12 +55,9 @@
             produce: produce
         };
         sessionStorage.setItem('OCR',JSON.stringify(ocrData));
-        sessionStorage.getItem('OCR',JSON.stringify(ocrData));
-        sessionStorage.removeItem('OCR',JSON.stringify(ocrData));
         
         window.location.href = `/userMain/resume/save`;   
     }
 </script>
-<button type="button" onclick="sendOcrResult()">자동등록</button>
 </body>
 </html>

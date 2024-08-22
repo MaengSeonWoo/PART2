@@ -21,6 +21,7 @@ public class CoUserVO {
 	private String coDetailAddr;	//상세주소
 	private String mainBusiness;	//주요사업
 	private String region;			//행정구역
+	private String regionNm;		//행정구역 공통코드 처리
 	private String etc;				//기타사항
 	private String coUserId;		//기업아이디
 	private String coUserPw;		//비밀번호
@@ -38,6 +39,7 @@ public class CoUserVO {
 	private Date signupDate;	//회원가입 신청일
 	private Timestamp statusUpdateTime; //회원탈퇴 처리시간 기록
 	private String domainType;		//도메인타입
+	private String receive;			//문자,메일 수신여부
 }
 
 
