@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.search.mapper.SearchMapper">
+
+	<select id="searchAll" resultType="searchVO">
+		<![CDATA[
+				SELECT * FROM( 
+                	SELECT 'posting' search_type, posting_title AS search_result, TO_CHAR(posting_no) AS search_no
+                	FROM posting
+	                WHERE posting_title LIKE '%' || #{keyword} || '%'
+	                AND ROWNUM < 5
+	                UNION
+	                SELECT 'notice', notice_title, TO_CHAR(notice_no)
+	                FROM notice
+	                WHERE notice_title LIKE '%' || #{keyword} || '%'
+	                AND ROWNUM < 5
+	                UNION
+	                SELECT 'video', video_title, TO_CHAR(video_no) 
+	                FROM video
+	                WHERE video_title LIKE '%' || #{keyword} || '%'
+	                AND ROWNUM < 5
+	                UNION
+	                SELECT 'welfare', serv_name, serv_id
+	                FROM welfare
+	                WHERE serv_name LIKE '%' || #{keyword} || '%'
+	                AND ROWNUM < 5
+               	)
+          ]]>
+	</select>
+	
+</mapper>

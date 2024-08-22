@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             layout:decorate="~{common/main/layouts/default_layout}"
-            layout:fragment="Content">
+            layout:fragment="Content"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>직업훈련영상</title>
@@ -107,11 +108,10 @@
 				<input type="text" class="form-control" id="keyword" name="keyword" placeholder="검색어를 입력하세요" value="">
 			</div> --> 
 			
-			<div class="edu_search_btn">
-				<label for="edu_search_btn"></label>
-				<input type="text" name="keyword" th:value="${videoVO.keyword}">
-				<button type="submit">검색</button>
-			</div>
+				<div class="edu_search_btn">
+					<input type="text" name="keyword" th:value="${videoVO.keyword}">
+					<button type="submit">검색</button>
+				</div>
 			</div>
 		</form>	
 		<h2>스타일 수정</h2>
@@ -130,7 +130,7 @@
 		</div> 
 		<!--  end if vList -->
 		<div class="btn">
-			<button type="button" th:onclick="|location.href='@{/videoInsert}'|">등록</button>		
+			<button type="button" th:onclick="|location.href='@{/videoInsert}'|" sec:authorize="hasRole('ROLE_ADMIN')">등록</button>		
 		</div>
 	</div> 
 	<!-- end of container -->	

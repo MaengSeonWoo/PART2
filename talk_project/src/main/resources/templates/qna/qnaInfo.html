@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             layout:decorate="~{common/main/layouts/default_layout}"
-            layout:fragment="Content">
+            layout:fragment="Content"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+            
 <head>
 <meta charset="UTF-8">
 <style>
@@ -172,12 +174,12 @@
 			<table>
 				<tr>
 					<td>
-						<textarea  class="replyContent" name="replyContent" th:value="${qnaInfo.replyContent}"></textarea>
+						<textarea  class="replyContent" name="replyContent" th:value="${qnaInfo.replyContent}" sec:authorize="hasRole('ROLE_ADMIN')"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<button type="submit" class="insertReplyBtn">댓글등록</button>
+						<button type="submit" class="insertReplyBtn" sec:authorize="hasRole('ROLE_ADMIN')">댓글등록</button>
 					</td>
 				</tr>
 			</table>

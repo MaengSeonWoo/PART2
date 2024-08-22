@@ -31,34 +31,96 @@
                 <a th:href="@{/calendar/welfare}" class="nav-item nav-link">복지제도 일정</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">
-                <!--<form action="/search" method="get" class="d-flex">  -->
-                    <input class="form-control me-2" type="text" placeholder="Search.." name="query">
-                    <button class="btn btn-outline-primary" type="submit" onclick="searchAll()">Search</button>
+                <!-- <form action="/search" method="get" class="d-flex"> -->  
+                    <input class="form-control me-2" type="text" placeholder="Search.." name="keyword">
+                    <button class="btn btn-outline-primary" type="submit" id="searchBtn">Search</button>
                 <!-- </form> -->
             </div>
         </div>
     </nav>
     <!-- Navbar End -->
     
-    <!-- 임시검색결과 모달창 -->
-    <div class="searchResult" style="border:1px solid black; display:none; background-color:white; width:1300px; padding:30px; position:absolute; left:15%; top:30%; ">
-    	<button type="button" class="searchCloseBtn" onclick="closeSearch()" style="float:right;">X</button>
-    	<p>검색결과 샘플데이터1..........................</p>
-    	<p>검색결과 샘플데이터2..........................</p>
-    	<p>검색결과 샘플데이터3..........................</p>
-    	<p>검색결과 샘플데이터4..........................</p>
-    	<p>검색결과 샘플데이터5..........................</p>
+    <!-- 검색결과 모달창 -->
+    <div class="searchResult" 
+    	 style="border:1px solid black; display:none; 
+    	        background-color:white; width:1300px; 
+    	        padding:25px; left:15%; top:7%; 
+    	        z-index:9999; position:fixed; 
+    	        border:none; box-shadow: 0px 0px 10px gray;
+    	        height:600px;" >
+    	<button type="button" class="searchCloseBtn" 
+    			style="border:none; position:absolute; right:10px;
+    				   background-color:white; color:gray;
+    				   font-weight:bold; margin-top:-20px; 
+    				   font-size:30px;
+    				   "
+    			>X
+     	</button>
+    		<p>...................</p>
     </div>
     
     <script>
-    	let searchResult = $('.searchResult')
-    	
-    	function searchAll(){
-    		searchResult.show()	
-    	}
-    	
-    	function closeSearch(){
-    		searchResult.hide()
-    	}
+    	window.onload = function(){
+    		
+    	  	let searchResult = document.querySelector('.searchResult')
+    	  	let header = document.querySelector('header')
+    	 	let main = document.querySelector('main')
+    	 	let footer = document.querySelector('footer')
+    	 	let searchBtn = document.querySelector('#searchBtn')
+        	let searchCloseBtn = document.querySelector('.searchCloseBtn')
+        	let navbar = document.querySelector('.navbar')
+        	let floatMenu = document.querySelector('.floatMenu')
+        	let micBtn = document.querySelector('#skitt-toggle-button') 
+        	let state = 0
+        	
+			searchBtn.addEventListener('click', function(){
+				searchAll()
+			})
+			
+			searchCloseBtn.addEventListener('click', function(){
+				closeSearch()
+			})
+			
+			
+			main.addEventListener('click', function(e){
+				if(state==1 && e.target != searchResult){
+					closeSearch()
+				}
+			})
+			
+			footer.addEventListener('click', function(e){
+				if(state == 1 && e.target != searchResult){
+					closeSearch()
+				}
+			})
+			
+        	function searchAll(){
+        		searchResult.style.display='block'
+        		navbar.style.opacity=.2
+        		main.style.opacity=.2
+        		footer.style.opacity=.2
+        		floatMenu.style.opacity=.2
+        		micBtn.style.opacity=.2
+        		state = 1
+        	}
+        	
+        	function closeSearch(){
+        		searchResult.style.display='none'
+        		
+        		navbar.style.opacity=1
+        		main.style.opacity=1
+        		footer.style.opacity=1
+        		floatMenu.style.opacity=1
+        		micBtn.style.opacity=1
+        		state = 0
+        	}	
+        	
+        	fetch('/search')
+        		.then(res => response.json())
+        		.then(text => console.log(data))
+        		.catch()
+    	} 
+    	/*end of window.onload */
+    
     </script>
 </th:block>

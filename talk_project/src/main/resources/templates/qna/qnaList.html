@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             layout:decorate="~{common/main/layouts/default_layout}"
-            layout:fragment="Content">
+            layout:fragment="Content"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+            
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -77,7 +79,8 @@
 			</tbody>
 		</table>
 		<div>
-			<button type="button" class="insertBtn" th:onclick="|location.href='@{/qnaInsert}'|">등록</button>
+			<button type="button" class="insertBtn" th:onclick="|location.href='@{/qnaInsert}'|"
+			sec:authorize="hasRole('ROLE_ADMIN')">등록</button>
 		</div>
 	</div>
 </body>
