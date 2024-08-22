@@ -3,6 +3,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/ad_layout}" layout:fragment="Content">
 
+<style>
+
+	
+</style>
+
 <div class="right_col" role="main">
 	<div class="">
 		<div class="page-title">
@@ -54,30 +59,23 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th>기업번호</th>
 									<th>기업이름</th>
+									<th>사업분야</th>
 									<th>신청일</th>
 									<th>승인상태</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Larry</td>
-									<td>the Bird</td>
-									<td>@twitter</td>
+								<th:block th:each="company : ${cuser}" >
+                        			<tr th:onclick="|location.href='@{/admin/approve/detail(coUserNo=${company.coUserNo})}'|">
+										<td>[[${company.coUserNo}]]</td>
+										<td>[[${company.coName}]]</td>
+										<td>[[${company.industry}]]</td>
+										<td>[[${#dates.format(company.signupDate, 'yyyy-MM-dd')}]]</td>
+										<td>
+											<button class="btn btn-danger" th:if="${company.authority}" th:text='미승인'></button>
+										</td>
 								</tr>
 							</tbody>
 						</table>
@@ -111,30 +109,23 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>제목</th>
-									<th>작성자</th>
+									<th>채용번호</th>
+									<th>업무분야</th>
+									<th>기업이름</th>
+									<th>신청일</th>
 									<th>승인상태</th>
 								</tr>
 							</thead>
 							<tbody>
+								<th:block  th:each=" post : ${posting}">
 								<tr>
-									<th scope="row">1</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Larry</td>
-									<td>the Bird</td>
-									<td>@twitter</td>
+									<td>[[${post.postingNo}]]</td>
+									<td>[[${post.job}]]</td>
+									<td>[[${post.coName}]]</td>
+									<td>[[${#dates.format(post.startDate, 'yyyy-MM-dd')}]]</td>
+									<td>
+										<button class="btn btn-danger" th:if="${post.postingApprove}" th:text='미승인'></button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -170,30 +161,25 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th>qna no.</th>
 									<th>제목</th>
 									<th>작성자</th>
-									<th>답변상태</th>
+									<th>등록일</th>
+									<th>답변 등록상태</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Larry</td>
-									<td>the Bird</td>
-									<td>@twitter</td>
+							<th:block th:each=" user: ${ulist}">
+							<tr>
+									<td>[[${user.qnaNo}]]</td>
+									<td>[[${user.qnaTitle}]]</td>
+									<td>[[${user.userNo}]]</td>
+									<td>[[${user.regDate}]]</td>
+									<td>
+										<button class="btn btn-danger">
+											[[${user.qnaState}]]
+										</button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -227,30 +213,25 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th>qna no.</th>
 									<th>제목</th>
 									<th>작성자</th>
-									<th>답변상태</th>
+									<th>등록일</th>
+									<th>답변 등록상태</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Larry</td>
-									<td>the Bird</td>
-									<td>@twitter</td>
+								<th:block th:each=" coser: ${colist}">
+								<tr >
+									<td>[[${coser.qnaNo}]]</td>
+									<td>[[${coser.qnaTitle}]]</td>
+									<td>[[${coser.userNo}]]</td>
+									<td>[[${coser.regDate}]]</td>
+									<td>
+										<button class="btn btn-danger">
+											[[${coser.qnaState}]]
+										</button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
