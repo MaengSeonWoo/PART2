@@ -60,11 +60,9 @@
     				   font-weight:bold; margin-top:-20px; 
     				   font-size:30px;
     				   "
-    			>X</button>
-    		<p>
-    		
-    		
-    		</p>
+    			>X
+     	</button>
+    		<p>...................</p>
     </div>
     
     <script>
@@ -89,9 +87,15 @@
 				closeSearch()
 			})
 			
-			searchResult.addEventListener('click', function(e){
-				console.log(e.target.value)
-				if(state == 1 && searchResult !== e.target.value){
+			
+			main.addEventListener('click', function(e){
+				if(state==1 && e.target != searchResult){
+					closeSearch()
+				}
+			})
+			
+			footer.addEventListener('click', function(e){
+				if(state == 1 && e.target != searchResult){
 					closeSearch()
 				}
 			})
@@ -116,8 +120,13 @@
         		micBtn.style.opacity=1
         		state = 0
         	}	
-    	}
+        	
+        	fetch('/search')
+        		.then(res => response.json())
+        		.then(text => console.log(data))
+        		.catch()
+    	} 
+    	/*end of window.onload */
     
-  
     </script>
 </th:block>

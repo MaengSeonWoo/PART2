@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             layout:decorate="~{common/main/layouts/default_layout}"
-            layout:fragment="Content">
+            layout:fragment="Content"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>직업훈련영상</title>
@@ -129,7 +130,7 @@
 		</div> 
 		<!--  end if vList -->
 		<div class="btn">
-			<button type="button" th:onclick="|location.href='@{/videoInsert}'|">등록</button>		
+			<button type="button" th:onclick="|location.href='@{/videoInsert}'|" sec:authorize="hasRole('ROLE_ADMIN')">등록</button>		
 		</div>
 	</div> 
 	<!-- end of container -->	

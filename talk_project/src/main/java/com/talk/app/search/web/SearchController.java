@@ -19,7 +19,7 @@ public class SearchController {
 	private final SearchService searchService;
 	
 	
-	@GetMapping("aa")
+	@GetMapping("/search")
 	public String searchMain(mainSearchVO searchVO, Model model) {
 		List<mainSearchVO> searchResult = searchService.searchAll(searchVO);
 		model.addAttribute("result", searchResult);

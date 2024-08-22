@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
             xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             layout:decorate="~{common/main/layouts/default_layout}"
-            layout:fragment="Content">
+            layout:fragment="Content"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             
 <head>
 <meta charset="UTF-8">
@@ -80,8 +81,8 @@
 	</div>
 	
 	<div class="btnAll">
-		<button type="button" th:onclick="|location.href='@{/noticeUpdate(noticeNo=${noticeInfo.noticeNo})}'|">수정</button>
-		<button type="button" th:onclick="|location.href='@{/noticeDelete(noticeNo=${noticeInfo.noticeNo})}'|">삭제</button>
+		<button type="button" th:onclick="|location.href='@{/noticeUpdate(noticeNo=${noticeInfo.noticeNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">수정</button>
+		<button type="button" th:onclick="|location.href='@{/noticeDelete(noticeNo=${noticeInfo.noticeNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">삭제</button>
 		<button type="button" th:onclick="|location.href='@{/noticeList}'|">목록</button>
 	</div>
 </body>
