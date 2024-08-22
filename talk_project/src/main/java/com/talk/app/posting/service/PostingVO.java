@@ -65,5 +65,9 @@ public class PostingVO {
 	private String workTimeStart;
 	// 퇴근시간
 	private String workTimeEnd;
-
+	// 승인
+	private String postingApprove;
+	
+	
+	
 }

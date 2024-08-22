@@ -81,6 +81,73 @@
 </update>
 
 
+<select id="couserApprove" parameterType="com.talk.app.login.service.CoUserVO">
+	SELECT co_user_no, co_name,industry,SIGNUP_DATE,authority  
+	FROM company_user
+	where authority ='ROLE_TEMP'
+	AND ROWNUM <![CDATA[<= ]]> 5
+</select>
+
+<select id="postingApprove" parameterType="com.talk.app.posting.service.PostingVO">
+	SELECT posting_no,job,co_name,START_DATE,POSTING_APPROVE
+	FROM posting
+	WHERE POSTING_APPROVE= '미승인'
+	AND ROWNUM <![CDATA[<= ]]> 5
+</select>
+
+<select id="userAnswer" parameterType="com.talk.app.QnA.service.qnaVO">
+	SELECT qna_no, qna_title, user_no, reg_date, decode(qna_state,0,'미답변') AS qnaState
+	FROM qna
+	WHERE qna_state = 0
+	AND user_no is not null
+	AND ROWNUM <![CDATA[<= ]]> 5
+</select>
+
+<select id="coAnswer" parameterType="com.talk.app.QnA.service.qnaVO">
+	SELECT qna_no, qna_title, user_no, reg_date, decode(qna_state,0,'미답변')  AS qnaState
+	FROM qna
+	WHERE qna_state = 0
+	AND co_user_no is not null
+	AND ROWNUM <![CDATA[<= ]]> 5
+</select>
+
+<select id="postList" resultType="com.talk.app.posting.service.PostingVO">
+	SELECT  posting_no,job,co_name,START_DATE,POSTING_APPROVE
+	FROM posting
+</select>
+
+<select id="postDetail" resultType="com.talk.app.posting.service.PostingVO">
+	SELECT POSTING_NO
+			,CO_NAME
+			,WORK_REGION
+			,START_DATE
+			,JOB
+			,AGE
+			,END_DATE
+			,GENDER
+			,EMP_TYPE
+			,WORK_DAY
+			,WORKTIME_START
+			,SAL
+			,PARTY
+			,WORK_CONTENT
+			,ETC_CONTENT
+			,PRI_CONTENT
+			,CO_USER_NO
+			,POSTING_TITLE
+			,WORKTIME_END
+			,POSTING_STATUS
+			,POSTING_APPROVE
+	FROM posting
+	WHERE posting_no =#{postingNo}
+</select>
+
+<update id="postUpdate" parameterType="com.talk.app.posting.service.PostingVO">
+	UPDATE posting
+	SET POSTING_APPROVE ='승인'
+	WHERE posting_no = #{postingNo}
+</update>
+
 
 
 

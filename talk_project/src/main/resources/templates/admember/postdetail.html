@@ -2,12 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
+
  <div class="right_col" role="main">
           <div class="">
 
             <div class="page-title">
               <div class="title_left">
-                <h3>기업 가입신청서<small>(승인,거절 문자처리)</small></h3>
+                <h3>채용등록서<small>(승인,거절,미승인)</small></h3>
               </div>
 
               <div class="title_right">
@@ -28,7 +29,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
               <div class="col-md-9">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>상세 정보 확인<small>복지내용</small></h2>
+                    <h2>채용등록서 상세<small>공고등록</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -54,7 +55,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           <div class="mail_heading row">
                             <div class="col-md-8">
                               <div class="btn-group">
-                                <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve}'|">목록으로</button>
+                                <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve/postlist}'|">목록으로</button>
                                 <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
                               </div>
                             </div>
@@ -62,52 +63,42 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                               <p class="date"> 작성 일자 들어갈 자리</p>
                             </div>
                             <div class="col-md-12">
-								<div><button class="btn btn-danger" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
-                          				<button class="btn btn-success" th:if="${detail.authority == 'ROLE_CO_USER'}" th:text="승인"></button></div>
-                              <h4> <  [[ ${detail.coRegNo} ]] ></h4>
+								<div>
+                    				     <button th:if="${detail.postingApprove == '승인' }" class="btn btn-success" >[[${detail.postingApprove}]]</button>
+                          				<button th:if="${detail.postingApprove == '미승인' }" class="btn btn-danger" >[[${detail.postingApprove}]]</button>
+                          		</div>
+                              <h4> <  [[ ${detail.postingNo} ]] ></h4>
                               <p>서비스ID : [[ ${detail.coName} ]]</p>
                             </div>
                           </div>
                           <div class="view-mail">
                             <strong>복지 내용 들어갈 자리</strong>
-                            <div><strong>시행 시작 일자 : </strong>[[ ${detail.coUserNo} ]]</div>
-                            <div><strong>시행 종료 일자 : </strong>[[ ${detail.coRegNo} ]]</div>
-                            <div><strong>사업담당부서명 : </strong>[[ ${detail.coName} ]]</div>
-                            <div><strong>시도명 : </strong>[[ ${detail.industry} ]]</div>
-                            <div><strong>시군구명 : </strong>[[ ${detail.repName} ]]</div>
-                            <div><strong>가구상황명 : </strong>[[ ${detail.estYear} ]]</div>
-                            <div><strong>관심주제명 : </strong>[[ ${detail.coAddr} ]]</div>
-                            <div><strong>지원주기명 : </strong>[[ ${detail.mainBusiness} ]]</div>
-                            <div><strong>제공유형명 : </strong>[[ ${detail.region} ]]</div>
-                            <div><strong>지원대상 내용 : </strong>[[ ${detail.etc} ]]</div>
-                            <div><strong>급여서비스 내용 : </strong>[[ ${detail.coUserId} ]]</div>
-                            <div><strong>신청방법 내용 : </strong>[[ ${detail.mgrName} ]]</div>
-                            <div><strong>선정기준 내용 : </strong>[[ ${detail.mgrEmail} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.mgrTel} ]]</div>
+                            <div><strong>시행 시작 일자 : </strong>[[ ${detail.workRegion} ]]</div>
+                            <div><strong>시행 종료 일자 : </strong>[[ ${detail.workRegionNm} ]]</div>
+                            <div><strong>사업담당부서명 : </strong>[[ ${detail.startDate} ]]</div>
+                            <div><strong>시도명 : </strong>[[ ${detail.endDate} ]]</div>
+                            <div><strong>시군구명 : </strong>[[ ${detail.job} ]]</div>
+                            <div><strong>가구상황명 : </strong>[[ ${detail.age} ]]</div>
+                            <div><strong>관심주제명 : </strong>[[ ${detail.gender} ]]</div>
+                            <div><strong>지원주기명 : </strong>[[ ${detail.genderNm} ]]</div>
+                            <div><strong>제공유형명 : </strong>[[ ${detail.empType} ]]</div>
+                            <div><strong>지원대상 내용 : </strong>[[ ${detail.empTypeNm} ]]</div>
+                            <div><strong>급여서비스 내용 : </strong>[[ ${detail.workDay} ]]</div>
+                            <div><strong>신청방법 내용 : </strong>[[ ${detail.workTime} ]]</div>
+                            <div><strong>선정기준 내용 : </strong>[[ ${detail.sal} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.party} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.workContent} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.etcContent} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.priContent} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.coUserNo} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.postingStatus} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.postingStatusNm} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.postingTitle} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.workTimeStart} ]]</div>
+                            <div><strong>서비스 요약 : </strong>[[ ${detail.workTimeEnd} ]]</div>
                           </div>
                           <hr>
-	                                                
-		<!--  -->
-		<div class="modal" tabindex="-1">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">Modal title</h5>
-	                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-		      </div>
-		      <div class="modal-body">
-		        <p>Modal body text goes here.</p>
-		      </div>
-		      <div class="modal-footer">
-         		 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary">Save changes</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		
-
-		
+                          
                           <div class="attachment">
                             <p>
                               <span><i class="fa fa-paperclip"></i> 3 attachments — </span>
@@ -126,13 +117,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             </ul>
                           </div>
                           <div class="btn-group">
-                            <button id="mymodal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-                          
-                            <button id="modal" class="btn btn-sm btn-success" type="button" th:onclick="sendingModal()">문자전송</button>
-                            <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">승인하기</button>
+                            <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
+                            <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/postingok(postingNo=${detail.postingNo})}'|">승인하기</button>
                             <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
-       
-        
+                            
                           </div>
                         </div>
 
@@ -144,21 +132,12 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
               </div>
             </div>
           </div>
-          </div>      
-        
-    
+        </div>
+
 
 <script  th:inline="javascript">
-
-	$('#mymodal').on('click',function(){
-		$('.modal').modal()
-	})
-	$('.btn-close').on('click',function(){
-		$('.modal').hide();
-	})
-
-
-	let wid = /*[[${detail.coRegNo}]]*/
+	
+	let wid = /*[[${detail.postingNo}]]*/
 		
 	  function confirmAndSendSms() {
 	        if (confirm("정말 보내시겠습니까?")) {
@@ -181,10 +160,9 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 	            });
 	        }
 	    }
-
-
-	
 	</script>
 	
 	
+
+
 </html>
