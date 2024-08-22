@@ -366,6 +366,9 @@ function populateVoiceList() {
 		loginBtn.style.border="2px solid white";
 		loginBtn.style.backgroundColor="#007bff";
 		loginBtn.style.color="white"
+		setTimeout(function(){
+			tutorialEnd()
+		},3000)
 	}
 	
 
@@ -387,6 +390,7 @@ function populateVoiceList() {
 		findInfoBtn.style.backgroundColor="#007bff";
 		topMenu.css('background', 'white')
 		findInfoBtn.style.color="";
+		search.style.backgroundColor='white'
 		window.speechSynthesis.cancel()
 		state = 0;
 	}

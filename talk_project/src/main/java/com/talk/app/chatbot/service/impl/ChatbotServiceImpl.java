@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ChatbotServiceImpl implements ChatbotService {
 
-	// FAQMapper 객체를 주입받아 사용 (생성자 주입 방식)
     private final FAQMapper faqMapper;
 
     @Override

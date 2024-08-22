@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="headerFragment">
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="headerFragment"
+		  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <!-- Spinner Start -->
     <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -23,12 +24,8 @@
             	<a th:href="@{/noticeList}" class="nav-item nav-link">공지사항</a>
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
                 <a th:href="${userAuthority == 'ROLE_USER' ? '/userMain' : '/CoUserMain'}" class="nav-item nav-link">마이페이지</a>
-                <th:block th:if="${userAuthority == null}">
-                    <a th:href="@{/login}" class="nav-item nav-link">로그인</a>
-                </th:block>
-                <th:block th:if="${userAuthority != null}">
-                    <a th:href="@{/logout}" class="nav-item nav-link">로그아웃</a>
-                </th:block>
+                <a th:href="@{/login}" class="nav-item nav-link" sec:authorize="isAnonymous()">로그인</a>
+                <a th:href="@{/logout}" class="nav-item nav-link" sec:authorize="isAuthenticated()">로그아웃</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
@@ -40,12 +37,34 @@
                 <a th:href="@{/calendar/welfare}" class="nav-item nav-link">복지제도 일정</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">
-                <form action="/search" method="get" class="d-flex">
+                <!--<form action="/search" method="get" class="d-flex">  -->
                     <input class="form-control me-2" type="text" placeholder="Search.." name="query">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
+                    <button class="btn btn-outline-primary" type="submit" onclick="searchAll()">Search</button>
+                <!-- </form> -->
             </div>
         </div>
     </nav>
     <!-- Navbar End -->
+    
+    <!-- 임시검색결과 모달창 -->
+    <div class="searchResult" style="border:1px solid black; display:none; background-color:white; width:1300px; padding:30px; position:absolute; left:15%; top:30%; ">
+    	<button type="button" class="searchCloseBtn" onclick="closeSearch()" style="float:right;">X</button>
+    	<p>검색결과 샘플데이터1..........................</p>
+    	<p>검색결과 샘플데이터2..........................</p>
+    	<p>검색결과 샘플데이터3..........................</p>
+    	<p>검색결과 샘플데이터4..........................</p>
+    	<p>검색결과 샘플데이터5..........................</p>
+    </div>
+    
+    <script>
+    	let searchResult = $('.searchResult')
+    	
+    	function searchAll(){
+    		searchResult.show()	
+    	}
+    	
+    	function closeSearch(){
+    		searchResult.hide()
+    	}
+    </script>
 </th:block>
