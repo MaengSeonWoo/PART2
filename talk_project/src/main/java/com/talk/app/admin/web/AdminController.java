@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.talk.app.QnA.service.qnaVO;
+import com.talk.app.admember.service.MemberService;
 import com.talk.app.admin.service.SmsService;
 import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareService;
@@ -24,6 +25,7 @@ import com.talk.app.admin.service.WelfareVO;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.login.service.CoUserVO;
+import com.talk.app.posting.service.PostingVO;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Balance;
@@ -50,6 +52,9 @@ public class AdminController {
 
 	@Autowired
 	WelfareService service;
+	
+	@Autowired
+	MemberService mservice;
 
 	@Autowired
 	UploadService uservice;
@@ -58,9 +63,18 @@ public class AdminController {
 	@GetMapping("")
 	// @PreAuthorize(hasRole("Admin")) 
 	// 기업가입목록, 채용승인목록, 일반회원, 기업회원
-	public String main(Model model, CoUserVO cvo, qnaVO qvo) {
+	public String main(Model model, CoUserVO cvo,PostingVO pvo, qnaVO qvo) {
+		List<CoUserVO> clist = mservice.couserApprove();
+		List<PostingVO> plist = mservice.postingApprove();
+		List<qnaVO> ulist = mservice.userAnswer();
+		List<qnaVO> colist = mservice.coAnswer();
+		model.addAttribute("cuser",clist);
+		model.addAttribute("posting",plist);
+		model.addAttribute("ulist",ulist);
+		model.addAttribute("colist",colist);
 		return "admin/main";
 	}
+	
 
 	// 복지목록
 	@GetMapping("welfare")
