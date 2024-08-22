@@ -15,26 +15,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.talk.app.common.service.CommonUtil;
 import com.talk.app.common.service.LoginException;
 import com.talk.app.common.service.PublicCodeService;
+import com.talk.app.common.service.UploadService;
 import com.talk.app.mypage.service.CoPostingService;
+import com.talk.app.notice.service.NoticeService;
 import com.talk.app.posting.service.PostingVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class CoPostingController {
 	
 	private static final Logger log = LoggerFactory.getLogger(CoPostingController.class);
 	
 	private CoPostingService copostingService;
 	private PublicCodeService publiccodeService;
+	private UploadService uploadService;
 	
 	@Autowired
-	public CoPostingController(CoPostingService copostingService, PublicCodeService publiccodeService) {
+	public CoPostingController(CoPostingService copostingService, PublicCodeService publiccodeService, UploadService uploadService) {
 		this.copostingService = copostingService;
 		this.publiccodeService = publiccodeService;
+		this.uploadService = uploadService;
 	}
 	
 	// 마이페이지 채용공고 전체조회
@@ -59,22 +68,6 @@ public class CoPostingController {
 
         return "mypage/copostingInfo";
     }
-	
-//	@GetMapping("copostingInfo")
-//	public String copostingInfo(PostingVO postingVO, Model model) {
-//        PostingVO findVO = new PostingVO();
-//        model.addAttribute("copostingInfo", findVO);
-//        log.info("기모찌 = ",findVO.getPostingStatus());
-//        log.info("기모찌 = ",findVO.getPostingNo());
-//
-//        return "mypage/copostingInfo";
-//    }
-	
-	// 마이페이지 채용공고 등록 - 페이지
-//	@GetMapping("copostingInsert")
-//	public String copostingInsertForm(Model model) {
-//		return "mypage/copostingInsert";
-//	}
 	@GetMapping("copostingInsert")
     public String copostingInsertForm(Model model, Principal principal) {
         PostingVO postingVO = new PostingVO();
@@ -86,39 +79,18 @@ public class CoPostingController {
         model.addAttribute("regionCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
         return "mypage/copostingInsert";
     }
-	// 마이페이지 채용공고 등록 - 처리
-//	@PostMapping("copostingInsert")
-//	public String copostingInsertProcess(PostingVO postingVO) {
-//		int pno = copostingService.insertPosting(postingVO);
-//		
-//		return "redirect:copostingInfo?postingNo=" + pno;
-//	}
 	@PostMapping("copostingInsert")
-	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response) throws LoginException {
+	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response, @RequestPart MultipartFile[] uploadFiles) throws LoginException {
 	    // 현재 로그인한 사용자 ID를 가져와서 coUserNo를 설정합니다.
 	    String coUserId = CommonUtil.getUserId();
 	    int coUserNo = copostingService.getCoUserNoById(coUserId);
-	    postingVO.setCoUserNo(coUserNo); // coUserNo 설정
-	    int pno;
-	   // try {
-	    	pno = copostingService.insertPosting(postingVO);
-	    	return "redirect:copostingInfo?postingNo=" + pno;
-			
-		//} catch (Exception e) {
-			//return "forward:copostingInsert";
-		//}
-
-//	    	PrintWriter out;
-//			try {
-//				out = response.getWriter();
-//				out.println("<script>alert('등록오류'); "
-//						+ "history.go(-1);</script> ");
-//				out.flush();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}	   
-	    	
 	    
+	    postingVO.setCoUserNo(coUserNo); // coUserNo 설정
+	    
+	    int pno;
+	    pno = copostingService.insertPosting(postingVO);
+	    
+    	return "redirect:copostingInfo?postingNo=" + pno;
 	}
 	// 채용공고 수정페이지
 	@GetMapping("copostingUpdate")

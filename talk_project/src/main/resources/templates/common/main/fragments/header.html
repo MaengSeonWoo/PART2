@@ -23,17 +23,11 @@
             	<a th:href="@{/qnaList}" class="nav-item nav-link">Q&A</a>
             	<a th:href="@{/noticeList}" class="nav-item nav-link">공지사항</a>
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
-                <a th:href="${userAuthority == 'ROLE_USER' ? '/userMain' : '/CoUserMain'}" class="nav-item nav-link">마이페이지</a>
+                <a th:href="@{/CoUserMain}" class="nav-item nav-link" sec:authorize="hasRole('ROLE_CO_USER')">마이페이지</a>
+                <a th:href="@{/userMain}" class="nav-item nav-link" sec:authorize="hasRole('ROLE_USER')">마이페이지</a>
                 <a th:href="@{/login}" class="nav-item nav-link" sec:authorize="isAnonymous()">로그인</a>
                 <a th:href="@{/logout}" class="nav-item nav-link" sec:authorize="isAuthenticated()">로그아웃</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu fade-down m-0">
-                        <a href="team.html" class="dropdown-item">Our Team</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item">404 Page</a>
-                    </div>
-                </div>
+                <a th:href="@{/signsel}" class="nav-item nav-link" sec:authorize="isAnonymous()">회원가입</a>
                 <a th:href="@{/calendar/welfare}" class="nav-item nav-link">복지제도 일정</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">

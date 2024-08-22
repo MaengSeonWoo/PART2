@@ -94,7 +94,9 @@
 <body>
 	<div>
 		<h3>채용공고 등록</h3>
-		<form th:action="@{/copostingInsert}" method="post" name="insertForm" th:object="${postingVO}">
+		<form th:action="@{/copostingInsert}" method="post" 
+		 name="insertForm" th:object="${postingVO}" 
+		 enctype="multipart/form-data">
 			<table>
 			<tr>
 				<td><input type="hidden" name="coUserNo"></td>

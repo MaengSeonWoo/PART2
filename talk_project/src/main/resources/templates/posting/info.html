@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{common/main/layouts/default_layout}" layout:fragment="Content">
 
 <head>
@@ -187,7 +188,7 @@
 			</div>
 
 			<div class="card-footer job-footer">
-				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal">지원하기</button>
+				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal" sec:authorize="hasRole('ROLE_USER')">지원하기</button>
 				<button class="btn btn-secondary" onclick="goList()">목록</button>
 			</div>
 		</div>

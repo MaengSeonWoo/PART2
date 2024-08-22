@@ -344,6 +344,7 @@
       }
     }
 	
+
 	// 추출된 텍스트 세션에서 받아오기
 	 const ocr = sessionStorage.getItem('OCR');
      const ocrData = JSON.parse(ocr);
@@ -407,6 +408,136 @@
          
      
      }  
+
+
+    
+  	 // OCR 결과 배열 
+     function sendOcrResult() {
+     // 특정 단어의 위치 찾기     
+	     let resumeTitle = parsedata.slice(0, parsedata.indexOf("기본"));
+	     
+	     let name = parsedata[parsedata.indexOf("이름")+1];
+	     
+	     let birth1 = parsedata[parsedata.indexOf("생년월일")+1];
+	     
+	     let addr = parsedata.slice(parsedata.indexOf("주소")+1,parsedata.indexOf("전화번호"));
+	     
+	     let tel = parsedata[parsedata.indexOf("전화번호")+1];
+	     
+	     let email = parsedata[parsedata.indexOf("이메일")+1];
+	     
+	     let school = parsedata.slice(parsedata.indexOf("졸업년월")+1,parsedata.indexOf("경력사항"));
+	     
+	     let work = parsedata.slice(parsedata.indexOf("종료일")+1,parsedata.indexOf("보유기술/자격증"));
+	     
+	     let get = parsedata.slice(parsedata.indexOf("시행처")+1,parsedata.indexOf("자기소개"));
+	     
+	     let produce = parsedata.slice(parsedata.indexOf("자기소개")+1,);
+	  		 
+	     console.log(resumeTitle, name, birth1, addr, tel, email, school, work, get, produce);
+	    	 
+	    	 
+	    	 
+         const sendOcr = {
+         	 resumeTitle: resumeTitle,
+             name: name,
+             birth: birth1,
+             addr: addr,
+             tel: tel,
+             email: email,
+             school: school,
+             work: work,
+             get: get,
+             produce: produce
+         };
+         sessionStorage.setItem('OCR',JSON.stringify(sendOcr));
+		// 추출된 텍스트 세션에서 받아오기
+		 const ocr = sessionStorage.getItem('OCR');
+		 const ocrData = JSON.parse(ocr);
+	     
+		 function yearmonth(input) {
+			    // 입력이 문자열인지 확인
+			    if (typeof input === 'string') {
+			        // 문자열에서 년도와 월 추출
+			        const match = input.match(/(\d{4})[^\d]*(\d{2})/);
+			        if (match) {
+			            // 추출한 년도와 월을 사용하여 결과 반환
+			            const year = match[1];
+			            const month = match[2].padStart(2, '0'); // 월을 두 자리로 포맷
+			            return `${year}-${month}`;
+			        }
+			    }
+			    
+			    // 입력을 Date 객체로 변환 시도
+			    const date = new Date(input);
+
+			    // 년도와 월 추출
+			    const year = date.getFullYear();
+			    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+			    
+			    // 년-월 형식으로 반환
+			    return `${year}-${month}`;
+			}
+	     
+	     function yearmonthday(inputDate) {
+	    	 	const date = inputDate instanceof Date ? inputDate : new Date(inputDate);
+	    	    const year = date.getFullYear();
+	    	    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+	    	    const day = ('0' + date.getDate()).slice(-2);
+	    	    return `${year}-${month}-${day}`;
+	 	}
+	     
+	     if (ocrData) {
+	    	 document.getElementById('resumeTitle').value = ocrData.resumeTitle.join(' ').replace(/,/g, '');
+	         document.getElementById('resumeName').value = ocrData.name;
+	         let birthday = yearmonthday(ocrData.birth);
+	         document.getElementById('birth').value = birthday;
+	         document.getElementById('addr').value = ocrData.addr.join(' ').replace(/,/g, '');
+	         document.getElementById('tel').value = ocrData.tel;
+	         document.getElementById('email').value = ocrData.email;
+	         document.getElementById('produce').value = ocrData.produce.join(' ').replace(/,/g, '');
+	         
+	        
+	         for(i = 0; i < ocrData.school.length/3; i++){
+	         	if(i!=0) 
+	         		addRow('educationTable')
+	         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#school').value = ocrData.school[i*3];
+	         	document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#major').value = ocrData.school[i*3+1];
+	         	let date = yearmonth(ocrData.school[i*3+2]);
+	            document.querySelectorAll(`#schoolbody tr`)[i].querySelector('#graduation').value = date;
+	         }
+	         
+	     
+	         
+	         for(i = 0; i < ocrData.work.length/4; i++){
+	         	if(i!=0) 
+	         		addRow('careerTable')
+	         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#work').value = ocrData.work[i*4];
+	         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#job').value = ocrData.work[i*4+1];
+	         	let date1 = yearmonthday(ocrData.work[i*4+2]);
+	         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#start').value = date1;
+	         	let date2 = yearmonthday(ocrData.work[i*4+3]);
+	         	document.querySelectorAll(`#workbody tr`)[i].querySelector('#end').value = date2;
+	         }
+	         
+	         for(i = 0; i < ocrData.get.length/3; i++){
+	          	if(i!=0) 
+	          		addRow('certificationTable')
+	          	let getdate = yearmonthday(ocrData.get[i*3]);
+	          	document.querySelectorAll(`#licensebody tr`)[i].querySelector('#get').value = getdate;
+	          	document.querySelectorAll(`#licensebody tr`)[i].querySelector('#license').value = ocrData.get[i*3+1];
+	            document.querySelectorAll(`#licensebody tr`)[i].querySelector('#company').value = ocrData.get[i*3+2];
+	          }
+	         
+	     
+	     }  
+	     
+	     document.getElementById('myModal2').style.display = 'none';
+	     sidebar.children().css('background', 'white')
+     }
+  	 
+  	 
+	// ----------------------------------------------------------------------------------
 
         function readURL(input) {
             if (input.files && input.files[0]) {
