@@ -13,7 +13,7 @@
 			  , co_addr
 			  , co_detail_addr
 			  , main_business
-			  , region
+			  , get_codename(region) as region_nm
 			  , etc
 			  , co_user_id
 			  , co_user_pw
@@ -124,22 +124,23 @@
 	
 	<!-- ======================================================================== -->
 	<select id = "selectUserInfo" resultType="UserVO">
-		SELECT USER_NO
-				,USER_NAME
-				,USER_PW
-				,TEL
-				,POST_NO
-				,ADDR
-				,DETAIL_ADDR
-				,EMAIL
-				,BIRTH
-				,HOUSEHOLD
-				,GENDER
-				,USER_ID
-				,AUTHORITY
+		SELECT user_no
+				,user_name
+				,user_pw
+				,tel
+				,post_no
+				,addr
+				,detail_addr
+				,email
+				,birth
+				,get_codename(household) as household_nm
+				,gender
+				,user_id
+				,authority
 				,del_status
-				,sido
-				,like_subject
+				,get_codename(sido) as sido_nm
+				,get_codename(like_subject) as like_subject_nm
+				,receive
 		FROM users
 		WHERE user_id = #{userId}
 	</select>
@@ -160,6 +161,7 @@
 			,GENDER = #{gender}
 			,sido = #{sido}
 			,like_subject = #{likeSubject}
+			,receive = #{receive}
 		WHERE user_id = #{userId}
 	</update>
 	
