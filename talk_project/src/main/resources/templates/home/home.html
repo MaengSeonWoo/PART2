@@ -124,23 +124,23 @@
 		<div class="container py-3 mb-3">
 			<div class="region-select-section bg-white">
 				<h4>지역을 선택하세요</h4>
-				<a href="https://example.com/search?region=서울특별시" class="btn btn-outline-primary btn-region">서울특별시</a>
-				<a href="https://example.com/search?region=부산광역시" class="btn btn-outline-primary btn-region">부산광역시</a>
-				<a href="https://example.com/search?region=대구광역시" class="btn btn-outline-primary btn-region">대구광역시</a>
-				<a href="https://example.com/search?region=인천광역시" class="btn btn-outline-primary btn-region">인천광역시</a>
-				<a href="https://example.com/search?region=광주광역시" class="btn btn-outline-primary btn-region">광주광역시</a>
-				<a href="https://example.com/search?region=대전광역시" class="btn btn-outline-primary btn-region">대전광역시</a>
-				<a href="https://example.com/search?region=울산광역시" class="btn btn-outline-primary btn-region">울산광역시</a>
-				<a href="https://example.com/search?region=세종특별자치시" class="btn btn-outline-primary btn-region">세종특별자치시</a>
-				<a href="https://example.com/search?region=경기도" class="btn btn-outline-primary btn-region">경기도</a>
-				<a href="https://example.com/search?region=충청북도" class="btn btn-outline-primary btn-region">충청북도</a>
-				<a href="https://example.com/search?region=충청남도" class="btn btn-outline-primary btn-region">충청남도</a>
-				<a href="https://example.com/search?region=전라북도" class="btn btn-outline-primary btn-region">전라북도</a>
-				<a href="https://example.com/search?region=전라남도" class="btn btn-outline-primary btn-region">전라남도</a>
-				<a href="https://example.com/search?region=경상북도" class="btn btn-outline-primary btn-region">경상북도</a>
-				<a href="https://example.com/search?region=경상남도" class="btn btn-outline-primary btn-region">경상남도</a>
-				<a href="https://example.com/search?region=강원특별자치도" class="btn btn-outline-primary btn-region">강원특별자치도</a>
-				<a href="https://example.com/search?region=제주특별자치도" class="btn btn-outline-primary btn-region">제주특별자치도</a>
+				<a href="/posting?pageNum=1&sido=G01&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">서울특별시</a>
+				<a href="/posting?pageNum=1&sido=G02&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">부산광역시</a>
+				<a href="/posting?pageNum=1&sido=G03&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">대구광역시</a>
+				<a href="/posting?pageNum=1&sido=G04&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">인천광역시</a>
+				<a href="/posting?pageNum=1&sido=G05&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">광주광역시</a>
+				<a href="/posting?pageNum=1&sido=G06&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">대전광역시</a>
+				<a href="/posting?pageNum=1&sido=G07&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">울산광역시</a>
+				<a href="/posting?pageNum=1&sido=G08&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">세종특별자치시</a>
+				<a href="/posting?pageNum=1&sido=G09&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">경기도</a>
+				<a href="/posting?pageNum=1&sido=G10&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">충청북도</a>
+				<a href="/posting?pageNum=1&sido=G11&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">충청남도</a>
+				<a href="/posting?pageNum=1&sido=G12&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">전라북도</a>
+				<a href="/posting?pageNum=1&sido=G13&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">전라남도</a>
+				<a href="/posting?pageNum=1&sido=G14&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">경상북도</a>
+				<a href="/posting?pageNum=1&sido=G15&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">경상남도</a>
+				<a href="/posting?pageNum=1&sido=G16&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">강원특별자치도</a>
+				<a href="/posting?pageNum=1&sido=G17&hopeAmount1=&hopeAmount2=&empType=&keyword=" class="btn btn-outline-primary btn-region">제주특별자치도</a>
 			</div>
 		</div>
 	</div>
@@ -150,7 +150,7 @@
     <div class="row posting-row justify-content-center">
     <th:block th:each="post : ${pList}" th:if="${postStat.index} < 8">
         <div class="col-md-3 col-sm-6 mb-4 d-flex">
-            <div class="job-card card">
+            <div class="job-card card" th:onclick="'goInfo(' + ${post.postingNo} + ')'">
                 <img th:src="@{/images/{fileName}(fileName=${post.filePath})}" class="card-img-top" alt="Job Image">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${post.coName}">유안타증권</h5>
@@ -188,6 +188,11 @@
 		</div>
 	</div>
 	<!-- 공지사항 섹션 끝 -->
-
+	<script type="text/javascript">
+		function goInfo(no) {
+			location.href = `/posting/${no}`;
+		}
+		
+	</script>
 </body>
 </html>

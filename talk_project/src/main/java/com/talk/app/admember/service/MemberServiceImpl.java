@@ -78,6 +78,11 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.sendCount(vo);
 	}
 
+	@Override
+	public int postRefuse(int postingNo) {
+		return mapper.postRefuse(postingNo);
+	}
+
 
 	
 

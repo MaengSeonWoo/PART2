@@ -43,15 +43,16 @@ public interface WelfareMapper {
 
 	public List<String> getAllServIds();
 	
-	public List<UserWelfareVO> sendMsg(UserWelfareVO vo);
+	//문자 전송할 사람!!!! 전송할 사람목록임 : 여기서부터오류 
+	public List<UserWelfareVO> sendMsg(@Param("vo")UserWelfareVO vo);
 
-	public List<UserWelfareVO> sendMsg2(int wid);
+	//문자 전송결과
+	public List<UserWelfareVO> sendMsg2(@Param("vo")UserWelfareVO vo, int wid);
 	
+	//문자 전송할사람수
 	public int sendCount(@Param("vo") UserVO vo,@Param("wid") int wid);
 	
-//	public int sendCount(@Param("vo") UserVO vo,@Param("wvo") WelfareVO wvo);
-
-	//유저 상세
+	//유저 정보상세
 	public UserVO userDetail(UserVO vo);
 	
 	

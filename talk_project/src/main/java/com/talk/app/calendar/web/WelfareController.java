@@ -38,21 +38,14 @@ public class WelfareController {
 	@Autowired
 	PublicCodeService pservice;
 
-	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @GetMapping("calendar") public List<Map<String, Object>> calendar(SearchVO
-	 * vo){ return service.calendar(vo); }
-	 */
-	
+	//달력데이터 
 	@ResponseBody
 	@GetMapping("calendar")
 	public List<Map<String, Object>> calendar(SearchVO vo,Model model, Criteria cri){
-		
 	 return service.calendar(vo);
 	}
 	
+	//목록데이터
 	@GetMapping("welfare")
 	public String category(Model model,SearchVO vo, Criteria cri) {
 	    // 리스트 데이터

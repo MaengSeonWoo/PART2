@@ -1,7 +1,9 @@
 package com.talk.app.chatbot.service.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -18,50 +20,89 @@ public class ChatbotServiceImpl implements ChatbotService {
 
     private final FAQMapper faqMapper;
 
+ // 상태를 저장하는 Map을 사용해 첫 대화를 추적 (세션 기반)
+    Map<String, String> conversationState = new HashMap<>();
+
     @Override
-    public String getResponse(String message) {
-        // 사용자가 입력한 메시지에서 키워드를 추출
-        List<String> extractedKeywords = extractKeywordsFromMessage(message);
+    public String getResponse(String message, String roomId) {
+        // 현재 대화 상태를 가져옴 (없으면 기본 상태로 설정)
+        String currentState = conversationState.getOrDefault(roomId, "initial");
 
-        // 추출된 키워드 리스트를 순회하면서 각 키워드로 FAQ를 조회
-        for (String keyword : extractedKeywords) {
-            // 키워드 리스트에서 각 키워드를 이용해 FAQ 항목을 검색
-            List<FAQVO> faqs = faqMapper.findByKeywords(Arrays.asList(keyword));
+        // 처음 대화하는 사용자일 경우 기본 메뉴 출력
+        if (currentState.equals("initial")) {
+            conversationState.put(roomId, "menu"); // 메뉴 상태로 전환
+            return getDefaultMenu();
+        }
 
-            // 검색된 FAQ 항목이 존재하는 경우
-            if (!faqs.isEmpty()) {
-                // 첫 번째 FAQ 항목의 답변을 반환
-                return faqs.get(0).getAnswer();
+        // 사용자가 메뉴에서 선택한 경우에 대한 처리
+        if (currentState.equals("menu")) {
+            switch (message.trim()) {
+                case "1":
+                    conversationState.put(roomId, "general_faq");
+                    return "일반 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
+                case "2":
+                    conversationState.put(roomId, "recruit_faq");
+                    return "채용 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
+                case "3":
+                    conversationState.put(roomId, "benefits_faq");
+                    return "복지제도 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
+                case "4":
+                    conversationState.put(roomId, "other_faq");
+                    return "기타 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
+                default:
+                    return "올바른 선택이 아닙니다. 1에서 4 사이의 숫자를 입력해 주세요.";
             }
         }
 
-        // 키워드가 매칭되지 않거나 FAQ가 없는 경우 기본 응답을 반환
+        // 키워드 추출 후 FAQ 검색
+        List<String> extractedKeywords = extractKeywordsFromMessage(message);
+        for (String keyword : extractedKeywords) {
+            List<FAQVO> faqs = faqMapper.findByKeywords(Arrays.asList(keyword));
+
+            if (!faqs.isEmpty()) {
+                FAQVO faq = faqs.get(0); // 첫 번째 FAQ 항목 선택
+
+                // 긍정적인 응답일 경우 페이지 이동 처리
+                if (isPositiveResponse(message)) {
+                    conversationState.put(roomId, "navigating"); // 상태 변경
+                    return "페이지로 이동합니다: " + faq.getPageUrl() + "\n" + faq.getPageDescription();
+                }
+
+                // 일반 FAQ 응답 처리
+                return faq.getAnswer();
+            }
+        }
+
         return "죄송합니다, 이해하지 못했습니다.";
     }
 
-    // 메시지에서 키워드를 추출하는 메서드
+    // 기본 메뉴 출력 함수
+    private String getDefaultMenu() {
+        return "안녕하세요! 아래에서 궁금한 내용을 선택해 주세요:\n" +
+               "1. 일반 FAQ (서비스, 로그인, 회원가입)\n" +
+               "2. 채용 FAQ (채용공고, 이력서)\n" +
+               "3. 복지제도, 직업훈련영상 FAQ\n" +
+               "4. 기타 FAQ";
+    }
+
+    // 메시지에서 긍정적인 응답을 확인하는 함수
+    private boolean isPositiveResponse(String message) {
+        List<String> positiveResponses = Arrays.asList("네", "그래", "예", "응", "ㅇㅇ");
+        return positiveResponses.stream().anyMatch(response -> message.contains(response));
+    }
+
+    // 메시지에서 키워드를 추출하는 함수
     private List<String> extractKeywordsFromMessage(String message) {
-        // 모든 FAQ 항목을 가져와 키워드 리스트를 생성
-        // FAQ 항목의 키워드 필드를 쉼표(,)로 분리하여 각 키워드를 리스트에 추가
         List<FAQVO> allFAQs = faqMapper.findAll();
         List<String> keywords = allFAQs.stream()
-                // 각 FAQ의 키워드를 쉼표로 분리하여 스트림 생성
                 .flatMap(faq -> Arrays.stream(faq.getKeyword().split(",")))
-                // 키워드 앞뒤 공백을 제거
                 .map(String::trim)
-                // 중복된 키워드 제거
                 .distinct()
-                // 키워드 리스트로 변환
                 .collect(Collectors.toList());
 
-        // 입력된 메시지를 소문자로 변환하여 처리 (대소문자 구분 없이 검색)
         String lowerMessage = message.toLowerCase();
-
-        // 키워드 리스트에서 메시지에 포함된 키워드만 추출
         return keywords.stream()
-                // 메시지에 키워드가 포함되어 있는지 확인
                 .filter(keyword -> lowerMessage.contains(keyword.toLowerCase()))
-                // 키워드 리스트로 반환
                 .collect(Collectors.toList());
     }
 }

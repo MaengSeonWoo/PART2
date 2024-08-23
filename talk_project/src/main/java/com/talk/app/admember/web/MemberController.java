@@ -41,7 +41,6 @@ public class MemberController {
 	public String updateCo(int coUserNo) {
 		int wid = service.coUpdate(coUserNo);
 		return "redirect:detail?coUserNo="+ wid;
-		
 	}
 	
 	//기업회원 거절(승인상태변경,데이터 지우기)
@@ -70,7 +69,13 @@ public class MemberController {
 		return "redirect:postdetail?postingNo="+pid;
 	}
 	
-	
+	//채용등록 거절
+	@GetMapping("noposting")
+	public String refusePost(Model model, int postingNo) {
+		int refuse = service.postRefuse(postingNo);
+		model.addAttribute("refuse",refuse);
+		return "redirect:postdetail?postingNo="+refuse;
+	}
 	
 	//일반회원전체
 	@GetMapping("user")

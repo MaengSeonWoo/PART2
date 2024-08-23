@@ -3,6 +3,7 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <!--/* common/configs/default_config => viewResolver가 읽는 정보 */-->
 <!--/* BootstrapConfig => viewResolver 경로의 파일에서 fragment 정보를 읽은 값 */-->
@@ -11,7 +12,7 @@
 <th:block th:replace="common/main/configs/home_config :: HomeTemplateConfig"></th:block>
 </head>
 <body>
-	<header th:insert="common/main/fragments/header :: headerFragment"></header>
+	<header class="navbar-light shadow sticky-top p-0" th:insert="common/main/fragments/header :: headerFragment"></header>
 	<main>
 		<th:block layout:fragment="Content"></th:block>
 	</main>

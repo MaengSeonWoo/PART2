@@ -48,16 +48,33 @@
 	position: fixed;
 	right: 20px;
 	bottom: 80px;
-	width: 400px; /* 크기를 늘림 */
-	max-height: 500px; /* 높이를 추가 */
+	width: 40%;
+	height: 55%;
+	max-height: 500px;
 	background-color: #ffffff;
 	border: 1px solid #0077b6;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
-	display: none; /* 기본적으로 숨김 */
+	display: none;
 	flex-direction: column;
 	z-index: 2000;
+}
+
+/* 모바일 화면에서 적용될 스타일 (화면 너비가 768px 이하일 때) */
+@media (max-width: 768px) {
+	#chatbot {
+		width: 80%; /* 모바일 화면에서는 너비를 80%로 설정 */
+		right: 10px; /* 오른쪽 간격을 조정 */
+		bottom: 50px; /* 하단 간격을 조정 */
+	}
+}
+
+/* 데스크탑 화면에서 적용될 스타일 (화면 너비가 769px 이상일 때) */
+@media (min-width: 769px) {
+	#chatbot {
+		width: 30%; /* 데스크탑 화면에서는 너비를 50%로 설정 */
+	}
 }
 
 /* 챗봇 컨테이너 */
@@ -216,21 +233,22 @@
 	<script>
 
 
-
 	//annyangtest
 	if (annyang) {
 	        const urlMapping = {
-	            '복지' : 'http://localhost:8080/calendar/welfare',
-	            '로그인':'http://localhost:8080/login',
-	            '이력서':'http://localhost:8080/userMain/resume/save',
-	            '오씨알':'http://localhost:8080/upload-form',
-	            '채용':'http://localhost:8080/posting',
-	            '공지':'http://localhost:8080/noticeList',
-	            '영상':'http://localhost:8080/videoList'
+	            '복지' : '/calendar/welfare',
+	            '로그인':'/login',
+	            '이력서':'/userMain/resume/save',
+	            '오씨알':'/upload-form',
+	            '채용':'/posting',
+	            '공지':'/noticeList',
+	            '영상':'/videoList'
 	        };
+	        
 	        // 문장 서버로전송후분석
 	        annyang.addCallback('result', function(phrases) {
 	        	 $('#chatbotInput').val(phrases[0]); // 첫 번째 인식된 문장을 input에 출력
+	        	 sendMessage();
 	            console.log("Recognized phrases: ", phrases);
 	            annyang.debug(); 
 	            fetch('/analyze', {
@@ -266,16 +284,9 @@
 	                        }
 	                    });
 	                }
-
-					
-					
-					
 	            });
 	        });
-	        
-	        
-	        
-	        
+
 	        // STT 버튼 클릭 시 annyang 실행
 	        $('#sttButton').on('click', function() {
 	            if (annyang) {
@@ -290,7 +301,7 @@
 	        SpeechKITT.vroom();
 	    }
 		
-		document.getElementById('skitt-listening-text__instructions').innerHTML = '무엇을 도와드릴까요?'; 
+		document.getElementById('skitt-listening-text__instructions').innerHTML = '음성으로 질문해 주세요'; 
 
 
 	
@@ -392,6 +403,17 @@ function showMessage(message) {
     chatBody.insertAdjacentHTML('beforeend', botMessage);
 
     scrollToBottom(); // 메시지 수신 후 스크롤 다운
+
+    // 페이지 이동이 포함된 응답일 경우 처리
+    if (message.content.includes("페이지로 이동합니다: ")) {
+        const urlMatch = message.content.match(/페이지로 이동합니다: (.+?)\n/);
+        if (urlMatch) {
+            const pageUrl = urlMatch[1];
+            setTimeout(() => {
+                window.location.href = pageUrl; // 페이지 이동
+            }, 2000); // 2초 후 페이지 이동
+        }
+    }
 }
 
 // 채팅창을 최신 메시지에 맞게 스크롤하는 함수

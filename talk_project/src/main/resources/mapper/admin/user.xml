@@ -149,7 +149,11 @@
 	WHERE posting_no = #{postingNo}
 </update>
 
-
+<update id="postRefuse" parameterType="com.talk.app.posting.service.PostingVO">
+	UPDATE posting
+	SET POSTING_APPROVE ='거절'
+	WHERE posting_no = #{postingNo}
+</update>
 
 
 

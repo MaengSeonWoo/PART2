@@ -76,7 +76,6 @@ public class AdminController {
 		return "admin/main";
 	}
 	
-
 	// 복지목록
 	@GetMapping("welfare")
 	public String welfare(Model model) {
@@ -94,11 +93,11 @@ public class AdminController {
 		WelfareVO findvo = service.welfareDetail(vo);
 		model.addAttribute("detail", findvo);
 		
-		  uvo.setSido(findvo.getSido());
-		  uvo.setLikeSubject(findvo.getLikeSubject());
+		 uvo.setSido(findvo.getSido());
+		 uvo.setLikeSubject(findvo.getLikeSubject());
 		 uvo.setHousehold(findvo.getHousehold());
 		
-		 int count = service.sendCount(uvo, vo.getWid());
+		int count = service.sendCount(uvo, vo.getWid());
 		model.addAttribute("count",count);
 		return "admin/info";
 	}
@@ -212,15 +211,15 @@ public class AdminController {
 		return "admin/cost";
 	}
 
+	//문자 전송하기
 	@GetMapping("/sendmany")
-	public String sendResult(UserWelfareVO vo, Model model) {
+	public String sendResult(UserWelfareVO vo, Model model,UserVO uvo) {
 //    	List<UserWelfareVO> list = sms.sendSmsToEligibleMembers(vo);
 		UserWelfareVO list = sms.sendSmsToEligibleMembers(vo);
 		int wid = list.getWid();
-		List<UserWelfareVO> list2 = service.msgResult(wid);
+		List<UserWelfareVO> list2 = service.msgResult(vo, wid);
 		model.addAttribute("sends", list2);
 		return "admin/sendlist";
-
 	}
 
 	/**

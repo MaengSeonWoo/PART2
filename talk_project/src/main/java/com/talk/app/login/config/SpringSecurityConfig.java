@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.talk.app.login.web.CustomAccessDeniedHandler;
 import com.talk.app.login.web.CustomAuthenticationSuccessHandler;
 import com.talk.app.mypage.service.CoUserUpdateService;
 
@@ -34,27 +36,22 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/**", "/img/**", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId","/login",
-                			 "/signsel","/cologin","/main/**",  "/docs/**", "/production/**","/admin/**")
+            	// 모든 권한이 혀용된 페이지들
+                .antMatchers("/", "/img/**", "/main/**",  "/docs/**", "/production/**","/calendar/**", "/chatbot/**,", "/", "/login", "/loginsel", 
+                			 "/findId", "/findIdResult", "/noticeList", "/noticeInfo", "/posting/**", "/qnaList", "/qnaInfo", "/qnaInsert", "/deleteQna", 
+                			 "/search", "/signsel", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId", "/analyze", "/videoInfo", "/videoList"
+                			 )
                 .permitAll() 
-//                .antMatchers("/admin").hasRole("ADMIN") 
-                .antMatchers("/posting").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
-//                .anyRequest().authenticated()
-                .antMatchers("/", "/img/**", "/main/**",  "/docs/**", "/production/**",
-                			"/signInsert", "/cosignInsert", "/checkUserId",
-                			"/checkCoUserId","/login", "/signsel","/cologin", "/findId","/findIdResult",
-                			"/posting/**")
-                .permitAll() 
-//                .antMatchers("/admin")
-//                .hasRole("ADMIN") 
-                .antMatchers("/posting")
-                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") 
-//                .anyRequest().authenticated()
-                .antMatchers("/admin")
-                .hasRole("ADMIN") 
-                .antMatchers("/mypage/**")
-                .hasAnyRole("USER", "ADMIN", "CO_USER") 
-//                .anyRequest().authenticated()
+                // 일반회원만 접근이 허용된 페이지들
+                .antMatchers("/userwelfarelist", "/userMain/resume/**", "/userMain", "/userupdate", "/userdelete", "/canceluserdel", "/upload-form", "/uploadAndOcr")
+                .hasAuthority("ROLE_USER") 
+                // 기업회원만 접근이 허용된 페이지들
+                .antMatchers("/CoUserMain", "/CoUserUpdate", "/couserdelete", "/cancelDel", "/coresumelist", "/coresumeinfo/**", 
+                			 "/copostingList", "/copostingInfo", "/copostingInsert", "/copostingUpdate", "/copostingDelete")
+                .hasAuthority("ROLE_CO_USER")
+                // 관리자만 접근이 허용된 페이지들
+                .antMatchers("/admin/**", "/noticeInsert", "/noticeUpdate", "/noticeDelete", "/replyInsert", "/deleteReply", "/videoInsert")
+                .hasAuthority("ROLE_ADMIN") 
                 .and()
             .formLogin() 
                 .loginPage("/login") 
@@ -68,6 +65,9 @@ public class SpringSecurityConfig {
                 .logoutSuccessUrl("/login") 
                 .permitAll()
                 .and()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler()) // AccessDeniedHandler 설정
+                .and()
             .csrf().disable(); 
       
         return http.build();
@@ -76,5 +76,10 @@ public class SpringSecurityConfig {
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler(coUserUpdateService); // 의존성 주입
+    }
+    
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 }
