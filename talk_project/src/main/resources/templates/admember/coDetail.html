@@ -65,26 +65,25 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           				<button class="btn btn-success" th:if="${detail.authority == 'ROLE_CO_USER'}" th:text="승인"></button>
                           				<button class="btn btn-danger" th:if="${detail.authority == 'ROLE_CO_REFUSE'}" th:text="거절"></button>
                           		</div>
-                              <h4> <  [[ ${detail.coRegNo} ]] ></h4>
-                              <p>서비스ID : [[ ${detail.coName} ]]</p>
+                              <h4> < 사업자등록번호 :  [[ ${detail.coRegNo} ]] ></h4>
+                              <p>=======</p>
                             </div>
                           </div>
                           <div class="view-mail">
                             <strong>복지 내용 들어갈 자리</strong>
-                            <div><strong>시행 시작 일자 : </strong>[[ ${detail.coUserNo} ]]</div>
-                            <div><strong>시행 종료 일자 : </strong>[[ ${detail.coRegNo} ]]</div>
-                            <div><strong>사업담당부서명 : </strong>[[ ${detail.coName} ]]</div>
-                            <div><strong>시도명 : </strong>[[ ${detail.industry} ]]</div>
-                            <div><strong>시군구명 : </strong>[[ ${detail.repName} ]]</div>
-                            <div><strong>가구상황명 : </strong>[[ ${detail.estYear} ]]</div>
-                            <div><strong>관심주제명 : </strong>[[ ${detail.coAddr} ]]</div>
-                            <div><strong>지원주기명 : </strong>[[ ${detail.mainBusiness} ]]</div>
-                            <div><strong>제공유형명 : </strong>[[ ${detail.region} ]]</div>
-                            <div><strong>지원대상 내용 : </strong>[[ ${detail.etc} ]]</div>
-                            <div><strong>급여서비스 내용 : </strong>[[ ${detail.coUserId} ]]</div>
-                            <div><strong>신청방법 내용 : </strong>[[ ${detail.mgrName} ]]</div>
-                            <div><strong>선정기준 내용 : </strong>[[ ${detail.mgrEmail} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.mgrTel} ]]</div>
+                            <div><strong>기업명 : </strong>[[ ${detail.coName} ]]</div>
+                            <div><strong>기업회원번호 : </strong>[[ ${detail.coUserNo} ]]</div>
+                            <div><strong>업종 : </strong>[[ ${detail.industry} ]]</div>
+                            <div><strong>대표자 : </strong>[[ ${detail.repName} ]]</div>
+                            <div><strong>설립연도 : </strong>[[ ${detail.estYear} ]]</div>
+                            <div><strong>기본주소 : </strong>[[ ${detail.coAddr} ]]</div>
+                            <div><strong>주요사업 : </strong>[[ ${detail.mainBusiness} ]]</div>
+                            <div><strong>행정구역 : </strong>[[ ${detail.region} ]]</div>
+                            <div><strong>기타사항 : </strong>[[ ${detail.etc} ]]</div>
+                            <div><strong>기업아이디 : </strong>[[ ${detail.coUserId} ]]</div>
+                            <div><strong>담당자 이름 : </strong>[[ ${detail.mgrName} ]]</div>
+                            <div><strong>담당자 이메일 : </strong>[[ ${detail.mgrEmail} ]]</div>
+                            <div><strong>담당자 연락처 : </strong>[[ ${detail.mgrTel} ]]</div>
                           </div>
                           <hr>
 	                                                
