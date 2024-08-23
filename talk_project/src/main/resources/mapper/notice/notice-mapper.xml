@@ -59,7 +59,8 @@
 		UPDATE notice
 		SET	
 			notice_title = #{noticeTitle},
-			notice_content = #{noticeContent}
+			notice_content = #{noticeContent},
+			imnotice = #{imNotice}
 		WHERE notice_no = #{noticeNo}	
 	</update>
 	

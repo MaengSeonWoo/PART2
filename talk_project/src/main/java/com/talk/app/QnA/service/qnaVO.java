@@ -14,8 +14,8 @@ public class qnaVO {
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date regDate; // 작성일
 	private String qnaState; // 답변상태
-	private int userNo; // 회원번호
-	private int coUserNo; // 기업회원번호
-	private int replyNo;
+	private Integer userNo; // 회원번호
+	private Integer coUserNo; // 기업회원번호
+	private int replyNo; // 답글번호
 	private String replyContent; // 댓글내용
 }

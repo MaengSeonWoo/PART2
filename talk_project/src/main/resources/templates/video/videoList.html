@@ -83,12 +83,11 @@
         </div>
 	</div>
 	<div class="container">
-	<h2>바로가기 수정</h2>
 		<div class="sub_body">
 			<div class="sub_tab">
 				<ul class="tableMode">
 					<li class="col-xs-2 middle  on"><a href="video.asp?tn=tblLectureRoom&writeType=">전체</a></li>
-					<li class="col-xs-2 middle "><a th:href="#{videoVO.category}=='B01'">건강</a></li>
+					<li class="col-xs-2 middle "><a th:href="#{videoVO.category}">건강</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_hobby">문화&middot;예술</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_mind">교양</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_info">정보미디어</a></li>
@@ -114,7 +113,6 @@
 				</div>
 			</div>
 		</form>	
-		<h2>스타일 수정</h2>
 		<div class="vList">
 		<!-- [[${videoList}]] -->
 			<th:block th:each="vl : ${videoList}">

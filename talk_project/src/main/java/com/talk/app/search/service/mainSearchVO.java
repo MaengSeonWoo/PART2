@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class mainSearchVO {
-	private String searchTitle; // 검색제목
-	private String searchNo; // 검색번호
+	private String searchType;
+	private String searchResult; // 검색제목
+	private int searchNo; // 검색번호
 	
 	private String keyword;
 }

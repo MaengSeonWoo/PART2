@@ -48,7 +48,9 @@
 		       reply_content, 
 		       reg_date, 
 		       q.qna_no,
-		       qna_state
+		       qna_state,
+		       user_no,
+		       co_user_no
 		FROM qna q
     		LEFT OUTER JOIN qna_reply qr
     		ON qr.qna_no = q.qna_no
@@ -68,14 +70,18 @@
 					 qna_no,
 	           	     qna_title,
 	           	     qna_content,
-	                 reg_date
+	                 reg_date,
+	                 user_no,
+	                 co_user_no
 					)
 					VALUES
 					(
 					 #{qnaNo},
 					 #{qnaTitle},
 					 #{qnaContent},
-					 sysdate
+					 sysdate,
+					 #{userNo},
+					 #{coUserNo}
 					)	
 	</insert>
 	
@@ -93,7 +99,7 @@
 	
 	
 	<!-- 유저정보 판단? -->
-	<select id="userInfo" resultType="UserVO">
+	<!-- <select id="userInfo" resultType="UserVO">
 		BEGIN
 			SELECT user_no
 			FROM users
@@ -104,6 +110,5 @@
 			WHERE co_user_id = #{coUserId};
 	
 		END;
-	
-	</select>
+	</select> -->
 </mapper>

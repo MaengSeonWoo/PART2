@@ -31,6 +31,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             String username = ((UserDetails) principal).getUsername();
             
             String role = authentication.getAuthorities().toString();
+            
             // 세션에 userId 추가
             request.getSession().setAttribute("userId", username);
             
@@ -78,12 +79,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 사용자 권한에 따라 리다이렉트 처리
             if (role.contains("ROLE_ADMIN")) {
                 // 관리자 페이지로 리다이렉트
+            	request.getSession().setAttribute("ROLE", "admin");
                 response.sendRedirect(request.getContextPath() + "/admin");
             } else if (role.contains("ROLE_USER")) {
                 // 일반 사용자 페이지로 리다이렉트
+            	request.getSession().setAttribute("ROLE", "user");
                 response.sendRedirect(request.getContextPath() + "/");
             } else {
                 // 기본 리다이렉트
+            	request.getSession().setAttribute("ROLE", "co_user");
                 response.sendRedirect(request.getContextPath() + "/");
             }
             return;

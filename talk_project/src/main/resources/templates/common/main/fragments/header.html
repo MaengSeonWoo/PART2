@@ -31,10 +31,10 @@
                 <a th:href="@{/calendar/welfare}" class="nav-item nav-link">복지제도 일정</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">
-                <!-- <form action="/search" method="get" class="d-flex"> -->  
-                    <input class="form-control me-2" type="text" placeholder="Search.." name="keyword">
+                 <!-- <form action="/search" method="get" class="d-flex"> -->   
+                    <input id="keywordinput" class="form-control me-2" type="text" placeholder="Search.." >
                     <button class="btn btn-outline-primary" type="submit" id="searchBtn">Search</button>
-                <!-- </form> -->
+                 <!-- </form> --> 
             </div>
         </div>
     </nav>
@@ -47,7 +47,7 @@
     	        padding:25px; left:15%; top:7%; 
     	        z-index:9999; position:fixed; 
     	        border:none; box-shadow: 0px 0px 10px gray;
-    	        height:600px;" >
+    	        height:600px; overflow-y:scroll" >
     	<button type="button" class="searchCloseBtn" 
     			style="border:none; position:absolute; right:10px;
     				   background-color:white; color:gray;
@@ -56,10 +56,19 @@
     				   "
     			>X
      	</button>
-    		<p>...................</p>
+    	<table id="modalTable">
+			<tr>    		
+				<th>카테고리 |</th>
+				<th> 검색번호 |</th>
+				<th> 검색결과</th>
+			</tr>
+    	</table>
+     	<br>
+     	<p id="test"></p>
+     	
     </div>
     
-    <script>
+    <script th:inline="javascript">
     	window.onload = function(){
     		
     	  	let searchResult = document.querySelector('.searchResult')
@@ -72,9 +81,78 @@
         	let floatMenu = document.querySelector('.floatMenu')
         	let micBtn = document.querySelector('#skitt-toggle-button') 
         	let state = 0
+        	let modalResult = document.querySelector('#test')
+        	let keywordinput = document.querySelector('#keywordinput')
+        	
+        	function searchbarClear(){
+    	  		keywordinput.addEventListener('click', function(){
+    	  			if(keywordinput.value != ''){
+    	  				keywordinput.value = ''
+    	  			}
+    	  		})
+    	  	}
+    	  	
+    	  	searchbarClear()
         	
 			searchBtn.addEventListener('click', function(){
 				searchAll()
+				/* fetch('/search?keyword='+document.querySelector('#keywordinput').value)
+    				.then(res => res.json())
+    				.then(text => console.log(text)
+    				)
+    				.catch() */
+					modalResult.innerHTML = '';
+				
+				
+				// 상단 메뉴 검색 값 = 영상, 공지사항, 채용공고, 복지제도
+    			$.ajax({
+    				url: "/search?keyword=" + document.querySelector('#keywordinput').value,
+    				type: "get",
+    				datatype: "json",
+    				success: function(data){
+    					let str = JSON.stringify(data)
+    					/*alert(str)*/
+    					
+    					$.each(data, function(index, item) {
+    						
+				        	if(item.searchType == 'notice') {
+				        		$('#test').append(
+										`<a href=/noticeInfo?noticeNo=${item.searchNo} target='_blank' style="font-weight:bold">
+										${item.searchType} | ${item.searchNo} | ${item.searchResult}
+										</a><hr>`)  
+				        	} else if(item.searchType == 'video') {
+				        		$('#test').append(
+										`<a href=/videoInfo?videoNo=${item.searchNo} target='_blank' style="font-weight:bold">
+										${item.searchType} | ${item.searchNo} | ${item.searchResult}
+										</a><hr>`) 
+				        	} else if(item.searchType == 'welfare') {
+				        		$('#test').append(
+										`<a href=/calendar/detail?wid=${item.searchNo} target='_blank'style="font-weight:bold">
+										${item.searchType} | ${item.searchNo} | ${item.searchResult}
+										</a><hr>`) 
+				        	} else {
+				        		$('#test').append(
+										`<a href=/posting/${item.searchNo} target='_blank' style="font-weight:bold">
+										${item.searchType} | ${item.searchNo} | ${item.searchResult}
+										</a><hr>`) 
+				        	}
+					        
+    						
+    						/* $('#test').append(
+    										`<a href="${item.searchNo}">
+    										${item.searchType} | ${item.searchNo} | ${item.searchResult}
+    										</a><br>`) */
+    					})
+    					
+    				}
+    			})
+    			/* end of AJAX */
+    			
+    			/* $('#test').hover(function(){
+    				$(this).css('background-color', 'pink')
+    			}, function(){
+    				$(this).css('background-color', 'white')
+    			}) */
 			})
 			
 			searchCloseBtn.addEventListener('click', function(){
@@ -115,10 +193,7 @@
         		state = 0
         	}	
         	
-        	fetch('/search')
-        		.then(res => response.json())
-        		.then(text => console.log(data))
-        		.catch()
+       
     	} 
     	/*end of window.onload */
     

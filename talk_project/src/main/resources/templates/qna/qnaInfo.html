@@ -155,7 +155,21 @@
 				<th class="no-content">내용</th>
 				<td class="qnaContent" th:text="${qnaInfo.qnaContent}"></td>
 			</tr>
-		</table>
+			</table>
+		<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
+			<table>
+				<tr>
+					<td>
+						<textarea class="replyInput" th:text="${qnaInfo.replyContent}" readonly></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button type="button" class="replyDelBtn" th:onclick="|location.href='@{/deleteReply(replyNo=${qnaInfo.replyNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">댓글삭제</button>
+					</td>
+				</tr>
+			</table>
+		</div>	
 	
 		
 	</div>
@@ -163,7 +177,7 @@
 	
 	<div class="btnAll">
 		<button type="button" class="qnaList" th:onclick="|location.href='@{/qnaList}'|">목록보기</button>
-		<button type="button" class="qnaDel"th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
+		<button th:if="${qnaInfo.qnaState} == 0" type="button" class="qnaDel"th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
 	</div>
 	
 	<form class="insertForm" name="insertForm"
@@ -185,19 +199,6 @@
 			</table>
 		</form>
 		
-	<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
-			<table>
-				<tr>
-					<td>
-						<textarea class="replyInput" th:text="${qnaInfo.replyContent}" readonly></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="button" class="replyDelBtn" th:onclick="|location.href='@{/deleteReply(replyNo=${qnaInfo.replyNo})}'|">댓글삭제</button>
-					</td>
-				</tr>
-			</table>
-	</div>	
+
 </body>
 </html>

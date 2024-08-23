@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.talk.app.search.service.SearchService;
 import com.talk.app.search.service.mainSearchVO;
@@ -18,13 +19,10 @@ public class SearchController {
 
 	private final SearchService searchService;
 	
-	
+	@ResponseBody
 	@GetMapping("/search")
-	public String searchMain(mainSearchVO searchVO, Model model) {
-		List<mainSearchVO> searchResult = searchService.searchAll(searchVO);
-		model.addAttribute("result", searchResult);
-		
-		return "common.main/fragments/header";
+	public List<mainSearchVO> searchMain(mainSearchVO searchVO, Model model) {
+		 return searchService.searchAll(searchVO);
 	}
 	
 	
