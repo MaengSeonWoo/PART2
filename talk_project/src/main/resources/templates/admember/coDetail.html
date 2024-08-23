@@ -55,11 +55,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             <div class="col-md-8">
                               <div class="btn-group">
                                 <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve}'|">목록으로</button>
-                                <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
                               </div>
                             </div>
                             <div class="col-md-4 text-right">
-                              <p class="date"> 작성 일자 들어갈 자리</p>
+                              <p class="date"> ======</p>
                             </div>
                             <div class="col-md-12">
 								<div><button class="btn btn-danger" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
@@ -99,15 +98,13 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 						        <p></p>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-primary" th:onclick="confirmAndSendSms()">문자보내기</button>
+						        <button type="button" class="btn btn-primary" th:onclick="confirmAndSendSms()">전송하기</button>
 				         		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 						      </div>
 						    </div>
 						  </div>
 						</div>
-		
-
-		
+				
                           <div class="attachment">
                             <p>
                               <span><i class="fa fa-paperclip"></i> 3 attachments — </span>
@@ -130,7 +127,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             <button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">승인하기</button>
                             <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
-       
         
                           </div>
                         </div>
@@ -145,7 +141,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
           </div>
           </div>      
         
-    
 
 <script  th:inline="javascript">
 
@@ -155,7 +150,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 	$('.btn-close').on('click',function(){
 		$('.modal').hide();
 	})
-
 
 	let wid = /*[[${detail.coRegNo}]]*/
 		

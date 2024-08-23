@@ -33,6 +33,13 @@ $(document).ready(function() {
 	
     var calendarEl = document.getElementById('calendar');
 
+    var urlParams = new URLSearchParams(window.location.search);
+    var sido = urlParams.get('sido');
+    var likeSubject = urlParams.get('likeSubject');
+    
+    console.log('sido',sido)
+    console.log('likeSubject',likeSubject)
+    
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	
         initialView: 'dayGridMonth',
@@ -45,21 +52,27 @@ $(document).ready(function() {
         selectable: true,
         locale: 'ko',
         events :function( info, successCallback, failureCallback ) { 
-        	console.log(info)
+        	console.log('info',info)
         	 var start = info.startStr.substring(0,7)
         	 var end =info.endStr.substring(0,7)
              $.ajax({
                  url: `/calendar/calendar?start=${start}&end=${end}`,
                  method: 'GET',
                  success: function(response) {
-                      if (response) {
-                			successCallback(response);
+                	 if (response) {
+                         // 필터링 조건 적용
+                         var filteredEvents = response.filter(event => {
+                             return (!sido || event.SIDO === sido) &&
+                                    (!likeSubject || event.LIKE_SUBJECT === likeSubject);
+                         });
+                			successCallback(filteredEvents);
             		} else {
                 		console.error('calendarData가 비어있습니다.');
-            }
+            		}
                  },
                  error: function(err) {
                      failureCallback(err);
+		        	console.log('failureCallback',err)
                  }
              });
         	
@@ -298,9 +311,12 @@ body {
 												[[ ${c.sido}]]
 												</td>
 												<td>[[ ${c.servName} ]]</td>
-												<td>[[ ${c.startDate} ]]</td>
-												<td>[[ ${c.endDate} ]]</td>
-
+												<td>
+												    [[${#strings.substringBefore(c.startDate, ' 00:00:00')}]]
+												 </td>
+												 <td> 
+												    [[${#strings.substringBefore(c.endDate, ' 00:00:00')}]]
+												</td>
 												<!-- <td th:text="${#temporals.format(c.startDate, 'yyyy-MM-dd')}"></td>
 												<td th:text="${#.format(c.endDate, 'yyyy-MM-dd')}"></td> -->
 											</tr>

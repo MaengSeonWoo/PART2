@@ -13,5 +13,6 @@ public class UserWelfareVO {
     private String likeSubject;
     private String household;
     private String servSummary;
+    private String receive;
     
 }

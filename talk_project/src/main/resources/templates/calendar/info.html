@@ -5,6 +5,111 @@
 	layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
+<style>
+	.container1 {
+	margin:auto;
+	margin-top:40px;
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+	margin-bottom:20px;
+	padding:0;
+	width:70%;
+	}
+	
+	.numberRow {
+		border-bottom: 1px dotted gray;
+		line-height: 40px;
+	}
+	
+	.titleRow {
+		border-bottom: 1px dashed black;
+		margin:10px;
+	}
+	
+	.titleRow td {
+		line-height:55px;
+	}
+		
+	.container h3 {
+		padding:10px;
+	}
+	
+	.container table {
+		width:100%;
+		padding:10px;
+	}
+	
+	.container th{
+		width:100px;
+		text-align:center;
+		padding:5px;
+	}
+	
+	.container td {
+		padding:5px;
+	}	
+	
+	.replyInput, .replyContent {
+		width:500px;
+		height:100px;
+	}
+	
+	td:has(.replyContent), td:has(.replyInput) {
+		text-align:center;
+	}
+	
+	
+	.qnaTitle {
+		font-size : 24px;
+		font-weight: bold;
+		width:800px;
+	}
+	
+	.no-content {
+		line-height: 300px;
+	}
+	
+	.btnAll {
+		text-align:center;
+	}
+	
+	.qnaList {
+		border:none;
+		padding:10px;
+		border-radius:10px;
+		color:white;
+		background-color:#9bce26;
+		width:84px;
+	}
+	
+	.qnaDel {
+		border:none;
+		padding:10px;
+		border-radius:10px;
+		color:white;
+		background-color:red;
+		width:84px;
+	}
+	
+	.qnaContent {
+		margin-top:20px;
+		position:absolute;
+		table-layout:fixed;
+		word-break:break-all;
+		max-width:1040px;
+	}
+	
+	.section  th {
+	padding:20px;
+	margin-top: 20px;
+	}
+	
+	.section  td{
+	padding-right: 100px;
+	}
+	
+</style>
+
 <title>복지상세</title>
 </head>
 <body>
@@ -25,65 +130,94 @@
 		</div>
 	</div>
 	
-	<div class="container">
+<div class="container1">
 
 <div class="page_tits">
-            <h3>게시판 관리</h3>
-            <p class="path"><strong>현재 위치 :</strong> <span>게시판 관리</span> <span>리스트형</span> <span>상세정보</span></p>
         </div>
-
         <div class="content">
-            <section>
                 <table class="tb tb_row">
                     <colgroup>
-                        <col style="width:10%;" /><col style="width:23%;" /><col style="width:10%;" /><col style="width:23%;" />
+                        <col style="width:13%;" /><col style="width:27%;" /><col style="width:12%;" /><col style="width:20%;" />
                     </colgroup>
                     <tbody>
-                        <tr>
+                        <tr class="numberRow">
                             <th scope="row">정책 번호</th>
                             <td th:text="${detail.servId}"></td>
 
-                            <th scope="row">시행시작일</th>
-                            <td>[[ ${detail.startDate} ]]</td>
+                            <th scope="row">시행기간</th>
+								<td>
+								    [[${#strings.substringBefore(detail.startDate, ' 00:00:00')}]] ~ 
+								    [[${#strings.substringBefore(detail.endDate, ' 00:00:00')}]]
+								</td>
                         </tr>
-                        <tr class="img">
+<!--                         <tr class="img">
 							<td th:each="file : ${file}">
 								<img width="50%" th:src="@{/images/{fileName}(fileName=${file.filePath})}">
 							</td>
-						</tr>
-                        <tr>
+						</tr> -->
+                        <tr class="titleRow">
                             <th scope="row">제목</th>
-                            <td>[[ ${detail.servName } ]]</td>
+                            <td class="qnaTitle" >[[ ${detail.servName } ]]</td>
 
-                            <th scope="row">지역 </th>
-                            <td colspan="3">[[ ${detail.sido} ]] , [[ ${detail.sgg} ]]</td>
+                            <th scope="row">시도명 , 시군구명</th>
+                            <td colspan="3">[[ ${detail.sido} ]]     [[ ${detail.sgg} ]]</td>
                         </tr>
-                        <tr>
-                            <th scope="row">담당부서</th>
-                            <td colspan="3">[[ ${detail. bizDept} ]]</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">내용</th>
-                            <td colspan="3">[[ ${detail. provType} ]]  /  [[ ${detail. supPeriod} ]]</td>
-                        </tr>
-                        <tr th:each="file : ${file}">
-                            <th scope="row">첨부파일 [바로보기]</th>
-                            <td> <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb"> [[${file.fileName}]]</a></td>
-                            
-                            <!-- <td> <img th:src="@{/images/{fileName}(fileName=${file.filePath})}" alt="img" /></td> -->
-                            <!-- <td>  [[${file.fileName}]] </td> -->
-                        </tr>
+
+
+						<tbody class="section">
+
+	                        <tr th:each="file : ${file}">
+	                            <th scope="row">첨부파일 [바로보기]</th>
+	                            <td> 
+		                            <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb">
+		                             [[${file.fileName}]]
+		                             </a>
+	                             </td>
+	                        </tr>
+                        
+	                        <tr>
+	                            <th  scope="row">담당부서</th>
+	                            <td colspan="3">[[ ${detail. bizDept} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th scope="row">제공유형명,지원주기명</th>
+	                            <td colspan="3">[[ ${detail. provType} ]]  /  [[ ${detail. supPeriod} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">가구상황명</th>
+	                            <td colspan="3">[[ ${detail. household} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">관심주제명</th>
+	                            <td colspan="3">[[ ${detail. likeSubject} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">지원대상 내용</th>
+	                            <td colspan="3">[[ ${detail. supTarget} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">급여서비스 내용</th>
+	                            <td colspan="3">[[ ${detail. salServ} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">신청방법 내용</th>
+	                            <td colspan="3">[[ ${detail. appWay} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">선정기준 내용</th>
+	                            <td colspan="3">[[ ${detail. selStandard} ]]</td>
+	                        </tr>
+	                        <tr>
+	                            <th  scope="row">서비스 요약</th>
+	                            <td colspan="3">[[ ${detail. servSummary} ]]</td>
+	                        </tr>
+	                        
+	                 </tbody>
+	                 
+	                 
                     </tbody>
                 </table>
-                <p class="btn_set">
-                    <a th:href="@{/calendar/welfare}" class="btns btn_bdr3 btn_mid">뒤로</a>
-                </p>
-            </section>
-        </div> <!--/* .content */-->
-
-
-
-
+        </div> 
 
 
 

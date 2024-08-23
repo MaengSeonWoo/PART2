@@ -23,7 +23,7 @@ public interface WelfareService {
 	//문자전송
 	public List<UserWelfareVO> userMsg(UserWelfareVO vo);
 	//전송한 문자결과
-	public List<UserWelfareVO> msgResult(int wid);
+	public List<UserWelfareVO> msgResult(UserWelfareVO vo,int wid);
 	//존송할사람수
 	public int sendCount(UserVO vo, int wid);
 	//유저상세
