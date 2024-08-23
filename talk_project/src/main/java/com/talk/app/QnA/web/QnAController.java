@@ -3,6 +3,9 @@ package com.talk.app.QnA.web;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.talk.app.QnA.service.QnAService;
 import com.talk.app.QnA.service.qnaVO;
 import com.talk.app.login.service.CoUserVO;
+import com.talk.app.login.service.LoginUserVO;
 import com.talk.app.qnaReply.service.QnAReplyService;
 import com.talk.app.qnaReply.service.QnAReplyVO;
 
@@ -53,10 +57,19 @@ public class QnAController {
 
 	// 등록 처리
 	@PostMapping("qnaInsert")
-	public String qnaInsert(qnaVO qnavo) {
-
+	public String qnaInsert(qnaVO qnavo, HttpSession session) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		LoginUserVO userDetail = (LoginUserVO)principal;
+	    int userNo = userDetail.getUserVO().getUserNo();
+		String role = (String)session.getAttribute("ROLE");
+		System.out.println("roleeeeeeeeeeeeeeeeeeeeeeee" +role);
+		if(role.equals("ROLE_USER")) {
+			qnavo.setUserNo(userNo);
+		} else {
+			qnavo.setCoUserNo(userNo);
+		}
 		int nno = qnaService.insertQnA(qnavo);
-
+	
 		return "redirect:qnaInfo?qnaNo=" + nno;
 	}
 

@@ -79,7 +79,7 @@
 	height:fit-content;
 	top:300px;
 	float:right;
-	margin-right:400px;
+	margin-right:10%;
 	margin-top:90px;
 	border:2px solid black;
 	border-radius:20px;
@@ -294,7 +294,7 @@ function populateVoiceList() {
 	let loginBtn = document.querySelector('.loginBtn');
 	let signBtn = document.querySelector('.signBtn');
 	let findInfoBtn = document.querySelector('.findInfoBtn');
-	let state = 0;
+	let loginstate = 0;
 	let topMenu = $('#navbarCollapse')
     let navbar = document.querySelector('.navbar')
 	let search = document.querySelector('input[name=query]')    
@@ -321,15 +321,14 @@ function populateVoiceList() {
 		findInfoBtn.style.backgroundColor="gray";
 		findInfoBtn.style.border="1px solid black"
 		findInfoBtn.style.color="black";
-		search.style.backgroundColor='gray'
 		topMenu.css('background', 'gray')
 		userId.value = '';
 		userPw.value= '';
-		state = 1;
+		loginstate = 1;
 		userId.focus();
 		userId.addEventListener("change", function(e) {
 		console.log("onchange", e.target.value);
-		    if(state == 1){
+		    if(loginstate == 1){
 		    userPw.value='';
 		    passWordHelp();
 		    }
@@ -348,7 +347,7 @@ function populateVoiceList() {
 		findInfoBtn.style.backgroundColor="#007bff";
 		findInfoBtn.style.color="white"
 		userPw.addEventListener("change", function(e) {
-			if(state == 1){
+			if(loginstate == 1){
 				loginBtn.style.border="2px solid red";
 				loginModal();
 				
@@ -357,7 +356,7 @@ function populateVoiceList() {
 	}
 	
 	function loginModal(){
-		state=2;
+		loginstate=2;
 		userPw.style.backgroundColor="gray";
 		tip.innerHTML ="계정과 비밀번호를 모두 맞게 입력하셨다면 로그인을 눌러주세요";
 		findInfoBtn.style.backgroundColor="gray";
@@ -390,9 +389,8 @@ function populateVoiceList() {
 		findInfoBtn.style.backgroundColor="#007bff";
 		topMenu.css('background', 'white')
 		findInfoBtn.style.color="";
-		search.style.backgroundColor='white'
 		window.speechSynthesis.cancel()
-		state = 0;
+		loginstate = 0;
 	}
 	
 	/* tts --------------------------------------------------------------------------------*/
