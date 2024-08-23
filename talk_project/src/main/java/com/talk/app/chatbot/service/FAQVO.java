@@ -12,4 +12,11 @@ public class FAQVO {
     private Date createDate;
     private Date updateDate;
     private String keyword;
+    
+    
+    ///
+    private Integer id;
+    private String category;
+    private String pageUrl;
+    private String pageDescription;
 }
