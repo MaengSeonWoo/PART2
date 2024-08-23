@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talk.app.chatbot.mapper.FAQMapper">
+
+	<!-- 키워드로 FAQ 조회 -->
+    <select id="findByKeywords" resultType="FAQVO" parameterType="list">
+        SELECT *
+        FROM FaqData
+        WHERE LOWER(question) LIKE '%' || LOWER(#{keywords[0]}) || '%'
+        OR LOWER(answer) LIKE '%' || LOWER(#{keywords[0]}) || '%'
+        <if test="keywords.size() > 1">
+            <foreach item="keyword" index="index" collection="keywords" open="AND (" close=")" separator="OR">
+                LOWER(question) LIKE '%' || LOWER(#{keyword}) || '%'
+                OR LOWER(answer) LIKE '%' || LOWER(#{keyword}) || '%'
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 모든 FAQ 항목 조회 -->
+    <select id="findAll" resultType="FAQVO">
+        SELECT * FROM FaqData
+    </select>
+</mapper>

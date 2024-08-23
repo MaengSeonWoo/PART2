@@ -403,6 +403,17 @@ function showMessage(message) {
     chatBody.insertAdjacentHTML('beforeend', botMessage);
 
     scrollToBottom(); // 메시지 수신 후 스크롤 다운
+
+    // 페이지 이동이 포함된 응답일 경우 처리
+    if (message.content.includes("페이지로 이동합니다: ")) {
+        const urlMatch = message.content.match(/페이지로 이동합니다: (.+?)\n/);
+        if (urlMatch) {
+            const pageUrl = urlMatch[1];
+            setTimeout(() => {
+                window.location.href = pageUrl; // 페이지 이동
+            }, 2000); // 2초 후 페이지 이동
+        }
+    }
 }
 
 // 채팅창을 최신 메시지에 맞게 스크롤하는 함수

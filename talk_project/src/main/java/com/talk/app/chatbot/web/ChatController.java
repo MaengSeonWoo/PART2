@@ -65,7 +65,8 @@ public class ChatController {
 	@MessageMapping("/chat.sendMessage")
 	public void sendMessage(ChatMessage message) {
 		String roomId = message.getRoomId();
-		String response = chatbotService.getResponse(message.getContent());
+		String response = chatbotService.getResponse(message.getContent(), roomId);
+
 		ChatMessage botMessage = new ChatMessage("Chatbot", response, MessageType.CHAT, roomId);
 		messagingTemplate.convertAndSend("/topic/" + roomId, botMessage);
 	}
