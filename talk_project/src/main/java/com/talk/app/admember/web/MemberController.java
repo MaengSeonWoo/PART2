@@ -41,7 +41,6 @@ public class MemberController {
 	public String updateCo(int coUserNo) {
 		int wid = service.coUpdate(coUserNo);
 		return "redirect:detail?coUserNo="+ wid;
-		
 	}
 	
 	//기업회원 거절(승인상태변경,데이터 지우기)

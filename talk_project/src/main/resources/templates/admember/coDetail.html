@@ -61,8 +61,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                               <p class="date"> ======</p>
                             </div>
                             <div class="col-md-12">
-								<div><button class="btn btn-danger" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
-                          				<button class="btn btn-success" th:if="${detail.authority == 'ROLE_CO_USER'}" th:text="승인"></button></div>
+								<div><button class="btn btn-warning" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
+                          				<button class="btn btn-success" th:if="${detail.authority == 'ROLE_CO_USER'}" th:text="승인"></button>
+                          				<button class="btn btn-danger" th:if="${detail.authority == 'ROLE_CO_REFUSE'}" th:text="거절"></button>
+                          		</div>
                               <h4> <  [[ ${detail.coRegNo} ]] ></h4>
                               <p>서비스ID : [[ ${detail.coName} ]]</p>
                             </div>
@@ -123,11 +125,11 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             </ul>
                           </div>
                           <div class="btn-group">
-                          
                             <button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
-                            <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">승인하기</button>
-                            <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
-        
+	                            <div th:if="${detail.authority} == 'ROLE_TEMP' ">
+		                            <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">승인하기</button>
+		                            <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
+	                            </div>
                           </div>
                         </div>
 
