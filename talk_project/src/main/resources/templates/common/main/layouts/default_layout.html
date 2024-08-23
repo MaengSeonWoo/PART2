@@ -12,7 +12,7 @@
 <th:block th:replace="common/main/configs/home_config :: HomeTemplateConfig"></th:block>
 </head>
 <body>
-	<header th:insert="common/main/fragments/header :: headerFragment"></header>
+	<header class="navbar-light shadow sticky-top p-0" th:insert="common/main/fragments/header :: headerFragment"></header>
 	<main>
 		<th:block layout:fragment="Content"></th:block>
 	</main>
