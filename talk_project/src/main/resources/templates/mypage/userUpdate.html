@@ -133,8 +133,7 @@ button#updateBtn:hover {
 				    <div th:each="household : ${householdCode}">
 				      <label>
 				        <input type="checkbox" name="household" th:value="${household.mainCode}" 
-				         th:field="*{household}"   
-				         >
+				  		 th:checked="${userInfo.household != null} and ${#strings.contains(userInfo.household, household.mainCode)}">
 				        <span th:text="${household.codeName}"></span>
 				      </label>
 				    </div>

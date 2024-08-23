@@ -201,6 +201,9 @@ public class CoUserUpdateController {
         UserVO findVO = couserupdateService.userInfo(userVO);
         model.addAttribute("users", findVO);
         model.addAttribute("userId", userId); // userId를 모델에 추가
+        model.addAttribute("sidoCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
+        model.addAttribute("householdCode", publiccodeService.selectCode("0K")); // codeRule이 0K인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
+        model.addAttribute("likesubjectCode", publiccodeService.selectCode("0L")); // codeRule이 0L인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
         
      // 현재 인증된 사용자의 권한 정보를 모델에 추가
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
