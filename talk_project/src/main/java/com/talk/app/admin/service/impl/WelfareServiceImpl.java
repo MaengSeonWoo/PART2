@@ -82,8 +82,8 @@ public class WelfareServiceImpl implements WelfareService{
 
 
 	@Override
-	public List<UserWelfareVO> msgResult(int wid) {
-		List<UserWelfareVO> result = mapper.sendMsg2(wid);
+	public List<UserWelfareVO> msgResult(UserWelfareVO vo, int wid) {
+		List<UserWelfareVO> result = mapper.sendMsg2(vo, wid);
 		return result;
 	}
 

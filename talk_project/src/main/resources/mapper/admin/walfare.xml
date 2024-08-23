@@ -192,20 +192,26 @@ WHERE wid = #{wid}
     WHERE serv_id = #{servId}
 </update>
 
-<select id="sendMsg" resultType="com.talk.app.admin.service.UserWelfareVO">
+<select id="sendMsg">
 	SELECT u.user_no,w.wid,w.serv_id, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
 	FROM users u
 	JOIN welfare w 
-	ON u.sido = w.sido
-	WHERE wid = #{wid}
+	on u.sido = #{vo.sido}
+	where u.LIKE_SUBJECT = #{vo.likeSubject}
+	and u.HOUSEHOLD = #{vo.household}
+	and u.receive = '수신'
+	and w.wid = #{vo.wid}
 </select>
 
-<select id="sendMsg2" resultType="com.talk.app.admin.service.UserWelfareVO">
+<select id="sendMsg2" >
 	SELECT u.user_no,u.user_name,w.wid,w.serv_id, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
 	FROM users u
 	JOIN welfare w 
-	ON u.sido = w.sido
-	WHERE wid = #{wid}
+	on u.sido = #{vo.sido}
+	where u.LIKE_SUBJECT = #{vo.likeSubject}
+	and u.HOUSEHOLD = #{vo.household}
+	and u.receive = '수신'
+	and w.wid = #{vo.wid}
 </select>
 
 <update id="timeUpdate">
