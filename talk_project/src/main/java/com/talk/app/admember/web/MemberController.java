@@ -69,6 +69,13 @@ public class MemberController {
 		return "redirect:postdetail?postingNo="+pid;
 	}
 	
+	//채용등록 거절
+	@GetMapping("noposting")
+	public String refusePost(Model model, int postingNo) {
+		int refuse = service.postRefuse(postingNo);
+		model.addAttribute("refuse",refuse);
+		return "redirect:postdetail?postingNo="+refuse;
+	}
 	
 	//일반회원전체
 	@GetMapping("user")

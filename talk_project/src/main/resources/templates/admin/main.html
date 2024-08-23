@@ -74,7 +74,7 @@
 										<td>[[${company.industry}]]</td>
 										<td>[[${#dates.format(company.signupDate, 'yyyy-MM-dd')}]]</td>
 										<td>
-											<button class="btn btn-danger" th:if="${company.authority}" th:text='미승인'></button>
+											<button class="btn btn-warning" th:if="${company.authority}" th:text='미승인'></button>
 										</td>
 								</tr>
 							</tbody>
@@ -124,7 +124,7 @@
 									<td>[[${post.coName}]]</td>
 									<td>[[${#dates.format(post.startDate, 'yyyy-MM-dd')}]]</td>
 									<td>
-										<button class="btn btn-danger" th:if="${post.postingApprove}" th:text='미승인'></button>
+										<button class="btn btn-warning" th:if="${post.postingApprove}" th:text='미승인'></button>
 									</td>
 								</tr>
 							</tbody>
@@ -176,7 +176,7 @@
 									<td>[[${user.userNo}]]</td>
 									<td>[[${user.regDate}]]</td>
 									<td>
-										<button class="btn btn-danger">
+										<button class="btn btn-warning">
 											[[${user.qnaState}]]
 										</button>
 									</td>
@@ -228,7 +228,7 @@
 									<td>[[${coser.userNo}]]</td>
 									<td>[[${coser.regDate}]]</td>
 									<td>
-										<button class="btn btn-danger">
+										<button class="btn btn-warning">
 											[[${coser.qnaState}]]
 										</button>
 									</td>

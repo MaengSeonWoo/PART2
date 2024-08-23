@@ -73,30 +73,25 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             </div>
                           </div>
                           <div class="view-mail">
-                            <strong>복지 내용 들어갈 자리</strong>
-                            <div><strong>시행 시작 일자 : </strong>[[ ${detail.workRegion} ]]</div>
-                            <div><strong>시행 종료 일자 : </strong>[[ ${detail.workRegionNm} ]]</div>
-                            <div><strong>사업담당부서명 : </strong>[[ ${detail.startDate} ]]</div>
-                            <div><strong>시도명 : </strong>[[ ${detail.endDate} ]]</div>
-                            <div><strong>시군구명 : </strong>[[ ${detail.job} ]]</div>
-                            <div><strong>가구상황명 : </strong>[[ ${detail.age} ]]</div>
-                            <div><strong>관심주제명 : </strong>[[ ${detail.gender} ]]</div>
-                            <div><strong>지원주기명 : </strong>[[ ${detail.genderNm} ]]</div>
-                            <div><strong>제공유형명 : </strong>[[ ${detail.empType} ]]</div>
-                            <div><strong>지원대상 내용 : </strong>[[ ${detail.empTypeNm} ]]</div>
-                            <div><strong>급여서비스 내용 : </strong>[[ ${detail.workDay} ]]</div>
-                            <div><strong>신청방법 내용 : </strong>[[ ${detail.workTime} ]]</div>
-                            <div><strong>선정기준 내용 : </strong>[[ ${detail.sal} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.party} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.workContent} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.etcContent} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.priContent} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.coUserNo} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.postingStatus} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.postingStatusNm} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.postingTitle} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.workTimeStart} ]]</div>
-                            <div><strong>서비스 요약 : </strong>[[ ${detail.workTimeEnd} ]]</div>
+                            <strong>채용공고 내용</strong>
+                            <div><strong>근무지역 : </strong>[[ ${detail.workRegion} ]]</div>
+                            <div><strong>모집기간 시작일 : </strong>[[ ${#dates.format(detail.startDate,'yyyy-MM-dd')} ]]</div>
+                            <div><strong>모집기간 마감일 : </strong>[[ ${#dates.format(detail.endDate,'yyyy-MM-dd')} ]]</div>
+                            <div><strong>업종 : </strong>[[ ${detail.job} ]]</div>
+                            <div><strong>연령 : </strong>[[ ${detail.age} ]]</div>
+                            <div><strong>성별 : </strong>[[ ${detail.gender} ]]</div>
+                            <div><strong>고용형태 : </strong>[[ ${detail.empType} ]]</div>
+                            <div><strong>근무시간 일 : </strong>[[ ${detail.workDay} ]]</div>
+                            <div><strong>근무시간 : </strong>[[ ${detail.workTime} ]]</div>
+                            <div><strong>급여 : </strong>[[ ${detail.sal} ]]</div>
+                            <div><strong>모집인원 : </strong>[[ ${detail.party} ]]</div>
+                            <div><strong>근무내용 : </strong>[[ ${detail.workContent} ]]</div>
+                            <div><strong>기타내용 : </strong>[[ ${detail.etcContent} ]]</div>
+                            <div><strong>우대사항 : </strong>[[ ${detail.priContent} ]]</div>
+                            <div><strong>기업회원번호 : </strong>[[ ${detail.coUserNo} ]]</div>
+                            <div><strong>공고 제목 : </strong>[[ ${detail.postingTitle} ]]</div>
+                            <div><strong>출근시간 : </strong>[[ ${detail.workTimeStart} ]]</div>
+                            <div><strong>퇴근시간 : </strong>[[ ${detail.workTimeEnd} ]]</div>
                           </div>
                           <hr>
                           
@@ -120,7 +115,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           <div class="btn-group" th:if="${detail.postingApprove} == '미승인'">
                             <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/postingok(postingNo=${detail.postingNo})}'|">승인하기</button>
-                            <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
+                            <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/noposting(postingNo=${detail.postingNo})}'|">거절하기</button>
+                          거절 :[[${refuse}]]
                           </div>
                         </div>
 
