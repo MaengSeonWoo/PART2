@@ -67,6 +67,13 @@
 			background-color:#06bbcc;
 			padding:10px;
 		}
+		.ocrbtn {
+			border-radius:10px;
+			border:none;
+			font-weight:bold;
+			background-color:#06bbcc;
+			padding:10px;
+		}
 		
 		.tutoModal{
 			width:250px;
@@ -169,7 +176,9 @@
 		<h5>이 준비되어 있습니다. 사용을 원하신다면 아래를 클릭해주세요.</h5>
 		<button type="button" class="tutoBtn" onclick="tutorialStart()">튜토리얼 실행</button>
 	</div>
-	
+	<div>
+		<button type="button" id="openModal" class="ocrbtn">사진으로 작성</button>
+	</div>
 	<div class="tutoModal">
 		<button type="button" class="tutoCloseBtn" onclick="tutorialEnd()">X</button>
 		<p class="tip">이곳에 이력서 제목을 입력해주세요. 입력하신 제목으로 이력서가 저장이 됩니다.</p>
@@ -301,7 +310,6 @@
 
 			<div class="text-end mt-4">
 				<!--/* <button type="button" th:onclick="|location.href='@{/upload-form}'|" class="btn">OCR로 작성</button> */-->
-				<button type="button" id="openModal" class="btn">OCR로 작성</button>
 				<button type="button" class="btn btn-primary saveHandler">저장</button>
 				<button type="button" class="btn btn-secondary" onclick="goList()">취소</button>
 			</div>

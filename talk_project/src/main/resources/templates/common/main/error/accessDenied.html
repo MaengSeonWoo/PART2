@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/default_layout}" layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+    <!-- SweetAlert2 CSS 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10 text-center">
+					<h1 class="display-3 text-white animated slideInDown">403</h1>
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+							<li class="breadcrumb-item text-white active" aria-current="page">403</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+ <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
+                    <h1 class="display-1">403</h1>
+                    <h1 class="mb-4">권한 없음</h1>
+                    <p class="mb-4">해당 페이지에 접근할 권한이 없습니다.</p>
+                    <a class="btn btn-primary rounded-pill py-3 px-5" href="/">Go Back To Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                Swal.fire({
+                    title: '접근권한이 없습니다',
+                    text: '확인버튼을 누르시면 이전페이지로 이동합니다',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.history.back();
+                    }
+                });
+            }, 500); // 0.5초 지연
+        });
+    </script>
+</body>
+</html>

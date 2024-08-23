@@ -65,7 +65,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             <div class="col-md-12">
 								<div>
                     				     <button th:if="${detail.postingApprove == '승인' }" class="btn btn-success" >[[${detail.postingApprove}]]</button>
-                          				<button th:if="${detail.postingApprove == '미승인' }" class="btn btn-danger" >[[${detail.postingApprove}]]</button>
+                          				<button th:if="${detail.postingApprove == '미승인' }" class="btn btn-warning" >[[${detail.postingApprove}]]</button>
+                          				<button th:if="${detail.postingApprove == '거절' }" class="btn btn-danger" >[[${detail.postingApprove}]]</button>
                           		</div>
                               <h4> <  [[ ${detail.postingNo} ]] ></h4>
                               <p>서비스ID : [[ ${detail.coName} ]]</p>
@@ -116,11 +117,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
                             </ul>
                           </div>
-                          <div class="btn-group">
+                          <div class="btn-group" th:if="${detail.postingApprove} == '미승인'">
                             <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/postingok(postingNo=${detail.postingNo})}'|">승인하기</button>
                             <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
-                            
                           </div>
                         </div>
 

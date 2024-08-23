@@ -118,7 +118,7 @@
 							</thead>
 							<tbody>
 								<th:block  th:each=" post : ${posting}">
-								<tr>
+								<tr th:onclick="|location.href='@{/admin/approve/postdetail(postingNo=${post.postingNo})}'|">
 									<td>[[${post.postingNo}]]</td>
 									<td>[[${post.job}]]</td>
 									<td>[[${post.coName}]]</td>
