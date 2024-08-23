@@ -2,6 +2,8 @@ package com.talk.app.mypage.web;
 
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -219,18 +221,11 @@ public class CoUserUpdateController {
             userVO.setUserId(userId);
 
             UserVO findVO = couserupdateService.userInfo(userVO);
+            
             model.addAttribute("userInfo", findVO);
             model.addAttribute("sidoCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
             model.addAttribute("householdCode", publiccodeService.selectCode("0K")); // codeRule이 0K인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
             model.addAttribute("likesubjectCode", publiccodeService.selectCode("0L")); // codeRule이 0L인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
-            
-            
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
-                LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
-                UserVO user = loginUser.getUserVO();
-                model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
-            }
 
 
         return "mypage/userUpdate";

@@ -74,6 +74,7 @@ button#updateBtn {
 button#updateBtn:hover {
     background-color: #218838;
 }
+
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 로드 -->
 </head>
@@ -131,7 +132,9 @@ button#updateBtn:hover {
 				  <td>
 				    <div th:each="household : ${householdCode}">
 				      <label>
-				        <input type="checkbox" name="household" th:value="${household.mainCode}" th:id="'household_' + ${household.mainCode}">
+				        <input type="checkbox" name="household" th:value="${household.mainCode}" 
+				         th:field="*{household}"   
+				         >
 				        <span th:text="${household.codeName}"></span>
 				      </label>
 				    </div>
@@ -140,8 +143,8 @@ button#updateBtn:hover {
 				<tr>
 					<th>성별</th>
 					<td>
-					<input type="radio" name="gender" value="E1" th:checked = "${#strings.isEmpty(userInfo.gender)} and ${userInfo.gender} == 'E1'">남성
-					<input type="radio" name="gender" value="E2" th:checked = "${#strings.isEmpty(userInfo.gender)} and ${userInfo.gender} == 'E2'">여성
+					<input type="radio" name="gender" value="E1" th:checked="${userInfo.gender == 'E1'}">남성
+					<input type="radio" name="gender" value="E2" th:checked="${userInfo.gender == 'E2'}">여성
 					</td>
 				</tr>
 				<tr>
@@ -149,7 +152,9 @@ button#updateBtn:hover {
 				  <td>
 				    <div th:each="likesubject : ${likesubjectCode}">
 				      <label>
-				        <input type="checkbox" name="likeSubject" th:value="${likesubject.mainCode}" th:id="'subject_' + ${likesubject.mainCode}">
+				        <input type="checkbox" name="likeSubject" th:value="${likesubject.mainCode}" 
+				        th:field="*{likeSubject}"
+				        >
 				        <span th:text="${likesubject.codeName}"></span>
 				      </label>
 				    </div>
@@ -159,21 +164,24 @@ button#updateBtn:hover {
 				<th>거주지역</th>
 				<td>
 					<select name="sido">
-						<option value="">지역선택
-						<option th:each="sido : ${sidoCode}" th:value="${sido.mainCode}" th:text="${sido.codeName}">
+						<option value="">지역선택</option>
+						<option th:each="sido : ${sidoCode}" th:value="${sido.mainCode}" th:text="${sido.codeName}" 
+						th:selected="${sido.mainCode == userInfo.sido ? 'selected' : ''}"></option>
 					</select></td>
 				</tr>
 				<tr>
-					<th>SMS 수신 여부</th>
+					<th>SMS</th>
 						<td>
 						  <label>
-						    <input type="radio" name="receive" value="수신">
+						    <input type="radio" name="receive" value="수신" th:checked="${userInfo.receive == '수신'}">
 						    수신
 						  </label>
 						  <label>
-						    <input type="radio" name="receive" value="미수신">
+						    <input type="radio" name="receive" value="미수신" th:checked="${userInfo.receive == '미수신'}">
 						    미수신
 						  </label>
+						<span style="margin-left:50px;">* 수신 선택 시, 회원 정보를 기반으로 복지 혜택을 문자로 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+														  제공받으실 수 있습니다</span>
 						</td>
 				</tr>
 			</table>
