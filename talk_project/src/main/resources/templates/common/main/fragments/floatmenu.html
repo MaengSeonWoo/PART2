@@ -216,21 +216,22 @@
 	<script>
 
 
-
 	//annyangtest
 	if (annyang) {
 	        const urlMapping = {
-	            '복지' : 'http://localhost:8080/calendar/welfare',
-	            '로그인':'http://localhost:8080/login',
-	            '이력서':'http://localhost:8080/userMain/resume/save',
-	            '오씨알':'http://localhost:8080/upload-form',
-	            '채용':'http://localhost:8080/posting',
-	            '공지':'http://localhost:8080/noticeList',
-	            '영상':'http://localhost:8080/videoList'
+	            '복지' : '/calendar/welfare',
+	            '로그인':'/login',
+	            '이력서':'/userMain/resume/save',
+	            '오씨알':'/upload-form',
+	            '채용':'/posting',
+	            '공지':'/noticeList',
+	            '영상':'/videoList'
 	        };
+	        
 	        // 문장 서버로전송후분석
 	        annyang.addCallback('result', function(phrases) {
 	        	 $('#chatbotInput').val(phrases[0]); // 첫 번째 인식된 문장을 input에 출력
+	        	 sendMessage();
 	            console.log("Recognized phrases: ", phrases);
 	            annyang.debug(); 
 	            fetch('/analyze', {
@@ -266,16 +267,9 @@
 	                        }
 	                    });
 	                }
-
-					
-					
-					
 	            });
 	        });
-	        
-	        
-	        
-	        
+
 	        // STT 버튼 클릭 시 annyang 실행
 	        $('#sttButton').on('click', function() {
 	            if (annyang) {
@@ -290,7 +284,7 @@
 	        SpeechKITT.vroom();
 	    }
 		
-		document.getElementById('skitt-listening-text__instructions').innerHTML = '무엇을 도와드릴까요?'; 
+		document.getElementById('skitt-listening-text__instructions').innerHTML = '음성으로 질문해 주세요'; 
 
 
 	

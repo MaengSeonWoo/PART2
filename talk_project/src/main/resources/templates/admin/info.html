@@ -61,11 +61,10 @@
                             <div class="col-md-8">
                               <div class="btn-group">
                                 <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/welfare}'|">목록으로</button>
-                                <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
                               </div>
                             </div>
                             <div class="col-md-4 text-right">
-                              <p class="date"> 작성 일자 들어갈 자리</p>
+                              <p class="date"> ==========</p>
                             </div>
                             <div class="col-md-12">
                               <h4>< [[ ${detail.servName} ]] ></h4>
@@ -111,8 +110,8 @@
                           <div class="btn-group">
                             <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
 							<button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
-								<!--  -->
-								<div class="modal" tabindex="-1">
+								<!-- 1 -->
+								<div class="modal" id="modal1" tabindex="-1">
 								  <div class="modal-dialog">
 								    <div class="modal-content">
 								      <div class="modal-header">
@@ -123,13 +122,32 @@
 								        <p>총 ' [[${count}]] ' 명에게 전송합니다</p>
 								      </div>
 								      <div class="modal-footer">
-								        <button type="button" class="btn btn-primary" th:onclick="confirmAndSendSms()">문자보내기</button>
+								         <button type="button" class="btn btn-primary" id="mymodal2">문자보내기</button>
 						         		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 								      </div>
 								    </div>
 								  </div>
 								</div>
-								[[${user}]]
+								<!--1  -->
+								<!-- Moda2l -->
+									<div class="modal" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									  <div class="modal-dialog">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h1 class="modal-title fs-5" id="exampleModalLabel">완료</h1>
+									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									      </div>
+									      <div class="modal-body">
+									        ...
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-primary" th:onclick="confirmAndSendSms()">완료</button>
+									      </div>
+									    </div>
+									  </div>
+									</div>
+								<!-- Modal -->
+								
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/update(wid=${detail.wid})}'|">수정</button>
                          	<button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/delete(wid=${detail.wid})}'|">삭제</button>
                             
@@ -147,17 +165,29 @@
         </div>
 	
 	<script  th:inline="javascript">
+	let detail = /*[[${detail}]]*/
+	
+	//let wid = /*[[${detail.wid}]]*/ 
+	//let likeSubject = /*[[${detail.likeSubject}]]*/
+	//let household = /*[[${detail.household}]]*/
 	
 	$('#mymodal').on('click',function(){
-		$('.modal').modal()
+		$('#modal1').modal()
 	})
 	$('.btn-close').on('click',function(){
-		$('.modal').hide();
+		$('#modal1').hide();
 	})
 	
-	let wid = /*[[${detail.wid}]]*/
-		
+	$('#mymodal2').on('click',function(){
+		$('#modal2').modal()
+	})
+	
+	/* $('.btn-close2').on('click',function(){
+		$('#modal2').hide();
+	}) */
+	
 	  function confirmAndSendSms() {
+		console.log(detail.wid, detail.sido, detail.likeSubject, detail.household);
 	            // 서버로 문자 전송 요청을 보냅니다.
 	            fetch('/admin/sendmsg', {
 	                method: 'GET'
@@ -165,8 +195,8 @@
 	            .then(response => {
 	            	console.log(response);
 	                if (response.ok) {
-	                    alert("정말 전송되었습니다.");
-	                    window.location.href ='http://localhost:8080/admin/sendmany?wid='+ wid;
+	                	
+	                    window.location.href ='/admin/sendmany?wid='+ detail.wid +'&sido='+detail.sido+'&likeSubject='+detail.likeSubject+'&household='+ detail.household;
 	                } else {
 	                    alert("문자 전송에 실패했습니다.");
 	                }
@@ -180,3 +210,4 @@
 	
 	
 </html>
+

@@ -212,15 +212,15 @@ public class AdminController {
 		return "admin/cost";
 	}
 
+	//문자 전송하기
 	@GetMapping("/sendmany")
-	public String sendResult(UserWelfareVO vo, Model model) {
+	public String sendResult(UserWelfareVO vo, Model model,UserVO uvo) {
 //    	List<UserWelfareVO> list = sms.sendSmsToEligibleMembers(vo);
 		UserWelfareVO list = sms.sendSmsToEligibleMembers(vo);
 		int wid = list.getWid();
-		List<UserWelfareVO> list2 = service.msgResult(wid);
+		List<UserWelfareVO> list2 = service.msgResult(vo, wid);
 		model.addAttribute("sends", list2);
 		return "admin/sendlist";
-
 	}
 
 	/**

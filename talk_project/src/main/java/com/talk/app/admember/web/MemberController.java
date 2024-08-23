@@ -71,7 +71,6 @@ public class MemberController {
 	}
 	
 	
-	
 	//일반회원전체
 	@GetMapping("user")
 	public String userAll(Model model, UserVO vo) {
