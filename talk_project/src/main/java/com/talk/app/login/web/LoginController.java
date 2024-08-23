@@ -25,6 +25,11 @@ public class LoginController {
         return "login/loginSelect";
     }
     
+    @GetMapping("/accessdenied")
+    public String accessDenied() {
+        return "common/main/error/accessDenied";
+    }
+    
     @PostMapping("/login_success_handler")
     public String userAccess(HttpSession session, Authentication authentication, Model model) {
         // 현재 Authentication 객체 가져오기

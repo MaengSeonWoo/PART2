@@ -216,8 +216,13 @@ p.card-text {
 					<div class="job-card card"
 						th:onclick="'goInfo(' + ${posting.postingNo} + ')'">
 						<div class="card-body">
-							<img width="80px"
-								th:src="@{/images/{fileName}(fileName=${posting.filePath})}">
+							<div th:if="${posting.filePath == null}"> 
+					             <img src= "/main/img/basic_company_img.png" style = "width: 100px; height: 100px;">
+					        </div>
+					        <div th:if="${posting.filePath != null}">
+					            <img width="80px"
+								 th:src="@{/images/{fileName}(fileName=${posting.filePath})}">
+					        </div>
 							<h5 class="card-title" th:text="${posting.coName}">유안타증권</h5>
 							<p class="card-text" th:text="${posting.postingTitle}">IT본부
 								경력직 모집</p>
