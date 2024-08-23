@@ -77,21 +77,21 @@ public class ChatController {
 //        return new ChatMessage(message.getSender(), response, MessageType.CHAT);
 //    }
 
-	@MessageMapping("/chat.addUser")
-	public void addUser(ChatMessage message, SimpMessageHeaderAccessor headerAccessor) {
-		String roomId = message.getRoomId();
-		headerAccessor.getSessionAttributes().put("roomId", roomId);
-		messagingTemplate.convertAndSend("/topic/" + roomId,
-				new ChatMessage(message.getSender(), "님이 입장하셨습니다.", MessageType.JOIN, roomId));
-	}
-
-	@MessageMapping("/chat.leaveUser")
-	public void leaveUser(ChatMessage message, SimpMessageHeaderAccessor headerAccessor) {
-		String roomId = message.getRoomId();
-		messagingTemplate.convertAndSend("/topic/" + roomId,
-				new ChatMessage(message.getSender(), "님이 퇴장하셨습니다.", MessageType.LEAVE, roomId));
-		headerAccessor.getSessionAttributes().remove("roomId");
-	}
+//	@MessageMapping("/chat.addUser")
+//	public void addUser(ChatMessage message, SimpMessageHeaderAccessor headerAccessor) {
+//		String roomId = message.getRoomId();
+//		headerAccessor.getSessionAttributes().put("roomId", roomId);
+//		messagingTemplate.convertAndSend("/topic/" + roomId,
+//				new ChatMessage(message.getSender(), "님이 입장하셨습니다.", MessageType.JOIN, roomId));
+//	}
+//
+//	@MessageMapping("/chat.leaveUser")
+//	public void leaveUser(ChatMessage message, SimpMessageHeaderAccessor headerAccessor) {
+//		String roomId = message.getRoomId();
+//		messagingTemplate.convertAndSend("/topic/" + roomId,
+//				new ChatMessage(message.getSender(), "님이 퇴장하셨습니다.", MessageType.LEAVE, roomId));
+//		headerAccessor.getSessionAttributes().remove("roomId");
+//	}
 
 //	// 메시지를 처리하는 메서드: 클라이언트가 "/app/chat.sendMessage"로 메시지를 보냈을 때 호출됨
 //    @MessageMapping("/chat.sendMessage")

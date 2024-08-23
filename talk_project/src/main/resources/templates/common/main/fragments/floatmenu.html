@@ -48,16 +48,33 @@
 	position: fixed;
 	right: 20px;
 	bottom: 80px;
-	width: 400px; /* 크기를 늘림 */
-	max-height: 500px; /* 높이를 추가 */
+	width: 40%;
+	height: 40%;
+	max-height: 500px;
 	background-color: #ffffff;
 	border: 1px solid #0077b6;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
-	display: none; /* 기본적으로 숨김 */
+	display: none;
 	flex-direction: column;
 	z-index: 2000;
+}
+
+/* 모바일 화면에서 적용될 스타일 (화면 너비가 768px 이하일 때) */
+@media (max-width: 768px) {
+	#chatbot {
+		width: 80%; /* 모바일 화면에서는 너비를 80%로 설정 */
+		right: 10px; /* 오른쪽 간격을 조정 */
+		bottom: 50px; /* 하단 간격을 조정 */
+	}
+}
+
+/* 데스크탑 화면에서 적용될 스타일 (화면 너비가 769px 이상일 때) */
+@media (min-width: 769px) {
+	#chatbot {
+		width: 30%; /* 데스크탑 화면에서는 너비를 50%로 설정 */
+	}
 }
 
 /* 챗봇 컨테이너 */
