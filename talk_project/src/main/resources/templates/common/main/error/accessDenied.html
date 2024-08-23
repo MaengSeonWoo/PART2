@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/main/layouts/default_layout}" layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+    <!-- SweetAlert2 CSS 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <h1>Access Denied</h1>
+    <p>뒤로 돌아가시오</p>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                Swal.fire({
+                    title: '접근권한이 없습니다',
+                    text: '확인버튼을 누르시면 이전페이지로 이동합니다',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.history.back();
+                    }
+                });
+            }, 500); // 0.5초 지연
+        });
+    </script>
+</body>
+</html>
