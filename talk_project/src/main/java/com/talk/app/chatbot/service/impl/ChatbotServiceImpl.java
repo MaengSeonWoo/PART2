@@ -1,108 +1,148 @@
 package com.talk.app.chatbot.service.impl;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
-import com.talk.app.chatbot.mapper.FAQMapper;
+import com.talk.app.chatbot.mapper.QuestionsMapper;
+import com.talk.app.chatbot.mapper.StepsMapper;
 import com.talk.app.chatbot.service.ChatbotService;
 import com.talk.app.chatbot.service.FAQVO;
+import com.talk.app.chatbot.service.Question;
+import com.talk.app.chatbot.service.Step;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class ChatbotServiceImpl implements ChatbotService {
+	private final QuestionsMapper questionsMapper;
+	private final StepsMapper stepsMapper;
+	private final ConcurrentHashMap<String, Integer> roomQuestionState = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, Integer> roomStepState = new ConcurrentHashMap<>();
 
-    private final FAQMapper faqMapper;
+	@Override
+	public void initializeRoom(String roomId) {
+		roomQuestionState.put(roomId, -1); // Initialize with no question selected
+		roomStepState.put(roomId, -1); // Initialize with no step selected
+	}
 
- // 상태를 저장하는 Map을 사용해 첫 대화를 추적 (세션 기반)
-    Map<String, String> conversationState = new HashMap<>();
+	@Override
+	public void endRoom(String roomId) {
+		roomQuestionState.remove(roomId);
+		roomStepState.remove(roomId);
+	}
 
-    @Override
-    public String getResponse(String message, String roomId) {
-        // 현재 대화 상태를 가져옴 (없으면 기본 상태로 설정)
-        String currentState = conversationState.getOrDefault(roomId, "initial");
+	@Override
+	public String processMessage(String message, String roomId) {
+		// 특정 키워드가 포함된 경우 우선 처리
+		String keywordResponse = handleKeyword(message);
+		if (keywordResponse != null) {
+			return keywordResponse;
+		}
 
-        // 처음 대화하는 사용자일 경우 기본 메뉴 출력
-        if (currentState.equals("initial")) {
-            conversationState.put(roomId, "menu"); // 메뉴 상태로 전환
-            return getDefaultMenu();
-        }
+		int currentQuestionId = roomQuestionState.getOrDefault(roomId, -1);
+		int currentStepId = roomStepState.getOrDefault(roomId, -1);
 
-        // 사용자가 메뉴에서 선택한 경우에 대한 처리
-        if (currentState.equals("menu")) {
-            switch (message.trim()) {
-                case "1":
-                    conversationState.put(roomId, "general_faq");
-                    return "일반 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
-                case "2":
-                    conversationState.put(roomId, "recruit_faq");
-                    return "채용 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
-                case "3":
-                    conversationState.put(roomId, "benefits_faq");
-                    return "복지제도 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
-                case "4":
-                    conversationState.put(roomId, "other_faq");
-                    return "기타 FAQ를 선택하셨습니다. 질문을 입력해 주세요.";
-                default:
-                    return "올바른 선택이 아닙니다. 1에서 4 사이의 숫자를 입력해 주세요.";
-            }
-        }
+		if (currentQuestionId == -1) {
+			return getInitialMenu(roomId);
+		} else if (currentQuestionId == 0) {
+			return handleCategorySelection(message, roomId);
+		} else if (currentStepId == -1) {
+			return handleInitialQuestion(currentQuestionId, roomId);
+		} else {
+			return handleStepResponse(message, roomId, currentStepId);
+		}
+	}
 
-        // 키워드 추출 후 FAQ 검색
-        List<String> extractedKeywords = extractKeywordsFromMessage(message);
-        for (String keyword : extractedKeywords) {
-            List<FAQVO> faqs = faqMapper.findByKeywords(Arrays.asList(keyword));
+	private String getInitialMenu(String roomId) {
+		roomQuestionState.put(roomId, 0);
+		return "안녕하세요! 아래에서 궁금한 내용을 선택해 주세요:\n" + "1. 일반 FAQ (서비스, 로그인, 회원가입)\n" + "2. 채용 FAQ (채용공고, 이력서)\n"
+				+ "3. 복지제도, 직업훈련영상 FAQ\n" + "4. 기타 FAQ\n";
+	}
 
-            if (!faqs.isEmpty()) {
-                FAQVO faq = faqs.get(0); // 첫 번째 FAQ 항목 선택
+	private String handleCategorySelection(String message, String roomId) {
+		String categoryName = null;
 
-                // 긍정적인 응답일 경우 페이지 이동 처리
-                if (isPositiveResponse(message)) {
-                    conversationState.put(roomId, "navigating"); // 상태 변경
-                    return "페이지로 이동합니다: " + faq.getPageUrl() + "\n" + faq.getPageDescription();
-                }
+		switch (message.trim().toLowerCase()) {
+		case "1":
+		case "일반":
+		case "일반 faq":
+			categoryName = "일반 FAQ";
+			break;
+		case "2":
+		case "채용":
+		case "채용 faq":
+			categoryName = "채용 FAQ";
+			break;
+		case "3":
+		case "복지제도":
+		case "직업훈련영상":
+		case "복지제도 faq":
+		case "직업훈련영상 faq":
+			categoryName = "복지제도, 직업훈련영상 FAQ";
+			break;
+		case "4":
+		case "기타":
+		case "기타 faq":
+			categoryName = "기타 FAQ";
+			break;
+		default:
+			return "올바른 선택이 아닙니다. 1에서 4 사이의 숫자 또는 해당 카테고리 이름을 입력해 주세요.";
+		}
 
-                // 일반 FAQ 응답 처리
-                return faq.getAnswer();
-            }
-        }
+		List<Question> questions = questionsMapper.getQuestionsByCategory(categoryName);
+		StringBuilder response = new StringBuilder(categoryName + "를 선택하셨습니다. 다음 중 선택해주세요:\n");
+		for (Question question : questions) {
+			response.append(question.getQuestionId()).append(". ").append(question.getInitialQuestion()).append("\n");
+		}
 
-        return "죄송합니다, 이해하지 못했습니다.";
-    }
+		roomQuestionState.put(roomId, questions.get(0).getQuestionId());
+		return response.toString();
+	}
 
-    // 기본 메뉴 출력 함수
-    private String getDefaultMenu() {
-        return "안녕하세요! 아래에서 궁금한 내용을 선택해 주세요:\n" +
-               "1. 일반 FAQ (서비스, 로그인, 회원가입)\n" +
-               "2. 채용 FAQ (채용공고, 이력서)\n" +
-               "3. 복지제도, 직업훈련영상 FAQ\n" +
-               "4. 기타 FAQ";
-    }
+	private String handleInitialQuestion(int currentQuestionId, String roomId) {
+		Question question = questionsMapper.getQuestionById(currentQuestionId);
+		roomStepState.put(roomId, question.getInitialStepId());
+		return question.getInitialQuestion();
+	}
 
-    // 메시지에서 긍정적인 응답을 확인하는 함수
-    private boolean isPositiveResponse(String message) {
-        List<String> positiveResponses = Arrays.asList("네", "그래", "예", "응", "ㅇㅇ");
-        return positiveResponses.stream().anyMatch(response -> message.contains(response));
-    }
+	private String handleStepResponse(String message, String roomId, int currentStepId) {
+		Step currentStep = stepsMapper.getStepById(currentStepId);
+		String response = currentStep.getStepText();
 
-    // 메시지에서 키워드를 추출하는 함수
-    private List<String> extractKeywordsFromMessage(String message) {
-        List<FAQVO> allFAQs = faqMapper.findAll();
-        List<String> keywords = allFAQs.stream()
-                .flatMap(faq -> Arrays.stream(faq.getKeyword().split(",")))
-                .map(String::trim)
-                .distinct()
-                .collect(Collectors.toList());
+		if (message.contains("네") || message.contains("그래") || message.contains("ㅇㅇ")) {
+			if (currentStep.getActionUrl() != null) {
+				response += " 페이지로 이동합니다: " + currentStep.getActionUrl();
+			}
+		}
 
-        String lowerMessage = message.toLowerCase();
-        return keywords.stream()
-                .filter(keyword -> lowerMessage.contains(keyword.toLowerCase()))
-                .collect(Collectors.toList());
-    }
+		if (currentStep.getNextStepId() != 0) {
+			roomStepState.put(roomId, currentStep.getNextStepId());
+		} else {
+			roomStepState.remove(roomId);
+		}
+
+		return response;
+	}
+
+	private String handleKeyword(String message) {
+		// 특정 키워드를 감지하여 즉시 응답 처리
+		List<FAQVO> faqs = questionsMapper.findByKeywords(message.toLowerCase());
+		if (!faqs.isEmpty()) {
+			FAQVO faq = faqs.get(0);
+
+			// 페이지 이동이 필요한 경우
+			if (faq.getPageUrl() != null) {
+				return "페이지로 이동합니다: " + faq.getPageUrl() + "\n" + faq.getPageDescription();
+			}
+
+			// 일반 텍스트 응답
+			return faq.getAnswer();
+		}
+
+		return null; // 키워드에 해당하는 응답이 없을 경우
+	}
+
 }

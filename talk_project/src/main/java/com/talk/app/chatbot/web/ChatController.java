@@ -46,30 +46,32 @@ public class ChatController {
 	@ResponseBody
 	public Map<String, String> createRoom() {
 		String roomId = UUID.randomUUID().toString();
-		rooms.put(roomId, roomId);
-		Map<String, String> response = new HashMap<>();
-		response.put("roomId", roomId);
-		return response;
+        rooms.put(roomId, roomId);
+        chatbotService.initializeRoom(roomId);
+        Map<String, String> response = new HashMap<>();
+        response.put("roomId", roomId);
+        return response;
 	}
 
 	@PostMapping("/endRoom/{roomId}")
 	@ResponseBody
 	public ResponseEntity<String> endRoom(@PathVariable String roomId) {
 		if (rooms.remove(roomId) != null) {
-			return ResponseEntity.ok("Room ended successfully");
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
-		}
-	}
+            chatbotService.endRoom(roomId);
+            return ResponseEntity.ok("Room ended successfully");
+        } else {
+            return ResponseEntity.status(404).body("Room not found");
+        }
+    }
 
 	@MessageMapping("/chat.sendMessage")
 	public void sendMessage(ChatMessage message) {
 		String roomId = message.getRoomId();
-		String response = chatbotService.getResponse(message.getContent(), roomId);
+        String response = chatbotService.processMessage(message.getContent(), roomId);
 
-		ChatMessage botMessage = new ChatMessage("Chatbot", response, MessageType.CHAT, roomId);
-		messagingTemplate.convertAndSend("/topic/" + roomId, botMessage);
-	}
+        ChatMessage botMessage = new ChatMessage("Chatbot", response, message.getType(), roomId);
+        messagingTemplate.convertAndSend("/topic/" + roomId, botMessage);
+    }
 
 //	@MessageMapping("/chat.sendMessage")
 //    @SendTo("/topic/public")
