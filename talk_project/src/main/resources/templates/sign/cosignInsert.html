@@ -17,12 +17,20 @@ table {
 }
 
 th {
-    text-align: left;
-    padding-bottom: 10px;
     font-weight: bold;
     font-size: 14px;
-    color: #555;
+    color: black;
     text-transform: uppercase;
+    background-color: #B2EBF4;
+    text-align: center;
+    padding: 15px;
+
+}
+
+th.required::after {
+    content: '*';
+    color: red; /* 빨간색으로 설정 */
+    margin-left: 5px; /* 기호와 텍스트 사이의 간격 조정 */
 }
 
 td input[type="text"],
@@ -31,12 +39,13 @@ td input[type="button"],
 td input[type="file"] {
     width: calc(80% - 40px);
     padding: 10px;
-    margin: 0;
+    margin-left: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 14px;
     background-color: #fff;
+    
 }
 
 td input[type="button"] {
@@ -80,57 +89,61 @@ h3{
 </head>
 <body>
 	<div>
-		<h3>기업회원가입</h3>
+		<h3 style="display: inline-block; margin-right: 20px;">기업회원가입</h3>
+		<p style="display: inline-block; font-size: 13px; margin-top: 8px;">
+		    <span style="color: red;">*</span> 표시가 있는 항목은 필수적으로 작성되어야합니다
+		</p>
 		<form th:action="@{/cosignInsert}" method="post" name="insertForm">
 			<table>
 				<tr>
-					<th>사업자등록번호</th>
+					<th class="required">사업자등록번호</th>
 					<td>
-						<input type="text" name="coRegNo" id="CoRegNo"> 
+						<input type="text" name="coRegNo" id="CoRegNo" style="width: 30%; margin-top: 15px;"> 
 						<input type="button" id="corp_button" value="사업자등록번호 조회"
 							   onclick="co_check();">
+						<p style="font-size: 13px; margin-top: 8px;">&nbsp; * 등록되지 않은 사업자등록번호는 회원가입이 불가능합니다</p>
 					</td>
 				</tr>
 				<tr>
-					<th>기업명</th>
-					<td><input type="text" name="coName"></td>
+					<th class="required">기업명</th>
+					<td><input type="text" name="coName" style="width: 30%;"></td>
 				</tr>
 				<tr>
-					<th>업종</th>
-					<td><input type="text" name="industry"></td>
+					<th class="required">업종</th>
+					<td><input type="text" name="industry" style="width: 20%;"></td>
 				</tr>
 				<tr>
-					<th>대표자</th>
-					<td><input type="text" name="repName"></td>
+					<th class="required">대표자</th>
+					<td><input type="text" name="repName" style="width: 20%;"></td>
 				</tr>
 				<tr>
-					<th>설립연도</th>
-					<td><input type="Date" name="estYear"></td>
+					<th class="required">설립연도</th>
+					<td><input type="Date" name="estYear" style="margin-left: 10px;"></td>
 				</tr>
 				<tr>
-					<th>우편번호</th>
+					<th class="required">우편번호</th>
 					<td><input type="text" name="coPostNo" id="CoPostNo">
 						<input type="button" id="post_button" value="우편번호 찾기"
 						onclick="openZipSearch();"></td>
 				</tr>
 				<tr>
-					<th>기본주소</th>
+					<th class="required">기본주소</th>
 					<td><input type="text" name="coAddr" id="CoAddr"></td>
 				</tr>
 				<tr>
-					<th>상세주소</th>
+					<th class="required">상세주소</th>
 					<td><input type="text" name="coDetailAddr" id="CoDetailAddr"></td>
 				</tr>
 				<tr>
-					<th>주요사업</th>
+					<th class="required">주요사업</th>
 					<td><input type="text" name="mainBusiness"></td>
 				</tr>
 				<tr>
-					<th>행정구역</th>
+					<th class="required">행정구역</th>
 					<td><input type="text" name="region"></td>
 				</tr>
 				<tr>
-					<th>기타사항</th>
+					<th class="required">기타사항</th>
 					<td><input type="text" name="etc"></td>
 				</tr>
 			</table>
@@ -139,35 +152,45 @@ h3{
 			<br>
 			<table>
 				<tr>
-					<th>아이디</th>
-					<td><input type="text" name="coUserId" id="CoUserId"> <input
+					<th class="required">아이디</th>
+					<td><input type="text" name="coUserId" id="CoUserId" style="width: 30%; margin-top: 15px;"> <input
 						type="button" id="confirmId" value="중복체크">
+						<p style="font-size: 13px; margin-top: 8px;">&nbsp;* 중복체크를 반드시 해주시기 바랍니다</p>
+                    <p style="font-size: 13px; margin-top: -15px;">&nbsp;* 6~16자까지 영문자(소문자, 대문자), 숫자 사용 가능합니다</p>
 						<div id="message_id"></div></td>
 				</tr>
 				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="coUserPw" id="pw1" class="pw"></td>
+					<th class="required">비밀번호</th>
+					<td><input type="password" name="coUserPw" id="pw1" class="pw" style="width: 30%; margin-top: 15px;">
+					<p style="font-size: 13px; margin-top:5px;">&nbsp;* 6~16자까지 영문자(소문자, 대문자), 숫자 및 특수문자 사용 가능합니다</p>
+					</td>
 				</tr>
 				<tr>
-					<th>비밀번호확인</th>
-					<td><input type="password" name="checkPw" id="pw2" class="pw">
+					<th class="required">비밀번호확인</th>
+					<td><input type="password" name="checkPw" id="pw2" class="pw" style="width: 30%;">
 						<font id="Pw_status" size="2"></font></td>
 				</tr>
 				<tr>
-					<th>담당자 이름</th>
-					<td><input type="text" name="mgrName"></td>
+					<th class="required">담당자 이름</th>
+					<td><input type="text" name="mgrName" style="width: 30%;"></td>
 				</tr>
 				<tr>
-					<th>담당자 이메일</th>
-					<td><input type="text" name="mgrEmail"></td>
+					<th class="required">담당자 이메일</th>
+					<td><input type="text" name="mgrEmail" style="width: 30%; margin-top: 15px;">
+					<p style="font-size: 13px; margin-top: 8px;">&nbsp;* 이메일은 "@"가 반드시 포함되어야 합니다</p>
+					</td>
 				</tr>
 				<tr>
-					<th>담당자 연락처</th>
-					<td><input type="text" name="mgrTel"></td>
+					<th class="required">담당자 연락처</th>
+					<td><input type="text" name="mgrTel" style="width: 30%; margin-top: 15px;">
+					<p style="font-size: 13px; margin-top: 8px;">&nbsp;* 연락처는 "010-XXXX-XXXX" 형식으로 작성해 주시기 바랍니다</p>
+					</td>
 				</tr>
 				<tr>
-					<th>기업 연락처</th>
-					<td><input type="text" name="coContact"></td>
+					<th class="required">기업 연락처</th>
+					<td><input type="text" name="coContact" style="width: 30%; margin-top: 15px;">
+					<p style="font-size: 13px; margin-top: 8px;">&nbsp;* 기업 연락처는 "053-XXX-XXXX" 형식으로 작성해 주시기 바랍니다</p>
+					</td>
 				</tr>
 			</table>
 			<button type="submit" class="signbutton">등록</button>

@@ -162,6 +162,7 @@
 			<div>
 				<label for="userPw">비밀번호</label> <input type="password" id="userPw"
 					name="userPw" required />
+				<div id="error-message" style="color: red; display: none;">아이디나 비밀번호가 잘못 입력되었습니다</div>
 			</div>
 
 			<input type="checkbox" id="idSaveCheck">아이디 저장하기
@@ -174,6 +175,7 @@
 				<button class="findInfoBtn" th:onclick="|location.href='@{/findId}'|">아이디/비밀번호 찾기</button>
 		</form>
 		<script>
+
 		// 아이디 저장
 		$(document).ready(function(){
 			  

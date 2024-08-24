@@ -19,7 +19,7 @@ public class UserVO {			//일반회원
 	private String detailAddr;	//상세주소
 	private String email;		//이메일
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date birth;		//생년월일
+	private Date birth;			//생년월일
 	private String household;	//가구상황
 	private String householdNm; //가구상황 공통코드 처리
 	private String gender;		//성별

@@ -68,8 +68,6 @@
             <button type="button" id="deleteButton">탈퇴하기</button>
         </form>
     </div>
-
-    <!-- SweetAlert2 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('deleteButton').addEventListener('click', function(event) {
@@ -95,7 +93,7 @@
                     })
                     .then(response => response.text())
                     .then(result => {
-                        if (result === 'success') {
+                        if (result == 'success') {
                             Swal.fire({
                                 title: '탈퇴가 완료되었습니다.',
                                 icon: 'success',
