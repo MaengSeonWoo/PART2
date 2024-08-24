@@ -37,7 +37,7 @@ public class UploadServiceImpl implements UploadService {
 		String saveName = "";
 		String uploadFileName = "";
 		// 파일 업로드 첫번째 값의 용량?이 0일때는 파일업로드 진행 안함
-//		if (uploadFiles[0].getSize() != 0) {
+		if (uploadFiles.length > 0 && uploadFiles[0].getSize() > 0) {
 		int i = 0;
 		for (MultipartFile uploadFile : uploadFiles) {
 //			if (!uploadFile.getContentType().startsWith("image")) {
@@ -89,7 +89,7 @@ public class UploadServiceImpl implements UploadService {
 //				imageList.add();
 			i++;
 		}
-//		}
+		}
 
 		return uploadFileName;
 	}

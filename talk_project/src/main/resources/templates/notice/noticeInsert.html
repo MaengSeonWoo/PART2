@@ -6,17 +6,59 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.container{margin-top:40px;}
+	.container { 
+		display:flex;
+		justify-content:center;
+		margin-top:40px; 
+	}
+	
+	h3 {
+		text-align:center;
+	}
+	
+	.title { width:423px; }
+	
+	table {
+		border-collapse: separate;
+		border-spacing: 3px 5px;
+	}
+	
+	.content {
+		resize:none;
+		height:200px;
+	}
+	
+	.btnAll {
+		text-align:center;
+	}
+	
+	.insertBtn {
+		border: none;
+		padding: 10px;
+		border-radius: 10px;
+		color: white;
+		background-color: #9bce26;
+		width: 84px;	
+	}
+	
+	.cancelBtn {
+		border: none;
+		padding: 10px;
+		border-radius: 10px;
+		color: white;
+		background-color: #0ea06f;
+		width: 84px;
+	}
 </style>
 <title>공지사항 등록</title>
 </head>	
 <body>
 	<div class="container">
-		<h3>공지사항 등록</h3>	
 		<form name="insertForm"
 			  th:action="@{/noticeInsert}" method="post"
 			  th:object="${noticeInfo}" 
 			  enctype="multipart/form-data">
+		<h3>공지사항 등록</h3>	
 			  <table>
 			  	  <tr>
 			  	  	<th>공지분류</th>
@@ -29,19 +71,21 @@
 			  	  </tr>
 				  <tr>
 			  		<th>제목</th>
-			  		<td><input type="text" name="noticeTitle"></td>
+			  		<td><input class="title" type="text" name="noticeTitle"></td>
 			  	  </tr>
 			  	  <tr>
 			  		<th>내용</th>
-			  		<td><textarea name="noticeContent"></textarea></td>
+			  		<td><textarea class="content" cols="50" rows="5" name="noticeContent"></textarea></td>
 			  	  </tr>
 			  	  <tr>
 			  	  	<th>첨부파일</th>
 			  	  	<td><input type="file" id="files" name="uploadFiles" multiple></td>
 			  	  </tr>
 			  </table>
-		<button type="submit">등록</button>
-		<button type="button" onclick="goList()">취소</button>
+		<div class="btnAll">
+			<button type="submit" class="insertBtn">등록</button>
+			<button type="button" onclick="goList()" class="cancelBtn">취소</button>
+		</div>
 		</form>
 	</div>
 </body>
