@@ -7,15 +7,18 @@
 <meta charset="UTF-8">
 <title>기업회원 정보 수정</title>
 <style>
-table {
-    width: 40%;
+
+.couserupdate table {
+    width: 60%;
     border-collapse: separate;
     border-spacing: 0 10px;
     font-size: 16px;
     font-family: 'Arial', sans-serif;
+    margin: 0 auto;
+ 
 }
 
-th {
+.couserupdate th {
     text-align: left;
     padding-bottom: 10px;
     font-weight: bold;
@@ -24,10 +27,11 @@ th {
     text-transform: uppercase;
 }
 
-td input[type="text"],
-td input[type="password"],
-td input[type="button"],
-td input[type="file"] {
+.couserupdate td input[type="text"],
+.couserupdate td input[type="password"],
+.couserupdate td input[type="button"],
+.couserupdate td input[type="file"],
+.couserupdate td select {
     width: calc(80% - 40px); /* 가로 길이를 80%로 줄임 */
     padding: 10px;
     margin: 0;
@@ -38,7 +42,7 @@ td input[type="file"] {
     background-color: #fff;
 }
 
-td input[type="button"] {
+.couserupdate td input[type="button"] {
     width: auto;
     background-color: #007BFF;
     color: white;
@@ -49,7 +53,7 @@ td input[type="button"] {
     padding: 10px 15px;
 }
 
-td input[type="button"]:hover {
+.couserupdate td input[type="button"]:hover {
     background-color: #0056b3;
 }
 
@@ -57,6 +61,10 @@ td input[type="button"]:hover {
     margin-left: 10px;
     font-weight: bold;
     font-size: 12px;
+}
+
+.updateBtn{
+	text-align: center;
 }
 
 button#updateBtn {
@@ -74,11 +82,20 @@ button#updateBtn {
 button#updateBtn:hover {
     background-color: #218838;
 }
+
+th.required::after {
+    content: '*';
+    color: red; /* 빨간색으로 설정 */
+    margin-left: 5px; /* 기호와 텍스트 사이의 간격 조정 */
+}
 </style>
 </head>
 <body>
-	<div>
+	<div class="couserupdate">
 		<h3>기업회원 정보수정</h3>
+		<p style="display: inline-block; font-size: 13px; margin-top: 8px;">
+		    <span style="color: red;">*</span> 표시가 있는 항목은 필수적으로 작성되어야합니다
+		</p>
 		<form th:object="${couserInfo}" name="CoUserUpdateForm" enctype="multipart/form-data">
 			<table>
 				<tr>
@@ -87,47 +104,47 @@ button#updateBtn:hover {
 					</td>
 				</tr>
 				<tr>
-					<th>사업자등록번호</th>
+					<th class="required">사업자등록번호</th>
 					<td>
 						<input type="text" th:field="*{coRegNo}" readonly> 
 					</td>
 				</tr>
 				<tr>
-					<th>기업명</th>
+					<th class="required">기업명</th>
 					<td><input type="text" th:field="*{coName}"></td>
 				</tr>
 				<tr>
-					<th>업종</th>
+					<th class="required">업종</th>
 					<td><input type="text" th:field="*{industry}"></td>
 				</tr>
 				<tr>
-					<th>대표자</th>
+					<th class="required">대표자</th>
 					<td><input type="text" th:field="*{repName}"></td>
 				</tr>
 				<tr>
-					<th>설립연도</th>
+					<th class="required">설립연도</th>
 					<td><input type="text" th:field="*{estYear}" readonly></td>
 				</tr>
 				<tr>
-					<th>우편번호</th>
+					<th class="required">우편번호</th>
 					<td><input type="text" th:field="*{coPostNo}" id="CoPostNo">
 						<input type="button" id="post_button" value="우편번호 찾기"
 						onclick="openZipSearch();"></td>
 				</tr>
 				<tr>
-					<th>기본주소</th>
+					<th class="required">기본주소</th>
 					<td><input type="text" th:field="*{coAddr}" id="CoAddr"></td>
 				</tr>
 				<tr>
-					<th>상세주소</th>
+					<th class="required">상세주소</th>
 					<td><input type="text" th:field="*{coDetailAddr}" id="CoDetailAddr"></td>
 				</tr>
 				<tr>
-					<th>주요사업</th>
+					<th class="required">주요사업</th>
 					<td><input type="text" th:field="*{mainBusiness}"></td>
 				</tr>
 				<tr>
-				<th>행정구역</th>
+				<th class="required">행정구역</th>
 				<td>
 					<select name="region">
 						<option value="">지역선택
@@ -144,7 +161,7 @@ button#updateBtn:hover {
 			<br>
 			<table>
 				<tr>
-					<th>아이디</th>
+					<th class="required">아이디</th>
 					<td><input type="text" th:field="*{coUserId}" readonly></td>
 				</tr>
 				<tr>
@@ -157,19 +174,19 @@ button#updateBtn:hover {
 						<font id="Pw_status" size="2"></font></td>
 				</tr>
 				<tr>
-					<th>담당자 이름</th>
+					<th class="required">담당자 이름</th>
 					<td><input type="text" th:field="*{mgrName}"></td>
 				</tr>
 				<tr>
-					<th>담당자 이메일</th>
+					<th class="required">담당자 이메일</th>
 					<td><input type="text" th:field="*{mgrEmail}"></td>
 				</tr>
 				<tr>
-					<th>담당자 연락처</th>
+					<th class="required">담당자 연락처</th>
 					<td><input type="text" th:field="*{mgrTel}"></td>
 				</tr>
 				<tr>
-					<th>기업 연락처</th>
+					<th class="required">기업 연락처</th>
 					<td><input type="text" th:field="*{coContact}"></td>
 				</tr>
 				<tr>
@@ -190,7 +207,9 @@ button#updateBtn:hover {
 						</td>
 				</tr>
 			</table>
-			<button type="button" id="updateBtn">수정</button>
+			<div class="updateBtn">
+				<button type="button" id="updateBtn">수정</button>
+			</div>
 		</form>
 	</div>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

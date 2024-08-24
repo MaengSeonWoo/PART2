@@ -18,10 +18,10 @@ public class FAQServiceImpl implements FAQService {
 		return faqMapper.findById(faqId);
 	}
 
-	@Override
-	public List<FAQVO> searchFAQByKeyword(List<String> keywords) {
-		return faqMapper.findByKeywords(keywords);
-	}
+//	@Override
+//	public List<FAQVO> searchFAQByKeyword(List<String> keywords) {
+//		return faqMapper.findByKeywords(keywords);
+//	}
 
 	@Override
 	public List<FAQVO> getAllFAQs() {

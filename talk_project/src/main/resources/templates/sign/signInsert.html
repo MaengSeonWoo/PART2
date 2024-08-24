@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/main/layouts/default_layout}"
-	layout:fragment="Content">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/main/layouts/default_layout}"
+    layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
 <title>회원가입 페이지</title>
 <style>
 table {
-	margin-left: 100px;
-	margin-top: 50px;
+    margin-left: 100px;
+    margin-top: 50px;
     width: 40%;
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0 2px;
     font-size: 16px;
 }
 
 th {
-    text-align: left;
-    padding-bottom: 10px;
     font-weight: bold;
     font-size: 14px;
-    color: #555;
+    color: black;
     text-transform: uppercase;
+    background-color: #B2EBF4;
+    text-align: center;
+    padding: 15px;
+}
+
+th.required::after {
+    content: '*';
+    color: red; /* 빨간색으로 설정 */
+    margin-left: 5px; /* 기호와 텍스트 사이의 간격 조정 */
 }
 
 td input[type="text"],
@@ -30,7 +37,7 @@ td input[type="password"],
 td input[type="button"],
 td input[type="file"] {
     width: calc(80% - 40px);
-    padding: 10px;
+    padding: 7px;
     margin: 0;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -47,7 +54,8 @@ td input[type="button"] {
     cursor: pointer;
     font-weight: bold;
     border-radius: 4px;
-    padding: 10px 15px;
+    padding: 7px 15px;
+    margin-left: 5px;
 }
 
 td input[type="button"]:hover {
@@ -60,9 +68,9 @@ td input[type="button"]:hover {
     font-size: 12px;
 }
 button.signbutton {
-	margin-left: 100px;
-	margin-top: 100px;
-	padding: 12px 25px;
+    margin-left: 100px;
+    margin-top: 100px;
+    padding: 12px 25px;
     background-color: #28a745;
     color: white;
     border: none;
@@ -72,147 +80,238 @@ button.signbutton {
     margin-top: 20px;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
-h3{
-	margin-left: 100px;
-	margin-top: 100px;
+h3 {
+    margin-left: 100px;
+    margin-top: 100px;
 }
-
 </style>
 </head>
 <body>
-	<div class="signInsertForm">
-		<h3>일반회원가입</h3>
-		<form th:action="@{/signInsert}" method="post" name="insertForm">
-			<table>
-				<tr>
-					<th>이름</th>
-					<td><input type="text" name="userName"></td>
-				</tr>
-				<tr>
-					<th>아이디</th>
-					<td><input type="text" name="userId" id="userId">
-					<input type="button" id="confirmId" value="중복체크">
-					<div id="message_id"></div></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="userPw" id="pw1" class="pw"></td>
-				</tr>
-				<tr>
-					<th>비밀번호확인</th>
-					<td><input type="password" name="checkPw" id="pw2" class="pw">
-						<font id="Pw_status" Size="2"></font></td>
-				</tr>
-				<tr>
-					<th>연락처</th>
-					<td><input type="text" name="tel"></td>
-				</tr>
-			</table>
-			<button type="submit" class="signbutton">회원가입</button>
-		</form>
-	</div>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script>
-	//아이디 중복체크
-	$(function(){
-	    let checkId = 0;
-	    $('#confirmId').click(function(){
-	        if($('#userId').val().trim() == ''){
-	            $('#message_id').css('color','#fba082').text('아이디를 입력하세요');
-	            $('#userId').val('').focus();
-	            return;
-	        }
-	        $.ajax({
-	            url : '/checkUserId',
-	            type : 'post',
-	            data : { userId : $('#userId').val() },
-	            dataType : 'json',
-	            success : function(param) {
-	                if (param.result == 'idNotFound'){
-	                    $('#message_id').text('사용 가능한 아이디입니다.');
-	                    checkId = 1;	
-	                } else if (param.result == 'idDuplicated'){
-	                    $('#message_id').text('존재하는 아이디입니다.');
-	                    checkId = 0;
-	                } else {
-	                    checkId = 0;
-	                    alert('아이디 중복체크 오류');
-	                }
-	            },
-	            error : function(){
-	                checkId = 0;
-	                alert('네트워크 오류 발생');
-	            }
-	        });	
-	    });
-	    
-	    $('#userId').change(function(){
-	        checkId = 0;
-	        $('#message_id').text('');
-	    });
+    <div class="signInsertForm">
+        <h3 style="display: inline-block; margin-right: 20px;">일반회원가입</h3>
+		<p style="display: inline-block; font-size: 13px; margin-top: 8px;">
+		    <span style="color: red;">*</span> 표시가 있는 항목은 필수적으로 작성되어야합니다
+		</p>
+        <form th:action="@{/signInsert}" method="post" name="insertForm">
+            <table>
+                <tr>
+                    <th class="required">이름</th>
+                    <td><input type="text" name="userName" style="width: 30%"></td>
+                </tr>
+                <tr>
+                    <th class="required">아이디</th>
+                    <td><input type="text" name="userId" id="userId" style="width: 30%; margin-top: 15px;">
+                    <input type="button" id="confirmId" value="중복체크">
+                    <p style="font-size: 13px; margin-top: 8px;">&nbsp;* 중복체크를 반드시 해주시기 바랍니다</p>
+                    <p style="font-size: 13px; margin-top: -15px;">&nbsp;* 6~16자까지 영문자(소문자, 대문자), 숫자 사용 가능합니다</p>
+                    <div id="message_id"></div></td>
+                </tr>
+                <tr>
+                    <th class="required">비밀번호</th>
+                    <td><input type="password" name="userPw" id="pw1" class="pw" style="width: 30%; margin-top: 15px;">
+                    <p style="font-size: 13px; margin-top:5px;">&nbsp;* 6~16자까지 영문자(소문자, 대문자), 숫자 및 특수문자 사용 가능합니다</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="required">비밀번호확인</th>
+                    <td><input type="password" name="checkPw" id="pw2" class="pw" style="width: 30%">
+                        <font id="Pw_status" Size="2"></font></td>
+                </tr>
+                <tr>
+                    <th class="required">연락처</th>
+                    <td><input type="text" name="tel" style="width: 40%; margin-top: 15px;">
+                    <p style="font-size: 13px; margin-top: 8px;">&nbsp;* 전화번호는 "010-XXXX-XXXX" 형식으로 작성해 주시기 바랍니다</p>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <th class="required">이메일</th>
+                    <td><input type="text" name="email" style="width: 50%; margin-top: 15px;">
+                    <p style="font-size: 13px; margin-top: 8px;">&nbsp;* 이메일은 "@"가 반드시 포함되어야 합니다</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="required">우편번호</th>
+                    <td><input type="text" name="postNo" id="postNo" style="width: 20%;">
+                        <input type="button" id="post_button" value="우편번호 찾기"
+                        onclick="openZipSearch();"></td>
+                </tr>
+                <tr>
+                    <th class="required">주소</th>
+                    <td><input type="text" name="addr" id="addr" style="width: 70%; margin-bottom: 5px;">
+                    	<input type="text" name="detailAddr" id="detailAddr"style="width: 70%;">
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" class="signbutton">회원가입</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+  	//우편번호
+    function openZipSearch() {
+        new daum.Postcode({
+            oncomplete: function(data) {     
+            var addr = ''; 
+            if (data.userSelectedType === 'R') { 
+                addr = data.roadAddress;
+            } else {
+                addr = data.jibunAddress;
+            }
 
-		//비밀번호 일치 여부
-		$('.pw').keyup(function() {
-			let pass1 = $("#pw1").val();
-			let pass2 = $("#pw2").val();
+            $("#postNo").val(data.zonecode);
+            $("#addr").val(addr);
+            $("#detailAddr").val("");
+            $("#detailAddr").focus();
+            }
+        }).open();
+    }
+    
+    //아이디 중복체크
+    $(function(){
+        let checkId = 0;
+        $('#confirmId').click(function(){
+            if($('#userId').val().trim() == ''){
+                $('#message_id').css('color','#fba082').text('아이디를 입력하세요');
+                $('#userId').val('').focus();
+                return;
+            }
+            $.ajax({
+                url : '/checkUserId',
+                type : 'post',
+                data : { userId : $('#userId').val() },
+                dataType : 'json',
+                success : function(param) {
+                    if (param.result == 'idNotFound'){
+                        $('#message_id').text('사용 가능한 아이디입니다.');
+                        checkId = 1;    
+                    } else if (param.result == 'idDuplicated'){
+                        $('#message_id').text('존재하는 아이디입니다.');
+                        checkId = 0;
+                    } else {
+                        checkId = 0;
+                        alert('아이디 중복체크 오류');
+                    }
+                },
+                error : function(){
+                    checkId = 0;
+                    alert('네트워크 오류 발생');
+                }
+            });    
+        });
+        
+        $('#userId').change(function(){
+            checkId = 0;
+            $('#message_id').text('');
+        });
 
-			if (pass1 != "" || pass2 != "") {
-				if (pass1 == pass2) {
-					$("#Pw_status").html('일치').css('color', 'green');
-				} else {
-					$("#Pw_status").html('불일치').css('color', 'red');
-				}
-			}
-		})
+        //비밀번호 일치 여부
+        $('.pw').keyup(function() {
+            let pass1 = $("#pw1").val();
+            let pass2 = $("#pw2").val();
 
-		//필수 값 입력 여부
-		document.querySelector('form[name="insertForm"]').addEventListener('submit', function(event) {
-			event.preventDefault();
+            if (pass1 != "" || pass2 != "") {
+                if (pass1 == pass2) {
+                    $("#Pw_status").html('일치').css('color', 'green');
+                } else {
+                    $("#Pw_status").html('불일치').css('color', 'red');
+                }
+            }
+        })
 
-			let uname = document.querySelector('input[name="userName"]');
-			if (uname.value == '') {
-				alert('이름은 필수 값입니다.');
-				uname.focus();
-				return;
-			}
+        //필수 값 입력 여부
+        document.querySelector('form[name="insertForm"]').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-			let uid = document.querySelector('input[name="userId"]');
-			if (uid.value == '') {
-				alert('아이디는 필수 값입니다.');
-				uid.focus();
-				return;
-			}
-			
-			if (checkId == 0) {
-				alert('아이디 중복 체크를 해주세요.');
-				uid.focus();
-				return;
-			}
+            let uname = document.querySelector('input[name="userName"]');
+            if (uname.value == '') {
+                alert('이름은 필수 값입니다.');
+                uname.focus();
+                return;
+            }
 
-			let upw = document.querySelector('input[name="userPw"]');
-			if (upw.value == '') {
-				alert('비밀번호는 필수 값입니다.');
-				upw.focus();
-				return;
-			}
+            let uid = document.querySelector('input[name="userId"]');
+            if (uid.value == '') {
+                alert('아이디는 필수 값입니다.');
+                uid.focus();
+                return;
+            }
+            
+            if (checkId == 0) {
+                alert('아이디 중복 체크를 해주세요.');
+                uid.focus();
+                return;
+            }
 
-			let cpw = document.querySelector('input[name="checkPw"]');
-			if (upw.value != cpw.value) {
-				alert('비밀번호가 일치하지 않습니다.');
-				cpw.focus();
-				return;
-			}
-			
-			let tel = document.querySelector('input[name="tel"]');
-			if (tel.value == '') {
-				alert('연락처는 필수 값입니다.');
-				tel.focus();
-				return;
-			}
+            let upw = document.querySelector('input[name="userPw"]');
+            if (upw.value == '') {
+                alert('비밀번호는 필수 값입니다.');
+                upw.focus();
+                return;
+            }
 
-			insertForm.submit();
-		});
-	});
-	</script>
+            let cpw = document.querySelector('input[name="checkPw"]');
+            if (upw.value != cpw.value) {
+                alert('비밀번호가 일치하지 않습니다.');
+                cpw.focus();
+                return;
+            }
+            
+            let tel = document.querySelector('input[name="tel"]');
+            if (tel.value == '') {
+                alert('전화번호는 필수 값입니다.');
+                tel.focus();
+                return;
+            }
+            
+            // 전화번호 형식 검증 (하이픈 포함)
+            const telRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+            if (!telRegex.test(tel.value)) {
+                alert('전화번호 형식이 잘못되었습니다.');
+                tel.focus();
+                return;
+            }
+            
+            let email = document.querySelector('input[name="email"]');
+            if (email.value == '') {
+                alert('이메일은 필수 값입니다.');
+                email.focus();
+                return;
+            }
+            
+            // 이메일 형식 검증
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                alert('이메일 형식이 잘못되었습니다.');
+                email.focus();
+                return;
+            }
+            
+            let postNo = document.querySelector('input[name="postNo"]');
+            if (postNo.value == '') {
+                alert('우편번호는 필수 값입니다.');
+                postNo.focus();
+                return;
+            }
+            
+            let addr = document.querySelector('input[name="addr"]');
+            if (addr.value == '') {
+                alert('주소는 필수 값입니다.');
+                addr.focus();
+                return;
+            }
+            
+            let detailAddr = document.querySelector('input[name="detailAddr"]');
+            if (detailAddr.value == '') {
+                alert('상세주소는 필수 값입니다.');
+                detailAddr.focus();
+                return;
+            }
+
+            insertForm.submit();
+        });
+    });
+    </script>
 </body>
 </html>

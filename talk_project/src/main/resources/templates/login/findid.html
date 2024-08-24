@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 <style>
+h3{
+	margin-left: 80px;
+	margin-top: 80px;
+}
 table {
 	margin-left: 100px;
 	margin-top: 50px;
@@ -55,7 +59,7 @@ td input[type="button"]:hover {
 }
 
 button.findbutton{
-	margin-left: 50px;
+	margin-left: 80px;
 	margin-top: 50px;
 	padding: 12px 25px;
     background-color: #28a745;
@@ -70,6 +74,7 @@ button.findbutton{
 </style>
 </head>
 <body>
+	<h3>아이디 찾기</h3>
 	<div>
 		<form th:action="@{/findIdResult}" method="post" name="findIdForm">
 			<table>
@@ -84,8 +89,9 @@ button.findbutton{
 			</table>
 			<button type="submit" class="findbutton">아이디 찾기</button>
 		</form>
-		
+		<br>
 		<!-- 비밀번호 찾기 폼 -->
+		<h3>비밀번호 찾기</h3>
 		<form th:action="@{/findPwResult}" method="post" name="findPasswordForm">
 			<table>
 				<tr>

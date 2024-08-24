@@ -295,7 +295,8 @@
 					.querySelector('.resumeNoHidden').value;
 
 				// URL로 이동
-				window.location.href = `/posting/1/resume/${resumeNo}`;
+				window.location.href = window.location.href + `/resume/${resumeNo}`;
+				
 			} else {
 				alert('이력서를 선택해주세요.');
 			}

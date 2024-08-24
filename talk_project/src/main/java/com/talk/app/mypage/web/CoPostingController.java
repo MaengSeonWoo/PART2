@@ -80,7 +80,7 @@ public class CoPostingController {
         return "mypage/copostingInsert";
     }
 	@PostMapping("copostingInsert")
-	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response, @RequestPart MultipartFile[] uploadFiles) throws LoginException {
+	public String copostingInsertProcess(PostingVO postingVO, HttpServletResponse response) throws LoginException {
 	    // 현재 로그인한 사용자 ID를 가져와서 coUserNo를 설정합니다.
 	    String coUserId = CommonUtil.getUserId();
 	    int coUserNo = copostingService.getCoUserNoById(coUserId);

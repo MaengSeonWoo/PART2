@@ -114,7 +114,7 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	@Override
 	public String deleteUser(String userId) {
 	    // 탈퇴가 가능한지 확인
-	    boolean canDelete = couserupdateMapper.checkPostingStatus(userId);
+	    boolean canDelete = couserupdateMapper.checkResumeStatus(userId);
 
 	    if (canDelete) {
 	        return "제출한 이력서가 있는 상태에서는 탈퇴가 불가능합니다.";
@@ -128,6 +128,14 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	    couserupdateMapper.updateUserStatus(userVO);
 	    return "success";
 	}
+	
+	@Override
+    public int getUserDelStatus(String userId) {
+        UserVO userVO = new UserVO();
+        userVO.setUserId(userId);
+        UserVO user = couserupdateMapper.selectUserInfo(userVO);
+        return user.getDelStatus();
+    }
 	
 	// 일반회원 탈퇴취소
 	@Override

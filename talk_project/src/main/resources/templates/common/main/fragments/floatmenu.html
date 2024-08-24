@@ -295,6 +295,12 @@
 	            
 	        });
 	        
+	        var commands = {
+	        		'확대' : zoomPlus,
+	        		'축소' : zoomMinus,
+	        		'상단' : goTop
+	        }
+	        
 	        annyang.setLanguage('ko');
 	        SpeechKITT.annyang();
 	        SpeechKITT.setStylesheet('//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/themes/flat.css');
@@ -337,7 +343,7 @@
 			document.body.style.zoom = zoom + '%';
 		}
 		
-		// 챗봇 관련
+// 챗봇 관련
 let stompClient = null;
 let roomId = null; // 방 ID를 저장할 변수
 
@@ -354,11 +360,28 @@ document.addEventListener('DOMContentLoaded', function() {
             createRoom(); // 방 생성 후 웹소켓 연결
         }
         chatbotContainer.style.display = 'flex';
+        
+        window.setTimeout(function() {
+	        // 현재 상태 값 확인
+	        let status = sessionStorage.getItem('status');
+	        if(status == null) {
+	        	// 상태 변경
+	        	status = 1;
+	        	sessionStorage.setItem('status', status);
+	        }
+	        if(status == 1) {
+	        	// 첫번째 메뉴
+	        	reqMessage('', status); // status
+	        }
+        }, 500)
     });
 
     // 챗봇 닫기 버튼 클릭 시 챗봇 창을 숨김 및 방 종료
     chatbotCloseBtn.addEventListener('click', function() {
         chatbotContainer.style.display = 'none';
+        let status = sessionStorage.getItem('status');
+        status = 1;
+    	sessionStorage.setItem('status', status);
         if (roomId) {
             endRoom(); // 방 종료 및 웹소켓 연결 해제
         }
@@ -371,16 +394,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Enter 키로 메시지 전송
     chatbotInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            sendMessage();
+        	let status = sessionStorage.getItem('status');
+            if(status == 1) {
+            	// 상태 변경
+            	status = 2;
+            	sessionStorage.setItem('status', status);
+            }
+            if(status == 2) {
+            	// 첫번째 하위 메뉴
+            	sendMessage(status); // status
+            	status = 3;
+            	sessionStorage.setItem('status', status);
+            } else if (status == 3) {
+            	sendMessage(status);
+            }
+        //    sendMessage();
         }
     });
 });
 
 // 메시지 전송 함수 (오른쪽 말풍선)
-function sendMessage() {
+function sendMessage(status) {
     const message = document.getElementById('chatbotInput').value;
     if (message.trim() === '') return; // 메시지가 빈 문자열일 경우 전송하지 않음
-
+	
     const chatBody = document.querySelector('.chatbot-body');
     const userMessage = `<div class="chat-message user"><p>${message}</p></div>`;
     chatBody.insertAdjacentHTML('beforeend', userMessage);
@@ -390,12 +427,22 @@ function sendMessage() {
 
     if (stompClient && stompClient.connected) {
         stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
-            'content': message,
+            'content': message, currentQuestionId:status,
             'roomId': roomId // 방 ID 추가
         }));
     }
 }
 
+//  
+function reqMessage(message, status) {
+
+    if (stompClient && stompClient.connected) {
+        stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
+            'content': message, currentQuestionId:status,
+            'roomId': roomId // 방 ID 추가
+        }));
+    }
+}
 // 서버에서 받은 메시지를 화면에 출력 (왼쪽 말풍선)
 function showMessage(message) {
     const chatBody = document.querySelector('.chatbot-body');

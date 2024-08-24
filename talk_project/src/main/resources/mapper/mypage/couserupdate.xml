@@ -134,7 +134,7 @@
 				,email
 				,birth
 				,household
-				,get_codename(household) as household_nm
+				,get_household(household) as household_nm
 				,gender
 				,user_id
 				,authority
@@ -142,7 +142,7 @@
 				,sido
 				,get_codename(sido) as sido_nm
 				,like_subject
-				,get_codename(like_subject) as like_subject_nm
+				,get_household(like_subject) as like_subject_nm
 				,receive
 		FROM users
 		WHERE user_id = #{userId}
@@ -179,7 +179,8 @@
 	<!-- 기업회원 탈퇴 상태 업데이트 -->
     <update id="cancelUserStatus">
         UPDATE users
-        SET del_status = 0
+        SET del_status = 0,
+        	status_update_time = null
         WHERE user_id = #{userId}
     </update>
 	

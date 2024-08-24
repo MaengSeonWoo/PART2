@@ -194,6 +194,7 @@ public class CoUserUpdateController {
     @GetMapping("userMain")
     public String userInfo(Model model, Principal principal) {
         String userId = principal.getName(); // 로그인된 유저의 아이디
+        
         UserVO userVO = new UserVO();
         userVO.setUserId(userId);
         log.info(userId);
@@ -204,14 +205,6 @@ public class CoUserUpdateController {
         model.addAttribute("sidoCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
         model.addAttribute("householdCode", publiccodeService.selectCode("0K")); // codeRule이 0K인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
         model.addAttribute("likesubjectCode", publiccodeService.selectCode("0L")); // codeRule이 0L인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
-        
-     // 현재 인증된 사용자의 권한 정보를 모델에 추가
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof LoginUserVO) {
-            LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
-            UserVO user = loginUser.getUserVO();
-            model.addAttribute("userAuthority", user.getAuthority()); // 사용자 권한을 모델에 추가
-        }
 
         return "mypage/userMain";
     }
@@ -243,7 +236,9 @@ public class CoUserUpdateController {
             return couserupdateService.updateUser(userVO);
         }
         
-     // 탈퇴 페이지를 보여주는 메소드
+        
+        
+        // 탈퇴 페이지를 보여주는 메소드
         @GetMapping("userdelete")
         @PreAuthorize("isAuthenticated()")
         public String showDeletePage(Model model, Principal principal) {
@@ -252,7 +247,7 @@ public class CoUserUpdateController {
             return "mypage/userDelete";
         }
         
-     // 일반회원탈퇴 시 상태 변경
+        // 일반회원탈퇴 시 상태 변경
         @PostMapping("/userdelete")
         @ResponseBody
         public String deleteUser(@RequestParam String userId) {
