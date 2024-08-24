@@ -152,8 +152,7 @@ button#updateBtn:hover {
 				    <div th:each="likesubject : ${likesubjectCode}">
 				      <label>
 				        <input type="checkbox" name="likeSubject" th:value="${likesubject.mainCode}" 
-				        th:field="*{likeSubject}"
-				        >
+				        th:checked="${userInfo.likeSubject != null} and ${#strings.contains(userInfo.likeSubject, likesubject.mainCode)}">
 				        <span th:text="${likesubject.codeName}"></span>
 				      </label>
 				    </div>
@@ -204,7 +203,7 @@ button#updateBtn:hover {
         .done(data => {
             if (data.result) {
                 alert('정상적으로 수정되었습니다.');
-                location.href = "/";
+                location.href = "/userMain";
             } else {
                 alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
             }

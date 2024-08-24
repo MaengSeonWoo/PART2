@@ -46,35 +46,35 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             	request.getSession().setAttribute("ROLE", "co_user");
             }
             
-//            // 일반 회원 처리
-//            UserVO userVO = new UserVO();
-//            userVO.setUserId(username);
-//            UserVO user = coUserUpdateService.userInfo(userVO);
-//            if (user != null) {
-//                if (user.getDelStatus() == 0) {
-//                    response.sendRedirect(request.getContextPath() + "/");
-//                } else if (user.getDelStatus() == 1) {
-//                    response.sendRedirect(request.getContextPath() + "/user/cancelDel");
-//                } else {
-//                    response.sendRedirect(request.getContextPath() + "/login?error");
-//                }
-//                return;
-//            }
-//            
-//            // 기업 회원 처리
-//            CoUserVO coUserVO = new CoUserVO();
-//            coUserVO.setCoUserId(username);
-//            CoUserVO coUser = coUserUpdateService.couserInfo(coUserVO);
-//            if (coUser != null) {
-//                if (coUser.getDelStatus() == 0) {
-//                    response.sendRedirect(request.getContextPath() + "/");
-//                } else if (coUser.getDelStatus() == 1) {
-//                    response.sendRedirect(request.getContextPath() + "/cancelDel");
-//                } else {
-//                    response.sendRedirect(request.getContextPath() + "/login?error");
-//                }
-//                return;
-//            }
+            // 일반 회원 del_status의 따라 페이지 이동
+            UserVO userVO = new UserVO();
+            userVO.setUserId(username);
+            UserVO user = coUserUpdateService.userInfo(userVO);
+            if (user != null) {
+                if (user.getDelStatus() == 0) {
+                    response.sendRedirect(request.getContextPath() + "/");
+                } else if (user.getDelStatus() == 1) {
+                    response.sendRedirect(request.getContextPath() + "/canceluserdel");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/login?error");
+                }
+                return;
+            }
+            
+            // 기업 회원 del_status의 따라 페이지 이동
+            CoUserVO coUserVO = new CoUserVO();
+            coUserVO.setCoUserId(username);
+            CoUserVO coUser = coUserUpdateService.couserInfo(coUserVO);
+            if (coUser != null) {
+                if (coUser.getDelStatus() == 0) {
+                    response.sendRedirect(request.getContextPath() + "/");
+                } else if (coUser.getDelStatus() == 1) {
+                    response.sendRedirect(request.getContextPath() + "/cancelDel");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/login?error");
+                }
+                return;
+            }
             
             // 사용자 권한에 따라 리다이렉트 처리
             if (role.contains("ROLE_ADMIN")) {

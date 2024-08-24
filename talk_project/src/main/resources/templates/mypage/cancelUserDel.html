@@ -12,7 +12,7 @@
     <div class="container">
         <h1>탈퇴 취소</h1>
         <p>귀하의 계정은 현재 탈퇴 대기 상태입니다. 아래 버튼을 클릭하면 탈퇴를 취소하고 계정을 유지할 수 있습니다.</p>
-        <form action="/cancelUserDel" method="post">
+        <form action="/canceluserdel" method="post">
             <input type="hidden" name="userId" th:value="${userId}">
             <button type="submit">탈퇴 취소하기</button>
             <button type="button" th:onclick="|location.href='@{/login}'|" class="btn">로그인</button>

@@ -12,12 +12,20 @@
 					  ,user_name
 					  ,user_id
 					  ,user_pw
-					  ,tel)
+					  ,tel
+					  ,email
+					  ,post_no
+					  ,addr
+					  ,detail_addr)
 	VALUES(#{userNo}
 		   ,#{userName}
 		   ,#{userId}
 		   ,#{userPw}
 		   ,#{tel}
+		   ,#{email}
+		   ,#{postNo}
+		   ,#{addr}
+		   ,#{detailAddr}
 		   )
 	</insert>
 	

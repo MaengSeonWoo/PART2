@@ -40,7 +40,7 @@ public class LoginController {
             // 로그인 페이지로 리디렉션하며 에러 메시지 전달
             return "redirect:/login";
         }
-        
+       
         // Principal에서 UserVO 정보 추출
         LoginUserVO loginUser = (LoginUserVO) auth.getPrincipal();
         UserVO user = loginUser.getUserVO();
