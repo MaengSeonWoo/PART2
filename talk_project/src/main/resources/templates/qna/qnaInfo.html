@@ -177,7 +177,7 @@
 	
 	<div class="btnAll">
 		<button type="button" class="qnaList" th:onclick="|location.href='@{/qnaList}'|">목록보기</button>
-		<button th:if="${qnaInfo.qnaState} == 0" type="button" class="qnaDel"th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
+		<button th:if="${qnaInfo.qnaState} == 0" type="button" class="qnaDel" th:onclick="|location.href='@{/deleteQna(qnaNo=${qnaInfo.qnaNo})}'|">삭제</button>
 	</div>
 	
 	<form class="insertForm" name="insertForm"

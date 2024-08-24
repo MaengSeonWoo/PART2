@@ -1,55 +1,120 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-            layout:decorate="~{common/main/layouts/default_layout}"
-            layout:fragment="Content"
-            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-            
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
 <meta charset="UTF-8">
 <style>
-	.container{
-		text-align:center;
-		margin:auto;
-		margin-top:40px;
-		border:1px solid black;
-		padding:20px;
-	}
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+.container {
+	margin: auto;
+	margin-top: 40px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	margin-bottom: 20px;
+	padding: 0;
+	width: 60%;
+	font-family: "Jua", sans-serif;
+ 	 font-weight: 400;
+ 	 font-style: normal;
+ 	 font-size: 20px;
+}
+
+.numberRow {
+	border-bottom: 1px dotted black;
+	line-height: 40px;
+}
+
+.titleRow {
+	border-bottom: 1px dashed black;
+	line-height: 40px;
 	
-	.btnAll {
-		margin-top:20px;
-		text-align:center;
-	}
-	
-	.container th{
-		width: 100px;
-	}
-	
-	.container td{
-		width: 300px;
-	}
-	
-	table {
-		width:100%;
-	}
-	
-	img{
-		width:100%;
-		height:100%;
-		display:block;
-	}
-	
-	.img{
-	}
+}
+
+.viewCnt {
+	border-bottom: 1px dashed black;
+	line-height: 40px;
+}
+
+.btnAll {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.container th {
+	width: 100px;
+}
+
+.container td {
+	width: 300px;
+}
+
+.container table {
+	width: 100%;
+	padding: 10px;
+}
+
+.img {
+	padding-top: 40px;
+	position: relative;
+	margin: auto;
+	text-align: center;
+}
+
+.img td {
+	float: left;
+	display: block;
+	line-height: 20px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	text-align: center;
+	display: flex;
+}
+
+img {
+	width: 600px;
+	height: fit-content;
+	background-size: cover;
+	border: 1px solid black;
+}
+
+.modifyBtn {
+	border: none;
+	padding: 10px;
+	border-radius: 10px;
+	color: white;
+	background-color: #0ea06f;
+	width: 84px;
+}
+
+.noticeList {
+	border: none;
+	padding: 10px;
+	border-radius: 10px;
+	color: white;
+	background-color: #9bce26;
+	width: 84px;
+}
+
+.noticeDel {
+	border: none;
+	padding: 10px;
+	border-radius: 10px;
+	color: white;
+	background-color: red;
+	width: 84px;
+}
 </style>
 <title>공지사항 정보</title>
 </head>
 <body>
 	<div class="container">
-		<h3>공지사항 정보</h3>
 		<table>
 			<th:block th:each="notice : ${noticeInfo}">
-				<tr class="no">
+				<tr class="numberRow">
 					<th>번호</th>
 					<td th:text="${notice.noticeNo}">
 				</tr>
@@ -57,31 +122,35 @@
 					<th>조회수</th>
 					<td th:text="${notice.viewCnt}">
 				</tr>
-				<tr class="title">
+				<tr class="titleRow">
 					<th>제목</th>
 					<td th:text="${notice.noticeTitle}">
-				</tr>
-				<tr class="regDate">
-					<th>작성일</th>
+					<th class="regDate">작성일</th>
 					<td th:text="${#dates.format(notice.createDate, 'yyyy년MM월dd일')}">
 				</tr>
+
 				<tr class="no-content">
 					<th>내용</th>
-					<td style="height:100px; width:500px;" th:text="${notice.noticeContent}">
+					<td style="height: 100px; width: 500px;"
+						th:text="${notice.noticeContent}">
 				</tr>
 				<tr class="img">
-					<td th:each="file : ${file}">
-						<img th:src="@{/images/{fileName}(fileName=${file.filePath})}">
-					</td>
+					<td class="imgTd" th:each="file : ${file}"><img
+						th:src="@{/images/{fileName}(fileName=${file.filePath})}"></td>
 				</tr>
 			</th:block>
 		</table>
 	</div>
-	
+
 	<div class="btnAll">
-		<button type="button" th:onclick="|location.href='@{/noticeUpdate(noticeNo=${noticeInfo.noticeNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">수정</button>
-		<button type="button" th:onclick="|location.href='@{/noticeDelete(noticeNo=${noticeInfo.noticeNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">삭제</button>
-		<button type="button" th:onclick="|location.href='@{/noticeList}'|">목록</button>
+		<button type="button" class="noticeList"
+			th:onclick="|location.href='@{/noticeList}'|">목록</button>
+		<button type="button" class="modifyBtn"
+			th:onclick="|location.href='@{/noticeUpdate(noticeNo=${noticeInfo.noticeNo})}'|"
+			sec:authorize="hasRole('ROLE_ADMIN')">수정</button>
+		<button type="button" class="noticeDel"
+			th:onclick="|location.href='@{/noticeDelete(noticeNo=${noticeInfo.noticeNo})}'|"
+			sec:authorize="hasRole('ROLE_ADMIN')">삭제</button>
 	</div>
 </body>
 </html>

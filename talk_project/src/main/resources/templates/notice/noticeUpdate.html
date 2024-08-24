@@ -6,13 +6,40 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.container{margin-top:40px;}
+	.container { 
+		display:flex;
+		justify-content:center;
+		margin-top:40px; 
+	}
+	
+	.title{ width:423px; }
+	
+	.modifyBtn {
+		border: none;
+		padding: 10px;
+		border-radius: 10px;
+		color: white;
+		background-color: #0ea06f;
+		width: 84px;
+		margin-top:20px;
+		margin-left:240px;
+	}
+	
+	table {
+		border-collapse: separate;
+		border-spacing: 3px 5px;
+	}
+	
+	tr {
+		line-height: 20px;
+		padding:0;
+		margin:0;
+	}
 </style>
 <title>공지사항 수정</title>
 </head>
 <body>
 	<div class="container">
-		<h3>공지사항 수정</h3>	
 		<form name="updateForm" th:object="${noticeInfo}" >
 			  <table>
 			   <tr>
@@ -34,13 +61,13 @@
 				    <tr>
 			  			<th>제목</th>
 			  		    <td>
-			  		     	<input type="text" th:field="*{noticeTitle}">
+			  		     	<input class="title" width="450px" type="text" th:field="*{noticeTitle}">
 			  		     </td>
 			  	    </tr>
 			  	    <tr>
 			  			<th>내용</th>
 			  			<td>
-			  				<textarea th:field="*{noticeContent}"></textarea>
+			  				<textarea cols="50" rows="5" th:field="*{noticeContent}"></textarea>
 			  			</td>
 			  	    </tr>
 			   	    <tr>
@@ -50,7 +77,7 @@
 			  	  		</td>
 			  	    </tr> 
 			  </table>
-		<button type="button" id="updateBtn">수정</button>
+		<button type="button" class="modifyBtn" id="updateBtn">수정</button>
 		</form>
 	</div>
 </body>
