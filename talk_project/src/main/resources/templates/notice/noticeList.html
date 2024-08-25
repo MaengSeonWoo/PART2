@@ -8,8 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.submit-btn {
+	.insertBtn {
 		float:right;
+		border: none;
+		padding: 10px;
+		border-radius: 10px;
+		color: white;
+		background-color: #9bce26;
+		width: 84px;	
 	}
 	
 	tbody tr:hover {
@@ -72,7 +78,7 @@
 			</tbody>
 		</table>
 		<div>
-			<button type="button" class="submit-btn" th:onclick="|location.href='@{/noticeInsert}'|"
+			<button type="button" class="insertBtn" th:onclick="|location.href='@{/noticeInsert}'|"
 			sec:authorize="hasRole('ROLE_ADMIN')"
 			>등록</button>
 		</div>
@@ -95,47 +101,54 @@
 </body>
 <script>
 
-// 글자수 10자 제한
-let content = document.querySelectorAll('tbody tr td:nth-child(3)')
-
-function textControl() {
-	for(let i=0; i<content.length; i++){
-		if(content[i].innerHTML.length > 10){
-			content[i].innerHTML = content[i].innerHTML.substr(0, 10) + '...';
+	// 글자수 10자 제한
+	let content = document.querySelectorAll('tbody tr td:nth-child(3)')
+	
+	function textControl() {
+		for(let i=0; i<content.length; i++){
+			if(content[i].innerHTML.length > 10){
+				content[i].innerHTML = content[i].innerHTML.substr(0, 10) + '...';
+			}
 		}
 	}
-}
-textControl();
-
-// 중요공지
-let imNotice = document.querySelectorAll('tbody td:nth-child(1)')
-
-function importantNotice(){
-	for(let i=0; i<imNotice.length; i++){
-		if(imNotice[i].innerHTML.trim() == 1){
-			imNotice[i].innerHTML = '공지';
-						
+	textControl();
+	
+	// 중요공지
+	let imNotice = document.querySelectorAll('tbody td:nth-child(1)')
+	let searchBar = document.querySelector('input[name=keyword]')
+	
+	function importantNotice(){
+		for(let i=0; i<imNotice.length; i++){
+			if(imNotice[i].innerHTML.trim() == 1){
+				imNotice[i].innerHTML = '공지';
+							
+			}
 		}
 	}
-}
-importantNotice();
-
-function search(){
-	document.querySelector('input[name="keyword"]').select();
-}
-
-search();
-
-function colorChange() {
-    for(let i=0; i<imNotice.length; i++){
-        if(imNotice[i].innerHTML == '공지'){
-            let red = imNotice[i];
-            red.innerHTML = '[ ' + red.innerHTML +' ]'
-            red.style.color="blue";
-            red.style.fontWeight="bold";
-        }
-    }
-}
+	importantNotice();
+	
+	function search(){
+		document.querySelector('input[name="keyword"]').select();
+	}
+	
+	search();
+	
+	function colorChange() {
+	    for(let i=0; i<imNotice.length; i++){
+	        if(imNotice[i].innerHTML == '공지'){
+	            let red = imNotice[i];
+	            red.innerHTML = '[ ' + red.innerHTML +' ]'
+	            red.style.color="blue";
+	            red.style.fontWeight="bold";
+	        }
+	    }
+	}
+	
+	searchBar.addEventListener('click', function(){
+		if(searchBar.value != ''){
+			searchBar.value = ''
+		}
+	})
 
 colorChange();
 </script>

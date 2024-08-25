@@ -6,7 +6,7 @@
             xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
-<title>직업훈련영상</title>
+<title>손말톡톡TV</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 	*{
@@ -70,7 +70,7 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">직업훈련영상</h1>
+                    <h1 class="display-3 text-white animated slideInDown">손말톡톡TV</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
@@ -137,7 +137,9 @@
 </body>
 <script>
 	let title = document.querySelectorAll('.title')
+	let searchBar = document.querySelector('input[name=keyword]')
 	
+	// 제목 23글자 초과시 이후 ... 처리
 	function textLength(){
 		for(let i=0; i<title.length; i++){
 			if(title[i].innerHTML.length > 23){
@@ -145,7 +147,13 @@
 			}
 		}
 	}
-	
 	textLength();
+
+	// 검색바에 값이 있을 떄 클릭시 값 초기화
+	searchBar.addEventListener('click', function(){
+		if(searchBar.value != ''){
+			searchBar.value = ''
+		}
+	})
 </script>
 </html>

@@ -27,7 +27,8 @@ public interface FAQMapper {
 //    List<FAQVO> findAll();
 
 	 // 키워드로 FAQ 항목을 조회
-    List<FAQVO> findByKeywords(@Param("keywords") List<String> keywords);
+    List<FAQVO> findByKeywords(@Param("keywords") String keywords);
+//    List<FAQVO> findByKeywords(@Param("keywords") List<String> keywords);
 
     // 모든 FAQ 항목을 조회
     List<FAQVO> findAll();

@@ -10,7 +10,12 @@
 	</resultMap>
 	
 	<select id = "selectCoResumeList" parameterType="String" resultType="ResumeVO">
-		SELECT r.resume_no, r.resume_title, p.co_name, ar.apply_date, ar.apply_state, p.posting_no
+		SELECT r.resume_no, 
+			   r.resume_title, 
+			   p.co_name, 
+			   ar.apply_date, 
+			   get_codename(ar.result) as result_nm, 
+			   p.posting_no
 		FROM apply_resume ar
 		JOIN resume r 
 		ON ar.resume_no = r.resume_no

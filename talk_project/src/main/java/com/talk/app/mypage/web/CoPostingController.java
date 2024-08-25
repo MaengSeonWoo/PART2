@@ -54,6 +54,7 @@ public class CoPostingController {
         // 사용자 ID를 전달하여 채용 공고 목록을 가져옵니다.
         List<PostingVO> list = copostingService.postingList(coUserId);
         model.addAttribute("copostingList", list);
+        model.addAttribute("statusCode", publiccodeService.selectCode("0M"));
         
         return "mypage/copostingList";
     }

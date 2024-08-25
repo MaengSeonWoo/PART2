@@ -9,11 +9,10 @@
 <style>
 
 .couserupdate table {
-    width: 60%;
+    width: 70%;
     border-collapse: separate;
     border-spacing: 0 10px;
     font-size: 16px;
-    font-family: 'Arial', sans-serif;
     margin: 0 auto;
  
 }
@@ -25,6 +24,8 @@
     font-size: 14px;
     color: #555;
     text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 .couserupdate td input[type="text"],
@@ -40,6 +41,8 @@
     box-sizing: border-box;
     font-size: 14px;
     background-color: #fff;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 .couserupdate td input[type="button"] {
@@ -92,8 +95,8 @@ th.required::after {
 </head>
 <body>
 	<div class="couserupdate">
-		<h3>기업회원 정보수정</h3>
-		<p style="display: inline-block; font-size: 13px; margin-top: 8px;">
+		<h3 style="margin: 50px;">기업회원 정보수정</h3>
+		<p style="display: inline-block; font-size: 13px; margin-top: 8px; margin-left:50px;">
 		    <span style="color: red;">*</span> 표시가 있는 항목은 필수적으로 작성되어야합니다
 		</p>
 		<form th:object="${couserInfo}" name="CoUserUpdateForm" enctype="multipart/form-data">
@@ -106,49 +109,50 @@ th.required::after {
 				<tr>
 					<th class="required">사업자등록번호</th>
 					<td>
-						<input type="text" th:field="*{coRegNo}" readonly> 
+						<input type="text" th:field="*{coRegNo}" readonly style="width:30%;"> 
 					</td>
 				</tr>
 				<tr>
 					<th class="required">기업명</th>
-					<td><input type="text" th:field="*{coName}"></td>
+					<td><input type="text" th:field="*{coName}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">업종</th>
-					<td><input type="text" th:field="*{industry}"></td>
+					<td><input type="text" th:field="*{industry}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">대표자</th>
-					<td><input type="text" th:field="*{repName}"></td>
+					<td><input type="text" th:field="*{repName}" style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th class="required">설립연도</th>
-					<td><input type="text" th:field="*{estYear}" readonly></td>
+					<th style="width:15%;" class="required">설립연도</th>
+					<td><input type="text" th:field="*{estYear}" readonly style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">우편번호</th>
-					<td><input type="text" th:field="*{coPostNo}" id="CoPostNo">
+					<td><input type="text" th:field="*{coPostNo}" id="CoPostNo" style="width:30%;">
 						<input type="button" id="post_button" value="우편번호 찾기"
 						onclick="openZipSearch();"></td>
 				</tr>
 				<tr>
 					<th class="required">기본주소</th>
-					<td><input type="text" th:field="*{coAddr}" id="CoAddr"></td>
+					<td><input type="text" th:field="*{coAddr}" id="CoAddr" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">상세주소</th>
-					<td><input type="text" th:field="*{coDetailAddr}" id="CoDetailAddr"></td>
+					<td><input type="text" th:field="*{coDetailAddr}" id="CoDetailAddr" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">주요사업</th>
-					<td><input type="text" th:field="*{mainBusiness}"></td>
+					<td><input type="text" th:field="*{mainBusiness}" style="width:30%;"></td>
 				</tr>
 				<tr>
 				<th class="required">행정구역</th>
 				<td>
-					<select name="region">
-						<option value="">지역선택
-						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}">
+					<select name="region" style="width:30%;">
+						<option value="">지역선택<option>
+						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}"
+						th:selected="${region.mainCode == couserInfo.region}"></option>
 					</select></td>
 				</tr>
 				<tr>
@@ -157,51 +161,52 @@ th.required::after {
 				</tr>
 			</table>
 			<br>
-			<hr>
+			<hr style="width:80%; margin-left:100px; border:2px solid gray;">
 			<br>
 			<table>
 				<tr>
 					<th class="required">아이디</th>
-					<td><input type="text" th:field="*{coUserId}" readonly></td>
+					<td><input type="text" th:field="*{coUserId}" readonly style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="coUserPw" id="pw1" class="pw"></td>
+					<th style="width:15%;">비밀번호</th>
+					<td><input type="password" name="coUserPw" id="pw1" class="pw" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th>비밀번호확인</th>
 					<td><input type="password" name="checkPw" id="pw2" class="pw">
-						<font id="Pw_status" size="2"></font></td>
+						<font id="Pw_status" size="2" style="width:30%;"></font></td>
 				</tr>
 				<tr>
 					<th class="required">담당자 이름</th>
-					<td><input type="text" th:field="*{mgrName}"></td>
+					<td><input type="text" th:field="*{mgrName}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">담당자 이메일</th>
-					<td><input type="text" th:field="*{mgrEmail}"></td>
+					<td><input type="text" th:field="*{mgrEmail}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">담당자 연락처</th>
-					<td><input type="text" th:field="*{mgrTel}"></td>
+					<td><input type="text" th:field="*{mgrTel}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th class="required">기업 연락처</th>
-					<td><input type="text" th:field="*{coContact}"></td>
+					<td><input type="text" th:field="*{coContact}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th>기업 로고</th>
-					<td class="logoimg"><input type="file" id="files" name="uploadFiles" multiple></td>
+					<td class="logoimg"><input type="file" id="files" name="uploadFiles" multiple
+					style="border: none;"></td>
 				</tr>
 				<tr>
 					<th>SMS 수신 여부</th>
 						<td>
 						  <label>
-						    <input type="radio" name="receive" value="수신">
+						    <input type="radio" name="receive" value="수신" th:checked="${couserInfo.receive == '수신'}">
 						    수신
 						  </label>
 						  <label>
-						    <input type="radio" name="receive" value="미수신">
+						    <input type="radio" name="receive" value="미수신" th:checked="${couserInfo.receive == '미수신'}">
 						    미수신
 						  </label>
 						</td>

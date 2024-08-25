@@ -49,6 +49,7 @@ public class ResumeVO extends Criteria{
 	private String applyState;
 	private int postingNo;
 	private String result;
+	private String resultNm;
 	private String userName;
 	private String coName;
 	

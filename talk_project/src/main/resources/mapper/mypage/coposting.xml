@@ -5,7 +5,7 @@
 		SELECT p.co_name
 			   , posting_title
 			   , start_date
-			   , posting_status
+			   , get_codename(posting_status) as posting_status_nm
 			   , posting_no
 		FROM company_user c JOIN posting p
 		ON c.co_user_no = p.co_user_no
