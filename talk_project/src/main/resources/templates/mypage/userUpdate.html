@@ -7,27 +7,31 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-table {
-    width: 40%;
+
+.userupdate table {
+    width: 70%;
     border-collapse: separate;
     border-spacing: 0 10px;
     font-size: 16px;
-    font-family: 'Arial', sans-serif;
+    margin: 0 auto;
 }
 
-th {
+.userupdate th {
     text-align: left;
     padding-bottom: 10px;
     font-weight: bold;
     font-size: 14px;
     color: #555;
     text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
-td input[type="text"],
-td input[type="password"],
-td input[type="button"],
-td input[type="file"] {
+.userupdate td input[type="text"],
+.userupdate td input[type="password"],
+.userupdate td input[type="button"],
+.userupdate td input[type="file"],
+.userupdate td select {
     width: calc(80% - 40px); /* 가로 길이를 80%로 줄임 */
     padding: 10px;
     margin: 0;
@@ -36,9 +40,11 @@ td input[type="file"] {
     box-sizing: border-box;
     font-size: 14px;
     background-color: #fff;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
-td input[type="button"] {
+.userupdate td input[type="button"] {
     width: auto;
     background-color: #007BFF;
     color: white;
@@ -49,7 +55,7 @@ td input[type="button"] {
     padding: 10px 15px;
 }
 
-td input[type="button"]:hover {
+.userupdate td input[type="button"]:hover {
     background-color: #0056b3;
 }
 
@@ -57,6 +63,10 @@ td input[type="button"]:hover {
     margin-left: 10px;
     font-weight: bold;
     font-size: 12px;
+}
+
+.updateBtn{
+	text-align: center;
 }
 
 button#updateBtn {
@@ -75,53 +85,61 @@ button#updateBtn:hover {
     background-color: #218838;
 }
 
+th.required::after {
+    content: '*';
+    color: red; /* 빨간색으로 설정 */
+    margin-left: 5px; /* 기호와 텍스트 사이의 간격 조정 */
+}
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 로드 -->
 </head>
 <body>
-	<div>
-		<h3>일반회원 정보 수정</h3>
+	<div class="userupdate">
+		<h3 style="margin: 50px;">일반회원 정보 수정</h3>
+		<p style="display: inline-block; font-size: 13px; margin-top: 8px; margin-left:50px;">
+		    <span style="color: red;">*</span> 표시가 있는 항목은 필수적으로 작성되어야합니다
+		</p>
 		<form th:object="${userInfo}" name="UserUpdateForm">
 			<table>
 				<tr>
-					<th>이름</th>
-					<td><input type="text" th:field="*{userName}"></td>
+					<th class="required">이름</th>
+					<td><input type="text" th:field="*{userName}" style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>아이디</th>
-					<td><input type="text" th:field="*{userId}" readonly></td>
+					<th class="required">아이디</th>
+					<td><input type="text" th:field="*{userId}" readonly style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="userPw" id="pw1" class="pw"></td>
+					<th class="required">비밀번호</th>
+					<td><input type="password" name="userPw" id="pw1" class="pw" style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>비밀번호확인</th>
-					<td><input type="password" name="checkPw" id="pw2" class="pw">
+					<th style="width:15%;" class="required">비밀번호 확인</th>
+					<td><input type="password" name="checkPw" id="pw2" class="pw" style="width:30%;">
 						<font id="Pw_status" size="2"></font></td>
 				</tr>
 				<tr>
-					<th>이메일</th>
-					<td><input type="text" th:field="*{email}"></td>
+					<th class="required">이메일</th>
+					<td><input type="text" th:field="*{email}" style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>연락처</th>
-					<td><input type="text" th:field="*{Tel}"></td>
+					<th class="required">연락처</th>
+					<td><input type="text" th:field="*{Tel}" style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>우편번호</th>
+					<th class="required">우편번호</th>
 					<td>
-						<input type="text" th:field="*{postNo}">
-						<input type="button" id="post_button" value="우편번호 찾기" onclick="openZipSearch();">
+						<input type="text" th:field="*{postNo}" style="width:30%;">
+						<input type="button" id="post_button" value="우편번호 찾기" onclick="openZipSearch();" style="margin-left: 10px;">
 					</td>
 				</tr>
 				<tr>
-					<th>주소</th>
-					<td><input type="text" th:field="*{addr}"></td>
+					<th class="required">주소</th>
+					<td><input type="text" th:field="*{addr}" style="width:30%;"></td>
 				</tr>
 				<tr>
-					<th>상세주소</th>
-					<td><input type="text" th:field="*{detailAddr}"></td>
+					<th class="required">상세주소</th>
+					<td><input type="text" th:field="*{detailAddr}" style="width:30%;"></td>
 				</tr>
 				<tr>
 					<th>생년월일</th>
@@ -130,7 +148,8 @@ button#updateBtn:hover {
 				<tr>
 				  <th>가구상황</th>
 				  <td>
-				    <div th:each="household : ${householdCode}">
+				    <div th:each="household : ${householdCode}" class="checkbox-group"
+				    style="display: inline-block; margin-right: 10px; width:20%">
 				      <label>
 				        <input type="checkbox" name="household" th:value="${household.mainCode}" 
 				  		 th:checked="${userInfo.household != null} and ${#strings.contains(userInfo.household, household.mainCode)}">
@@ -149,7 +168,8 @@ button#updateBtn:hover {
 				<tr>
 				  <th>관심주제</th>
 				  <td>
-				    <div th:each="likesubject : ${likesubjectCode}">
+				    <div th:each="likesubject : ${likesubjectCode}" class="checkbox-group" 
+				    style="display: inline-block; margin-right: 10px; width:20%">
 				      <label>
 				        <input type="checkbox" name="likeSubject" th:value="${likesubject.mainCode}" 
 				        th:checked="${userInfo.likeSubject != null} and ${#strings.contains(userInfo.likeSubject, likesubject.mainCode)}">
@@ -161,10 +181,10 @@ button#updateBtn:hover {
 				<tr>
 				<th>거주지역</th>
 				<td>
-					<select name="sido">
+					<select name="sido" style="width:30%">
 						<option value="">지역선택</option>
 						<option th:each="sido : ${sidoCode}" th:value="${sido.mainCode}" th:text="${sido.codeName}" 
-						th:selected="${sido.mainCode == userInfo.sido ? 'selected' : ''}"></option>
+						th:selected="${sido.mainCode == userInfo.sido}"></option>
 					</select></td>
 				</tr>
 				<tr>
@@ -183,7 +203,7 @@ button#updateBtn:hover {
 						</td>
 				</tr>
 			</table>
-			<button type="button" id="updateBtn">수정</button>
+			<button type="button" id="updateBtn" style="margin-left:700px;">수정</button>
 		</form>
 	</div>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

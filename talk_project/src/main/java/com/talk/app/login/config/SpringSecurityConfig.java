@@ -9,7 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.talk.app.login.web.CustomAccessDeniedHandler;
 import com.talk.app.login.web.CustomAuthenticationSuccessHandler;
@@ -59,14 +61,14 @@ public class SpringSecurityConfig {
                 .passwordParameter("userPw")
                 .defaultSuccessUrl("/") 
                 .permitAll()
-                .successHandler(customAuthenticationSuccessHandler()) // 성공 핸들러 설정
+                .successHandler(customAuthenticationSuccessHandler()) 
                 .and()
             .logout()
                 .logoutSuccessUrl("/login") 
                 .permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler()) // AccessDeniedHandler 설정
+                .accessDeniedHandler(accessDeniedHandler()) 
                 .and()
             .csrf().disable(); 
       
@@ -81,5 +83,10 @@ public class SpringSecurityConfig {
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
+    }
+    
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler("/login?error=true");
     }
 }

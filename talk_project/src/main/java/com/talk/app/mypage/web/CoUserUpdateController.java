@@ -183,7 +183,7 @@ public class CoUserUpdateController {
         
     }
     
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 3600000)
     public void processScheduledDeletion() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 10 * 30 * 1000); 
         couserupdateService.RealDelCoUser(timestamp);
@@ -298,9 +298,9 @@ public class CoUserUpdateController {
             
         }
         
-        @Scheduled(fixedRate = 600000)
+        @Scheduled(fixedRate = 3600000)
         public void ScheduledDeletion() {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 30 * 1000); 
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 10 * 30 * 1000); 
             couserupdateService.RealDelUser(timestamp);
         }
 }

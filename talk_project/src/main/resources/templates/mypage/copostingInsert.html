@@ -7,92 +7,107 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    h3 {
-        color: #333;
-        margin-bottom: 20px;
-        font-size: 24px;
-        font-weight: bold;
-    }
+.postinginsert table {
+    width: 70%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 16px;
+    margin: 0 auto;
+}
 
+.postinginsert th {
+    text-align: left;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555;
+    text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
+}
 
-    th {
-        text-align: left;
-        padding-bottom: 10px;
-        font-weight: bold;
-        font-size: 14px;
-        color: #555;
-        text-transform: uppercase;
-        background-color: #f2f2f2; /* 헤더 배경색 */
-    }
+.postinginsert td input[type="text"],
+.postinginsert td input[type="password"],
+.postinginsert td input[type="button"],
+.postinginsert td input[type="file"],
+.postinginsert td select {
+    width: calc(80% - 40px); /* 가로 길이를 80%로 줄임 */
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fff;
+    margin-top:10px;
+    margin-bottom:10px;
+}
 
-    td {
-        padding: 10px; /* 셀 패딩 */
-    }
+.postinginsert td input[type="button"] {
+    width: auto;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
 
-    td input[type="text"],
-    td input[type="password"],
-    td input[type="button"],
-    td input[type="file"],
-    td select,
-    td textarea {
-        width: calc(100% - 20px); /* 가로 길이를 100%로 설정하고 패딩을 고려 */
-        padding: 10px;
-        margin: 0;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 14px;
-        background-color: #fff;
-    }
+.postinginsert td input[type="button"]:hover {
+    background-color: #0056b3;
+}
 
-    td input[type="button"] {
-        width: auto;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-        border-radius: 4px;
-        padding: 10px 15px;
-    }
+#Pw_status {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 12px;
+}
 
-    td input[type="button"]:hover {
-        background-color: #0056b3;
-    }
+.insertbtn{
+	text-align: center;
 
-    button#updateBtn,
-    button[type="submit"] {
-        padding: 12px 25px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 20px;
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-    }
+}
 
-    button#updateBtn:hover,
-    button[type="submit"]:hover {
-        background-color: #218838;
-    }
+.insertbtn {
+    padding: 12px 25px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
 
-    #Pw_status {
-        margin-left: 10px;
-        font-weight: bold;
-        font-size: 12px;
-    }
+.golist{
+	padding: 12px 25px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-right: 10px;
+}
 
-    textarea {
-        width: 100%; /* textarea 너비 설정 */
-        height: 100px; /* textarea 높이 설정 */
-        resize: vertical; /* 세로로만 크기 조절 가능 */
-    }
+.insertbtn:hover {
+    background-color: #218838;
+}
+
+th.required::after {
+    content: '*';
+    color: red; /* 빨간색으로 설정 */
+    margin-left: 5px; /* 기호와 텍스트 사이의 간격 조정 */
+}
 </style>
 </head>
 <body>
-	<div>
+	<div class="postinginsert">
 		<h3>채용공고 등록</h3>
 		<form th:action="@{/copostingInsert}" method="post" 
 		 name="insertForm" th:object="${postingVO}" 
@@ -106,15 +121,15 @@
 			</tr>
 			<tr>
 				<th>제목*</th>
-				<td><input type="text" name="postingTitle"></td>
+				<td><input type="text" name="postingTitle" style="width: 30%"></td>
 			</tr>
 			<tr>
 				<th>기업명*</th>
-				<td><input type="text" name="coName"></td>
+				<td><input type="text" name="coName" style="width: 30%"></td>
 			</tr>
 			<tr>
 				<th>근무지역*</th>
-				<td><select name="workRegion">
+				<td><select name="workRegion" style="width: 30%">
 				<option value="">지역선택
 				<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}">
 				</select></td>
@@ -122,18 +137,18 @@
 			<tr>
 				<th>모집기간*</th>
 				<td>
-				<input type="date" name="startDate">
-				<input type="date" name="endDate">
+				<input type="date" name="startDate" style="width: 20%"> ~
+				<input type="date" name="endDate" style="width: 20%">
 				</td>
 			</tr>
 			
 			<tr>
 				<th>업종*</th>
-				<td><input type="text" name="job"></td>
+				<td><input type="text" name="job" style="width: 30%"></td>
 			</tr>
 			<tr>
 				<th>연령*</th> 
-				<td><input type="number" name="age">세 이하</td>
+				<td><input type="number" name="age" style="width: 10%">세 이하</td>
 			</tr>
 			<tr>
 				<th>성별*</th>
@@ -153,35 +168,37 @@
 			</tr>
 			<tr>
 				<th>근무일*</th>
-				<td><input type="text" name="workDay" placeholder="ex)"></td>
+				<td>주 <input type="text" name="workDay" placeholder="" style="width: 20%"> 일</td>
 			</tr>
 			<tr>
 				<th>근무시간*</th>
-				<td><input type="text" name="workTimeStart" placeholder="시작 시간을 적어주세요"></td><td>~</td>
-				<td><input type="text" name="workTimeEnd" placeholder="마감 시간을 적어주세요"></td>
+				<td><input type="text" name="workTimeStart" placeholder="시작 시간을 적어주세요" style="width: 20%"> ~ 
+				<input type="text" name="workTimeEnd" placeholder="마감 시간을 적어주세요" style="width: 20%"></td>
+
 			</tr>
 			<tr>
 				<th>급여*</th>
-				<td>월 <input type="number" name="sal"> 만원</td>
+				<td>월 <input type="number" name="sal" style="width: 10%"> 만원</td>
 			</tr>
 			<tr>
 				<th>모집인원*</th>
-				<td><input type="number" name="party">명</td>
+				<td><input type="number" name="party" style="width: 10%">명</td>
 			</tr>
 			<tr>
 				<th>근무내용*</th>
-				<td><textarea name="workContent"></textarea></td>
+				<td><textarea name="workContent" style="width: 80%; height: 150px;"></textarea></td>
 			</tr>
 			<tr>
 				<th>우대사항</th>
-				<td><textarea name="priContent"></textarea></td>
+				<td><textarea name="priContent" style="width: 80%; height: 150px;"></textarea></td>
 			</tr>
 			<tr>
 				<th>추가내용</th>
-				<td><textarea name="etcContent"></textarea></td>
+				<td><textarea name="etcContent" style="width: 80%; height: 150px;"></textarea></td>
 			</tr>
 		</table>
-			<button type="submit">등록</button>
+			<button type="submit" class="insertbtn" style="margin-left: 600px;">등록</button>
+			<button type="submit" th:onclick="|location.href='@{/copostingInsert}'|" class="golist">목록</button>
 		</form>
 	</div>
 </body>

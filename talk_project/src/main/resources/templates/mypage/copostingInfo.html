@@ -46,6 +46,36 @@
 
         .btn-container button {
             margin: 0 10px;
+            padding: 15px 30px; /* 버튼의 패딩을 늘려서 크기 증가 */
+            font-size: 18px; /* 버튼의 글꼴 크기 증가 */
+            border: none;
+            border-radius: 8px; /* 모서리를 더 둥글게 설정 */
+        
+        .updateposting {
+            background-color: #4CAF50; /* 초록색 배경 */
+            color: white; /* 흰색 글자 */
+        }
+
+        .updateposting:hover {
+            background-color: #45a049; /* 어두운 초록색으로 변경 */
+        }
+
+        .golist {
+            background-color: #2196F3; /* 파란색 배경 */
+            color: white; /* 흰색 글자 */
+        }
+
+        .golist:hover {
+            background-color: #0b7dda; /* 어두운 파란색으로 변경 */
+        }
+
+        .deleteposting {
+            background-color: #f44336; /* 빨간색 배경 */
+            color: white; /* 흰색 글자 */
+        }
+
+        .deleteposting:hover {
+            background-color: #e53935; /* 어두운 빨간색으로 변경 */
         }
     </style>
 </head>
@@ -98,7 +128,7 @@
 			</div>
 			<div class="job-info-row">
 				<div>급여</div>
-				<div th:text="${posting.sal}"></div>
+				<div>월 <span th:text="${posting.sal}"></span>만원</div>
 			</div>
 			<div class="job-info-row">
 				<div>모집인원</div>
@@ -117,9 +147,9 @@
 				<div th:text="${posting.etcContent}"></div>
 			</div>
 			<div class="btn-container">
-				<button type="button" th:onclick="|location.href='@{/copostingUpdate(postingNo=${posting.postingNo})}'|">수정하기</button>
-				<button type="button" th:onclick="|location.href='@{/copostingList}'|">목록</button>
-				<button type="button" th:onclick="|location.href='@{/copostingDelete(postingNo=${posting.postingNo})}'|">삭제</button>
+				<button type="button" th:onclick="|location.href='@{/copostingUpdate(postingNo=${posting.postingNo})}'|" class="updateposting" style="background-color: #4CAF50; color: white;">수정하기</button>
+				<button type="button" th:onclick="|location.href='@{/copostingDelete(postingNo=${posting.postingNo})}'|" class="deleteposting" style="background-color: #f44336; color: white;">삭제</button>
+				<button type="button" th:onclick="|location.href='@{/copostingList}'|" class="golist" style="background-color: blue; color: white;">목록</button>
 			</div>
 		</div>
 	</div>

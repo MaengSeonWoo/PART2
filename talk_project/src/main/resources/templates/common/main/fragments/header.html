@@ -25,10 +25,10 @@
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
                 <a th:href="@{/CoUserMain}" class="nav-item nav-link" sec:authorize="hasRole('ROLE_CO_USER')">마이페이지</a>
                 <a th:href="@{/userMain}" class="nav-item nav-link" sec:authorize="hasRole('ROLE_USER')">마이페이지</a>
+                <a th:href="@{/calendar/welfare}" class="nav-item nav-link">복지제도 일정</a>
                 <a th:href="@{/login}" class="nav-item nav-link" sec:authorize="isAnonymous()">로그인</a>
                 <a th:href="@{/logout}" class="nav-item nav-link" sec:authorize="isAuthenticated()">로그아웃</a>
                 <a th:href="@{/signsel}" class="nav-item nav-link" sec:authorize="isAnonymous()">회원가입</a>
-                <a th:href="@{/calendar/welfare}" class="nav-item nav-link">복지제도 일정</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">
                  <!-- <form action="/search" method="get" class="d-flex"> -->   

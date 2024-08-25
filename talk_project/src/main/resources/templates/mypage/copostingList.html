@@ -7,10 +7,6 @@
     <meta charset="UTF-8">
     <title>채용공고 조회</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
 
         th, td {
             padding: 12px;
@@ -20,18 +16,24 @@
         th {
             background-color: #f4f4f4;
         }
+        
+        .button-container{
+        	text-align: right;
+        	margin-right: 170px;
+        }
 
         /* 버튼 스타일 제거 */
-        .btn {
+        .postinginsertbtn {
             padding: 10px 20px;
-            color: #007bff; /* 버튼 글자색 설정 */
-            background-color: transparent; /* 버튼 배경색 투명 */
+            color: white; /* 버튼 글자색 설정 */
+            background-color: #007bff; /* 버튼 배경색 투명 */
             border: 1px solid #007bff; /* 버튼 테두리 추가 */
             border-radius: 4px;
             cursor: pointer;
             text-align: center;
             display: inline-block;
             text-decoration: none;
+
         }
 
         .btn:hover {
@@ -42,7 +44,7 @@
 </head>
 <body>
     <h3>채용공고 목록</h3>
-    <table>
+    <table class="postinglist" style="width: 80%; margin:0 auto;">
         <thead>
             <tr>
                 <th>공고번호</th>
@@ -58,12 +60,14 @@
                     <td th:text="${posting.postingNo}"></td>
                     <td th:text="${posting.coName}"></td>
                     <td th:text="${posting.postingTitle}"></td>
-                    <td th:text="${posting.startDate}"></td>
-                    <td th:text="${posting.postingStatus}"></td>
+                    <td th:text="${#dates.format(posting.startDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${posting.postingStatusNm}"></td>
                 </tr>
             </th:block>
         </tbody>
     </table>
-    <button type="button" th:onclick="|location.href='@{/copostingInsert}'|" class="btn">등록</button>
+    <div class="button-container">
+    <button type="button" th:onclick="|location.href='@{/copostingInsert}'|" class="postinginsertbtn">등록</button>
+    </div>
 </body>
 </html>

@@ -60,6 +60,36 @@
 	    .swal2-confirm, .swal2-cancel {
 	        margin: 0 5px; /* 버튼 사이의 간격 조정 */
 	    }
+	    
+	    .text-end button {
+		  font-family: Arial, sans-serif; /* 버튼의 글꼴 설정 */
+		  font-size: 16px; /* 버튼의 글꼴 크기 설정 */
+		  border: none; /* 버튼의 기본 테두리 제거 */
+		  color: white; /* 버튼 글자 색상 */
+		  padding: 10px 20px; /* 버튼의 내부 여백 설정 */
+		  cursor: pointer; /* 마우스 커서를 버튼 위에 올렸을 때 손 모양으로 변경 */
+		  border-radius: 5px; /* 버튼의 모서리를 둥글게 설정 */
+		  transition: background-color 0.3s ease; /* 배경색 변경에 부드러운 전환 효과 추가 */
+		  margin-right: 10px; 
+		}
+		
+		/* 합격 버튼 스타일 */
+		.passbtn {
+		  background-color: #4CAF50; /* 배경색을 초록색으로 설정 */
+		}
+		
+		.passbtn:hover {
+		  background-color: #45a049; /* 호버 시 배경색을 조금 더 어두운 초록색으로 변경 */
+		}
+		
+		/* 불합격 버튼 스타일 */
+		.failbtn {
+		  background-color: #f44336; /* 배경색을 빨간색으로 설정 */
+		}
+		
+		.failbtn:hover {
+		  background-color: #e53935; /* 호버 시 배경색을 조금 더 어두운 빨간색으로 변경 */
+		}
     </style>
 
     <!-- SweetAlert2 CSS -->
@@ -193,8 +223,8 @@
         <p th:utext="${#strings.escapeXml(resume.produce)}" style="white-space: pre-wrap; border: 1px #e2e3e5 solid"></p>
 
         <div class="text-end">
-            <button type="button" onclick="showConfirmation()">합격</button>
-            <button type="button" onclick="showRejectionConfirmation()">불합격</button>
+            <button type="button" onclick="showConfirmation()" class="passbtn">합격</button>
+            <button type="button" onclick="showRejectionConfirmation()" class="failbtn" style="margin-right: 200px;">불합격</button>
             <button type="button" class="btn btn-secondary" th:onclick="goList()">목록</button>
         </div>
     </div>
