@@ -81,7 +81,7 @@
 		JOIN users u
 		ON r.user_no = u.user_no
 		WHERE user_id = #{userId} 
-		OR result = 'D03'
+		AND result = 'D03'
 		OR result = 'D04'
 	</select>
 	
