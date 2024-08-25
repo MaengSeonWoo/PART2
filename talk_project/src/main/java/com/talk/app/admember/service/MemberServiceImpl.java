@@ -37,12 +37,18 @@ public class MemberServiceImpl implements MemberService{
 	public int coUpdate(int coUserNo) {
 		return mapper.updateCo(coUserNo);
 	}
+	
 
 	@Override
 	public List<CoUserVO> couserApprove() {
 		return mapper.couserApprove();
 	}
 
+	@Override
+	public int coUserNo(int coUserNo) {
+		return mapper.joinRefuse(coUserNo);
+	}
+	
 	@Override
 	public List<PostingVO> postingApprove() {
 		return mapper.postingApprove();
@@ -82,6 +88,8 @@ public class MemberServiceImpl implements MemberService{
 	public int postRefuse(int postingNo) {
 		return mapper.postRefuse(postingNo);
 	}
+
+
 
 
 	

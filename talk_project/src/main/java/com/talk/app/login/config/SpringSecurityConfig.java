@@ -41,7 +41,7 @@ public class SpringSecurityConfig {
             	// 모든 권한이 혀용된 페이지들
                 .antMatchers("/", "/img/**", "/main/**",  "/docs/**", "/production/**","/calendar/**", "/chatbot/**,", "/", "/login", "/loginsel", 
                 			 "/findId", "/findIdResult", "/noticeList", "/noticeInfo", "/posting/**", "/qnaList", "/qnaInfo", "/qnaInsert", "/deleteQna", 
-                			 "/search", "/signsel", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId", "/analyze", "/videoInfo", "/videoList"
+                			 "/search", "/signsel", "/signInsert", "/checkUserId", "/cosignInsert", "/checkCoUserId", "/analyze", "/videoInfo", "/videoList","/admin/sendEmail"
                 			 )
                 .permitAll() 
                 // 일반회원만 접근이 허용된 페이지들
@@ -52,7 +52,7 @@ public class SpringSecurityConfig {
                 			 "/copostingList", "/copostingInfo", "/copostingInsert", "/copostingUpdate", "/copostingDelete")
                 .hasAuthority("ROLE_CO_USER")
                 // 관리자만 접근이 허용된 페이지들
-                .antMatchers("/admin/**", "/noticeInsert", "/noticeUpdate", "/noticeDelete", "/replyInsert", "/deleteReply", "/videoInsert")
+                .antMatchers("/admin/**", "/noticeInsert", "/noticeUpdate", "/noticeDelete", "/replyInsert", "/deleteReply", "/videoInsert","/sendEmail")
                 .hasAuthority("ROLE_ADMIN") 
                 .and()
             .formLogin() 

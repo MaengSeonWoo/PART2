@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class CoUserVO {
-	private Integer coUserNo;		//기업회원번호
+	private int coUserNo;		//기업회원번호
 	private Long coRegNo;			//사업자등록번호
 	private String coName;			//기업명
 	private String industry;		//업종
