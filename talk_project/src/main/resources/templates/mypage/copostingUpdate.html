@@ -7,27 +7,30 @@
 <meta charset="UTF-8">
 <title>채용공고 수정</title>
 <style>
-table {
-    width: 100%;
+.postingupdate table {
+    width: 70%;
     border-collapse: separate;
     border-spacing: 0 10px;
     font-size: 16px;
-    font-family: 'Arial', sans-serif;
+    margin: 0 auto;
 }
 
-th {
+.postingupdate th {
     text-align: left;
     padding-bottom: 10px;
     font-weight: bold;
     font-size: 14px;
     color: #555;
     text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
-td input[type="text"],
-td input[type="password"],
-td input[type="button"],
-td input[type="file"] {
+.postingupdate td input[type="text"],
+.postingupdate td input[type="password"],
+.postingupdate td input[type="button"],
+.postingupdate td input[type="file"],
+.postingupdate td select {
     width: calc(80% - 40px); /* 가로 길이를 80%로 줄임 */
     padding: 10px;
     margin: 0;
@@ -36,9 +39,11 @@ td input[type="file"] {
     box-sizing: border-box;
     font-size: 14px;
     background-color: #fff;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
-td input[type="button"] {
+.postingupdate td input[type="button"] {
     width: auto;
     background-color: #007BFF;
     color: white;
@@ -49,7 +54,7 @@ td input[type="button"] {
     padding: 10px 15px;
 }
 
-td input[type="button"]:hover {
+.postingupdate td input[type="button"]:hover {
     background-color: #0056b3;
 }
 
@@ -59,7 +64,12 @@ td input[type="button"]:hover {
     font-size: 12px;
 }
 
-button#updateBtn {
+.updatebtn{
+	text-align: center;
+
+}
+
+.updatebtn {
     padding: 12px 25px;
     background-color: #28a745;
     color: white;
@@ -71,19 +81,39 @@ button#updateBtn {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 
-button#updateBtn:hover {
+.golist{
+	padding: 12px 25px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-right: 10px;
+}
+
+.updatebtn:hover {
     background-color: #218838;
+}
+
+th.required::after {
+    content: '*';
+    color: red; /* 빨간색으로 설정 */
+    margin-left: 5px; /* 기호와 텍스트 사이의 간격 조정 */
 }
 </style>
 </head>
 <body>
-	<div>
+	<div class="postingupdate">
 		<h3>채용공고 수정</h3>
 		<form th:object="${copostingInfo}" name="updateForm">
 			<table>
 			<tr>
 				<th>공고제목*</th>
-				<td><input type="text" th:field="*{postingTitle}"></td>
+				<td><input type="text" th:field="*{postingTitle}" style="width: 30%"></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" th:field="*{coUserNo}"></td>
@@ -94,7 +124,7 @@ button#updateBtn:hover {
 			<tr>
 				<th>근무지역*</th>
 				<td>
-					<select th:field="*{workRegion}">
+					<select th:field="*{workRegion}" style="width: 30%">
 						<option value="">지역선택</option>
 						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}" th:selected="${region.mainCode == copostingInfo.workRegion}"></option>
 					</select>
@@ -103,17 +133,17 @@ button#updateBtn:hover {
 			<tr>
 				<th>모집기간*</th>
 				<td>
-					<input type="date" th:field="*{startDate}">
-					<input type="date" th:field="*{endDate}">
+					<input type="date" th:field="*{startDate}" style="width: 30%"> ~
+					<input type="date" th:field="*{endDate}" style="width: 30%">
 				</td>
 			</tr>
 			<tr>
 				<th>업종*</th>
-				<td><input type="text" th:field="*{job}"></td>
+				<td><input type="text" th:field="*{job}" style="width: 30%"></td>
 			</tr>
 			<tr>
 				<th>연령*</th> 
-				<td><input type="number" th:field="*{age}">세 이하</td>
+				<td><input type="number" th:field="*{age}" style="width: 30%">세 이하</td>
 			</tr>
 			<tr>
 				<th>성별*</th>
@@ -136,15 +166,17 @@ button#updateBtn:hover {
 			</tr>
 			<tr>
 				<th>근무일*</th>
-				<td><input type="text" th:field="*{workDay}" placeholder="ex)주 5일"></td>
+				<td>주 <input type="text" name="workDay" th:field="*{workDay}" style="width: 20%"> 일</td>
 			</tr>
 			<tr>
 				<th>근무시간*</th>
-				<td><input type="text" th:field="*{workTime}" placeholder="ex)09:00 ~ 18:00"></td>
+				<td><input type="text" name="workTimeStart" th:field="*{workTimeStart}" style="width: 20%"> ~ 
+				<input type="text" name="workTimeEnd" th:field="*{workTimeEnd}" style="width: 20%"></td>
+
 			</tr>
 			<tr>
 				<th>급여*</th>
-				<td><input type="number" th:field="*{sal}"></td>
+				<td>월 <input type="number" name="sal" style="width: 10%" th:field="*{sal}"> 만원</td>
 			</tr>
 			<tr>
 				<th>모집인원*</th>
@@ -163,7 +195,7 @@ button#updateBtn:hover {
 				<td><textarea th:field="*{priContent}"></textarea></td>
 			</tr>
 			</table>
-			<button type="button" id="updateBtn">수정</button>
+			<button type="button" id="updateBtn" class="updatebtn">수정</button>
 		</form>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

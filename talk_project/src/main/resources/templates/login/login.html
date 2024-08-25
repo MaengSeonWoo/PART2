@@ -175,7 +175,16 @@
 				<button class="findInfoBtn" th:onclick="|location.href='@{/findId}'|">아이디/비밀번호 찾기</button>
 		</form>
 		<script>
+		// 아이디나 비밀번호 틀릴 시
+		function IDPW_ERROR() {
+		    const urlParams = new URLSearchParams(window.location.search);
+		    if (urlParams.has('error')) {
+		        document.getElementById('error-message').style.display = 'block';
+		    }
+		}
 
+		document.addEventListener('DOMContentLoaded', IDPW_ERROR);
+		
 		// 아이디 저장
 		$(document).ready(function(){
 			  

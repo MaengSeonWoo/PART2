@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.common.service.UploadFileVO;
 import com.talk.app.common.service.UploadService;
 import com.talk.app.mypage.service.CoResumeService;
@@ -21,12 +22,14 @@ public class CoResumeController {
 
 	private final CoResumeService resumeService;
 	private final UploadService uploadService;
+	private final PublicCodeService publiccodeService;
 
 	@GetMapping("coresumelist")
 	public String resumeList(Principal principal, Model model) {
 		String userId = principal.getName();
 		List<ResumeVO> coResumeList = resumeService.coResumeList(userId);
 		model.addAttribute("coresume", coResumeList);
+		model.addAttribute("resultCode", publiccodeService.selectCode("0D"));
 
 		return "mypage/coResumeList";
 	}

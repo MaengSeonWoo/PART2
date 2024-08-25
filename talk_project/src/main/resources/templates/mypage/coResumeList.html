@@ -27,37 +27,7 @@
             background-color: #f8f9fa;
         }
 
-        /* 페이지네이션 스타일 */
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .page-link {
-            padding: 8px 16px;
-            margin: 0 4px;
-            text-decoration: none;
-            color: #007bff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .page-item.disabled .page-link {
-            color: #ccc;
-            pointer-events: none;
-        }
-
-        .page-item.active .page-link {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .page-link:hover {
-            background-color: #0056b3;
-            color: white;
-        }
+        
     </style>
 </head>
 <body>
@@ -81,25 +51,14 @@
                             <input type="hidden" th:value="${coresume.resumeNo}">
                             <tr th:onclick="|location.href='@{/coresumeinfo/{resumeNo}(resumeNo=${coresume.resumeNo})}'|">
                                 <td th:text="${coresume.resumeNo}"></td>
-                                <td th:text="${coresume.coName}">지원회사</td>
-                                <td th:text="${coresume.resumeTitle}">이력서 제목</td>
-                                <td th:text="${coresume.applyDate}">지원일자</td>
-                                <td th:text="${coresume.applyState}"></td>
+                                <td th:text="${coresume.coName}"></td>
+                                <td th:text="${coresume.resumeTitle}"></td>
+                                <td th:text="${#dates.format(coresume.applyDate, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${coresume.resultNm}"></td>
                             </tr>
                         </th:block>
                     </tbody>
                 </table>
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link">«</a></li>
-                        <li class="page-item active"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item"><a class="page-link">4</a></li>
-                        <li class="page-item"><a class="page-link">5</a></li>
-                        <li class="page-item"><a class="page-link">»</a></li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </div>    
