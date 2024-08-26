@@ -7,7 +7,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
             <div class="page-title">
               <div class="title_left">
-                <h3>기업 가입신청서<small>(승인,거절 문자처리)</small></h3>
+                <h3>기업 가입신청서<small>(승인,거절 메일발송)</small></h3>
               </div>
 
               <div class="title_right">
@@ -126,9 +126,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           <div class="btn-group">
                             <form action="/admin/approve/sendMail" method="post">
 							    <input type="hidden" id="coUserNoField" name="coUserNo" />
-							    <button type="submit">메일 보내기</button>
+							    <button type="submit" class="btn btn-sm btn-success">메일 보내기</button>
 							</form>
-                            [[${detail.coUserNo}]]
 	                         <div th:if="${detail.authority} == 'ROLE_TEMP'">
 							    <button class="btn btn-sm btn-primary" type="button"
 							            th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">
