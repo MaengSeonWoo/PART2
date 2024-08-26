@@ -64,6 +64,14 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
         return "success";
     }
 	
+	@Override
+    public int getCoUserDelStatus(String coUserId) {
+        CoUserVO couserVO = new CoUserVO();
+        couserVO.setCoUserId(coUserId);
+        CoUserVO couser = couserupdateMapper.selectCoUserInfo(couserVO);
+        return couser.getDelStatus();
+    }
+	
 	// 기업회원 탈퇴취소
 	@Override
 	public Map<String, Object> cancelCoUser(CoUserVO couserVO) {
