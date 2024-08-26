@@ -149,7 +149,7 @@ th.required::after {
 				<tr>
 				<th class="required">행정구역</th>
 				<td>
-					<select name="region" style="width:30%;">
+					<select name="region" style="width:30%">
 						<option value="">지역선택<option>
 						<option th:each="region : ${regionCode}" th:value="${region.mainCode}" th:text="${region.codeName}"
 						th:selected="${region.mainCode == couserInfo.region}"></option>

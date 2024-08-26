@@ -57,12 +57,15 @@ public class CoUserUpdateController {
         couserVO.setCoUserId(coUserId);
 
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
+        System.out.println("오류: " + findVO.getRegionNm()); // 로그 추가
         model.addAttribute("company_user", findVO);
         model.addAttribute("coUserId", coUserId); // coUserId를 모델에 추가
-              
+        model.addAttribute("regionCode", publiccodeService.selectCode("0G"));
         
         return "mypage/couserMain";
     }
+    
+    
 
     // 기업회원 수정 페이지
     @GetMapping("CoUserUpdate")
@@ -74,6 +77,7 @@ public class CoUserUpdateController {
         CoUserVO findVO = couserupdateService.couserInfo(couserVO);
         model.addAttribute("couserInfo", findVO);
         model.addAttribute("regionCode", publiccodeService.selectCode("0G")); // codeRule이 0G인 지역 코드를 조회하고, 이를 모델에 담아 화면에 전달
+
         
      // 현재 인증된 사용자의 권한 정보를 모델에 추가
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -85,7 +89,8 @@ public class CoUserUpdateController {
 
         return "mypage/couserUpdate";
     }
-
+    
+    
     // 기업회원 수정 및 이미지 
     @PostMapping("CoUserUpdate")
     @ResponseBody
