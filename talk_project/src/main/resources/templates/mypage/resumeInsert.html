@@ -339,8 +339,6 @@
         <button type="button" onclick="sendOcrResult()">자동등록</button>
     	</div>
 	</div>
-	
-
 	<script>
 	// OCR모달
     var modal = document.getElementById("myModal");
@@ -395,19 +393,19 @@
         .then(data => {
         	parsedata = data;
             // OCR 결과를 모달에 표시
-            var ocrResultList = document.getElementById('ocrResultList');
+            /* var ocrResultList = document.getElementById('ocrResultList');
             ocrResultList.innerHTML = '';
             parsedata.forEach(result => {
                 var li = document.createElement('li');
                 li.textContent = result;
                 ocrResultList.appendChild(li);
-            });
+            }); */
             
             // JSON 데이터를 포맷하여 문자열로 변환
             var jsonString = JSON.stringify(parsedata, null, 2);
             
             // 모달에 JSON 결과 표시
-            document.getElementById('ocrResultList').textContent = jsonString;
+            /* document.getElementById('ocrResultList').textContent = jsonString; */
             
             // 모달 표시            
             document.getElementById('myModal2').style.display = 'block';
