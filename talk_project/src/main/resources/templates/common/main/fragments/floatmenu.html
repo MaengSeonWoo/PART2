@@ -328,8 +328,6 @@
 // 챗봇 관련
 let stompClient = null;
 let roomId = null; // 방 ID를 저장할 변수
-
-// DOM이 로드되면 이벤트 리스너를 등록
 document.addEventListener('DOMContentLoaded', function() {
     const chatbotOpenBtn = document.getElementById('chatbotOpenBtn');
     const chatbotCloseBtn = document.getElementById('chatbotCloseBtn');
@@ -344,62 +342,97 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbotContainer.style.display = 'flex';
         
         window.setTimeout(function() {
-	        // 현재 상태 값 확인
-	        let status = sessionStorage.getItem('status');
-	        if(status == null) {
-	        	// 상태 변경
-	        	status = 1;
-	        	sessionStorage.setItem('status', status);
-	        }
-	        if(status == 1) {
-	        	// 첫번째 메뉴
-	        	reqMessage('', status); // status
-	        }
-        }, 500)
+            let status = sessionStorage.getItem('status');
+            let previousStatus = sessionStorage.getItem('previousStatus');
+	        
+            // 상태와 previousStatus 초기화
+            if (status == null) {
+                status = 1; // 초기 상태 설정
+                sessionStorage.setItem('status', status);
+            }
+	        
+            if (previousStatus == null) {
+                previousStatus = 0; // 초기 previousStatus 설정
+                sessionStorage.setItem('previousStatus', previousStatus);
+            }
+
+            // 초기화 후 메시지 요청
+            reqMessage('', status, previousStatus); // 초기 메시지 요청
+        }, 500);
     });
 
     // 챗봇 닫기 버튼 클릭 시 챗봇 창을 숨김 및 방 종료
     chatbotCloseBtn.addEventListener('click', function() {
         chatbotContainer.style.display = 'none';
-        let status = sessionStorage.getItem('status');
-        status = 1;
-    	sessionStorage.setItem('status', status);
+        sessionStorage.setItem('status', 1);
+        sessionStorage.removeItem('previousStatus'); // previousStatus 초기화
         if (roomId) {
             endRoom(); // 방 종료 및 웹소켓 연결 해제
         }
     });
-    
-    document.getElementById('chatbotSendBtn').onclick = function() {
-		sendMessage();
-	};
 
-    // Enter 키로 메시지 전송
+    // 버튼 클릭 이벤트 리스너 설정
+    document.body.addEventListener('click', function(event) {
+        if (event.target.classList.contains('chatbotBtn')) {
+            const previousStatus = parseInt(event.target.getAttribute('data-status'), 10);
+
+            console.log('Clicked data-status:', previousStatus); // 디버깅을 위한 로그 출력
+
+            sessionStorage.setItem('previousStatus', previousStatus); // previousStatus 값 세션 스토리지에 저장
+
+            let status = parseInt(sessionStorage.getItem('status'), 10);
+            status += 1; // 사용자가 버튼을 클릭하면 status를 증가시킴
+            sessionStorage.setItem('status', status); // 증가된 상태 저장
+
+            reqMessage('', status, previousStatus); // 서버에 질문 요청
+        }
+    });
+
+    // 메시지 전송 이벤트 리스너 설정
     chatbotInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-        	let status = sessionStorage.getItem('status');
-            if(status == 1) {
-            	// 상태 변경
-            	status = 2;
-            	sessionStorage.setItem('status', status);
-            }
-            if(status == 2) {
-            	// 첫번째 하위 메뉴
-            	sendMessage(status); // status
-            	status = 3;
-            	sessionStorage.setItem('status', status);
-            } else if (status == 3) {
-            	sendMessage(status);
-            }
-        //    sendMessage();
+            const input = event.target.value.trim();
+
+            if (input === '') return; // 입력이 비어있으면 처리하지 않음
+
+            let status = parseInt(sessionStorage.getItem('status'), 10);
+            const previousStatus = parseInt(sessionStorage.getItem('previousStatus'), 10); // 이전에 저장된 previousStatus 사용
+
+            console.log('Entered text:', input);
+            console.log('Previous status from session storage:', previousStatus); // 디버깅 로그
+
+            sendMessageWithInput(status, previousStatus, input); // 메시지와 함께 서버로 전송
+
+            status += 1; // 사용자가 답변을 입력하면 status를 증가시킴
+            sessionStorage.setItem('status', status); // 증가된 상태 저장
         }
     });
 });
 
-// 메시지 전송 함수 (오른쪽 말풍선)
-function sendMessage(status) {
+// 메시지 전송 함수 (사용자가 직접 입력한 경우)
+function sendMessageWithInput(status, previousStatus, input) {
+    const chatBody = document.querySelector('.chatbot-body');
+    const userMessage = `<div class="chat-message user"><p>${input}</p></div>`;
+    chatBody.insertAdjacentHTML('beforeend', userMessage);
+    document.getElementById('chatbotInput').value = '';
+
+    scrollToBottom(); // 메시지 전송 후 스크롤 다운
+
+    if (stompClient && stompClient.connected) {
+        stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
+            'content': input, // 사용자가 입력한 내용
+            'currentQuestionId': status, // 현재 증가된 status 값 전송
+            'previousQuestionId': previousStatus, // 이전에 저장된 previousStatus 값 전송
+            'roomId': roomId // 방 ID 추가
+        }));
+    }
+}
+
+// 기존의 메시지 전송 함수 (버튼 클릭 시 사용)
+function sendMessage(status, previousStatus) {
     const message = document.getElementById('chatbotInput').value;
     if (message.trim() === '') return; // 메시지가 빈 문자열일 경우 전송하지 않음
-	
+
     const chatBody = document.querySelector('.chatbot-body');
     const userMessage = `<div class="chat-message user"><p>${message}</p></div>`;
     chatBody.insertAdjacentHTML('beforeend', userMessage);
@@ -409,23 +442,15 @@ function sendMessage(status) {
 
     if (stompClient && stompClient.connected) {
         stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
-            'content': message, currentQuestionId:status,
+            'content': message,
+            'currentQuestionId': status, // 현재 증가된 status 값 전송
+            'previousQuestionId': previousStatus, // 이전에 저장된 previousStatus 값 전송
             'roomId': roomId // 방 ID 추가
         }));
     }
 }
 
-//  
-function reqMessage(message, status) {
-
-    if (stompClient && stompClient.connected) {
-        stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
-            'content': message, currentQuestionId:status,
-            'roomId': roomId // 방 ID 추가
-        }));
-    }
-}
-// 서버에서 받은 메시지를 화면에 출력 (왼쪽 말풍선)
+// 서버로부터 받은 메시지 처리 함수 (왼쪽 말풍선)
 function showMessage(message) {
     const chatBody = document.querySelector('.chatbot-body');
     const botMessage = `<div class="chat-message bot"><p>${message.content}</p></div>`;
@@ -445,31 +470,45 @@ function showMessage(message) {
     }
 }
 
-// 채팅창을 최신 메시지에 맞게 스크롤하는 함수
-function scrollToBottom() {
-    const chatBody = document.querySelector('.chatbot-body');
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
 // 방 생성 함수 및 웹소켓 연결
 function createRoom() {
     fetch('/chatbot/createRoom', { // 방 생성 요청
         method: 'POST'
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         roomId = data.roomId;
-        console.log(`Room created with ID: ${roomId}`);
         connect(); // 방 생성 후 웹소켓 연결
     })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+    .catch(error => console.error('방 생성 실패:', error));
+}
+
+// 방 종료 함수
+function endRoom() {
+    if (!roomId) {
+        console.error('Room ID is not set. Cannot end room.');
+        return;
+    }
+
+    fetch(`/chatbot/endRoom/${roomId}`, { // 방 종료 요청
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(`Room ${roomId} ended: ${data}`);
+        disconnect(); // 웹소켓 연결 해제
+        roomId = null; // 방 ID 초기화
+    })
+    .catch(error => console.error('방 종료 실패:', error));
+}
+
+// 웹소켓 연결 종료
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect(function() {
+            console.log('Disconnected');
+        });
+    }
 }
 
 // 웹소켓 연결 및 메시지 수신 처리
@@ -485,40 +524,25 @@ function connect() {
     });
 }
 
-// 방 종료 함수
-function endRoom() {
-    if (!roomId) {
-        console.error('Room ID is not set. Cannot end room.');
-        return;
-    }
-
-    fetch(`/chatbot/endRoom/${roomId}`, { // 방 종료 요청
-        method: 'POST'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Failed to end room ${roomId}`);
-        }
-        return response.text(); // 서버에서 문자열 응답을 받을 것으로 예상
-    })
-    .then(data => {
-        console.log(`Room ${roomId} ended: ${data}`);
-        disconnect(); // 웹소켓 연결 해제
-        roomId = null; // 방 ID 초기화
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+// 채팅창을 최신 메시지에 맞게 스크롤하는 함수
+function scrollToBottom() {
+    const chatBody = document.querySelector('.chatbot-body');
+    chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// 웹소켓 연결 종료
-function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect(function() {
-            console.log('Disconnected');
-        });
+// 서버에 질문 요청을 보내고 답변을 받는 함수
+function reqMessage(message, status, previousStatus) {
+    if (stompClient && stompClient.connected) {
+        stompClient.send(`/app/chat.sendMessage`, {}, JSON.stringify({
+            'content': message,
+            'currentQuestionId': status, // 증가된 status 값 전송
+            'previousQuestionId': previousStatus, // previousStatus 값 전송
+            'roomId': roomId // 방 ID 추가
+        }));
     }
 }
+
+
 
 
 	</script>

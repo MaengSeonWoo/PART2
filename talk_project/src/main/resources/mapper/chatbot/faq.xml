@@ -15,6 +15,39 @@
             </foreach>
         </if>
     </select> -->
+    
+    <!-- STEP_NO와 PRE_NO를 기반으로 FAQ 조회 -->
+    <select id="findFAQByStepAndPreviousStatus" parameterType="map" resultType="FAQVO">
+        SELECT
+        FAQ_ID,
+        KEYWORD,
+        ANSWER,
+        PAGE_URL,
+        STEP_NO,
+        PRE_NO,
+        CUR_NO
+    FROM
+        faq
+    WHERE
+        STEP_NO = #{stepNo}
+        AND PRE_NO = #{preNo}
+    </select>
+    
+    <select id="findFAQByKeyword" parameterType="string" resultType="FAQVO">
+        SELECT
+            FAQ_ID,
+            KEYWORD,
+            ANSWER,
+            PAGE_URL,
+            STEP_NO,
+            PRE_NO,
+            CUR_NO
+        FROM
+            faq
+        WHERE
+            KEYWORD LIKE '%' || #{keyword} || '%'
+            AND ROWNUM = 1
+    </select>
 	<select id="findByKeywords" parameterType="string" resultType="FAQVO">
         SELECT faq_id, keyword, answer, page_url, page_description
         FROM FAQ
