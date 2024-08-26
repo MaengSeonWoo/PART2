@@ -125,15 +125,12 @@ public class SampleService {
     
     public void fetchAndUpdateWelfareDetails() throws Exception {
         List<String> servIdList = mapper.getAllServIds();
-
         for (String servId : servIdList) {
             String response = callApiForDetails(servId);
-
             // XML 파싱
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new InputSource(new StringReader(response)));
-
             // 태그 가져오기
             String startDate = getTextContent1(doc.getElementsByTagName("enfcBgngYmd"), 0);
             String endDate = getTextContent1(doc.getElementsByTagName("enfcEndYmd"), 0);
@@ -141,32 +138,26 @@ public class SampleService {
             String supTarget = getTextContent1(doc.getElementsByTagName("sprtTrgtCn"), 0);
             String salServ = getTextContent1(doc.getElementsByTagName("alwServCn"), 0);
             String selStandard = getTextContent1(doc.getElementsByTagName("slctCritCn"), 0);
-
             // 업데이트 수행
             mapper.updateWelfareDetails(servId, startDate, endDate, appWay, supTarget, salServ, selStandard);
-
             System.out.println("Updated details for: " + servId);
         }
     }
-
     private String callApiForDetails(String servId) throws Exception {
         StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfaredetailed");
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + key);
         urlBuilder.append("&" + URLEncoder.encode("servId", "UTF-8") + "=" + URLEncoder.encode(servId, "UTF-8"));
-
         URI uri = new URI(urlBuilder.toString());
         URL url = uri.toURL();        
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/xml");
-
         BufferedReader rd;
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         } else {
             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
         }
-
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
@@ -176,7 +167,6 @@ public class SampleService {
         conn.disconnect();
         return sb.toString();
     }
-
     private String getTextContent1(NodeList nodeList, int index) {
         if (nodeList != null && nodeList.item(index) != null) {
             return nodeList.item(index).getTextContent();
