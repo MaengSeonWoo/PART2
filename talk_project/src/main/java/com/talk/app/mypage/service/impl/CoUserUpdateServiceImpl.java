@@ -21,6 +21,11 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	public CoUserUpdateServiceImpl(CoUserUpdateMapper couserupdateMapper) {
 		this.couserupdateMapper = couserupdateMapper;
 	}
+	// 기업회원 단건조회
+	@Override
+	public CoUserVO couserInfo(CoUserVO couserVO) {
+		return couserupdateMapper.selectCoUserInfo(couserVO);
+	}
 	
 	// 기업회원 정보수정
 	@Override
@@ -39,11 +44,6 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 		return map;
 	}
 	
-	// 기업회원 단건조회
-	@Override
-	public CoUserVO couserInfo(CoUserVO couserVO) {
-		return couserupdateMapper.selectCoUserInfo(couserVO);
-	}
 	
 	// 기업회원 임시탈퇴
 	@Override

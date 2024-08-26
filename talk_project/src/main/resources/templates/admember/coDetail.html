@@ -48,7 +48,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                     <div class="row">
 
                       <!-- / LIST -->
-                      
                       <div class="col-sm-9 mail_view">
                         <div class="inbox-body">
                           <div class="mail_heading row">
@@ -86,7 +85,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             <div><strong>담당자 연락처 : </strong>[[ ${detail.mgrTel} ]]</div>
                           </div>
                           <hr>
-	                                                
 						<!--  -->
 						<div class="modal" tabindex="-1">
 						  <div class="modal-dialog">
@@ -120,11 +118,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 	                                  <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb"> [[${file.fileName}]]</a>
 	                                </div>
                               </li>
-
                             </ul>
                           </div>
                           <div class="btn-group">
-                            <form action="/admin/approve/sendMail" method="post">
+                            <form action="/admin/test" method="post">
 							    <input type="hidden" id="coUserNoField" name="coUserNo" />
 							    <button type="submit" class="btn btn-sm btn-success">메일 보내기</button>
 							</form>
@@ -133,7 +130,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 							            th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">
 							        승인하기
 							    </button>
-							    
 							    <button class="btn btn-sm btn-danger" type="button"
 							            th:onclick="|location.href='@{/admin/approve/refusejoin(coUserNo=${detail.coUserNo})}'|">
 							        거절하기
@@ -165,8 +161,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 		$('.modal').hide();
 	})
 	
-
-
 	let wid = /*[[${detail.coRegNo}]]*/
 		
 	  function confirmAndSendSms() {

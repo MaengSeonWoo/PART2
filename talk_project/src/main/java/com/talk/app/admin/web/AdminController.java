@@ -266,13 +266,19 @@ public class AdminController {
 		return null;
 	}
 	
-	/*
-	 * @PostMapping("/sendEmail")
-	 * 
-	 * @ResponseBody public String sendEmail(@RequestParam String to) {
-	 * emailService.sendSimpleMessage(to); return "Email sent to " + to; }
-	 */
 	
+	  @PostMapping("/sendEmail")
+	  @ResponseBody 
+	  public String sendEmail(@RequestParam int to) {
+		  emailService.sendSimpleMessage(to); 
+	  	return "Email sent to " + to; 
+	  }
+	 
+	  @PostMapping("test")
+	  public String sendMail() {
+		  emailService.sendEmail();
+		  return "redirect:approve/detail" ;
+	  }
 	
 	
 	
