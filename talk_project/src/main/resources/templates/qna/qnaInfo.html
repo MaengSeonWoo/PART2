@@ -132,6 +132,10 @@
 		border-radius:10px;
 		resize:none;
 	}
+	
+	.replyInput {
+		width:1100px;
+	}
 </style>
 <title>Insert title here</title>
 </head>
@@ -156,7 +160,13 @@
 				<td class="qnaContent" th:text="${qnaInfo.qnaContent}"></td>
 			</tr>
 			</table>
-		<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
+		
+	
+		
+	</div>
+	<!-- end of container -->
+	
+	<div class="answer" th:if="${qnaInfo.qnaState} == '1'">
 			<table>
 				<tr>
 					<td>
@@ -170,10 +180,6 @@
 				</tr>
 			</table>
 		</div>	
-	
-		
-	</div>
-	<!-- end of container -->
 	
 	<div class="btnAll">
 		<button type="button" class="qnaList" th:onclick="|location.href='@{/qnaList}'|">목록보기</button>
@@ -193,7 +199,8 @@
 				</tr>
 				<tr>
 					<td>
-						<button type="submit" class="insertReplyBtn" sec:authorize="hasRole('ROLE_ADMIN')">댓글등록</button>
+						<button type="submit" class="insertReplyBtn" sec:authorize="hasRole('ROLE_ADMIN')">답변등록</button>
+						
 					</td>
 				</tr>
 			</table>
