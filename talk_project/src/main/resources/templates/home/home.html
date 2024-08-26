@@ -177,17 +177,12 @@
 		<div class="container py-3 mb-3">
 			<div class="notice-section bg-white">
 				<h4>공지사항</h4>
-				<ul class="list-group">
-					<li class="list-group-item d-flex justify-content-between align-items-center">
-						공지사항 제목 1 <span class="badge bg-primary rounded-pill">NEW</span>
+				<ul class="list-group" th:each="notice : ${noticeList}" th:if="${noticeStat.index} < 5">
+					 <li class="list-group-item d-flex justify-content-between align-items-center"
+					 	 th:onclick="|location.href='@{/noticeInfo(noticeNo=${notice.noticeNo})}'|"
+					 	 th:text="${notice.noticeTitle}">
+						 <span class="badge bg-primary rounded-pill">NEW</span>
 					</li>
-					<li class="list-group-item d-flex justify-content-between align-items-center">
-						공지사항 제목 2 <span class="badge bg-primary rounded-pill">NEW</span>
-					</li>
-					<li class="list-group-item d-flex justify-content-between align-items-center">
-						공지사항 제목 3 <span class="badge bg-primary rounded-pill">NEW</span>
-					</li>
-					<!-- 추가 공지사항들 -->
 				</ul>
 			</div>
 		</div>
@@ -198,6 +193,7 @@
 			location.href = `/posting/${no}`;
 		}
 		
+				
 	</script>
 </body>
 </html>

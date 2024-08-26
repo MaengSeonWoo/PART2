@@ -12,6 +12,8 @@ import com.talk.app.common.service.Criteria;
 import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.login.service.LoginUserVO;
 import com.talk.app.login.service.UserVO;
+import com.talk.app.notice.service.NoticeService;
+import com.talk.app.notice.service.NoticeVO;
 import com.talk.app.posting.service.PostingService;
 import com.talk.app.posting.service.PostingVO;
 
@@ -28,12 +30,18 @@ public class HomeController {
 	
 	private final PostingService postingService;
 	private final PublicCodeService publicCodeService;
-
+	private final NoticeService noticeService;
+	
 	@GetMapping("/")
-	public String mainPage(Model model, Criteria cri) {
+	public String mainPage(Model model, Criteria cri, Model nmodel) {
 		List<PostingVO> postingList = postingService.postingList(cri);
 		model.addAttribute("pList", postingList);
 		model.addAttribute("empTypeCode", publicCodeService.selectCode("0C"));
+		
+		List<NoticeVO> nList = noticeService.noticeList();
+		nmodel.addAttribute("noticeList", nList);
+		
+		
 		
 		// 현재 인증된 사용자의 권한 정보를 모델에 추가
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
