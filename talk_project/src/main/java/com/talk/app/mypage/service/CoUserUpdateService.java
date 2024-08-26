@@ -16,6 +16,9 @@ public interface CoUserUpdateService {
 	// 기업회원 임시탈퇴
 	public String deleteCoUser(String coUserId);
 	
+	// 기업회원의 del_status를 조회하는 메서드
+    int getCoUserDelStatus(String coUserId);
+	
 	// 기업회원 탈퇴취소
 	Map<String, Object> cancelCoUser(CoUserVO couserVO);
 	

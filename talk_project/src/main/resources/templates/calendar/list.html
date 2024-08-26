@@ -16,7 +16,6 @@
 <script th:inline="javascript">
 
 $(document).ready(function() {
-	
     var activeTab = sessionStorage.getItem('activeTab');
     if (activeTab) {
         $('#' + activeTab).tab('show');
@@ -32,7 +31,6 @@ $(document).ready(function() {
     });
 	
     var calendarEl = document.getElementById('calendar');
-
     var urlParams = new URLSearchParams(window.location.search);
     var sido = urlParams.get('sido');
     var likeSubject = urlParams.get('likeSubject');
@@ -41,7 +39,6 @@ $(document).ready(function() {
     console.log('likeSubject',likeSubject)
     
     var calendar = new FullCalendar.Calendar(calendarEl, {
-    	
         initialView: 'dayGridMonth',
         headerToolbar: {
             left: 'prev,next today',
@@ -201,6 +198,9 @@ body {
     flex-wrap: wrap;
 }
 
+.btn-outline-success{
+	width:70px;
+}
 
 
 </style>

@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.talk.app.admember.service.MemberService;
+import com.talk.app.admin.service.EmailService;
 import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
 import com.talk.app.posting.service.PostingVO;
@@ -19,6 +22,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService service;
+	
+	@Autowired
+	EmailService eservice;
 	
 	//기업회원 승인목록(기업목록 전체 신청desc처리)
 	@GetMapping("")
@@ -36,15 +42,28 @@ public class MemberController {
 		return "admember/coDetail";
 	}
 	
+	 // 메일 보내기 버튼 클릭 시 호출되는 메서드
+    @PostMapping("/sendMail")
+    public String sendMail(@RequestParam("coUserNo") int coUserNo) {
+        System.out.println("Received coUserNo: " + coUserNo); // 로그로 확인
+    	eservice.sendSimpleMessage(coUserNo);
+        return "redirect:/admin/approve/detail?coUserNo=" + coUserNo;
+    }
+	
 	//기업회원 승인 => 
 	@GetMapping("confirm")
 	public String updateCo(int coUserNo) {
 		int wid = service.coUpdate(coUserNo);
-		return "redirect:detail?coUserNo="+ wid;
+		return "redirect:/admin/approve";
 	}
 	
-	//기업회원 거절(승인상태변경,데이터 지우기)
-	
+	//기업회원 가입거절(승인상태변경,데이터 지우기)
+	@GetMapping("refusejoin")
+	public String refuseCo(Model model, int coUserNo) {
+		int refuse = service.coUserNo(coUserNo);
+		model.addAttribute("refuse",refuse);
+		return "redirect:/admin/approve";
+	}
 	
 	//채용등록 리스트
 	@GetMapping("postlist")
@@ -66,7 +85,7 @@ public class MemberController {
 	@GetMapping("postingok")
 	public String updatePost(int postingNo) {
 		int pid = service.postUpdate(postingNo);
-		return "redirect:postdetail?postingNo="+pid;
+		return "redirect:/admin/approve/postlist";
 	}
 	
 	//채용등록 거절
@@ -74,7 +93,7 @@ public class MemberController {
 	public String refusePost(Model model, int postingNo) {
 		int refuse = service.postRefuse(postingNo);
 		model.addAttribute("refuse",refuse);
-		return "redirect:postdetail?postingNo="+refuse;
+		return "redirect:/admin/approve/postlist";
 	}
 	
 	//일반회원전체

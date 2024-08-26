@@ -166,7 +166,7 @@
 			<button type="button" class="btn btn-primary" th:onclick="goSave()">이력서 등록</button>
 		</div>
 	</div>
-	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<script type="text/javascript">
 	function goSave() {
 		location.href = `/userMain/resume/save`;
@@ -187,14 +187,27 @@
 
 		// 삭제 버튼 핸들러
 		document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
-			let rno = val.parentElement.parentElement.previousElementSibling.value;
-			val.addEventListener('click', function(){
-				let form = document.createElement('form');
-				form.setAttribute('action', `/userMain/resume/${rno}/remove`);
-				form.setAttribute('method', 'post');
-				document.querySelector('body').appendChild(form);
-				form.submit();
-			});
+		    let rno = val.parentElement.parentElement.previousElementSibling.value;
+		    val.addEventListener('click', function(){
+		        Swal.fire({
+		            icon: 'warning',
+		            title: '삭제 확인',
+		            text: '이력서를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.',
+		            showCancelButton: true,
+		            confirmButtonText: '삭제',
+		            cancelButtonText: '취소',
+		            confirmButtonColor: '#d33',
+		            cancelButtonColor: '#3085d6'
+		        }).then((result) => {
+		            if (result.isConfirmed) {
+		                let form = document.createElement('form');
+		                form.setAttribute('action', `/userMain/resume/${rno}/remove`);
+		                form.setAttribute('method', 'post');
+		                document.querySelector('body').appendChild(form);
+		                form.submit();
+		            }
+		        });
+		    });
 		});
 	});
 	</script>

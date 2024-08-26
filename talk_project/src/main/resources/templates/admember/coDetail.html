@@ -7,7 +7,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
             <div class="page-title">
               <div class="title_left">
-                <h3>기업 가입신청서<small>(승인,거절 문자처리)</small></h3>
+                <h3>기업 가입신청서<small>(승인,거절 메일발송)</small></h3>
               </div>
 
               <div class="title_right">
@@ -124,11 +124,22 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             </ul>
                           </div>
                           <div class="btn-group">
-                            <button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
-	                            <div th:if="${detail.authority} == 'ROLE_TEMP' ">
-		                            <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">승인하기</button>
-		                            <button class="btn btn-sm btn-danger" type="button" th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">거절하기</button>
-	                            </div>
+                            <form action="/admin/approve/sendMail" method="post">
+							    <input type="hidden" id="coUserNoField" name="coUserNo" />
+							    <button type="submit" class="btn btn-sm btn-success">메일 보내기</button>
+							</form>
+	                         <div th:if="${detail.authority} == 'ROLE_TEMP'">
+							    <button class="btn btn-sm btn-primary" type="button"
+							            th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">
+							        승인하기
+							    </button>
+							    
+							    <button class="btn btn-sm btn-danger" type="button"
+							            th:onclick="|location.href='@{/admin/approve/refusejoin(coUserNo=${detail.coUserNo})}'|">
+							        거절하기
+							    </button>
+							</div>
+
                           </div>
                         </div>
 
@@ -145,12 +156,16 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
 <script  th:inline="javascript">
 
-	$('#mymodal').on('click',function(){
+    document.getElementById('coUserNoField').value = /*[[${detail.coUserNo}]]*/ '0';
+
+    $('#mymodal').on('click',function(){
 		$('.modal').modal()
 	})
 	$('.btn-close').on('click',function(){
 		$('.modal').hide();
 	})
+	
+
 
 	let wid = /*[[${detail.coRegNo}]]*/
 		

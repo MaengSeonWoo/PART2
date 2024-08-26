@@ -15,9 +15,7 @@ public class AdminRestController {
 
 	@Autowired
 	private SampleService sampleService;
-	
 
-	
     @Scheduled(cron = "0 0 0 * * *")
     public void processScheduledDeletion() {
         try {
@@ -25,7 +23,6 @@ public class AdminRestController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        
         try {
 			sampleService.fetchAndUpdateWelfareDetails();
 		} catch (Exception e) {
@@ -40,7 +37,6 @@ public class AdminRestController {
             sampleService.fetchAndSaveWelfareData();
             return ResponseEntity.ok("서비스ok");
         } catch (Exception e) {
-        	//오류적어줌
         	e.printStackTrace();
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
@@ -52,7 +48,6 @@ public class AdminRestController {
             sampleService.fetchAndUpdateWelfareDetails();
             return ResponseEntity.ok("서비스ok");
         } catch (Exception e) {
-        	//오류적어줌
         	e.printStackTrace();
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }

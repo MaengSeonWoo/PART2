@@ -8,7 +8,7 @@
 <title>기업회원가입</title>
 <style>
 table {
-	margin-left: 100px;
+	margin-left: 300px;
 	margin-top: 50px;
     width: 40%;
     border-collapse: separate;
@@ -21,8 +21,8 @@ th {
     font-size: 14px;
     color: black;
     text-transform: uppercase;
-    background-color: #B2EBF4;
-    text-align: center;
+    background-color: white;
+    text-align: left;
     padding: 15px;
 
 }
@@ -69,7 +69,7 @@ td input[type="button"]:hover {
     font-size: 12px;
 }
 button.signbutton {
-	margin-left: 100px;
+	margin-left: 310px;
 	margin-top: 100px;
 	padding: 12px 25px;
     background-color: #28a745;
@@ -82,10 +82,11 @@ button.signbutton {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 h3{
-	margin-left: 100px;
+	margin-left: 250px;
 	margin-top: 100px;
 }
 </style>
+
 </head>
 <body>
 	<div>
@@ -196,6 +197,7 @@ h3{
 			<button type="submit" class="signbutton">등록</button>
 		</form>
 		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 		<script>
 		//아이디 중복체크
 		let checkId = 0;
@@ -279,13 +281,25 @@ h3{
 		        contentType: "application/json; charset=UTF-8",
 		        accept: "application/json",
 		        success: function(result) {
-		            if (result.match_cnt === 1) {
-		                alert("사업자등록번호가 확인되었습니다");
-		                isBusinessNumberValid = true; // 검증 성공
-		            } else {
-		                alert(result.data[0]["tax_type"]);
-		                isBusinessNumberValid = false; // 검증 실패
-		            }
+		        	if (result.match_cnt === 1) {
+		        	    Swal.fire({
+		        	        icon: 'success',
+		        	        title: '확인 완료',
+		        	        text: '사업자등록번호가 확인되었습니다',
+		        	        confirmButtonText: '확인'
+		        	    }).then(() => {
+		        	        isBusinessNumberValid = true; // 검증 성공
+		        	    });
+		        	} else {
+		        	    Swal.fire({
+		        	        icon: 'error',
+		        	        title: '확인 실패',
+		        	        text: result.data[0]["tax_type"],
+		        	        confirmButtonText: '확인'
+		        	    }).then(() => {
+		        	        isBusinessNumberValid = false; // 검증 실패
+		        	    });
+		        	}
 		        },
 		        error: function(result) {
 		            alert("사업자등록번호 검증 오류");

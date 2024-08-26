@@ -203,8 +203,9 @@
 		</div>
 	</div>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script type="text/javascript">
+
 
 	const path = window.location.pathname; // 예: "/posting/1/resume/2"
 	const regex = /\/posting\/(\d+)\/resume\/(\d+)/;
@@ -237,19 +238,41 @@
 	} */
 	
 	function applyHandler() {
-		fetch(window.location.href, {
-		    method: 'POST'
-		})
-		.then(response => response.json())
-		.then(data => {
-		    console.log(data); // 서버 응답 처리
-		    location.href = `/posting/`;
-		    alert('지원완료 되었습니다.');
-	
-		})
-		.catch(error => {
-		    console.error('Error:', error); // 에러 처리
-		});
+		
+		
+		Swal.fire({
+            icon: 'info',
+            title: '채용 지원.',
+            text: '해당 이력서로 지원 하시겠습니까?',
+            showCancelButton: true,
+            confirmButtonText: '예', 
+            cancelButtonText: '아니오',
+            confirmButtonColor: '#06BBCC',
+            cancelButtonColor: '#d33',
+
+        }).then((result) => {
+        	if(result.isConfirmed) {
+	        	fetch(window.location.href, {
+	    		    method: 'POST'
+	    		})
+	    		.then(response => response.json())
+	    		.then(data => {
+	    		    console.log(data); // 서버 응답 처리
+	    		    location.href = `/posting/`;
+	    		    Swal.fire(
+	    				    "지원 완료되었습니다.",
+	    				    "success");
+	    	
+	    		})
+	    		.catch(error => {
+	    		    console.error('Error:', error); // 에러 처리
+	    		});
+			} else if (result.isDismissed) {
+			  Swal.fire(
+			    "취소하셨습니다.");
+			}
+        	
+        }) 
 	}
 	
 	function goList() {

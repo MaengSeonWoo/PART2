@@ -29,4 +29,7 @@ public interface WelfareService {
 	//유저상세
 	public UserVO userDetail(UserVO vo);
 	
+	//메일 보냄
+	public String sendMail(int vo);
+	
 }
