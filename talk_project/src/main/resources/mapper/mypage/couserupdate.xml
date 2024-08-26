@@ -3,7 +3,7 @@
 <mapper namespace='com.talk.app.mypage.mapper.CoUserUpdateMapper'>
 	<!-- 기업회원 단건조회 -->
 	<select id = "selectCoUserInfo" resultType="CoUserVO">
-		SELECT DISTINCT co_user_no
+		SELECT co_user_no
 			  , co_reg_no
 			  , co_name
 			  , industry
