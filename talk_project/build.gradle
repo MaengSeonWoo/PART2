@@ -45,6 +45,8 @@ dependencies {
 	implementation 'net.nurigo:sdk:4.3.0' // 문자메세지 전송
     implementation 'com.konghq:unirest-java:3.13.6'	//메일 전송
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.2'
     
 	
 
