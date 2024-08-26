@@ -16,6 +16,8 @@ public interface MemberService {
 	public CoUserVO coDetail(CoUserVO vo);
 	//승인시키기
 	public int coUpdate(int coUserNo);
+	//가입 거절
+	public int coUserNo(int coUserNo);
 	//기업회원 미승인 목록
 	public List<CoUserVO> couserApprove();
 	//채용 미승인 목록
@@ -34,5 +36,7 @@ public interface MemberService {
 	public int postRefuse(int postingNo);
 	//문자보낼사람수
 	public int sendCount(UserVO vo);
+	
+	
 	
 }

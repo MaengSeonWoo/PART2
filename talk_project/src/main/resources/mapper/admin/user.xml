@@ -81,6 +81,11 @@
 	WHERE co_user_no =#{coUserNo}
 </update>
 
+<update id="joinRefuse" parameterType="com.talk.app.login.service.CoUserVO">
+	UPDATE company_user
+	SET AUTHORITY ='ROLE_CO_REFUSE'
+	WHERE CO_USER_NO = #{coUserNo}
+</update>
 
 <select id="couserApprove" parameterType="com.talk.app.login.service.CoUserVO">
 	SELECT co_user_no, co_name,industry,SIGNUP_DATE,authority  

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareVO;
+import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
 
 @Mapper
@@ -54,6 +55,10 @@ public interface WelfareMapper {
 	
 	//유저 정보상세
 	public UserVO userDetail(UserVO vo);
+	
+	//문자보낼 사람 한명
+	public String sendMail(int coUserNo);
+	
 	
 	
 }

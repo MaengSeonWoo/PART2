@@ -20,6 +20,8 @@ public interface MemberMapper {
 	public List<UserVO> userAll();
 	//기업회원 승인
 	public int updateCo(int coUserNo);
+	//기업회원 거절
+	public int joinRefuse(int coUserNo);
 	//기업회원 미승인 목록
 	public List<CoUserVO> couserApprove();
 	//채용 미승인 목록
