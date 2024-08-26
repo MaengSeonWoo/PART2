@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.talk.app.QnA.service.qnaVO;
 import com.talk.app.admember.service.MemberService;
+import com.talk.app.admin.service.EmailService;
 import com.talk.app.admin.service.SmsService;
 import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareService;
@@ -59,6 +60,10 @@ public class AdminController {
 
 	@Autowired
 	UploadService uservice;
+	
+	@Autowired
+    EmailService emailService;
+	
 
 	// 메인
 	@GetMapping("")
@@ -261,8 +266,12 @@ public class AdminController {
 		return null;
 	}
 	
-	
-	
+	/*
+	 * @PostMapping("/sendEmail")
+	 * 
+	 * @ResponseBody public String sendEmail(@RequestParam String to) {
+	 * emailService.sendSimpleMessage(to); return "Email sent to " + to; }
+	 */
 	
 	
 	

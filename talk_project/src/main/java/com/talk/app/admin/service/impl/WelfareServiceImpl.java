@@ -12,6 +12,7 @@ import com.talk.app.admin.mapper.WelfareMapper;
 import com.talk.app.admin.service.UserWelfareVO;
 import com.talk.app.admin.service.WelfareService;
 import com.talk.app.admin.service.WelfareVO;
+import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
 
 @Service
@@ -97,6 +98,12 @@ public class WelfareServiceImpl implements WelfareService{
 	@Override
 	public UserVO userDetail(UserVO vo) {
 		return mapper.userDetail(vo);
+	}
+
+
+	@Override
+	public String sendMail(int vo) {
+		return mapper.sendMail(vo);
 	}
 
 

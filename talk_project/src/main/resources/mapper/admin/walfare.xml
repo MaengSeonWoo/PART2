@@ -281,7 +281,11 @@ WHERE wid = #{wid}
 	where USER_NO = #{userNo}
 </select>
 
-
+<select id="sendMail" resultType="String">
+	select MGR_EMAIL 
+	from company_user
+	where co_user_no = #{coUserNo}
+</select>
 
 
 

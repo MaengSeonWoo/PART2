@@ -28,7 +28,7 @@ public class SmsService {
 	            @Value("${coolsms.api_secret}") String apiSecret,
 	            MemberMapper memberMapper) {
 	        this.messageService = net.nurigo.sdk.NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
-	        this.mapper = mapper;
+	        //this.mapper = mapper;
 	    }
 
 	    public UserWelfareVO sendSmsToEligibleMembers(UserWelfareVO vo) {
