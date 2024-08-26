@@ -155,7 +155,9 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${post.coName}">유안타증권</h5>
                     <p class="card-text" th:text="${post.postingTitle}">IT본부 경력직 모집</p>
-                    <p class="card-text" th:text="${post.empType}">경력</p>
+                    <th:block th:each="emptype : ${empTypeCode}">
+                    <p class="card-text" th:if="${emptype.mainCode} == ${post.empType}" th:text="${emptype.codeName}">경력</p>
+                    </th:block>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted" th:text="'마감일: ' + ${#dates.format(post.endDate, 'MM/dd')}">마감일: 08/01</small>

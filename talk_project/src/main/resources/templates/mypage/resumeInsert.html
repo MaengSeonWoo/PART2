@@ -339,6 +339,8 @@
         <button type="button" onclick="sendOcrResult()">자동등록</button>
     	</div>
 	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<script>
 	// OCR모달
     var modal = document.getElementById("myModal");
@@ -393,19 +395,19 @@
         .then(data => {
         	parsedata = data;
             // OCR 결과를 모달에 표시
-            /* var ocrResultList = document.getElementById('ocrResultList');
+            var ocrResultList = document.getElementById('ocrResultList');
             ocrResultList.innerHTML = '';
             parsedata.forEach(result => {
                 var li = document.createElement('li');
                 li.textContent = result;
                 ocrResultList.appendChild(li);
-            }); */
+            });
             
             // JSON 데이터를 포맷하여 문자열로 변환
             var jsonString = JSON.stringify(parsedata, null, 2);
             
             // 모달에 JSON 결과 표시
-            /* document.getElementById('ocrResultList').textContent = jsonString; */
+            document.getElementById('ocrResultList').textContent = jsonString;
             
             // 모달 표시            
             document.getElementById('myModal2').style.display = 'block';
@@ -616,59 +618,77 @@
 	// ----------------------------------------------------------------------------------
 
         function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('preview').src = e.target.result;
-                    document.querySelector('.toggleImg1').style.display = 'block';
-                    document.querySelector('.toggleImg2').style.display = 'none';
-                };
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                document.getElementById('preview').src = "";
-            }
-        }
-        
-        function addRow(tableId) {
-            const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
-            const newRow = table.rows[0].cloneNode(true);
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('preview').src = e.target.result;
+            document.querySelector('.toggleImg1').style.display = 'block';
+            document.querySelector('.toggleImg2').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        document.getElementById('preview').src = "";
+    }
+}
 
-            const inputs = newRow.getElementsByTagName('input');
-            for (let i = 0; i < inputs.length; i++) {
-                inputs[i].value = '';
-            }
+function addRow(tableId) {
+    const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+    const newRow = table.rows[0].cloneNode(true);
 
-            table.appendChild(newRow);
-        }
+    const inputs = newRow.getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = '';
+    }
 
-        function removeRow(button) {
-            const row = button.closest('tr');
-            const table = row.closest('tbody');
+    table.appendChild(newRow);
+}
 
-            if (table.rows.length > 1) {
-                table.removeChild(row);
-            } else {
-                alert('마지막 행은 삭제할 수 없습니다.');
-            }
-        }
+function removeRow(button) {
+    const row = button.closest('tr');
+    const table = row.closest('tbody');
 
-        document.querySelector(".saveHandler").addEventListener("click", function () {
-        	
-        	// 필수 입력값 체크
-            const resumeTitle = document.querySelector('#resumeTitle').value.trim();
-            const resumeName = document.querySelector('#resumeName').value.trim();
-            const birth = document.querySelector('#birth').value;
-            const addr = document.querySelector('#addr').value.trim();
-            const tel = document.querySelector('#tel').value.trim();
-            const email = document.querySelector('#email').value.trim();
-            const imgfiles = document.getElementById('imgUpload').files;
-            const produce = document.querySelector('#produce').value.trim();
+    if (table.rows.length > 1) {
+        table.removeChild(row);
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: '삭제 불가',
+            text: '마지막 행은 삭제할 수 없습니다.'
+        });
+    }
+}
 
-            if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || imgfiles.length === 0 || !produce) {
-                alert("이력서 제목을 포함한 모든 필수 항목을 입력하고 사진을 등록해야 합니다.");
-                return; // 서버로 전송하지 않음
-            }
-        	
+document.querySelector(".saveHandler").addEventListener("click", function () {
+    // 필수 입력값 체크
+    const resumeTitle = document.querySelector('#resumeTitle').value.trim();
+    const resumeName = document.querySelector('#resumeName').value.trim();
+    const birth = document.querySelector('#birth').value;
+    const addr = document.querySelector('#addr').value.trim();
+    const tel = document.querySelector('#tel').value.trim();
+    const email = document.querySelector('#email').value.trim();
+    const imgfiles = document.getElementById('imgUpload').files;
+    const produce = document.querySelector('#produce').value.trim();
+
+    if (!resumeTitle || !resumeName || !birth || !addr || !tel || !email || imgfiles.length === 0 || !produce) {
+        Swal.fire({
+            icon: 'warning',
+            title: '입력 오류',
+            text: '이력서 제목을 포함한 모든 필수 항목을 입력하고 사진을 등록해야 합니다.'
+        });
+        return; // 서버로 전송하지 않음
+    }
+
+    Swal.fire({
+        icon: 'info',
+        title: '이력서 저장',
+        text: '이력서를 저장하시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: '저장',
+        cancelButtonText: '취소',
+        confirmButtonColor: '#06BBCC',
+        cancelButtonColor: '#d33'
+    }).then((result) => {
+        if (result.isConfirmed) {
             const formData = new FormData();
 
             const resume = {
@@ -720,8 +740,8 @@
 
             // JSON 데이터를 FormData에 추가
             formData.append("resumeData", JSON.stringify(resume));
-            
-         	// 파일 추가
+
+            // 파일 추가
             const files = document.querySelector('#imgUpload').files;
             for (let i = 0; i < files.length; i++) {
                 formData.append("uploadFiles", files[i]);
@@ -735,13 +755,32 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("이력서가 성공적으로 등록되었습니다.");
-                    location.href = '/userMain/resume';
+                    Swal.fire({
+                        icon: 'success',
+                        title: '등록 완료',
+                        text: '이력서가 성공적으로 등록되었습니다.'
+                    }).then(() => {
+                        location.href = '/userMain/resume';
+                    });
                 } else {
-                    alert("등록 중 오류가 발생했습니다.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: '등록 실패',
+                        text: '등록 중 오류가 발생했습니다.'
+                    });
                 }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: '오류 발생',
+                    text: '서버와의 통신 중 문제가 발생했습니다.'
+                });
             });
-        });
+        }
+    });
+});
+
         
         /* sessionStorage.removeItem('OCR',JSON.stringify(ocrData)); */
         

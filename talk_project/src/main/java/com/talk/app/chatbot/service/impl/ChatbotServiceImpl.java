@@ -62,10 +62,10 @@ public class ChatbotServiceImpl implements ChatbotService {
     private String getInitialMenu(String roomId) {
         roomQuestionState.put(roomId, 0);
         return "안녕하세요! 아래에서 궁금한 내용을 선택해 주세요:\n" +
-               "<br><button class='chatbotBtn' data-status='1-0'>1. 일반 FAQ (서비스, 로그인, 회원가입)</button><br>\n" +
-               "<br><button class=\"chatbotBtn\" data-status='2-0'>2. 채용 FAQ (채용공고, 이력서)</button><br>\n" +
-               "<br><button class=\"chatbotBtn\" data-status='3-0'>3. 복지제도, 직업훈련영상 FAQ</button><br>\n" +
-               "<br><button class=\"chatbotBtn\" data-status='4-0'>4. 기타 FAQ</button>\n";
+               "<br><button class='chatbotBtn btn btn-primary' data-status='0-1'>1. 일반 FAQ (서비스, 로그인, 회원가입)</button><br>\n" +
+               "<br><button class=\"chatbotBtn btn btn-primary\" data-status='0-2'>2. 채용 FAQ (채용공고, 이력서)</button><br>\n" +
+               "<br><button class=\"chatbotBtn btn btn-primary\" data-status='0-3'>3. 복지제도, 직업훈련영상 FAQ</button><br>\n" +
+               "<br><button class=\"chatbotBtn btn btn-primary\" data-status='0-4'>4. 기타 FAQ</button>\n";
     }
 
     private String handleCategorySelection(String message, String roomId) {
@@ -102,7 +102,7 @@ public class ChatbotServiceImpl implements ChatbotService {
         StringBuilder response = new StringBuilder(categoryName + "를 선택하셨습니다. 다음 중 선택해주세요:\n");
         int i =1;
         for (Question question : questions) {
-            response.append("<br><button class='chatbotBtn' data-status='1-"+ i +"'>" + i+". " +question.getInitialQuestion()+"</button>").append("<br>");
+            response.append("<br><button class='chatbotBtn btn btn-primary' data-status='1-"+ i +"'>" + i+". " +question.getInitialQuestion()+"</button>").append("<br>");
             i++;
         }
 

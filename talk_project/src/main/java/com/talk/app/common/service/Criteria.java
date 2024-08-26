@@ -1,7 +1,6 @@
 package com.talk.app.common.service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Data;
 
@@ -34,22 +33,5 @@ public class Criteria {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}
-	
-	// UriComponentsBuilder를 이용하여 링크 생성
-	public String getListLink() {
-		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
-			.queryParam("pageNum", pageNum)
-			.queryParam("amount", amount);
-		
-		return builder.toUriString();
-		
-	}
-	
-	public String[] getTypeArr() { // get으로 시작해야만 mybatis에서 찾을 수 있음
-		return type == null ? new String[] {} : type.split("");
-	}
-	
-	
-	
 	
 }
