@@ -28,13 +28,10 @@ public class SmsService {
 	            @Value("${coolsms.api_secret}") String apiSecret,
 	            MemberMapper memberMapper) {
 	        this.messageService = net.nurigo.sdk.NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
-	        //this.mapper = mapper;
 	    }
 
 	    public UserWelfareVO sendSmsToEligibleMembers(UserWelfareVO vo) {
-	        // MyBatis를 사용하여 특정 조건에 맞는 회원 조회
 	        List<UserWelfareVO> eligibleMembers = mapper.sendMsg(vo);
-
 	        for (UserWelfareVO member : eligibleMembers) {
 	            Message message = new Message();
 	            message.setFrom("01025193424"); // 발신번호

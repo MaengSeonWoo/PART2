@@ -23,7 +23,7 @@
 		display:flex;
 		flex-wrap: wrap;
 	}
-	img{
+	.container img{
 		width:300px;
 		justify-content:center;
 	}
@@ -63,6 +63,15 @@
 		padding:10px;
 		text-align:center;
 	}
+	
+	.searchBtn {
+		border:none;
+		width:84px;
+		border-radius:10px;
+		color:white;
+		background-color:#06BBCC;
+		padding:5px;
+	}
 </style>
 </head>
 <body>
@@ -86,12 +95,12 @@
 		<div class="sub_body">
 			<div class="sub_tab">
 				<ul class="tableMode">
-					<li class="col-xs-2 middle  on"><a href="video.asp?tn=tblLectureRoom&writeType=">전체</a></li>
+					<!-- <li class="col-xs-2 middle  on"><a href="video.asp?tn=tblLectureRoom&writeType=">전체</a></li>
 					<li class="col-xs-2 middle "><a th:href="#{videoVO.category}">건강</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_hobby">문화&middot;예술</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_mind">교양</a></li>
 					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_info">정보미디어</a></li>
-					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_etc">기타</a></li>
+					<li class="col-xs-2 middle "><a href="video.asp?tn=tblLectureRoom&writeType=lecture_etc">기타</a></li> -->
 				</ul>
 			</div>
 		</div>
@@ -109,7 +118,7 @@
 			
 				<div class="edu_search_btn">
 					<input type="text" name="keyword" th:value="${videoVO.keyword}">
-					<button type="submit">검색</button>
+					<button type="submit" class="searchBtn">검색</button>
 				</div>
 			</div>
 		</form>	

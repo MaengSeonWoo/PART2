@@ -90,10 +90,6 @@
 					</a></li>
 				</ul>
 			</nav>
-		<!-- 	<form action="/userMain/resume" th:object="${resumeVO}" name="pageForm">
-				<input type="hidden" name="pageNum2" th:field="*{pageNum}"> <input
-					type="hidden" name="amount" th:field="*{amount}">
-			</form> -->
 		</div>
 			</div>
 		</div>
@@ -113,6 +109,7 @@
 					<tbody>
 						<th:block th:each="item : ${rlist}">
 							<input type="hidden" th:value="${item.resumeNo}">
+							<input type="hidden" th:value="${item.applyNo}">
 							<tr>
 								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
 								<td th:text="${#dates.format(item.createDate, 'yyyy/MM/dd')}" class="custom-table-cell">작성일자</td>
@@ -153,10 +150,6 @@
 					</a></li>
 				</ul>
 			</nav>
-		<!-- 	<form action="/userMain/resume" th:object="${resumeVO}" name="pageForm">
-				<input type="hidden" name="pageNum2" th:field="*{pageNum}"> <input
-					type="hidden" name="amount" th:field="*{amount}">
-			</form> -->
 		</div>
 			</div>
 		</div>
@@ -166,7 +159,7 @@
 			<button type="button" class="btn btn-primary" th:onclick="goSave()">이력서 등록</button>
 		</div>
 	</div>
-	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<script type="text/javascript">
 	function goSave() {
 		location.href = `/userMain/resume/save`;
@@ -187,14 +180,41 @@
 
 		// 삭제 버튼 핸들러
 		document.querySelectorAll('.resumeRemoveHamdler').forEach(val => {
-			let rno = val.parentElement.parentElement.previousElementSibling.value;
-			val.addEventListener('click', function(){
-				let form = document.createElement('form');
-				form.setAttribute('action', `/userMain/resume/${rno}/remove`);
-				form.setAttribute('method', 'post');
-				document.querySelector('body').appendChild(form);
-				form.submit();
-			});
+		    let rno = val.parentElement.parentElement.previousElementSibling.previousElementSibling.value;
+		    let ano = val.parentElement.parentElement.previousElementSibling.value;
+
+		    val.addEventListener('click', function() {
+		        // ano 값이 null이 아니면 경고 메시지를 표시하고 삭제를 막습니다.
+		        if (ano != null && ano != '') {
+		            Swal.fire({
+		                icon: 'error',
+		                title: '삭제 불가',
+		                text: '지원중인 이력서는 삭제할 수 없습니다.',
+		                confirmButtonText: '확인',
+		                confirmButtonColor: '#3085d6'
+		            });
+		            return; // 더 이상의 코드를 실행하지 않고 종료합니다.
+		        }
+
+		        Swal.fire({
+		            icon: 'warning',
+		            title: '삭제 확인',
+		            text: '이력서를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.',
+		            showCancelButton: true,
+		            confirmButtonText: '삭제',
+		            cancelButtonText: '취소',
+		            confirmButtonColor: '#d33',
+		            cancelButtonColor: '#3085d6'
+		        }).then((result) => {
+		            if (result.isConfirmed) {
+		                let form = document.createElement('form');
+		                form.setAttribute('action', `/userMain/resume/${rno}/remove`);
+		                form.setAttribute('method', 'post');
+		                document.querySelector('body').appendChild(form);
+		                form.submit();
+		            }
+		        });
+		    });
 		});
 	});
 	</script>

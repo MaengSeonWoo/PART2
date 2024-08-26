@@ -110,10 +110,13 @@
 	<div class="container-fluid p-0 mb-3">
 		<div class="owl-carousel header-carousel position-relative">
 			<div class="owl-carousel-item position-relative">
-				<img class="img-fluid" th:src="@{/main/img/remote-working.jpg}" alt="">
+				<img class="img-fluid" th:src="@{/main/img/asia-smart1.jpg}" alt="">
 			</div>
 			<div class="owl-carousel-item position-relative">
-				<img class="img-fluid" th:src="@{/main/img/resume-home.png}" alt="">
+				<img class="img-fluid" th:src="@{/main/img/asia-smart3.jpg}" alt="">
+			</div>
+			<div class="owl-carousel-item position-relative">
+				<img class="img-fluid" th:src="@{/main/img/asia-smart2.jpg}" alt="">
 			</div>
 		</div>
 	</div>
@@ -155,7 +158,9 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${post.coName}">유안타증권</h5>
                     <p class="card-text" th:text="${post.postingTitle}">IT본부 경력직 모집</p>
-                    <p class="card-text" th:text="${post.empType}">경력</p>
+                    <th:block th:each="emptype : ${empTypeCode}">
+                    <p class="card-text" th:if="${emptype.mainCode} == ${post.empType}" th:text="${emptype.codeName}">경력</p>
+                    </th:block>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted" th:text="'마감일: ' + ${#dates.format(post.endDate, 'MM/dd')}">마감일: 08/01</small>
