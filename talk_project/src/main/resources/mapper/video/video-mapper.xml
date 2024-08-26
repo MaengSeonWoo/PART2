@@ -45,6 +45,8 @@
        					), 
        				  #{videoCategory}
        				 )
+       				 
+       				 
 	</insert>
 	
 	<!-- 수정 -->
