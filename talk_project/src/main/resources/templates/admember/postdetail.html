@@ -112,7 +112,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
                             </ul>
                           </div>
-	                      <button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
                           <div class="btn-group" th:if="${detail.postingApprove} == '미승인'">
                             <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/approve/postingok(postingNo=${detail.postingNo})}'|">승인하기</button>

@@ -3,7 +3,6 @@ package com.talk.app.admin.service;
 import java.util.List;
 import java.util.Map;
 
-import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
 
 public interface WelfareService {
