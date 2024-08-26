@@ -12,7 +12,11 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a th:href="@{/}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>손말톡톡</h2>
+            <h3 class="m-0 text-primary">
+            	<img width="50px" height="50px" src="/음성인식.png">
+           	손말톡톡
+           	</h3>
+           	
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -31,10 +35,10 @@
                 <a th:href="@{/signsel}" class="nav-item nav-link" sec:authorize="isAnonymous()">회원가입</a>
             </div>
             <div class="search-container d-none d-lg-block ms-3" style="margin-right: 10px">
-                 <!-- <form action="/search" method="get" class="d-flex"> -->   
+                  <form action="/search" method="get" class="d-flex" id="formSearch">   
                     <input id="keywordinput" class="form-control me-2" type="text" placeholder="Search.." >
                     <button class="btn btn-outline-primary" type="submit" id="searchBtn">Search</button>
-                 <!-- </form> --> 
+                  </form>  
             </div>
         </div>
     </nav>
@@ -83,6 +87,13 @@
         	let state = 0
         	let modalResult = document.querySelector('#test')
         	let keywordinput = document.querySelector('#keywordinput')
+        	
+        	let formSearch = document.querySelector('#formSearch')
+        	
+        	formSearch.addEventListener('click', function(e){
+        		console.log('search')
+        		e.preventDefault();
+        	})
         	
         	function searchbarClear(){
     	  		keywordinput.addEventListener('click', function(){
