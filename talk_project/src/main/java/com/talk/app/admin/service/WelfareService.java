@@ -32,4 +32,8 @@ public interface WelfareService {
 	//메일 보냄
 	public String sendMail(int vo);
 	
+	public String emailTest(String email);
+	
+	
+	
 }

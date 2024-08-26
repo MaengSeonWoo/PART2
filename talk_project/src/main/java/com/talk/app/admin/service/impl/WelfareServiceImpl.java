@@ -107,6 +107,12 @@ public class WelfareServiceImpl implements WelfareService{
 	}
 
 
+	@Override
+	public String emailTest(String email) {
+		return mapper.sendMail2(email);
+	}
+
+
 	
 	
 
