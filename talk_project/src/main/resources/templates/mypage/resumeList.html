@@ -54,6 +54,7 @@
 					<tbody>
 						<th:block th:each="item : ${alist}">
 							<input type="hidden" th:value="${item.resumeNo}">
+							<input type="hidden" th:value="${item.applyNo}">
 							<tr>
 								<td th:text="${item.resumeTitle}" class="custom-table-cell">이력서 제목</td>
 								<td th:text="${item.coName}" class="custom-table-cell">지원회사</td>
@@ -174,7 +175,7 @@
 		});
 
 		function goInfo() {
-			let rNo = this.parentElement.parentElement.previousElementSibling.value;
+			let rNo = this.parentElement.parentElement.previousElementSibling.previousElementSibling.value;
 			location.href = `/userMain/resume/${rNo}`;
 		}
 
