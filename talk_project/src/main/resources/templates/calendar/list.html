@@ -5,6 +5,18 @@
 	layout:fragment="Content">
 <head>
 <meta charset='utf-8' />
+<style type="text/css">
+	tbody tr:hover {
+		cursor:pointer;
+		
+		
+	}
+	
+	.size tr:hover {
+		/* padding:20px; */
+		background-color: #7ddbed6e;
+	}
+</style>
 <title>복지제도 일정</title>
 <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
 <meta name="viewport"
@@ -286,39 +298,34 @@ body {
 									<button type="button" class="btn btn-secondary">정렬</button>
 								</div>
 
+								<!--  -->
 								<table class="table">
 									<thead>
 										<tr>
-											<th scope="col">no.</th>
-											<th scope="col">서비스 ID</th>
-											<th scope="col">지역</th>
-											<th scope="col">복지</th>
-											<th scope="col">시행일</th>
-											<th scope="col">종료일</th>
+											<th>no.</th>
+											<th>서비스 ID</th>
+											<th>지역</th>
+											<th>복지</th>
+											<th>시행일</th>
+											<th>종료일</th>
 										</tr>
 									</thead>
-									<tbody class="table-group-divider">
+									<tbody class="table-group-divider size">
 										<th:block th:each="c : ${list}">
-											<tr
-												th:onclick="|location.href='@{/calendar/detail(wid=${c.wid})}'|">
-												<th scope="row">[[ ${c.wid} ]]</th>
+											<tr th:onclick="|location.href='@{/calendar/detail(wid=${c.wid})}'|">
+												<td>[[ ${c.wid} ]]</td>
 												<td>[[ ${c.servId }]]</td>
-												<td th:with="sgg=${c.sgg != null ? c.sgg : ' '}">
-												[[ ${c.sido}]]
-												</td>
+												<td th:with="sgg=${c.sgg != null ? c.sgg : ' '}">[[ ${c.sido}]]</td>
 												<td>[[ ${c.servName} ]]</td>
-												<td>
-												    [[${#strings.substringBefore(c.startDate, ' 00:00:00')}]]
-												 </td>
-												 <td> 
-												    [[${#strings.substringBefore(c.endDate, ' 00:00:00')}]]
-												</td>
-												<!-- <td th:text="${#temporals.format(c.startDate, 'yyyy-MM-dd')}"></td>
-												<td th:text="${#.format(c.endDate, 'yyyy-MM-dd')}"></td> -->
+												<td>[[${#strings.substringBefore(c.startDate, ' 00:00:00')}]]</td>
+												<td>[[${#strings.substringBefore(c.endDate, ' 00:00:00')}]]</td>
 											</tr>
-										</th:block>
+										</th:block>			
 									</tbody>
 								</table>
+								<!--  -->
+								
+								
 								<!-- 페이징 -->
 								<div th:object="${page}">
 									<nav aria-label="Page navigation"

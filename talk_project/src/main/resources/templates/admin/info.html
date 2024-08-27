@@ -13,7 +13,7 @@
 
             <div class="page-title">
               <div class="title_left">
-                <h3>복지 내용 상세<small>(문자 전송, 수정, 삭제)</small></h3>
+                <h3>복지 내용 상세<small></small></h3>
               </div>
 
               <div class="title_right">
@@ -52,9 +52,7 @@
                   </div>
                   <div class="x_content">
                     <div class="row">
-
                       <!-- / LIST -->
-                      
                       <div class="col-sm-9 mail_view">
                         <div class="inbox-body">
                           <div class="mail_heading row">
@@ -64,7 +62,7 @@
                               </div>
                             </div>
                             <div class="col-md-4 text-right">
-                              <p class="date"> ==========</p>
+                              <!-- <p class="date"> ==========</p> -->
                             </div>
                             <div class="col-md-12">
                               <h4>< [[ ${detail.servName} ]] ></h4>
@@ -72,7 +70,7 @@
                             </div>
                           </div>
                           <div class="view-mail">
-                            <strong>복지 내용 들어갈 자리</strong>
+                            <strong></strong>
                             <div><strong>시행 시작 일자 : </strong>[[ ${{detail.startDate}} ]]</div>
                             <div><strong>시행 종료 일자 : </strong>[[ ${{detail.endDate}} ]]</div>
                             <div><strong>사업담당부서명 : </strong>[[ ${{detail.bizDept}} ]]</div>
@@ -107,51 +105,11 @@
                             </ul>
                           </div>
                           <div class="btn-group">
-							<button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
-								<!-- 1 -->
-								<div class="modal" id="modal1" tabindex="-1" >
-								  <div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <h5 class="modal-title">전송할 회원</h5>
-							                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-								      </div>
-								      <div class="modal-body">
-								        <p>총 ' [[${count}]] ' 명에게 전송합니다</p>
-								      </div>
-								      <div class="modal-footer">
-								         <button type="button" class="btn btn-primary" id="mymodal2">문자보내기</button>
-						         		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-								      </div>
-								    </div>
-								  </div>
-								</div>
-								<!--1  -->
-								<!-- Moda2l -->
-									<div class="modal" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									  <div class="modal-dialog">
-									    <div class="modal-content">
-									      <div class="modal-header">
-									        <h1 class="modal-title fs-5" id="exampleModalLabel">완료</h1>
-									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
-									      </div>
-									      <div class="modal-body">
-									        ...
-									      </div>
-									      <div class="modal-footer">
-									        <button type="button" class="btn btn-primary" th:onclick="confirmAndSendSms()">완료</button>
-									      </div>
-									    </div>
-									  </div>
-									</div>
-								<!-- Modal -->
-								
+							<button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" onclick="confirmAndSendSms()">문자전송</button>
                             <button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/update(wid=${detail.wid})}'|">수정</button>
-                         	<button class="btn btn-sm btn-primary" type="button" th:onclick="|location.href='@{/admin/delete(wid=${detail.wid})}'|">삭제</button>
-                            
+                         	<button class="btn btn-sm btn-danger" type="button" onclick="deleteInfo()">삭제</button>
                           </div>
                         </div>
-
                       </div>
                       <!-- /CONTENT MAIL -->
                     </div>
@@ -163,37 +121,55 @@
         </div>
 	
 	<script  th:inline="javascript">
-	let detail = /*[[${detail}]]*/
+	let detail = /*[[${detail}]]*/ ''
+	let counts = /*[[${count}]]*/
 	
-	//let wid = /*[[${detail.wid}]]*/ 
-	//let likeSubject = /*[[${detail.likeSubject}]]*/
-	//let household = /*[[${detail.household}]]*/
-	
-	$('#mymodal').on('click',function(){
-		$('#modal1').modal()
-	})
-	$('.btn-close').on('click',function(){
-		$('#modal1').hide();
-	})
-	
-	$('#mymodal2').on('click',function(){
-		$('#modal2').modal()
-	})
-	
-	/* $('.btn-close2').on('click',function(){
-		$('#modal2').hide();
-	}) */
+	function deleteInfo(){
+		Swal.fire({
+            title: '정말 삭제 하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '예',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if(result.isConfirmed){
+         		window.location.href = '/admin/delete?wid=' + detail.wid;
+        	}
+        });
+		
+	}
 	
 	  function confirmAndSendSms() {
 		console.log(detail.wid, detail.sido, detail.likeSubject, detail.household);
-	            // 서버로 문자 전송 요청을 보냅니다.
+		
+			Swal.fire({
+	            title: '문자를 보내시겠습니까?',
+	            text: counts +'명에게 발송합니다',
+	            icon: 'warning',
+	            showCancelButton: true,
+	            confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '예',
+	            cancelButtonText: '취소'
+	        }).then((result) => {
+	        	if(result.isConfirmed){
+				// 서버로 문자 전송 요청을 보냅니다.
 	            fetch('/admin/sendmsg', {
 	                method: 'GET'
 	            })
 	            .then(response => {
 	            	console.log(response);
 	                if (response.ok) {
-	                    window.location.href ='/admin/sendmany?wid='+ detail.wid +'&sido='+detail.sido+'&likeSubject='+detail.likeSubject+'&household='+ detail.household;
+	                	Swal.fire({
+		        	        icon: 'success',
+		        	        title: '전송 완료',
+		        	        text: '문자가 전송되었습니다',
+		        	        confirmButtonText: '확인'
+		        	    }).then(() => {
+	                    	window.location.href ='/admin/sendmany?wid='+ detail.wid +'&sido='+detail.sido+'&likeSubject='+detail.likeSubject+'&household='+ detail.household;
+		        	    });
 	                } else {
 	                    alert("문자 전송에 실패했습니다.");
 	                }
@@ -202,7 +178,10 @@
 	                console.error('Error:', error);
 	                alert("문자 전송 중 오류가 발생했습니다.");
 	            });
+	        	}
+	        });
 	    }
+	
 	</script>
 	
 	

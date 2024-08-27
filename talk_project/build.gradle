@@ -43,11 +43,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-logging' // 기본적으로 포함됨
 	implementation 'com.github.shin285:KOMORAN:3.3.9'
 	implementation 'net.nurigo:sdk:4.3.0' // 문자메세지 전송
-    implementation 'com.konghq:unirest-java:3.13.6'	//메일 전송
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
-	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.2'
     
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+	// 아래 2개는 thymeleaf를 사용하는 경우에만 추가
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	
 
 	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-texttospeech

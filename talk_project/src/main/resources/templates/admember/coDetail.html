@@ -2,12 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
+<style>
+
+.btn-success{
+	margin-left: 4px;
+}
+
+</style>
+
  <div class="right_col" role="main">
           <div class="">
 
             <div class="page-title">
               <div class="title_left">
-                <h3>기업 가입신청서<small>(승인,거절 메일발송)</small></h3>
+                <h3>기업 가입신청서<small></small></h3>
               </div>
 
               <div class="title_right">
@@ -53,11 +61,10 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           <div class="mail_heading row">
                             <div class="col-md-8">
                               <div class="btn-group">
-                                <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve}'|">목록으로</button>
                               </div>
                             </div>
                             <div class="col-md-4 text-right">
-                              <p class="date"> ======</p>
+                                <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve}'|">목록으로</button>
                             </div>
                             <div class="col-md-12">
 								<div><button class="btn btn-warning" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
@@ -65,7 +72,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           				<button class="btn btn-danger" th:if="${detail.authority == 'ROLE_CO_REFUSE'}" th:text="거절"></button>
                           		</div>
                               <h4> < 사업자등록번호 :  [[ ${detail.coRegNo} ]] ></h4>
-                              <p>=======</p>
                             </div>
                           </div>
                           <div class="view-mail">
@@ -121,20 +127,27 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                             </ul>
                           </div>
                           <div class="btn-group">
-                            <form action="/admin/test" method="post">
-							    <input type="hidden" id="coUserNoField" name="coUserNo" />
-							    <button type="submit" class="btn btn-sm btn-success">메일 보내기</button>
-							</form>
 	                         <div th:if="${detail.authority} == 'ROLE_TEMP'">
 							    <button class="btn btn-sm btn-primary" type="button"
-							            th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|">
+							            onclick="approve()" >
 							        승인하기
 							    </button>
 							    <button class="btn btn-sm btn-danger" type="button"
-							            th:onclick="|location.href='@{/admin/approve/refusejoin(coUserNo=${detail.coUserNo})}'|">
+							             onclick="refuse()">
 							        거절하기
 							    </button>
 							</div>
+                            <!-- <form action="/admin/test" method="post">
+							    <input type="hidden" id="coUserNoField" name="coUserNo" />
+							    <button type="submit" class="btn btn-sm btn-success">메일 보내기</button>
+							</form> -->
+							<form action="/admin/sendMail" method="post">
+							    <input type="text" name="email" placeholder="수신자 이메일">
+							    <input type="text" name="subject" placeholder="제목">
+							    <textarea name="body" placeholder="본문 내용"></textarea>
+							    <button type="submit">메일 발송</button>
+							</form>
+														
 
                           </div>
                         </div>
@@ -151,18 +164,46 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
         
 
 <script  th:inline="javascript">
-
     document.getElementById('coUserNoField').value = /*[[${detail.coUserNo}]]*/ '0';
 
-    $('#mymodal').on('click',function(){
-		$('.modal').modal()
-	})
-	$('.btn-close').on('click',function(){
-		$('.modal').hide();
-	})
+	let wid = /*[[${detail.coRegNo}]]*/ ''
+	let detail = /*[[${detail}]]*/
 	
-	let wid = /*[[${detail.coRegNo}]]*/
+	console.log(detail);
+	//th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|"
+	function approve(){
+		Swal.fire({
+            title: '정말 승인 하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '예',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if(result.isConfirmed){
+         		window.location.href = '/admin/approve/confirm?coUserNo=' + detail.coUserNo;
+        	}
+        });
+	} 
+	 //th:onclick="|location.href='@{/admin/approve/refusejoin(coUserNo=${detail.coUserNo})}'|"
+	function refuse(){
+		Swal.fire({
+            title: '정말 거절 하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '예',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if(result.isConfirmed){
+         		window.location.href = '/admin/approve/refusejoin?coUserNo=' + detail.coUserNo;
+        	}
+        });
+	}
 		
+	 
 	  function confirmAndSendSms() {
 	        if (confirm("정말 보내시겠습니까?")) {
 	            // 서버로 문자 전송 요청을 보냅니다.
