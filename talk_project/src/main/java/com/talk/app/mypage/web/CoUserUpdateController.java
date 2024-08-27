@@ -61,7 +61,6 @@ public class CoUserUpdateController {
         model.addAttribute("company_user", findVO);
         model.addAttribute("coUserId", coUserId); // coUserId를 모델에 추가
         model.addAttribute("regionCode", publiccodeService.selectCode("0G"));
-        
         return "mypage/couserMain";
     }
     
