@@ -109,7 +109,7 @@
                           <div class="btn-group">
 							<button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
 								<!-- 1 -->
-								<div class="modal" id="modal1" tabindex="-1">
+								<div class="modal" id="modal1" tabindex="-1" >
 								  <div class="modal-dialog">
 								    <div class="modal-content">
 								      <div class="modal-header">
@@ -133,7 +133,7 @@
 									    <div class="modal-content">
 									      <div class="modal-header">
 									        <h1 class="modal-title fs-5" id="exampleModalLabel">완료</h1>
-									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
 									      </div>
 									      <div class="modal-body">
 									        ...
@@ -193,7 +193,6 @@
 	            .then(response => {
 	            	console.log(response);
 	                if (response.ok) {
-	                	
 	                    window.location.href ='/admin/sendmany?wid='+ detail.wid +'&sido='+detail.sido+'&likeSubject='+detail.likeSubject+'&household='+ detail.household;
 	                } else {
 	                    alert("문자 전송에 실패했습니다.");
