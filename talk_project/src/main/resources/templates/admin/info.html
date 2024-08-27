@@ -104,11 +104,9 @@
 	                                  <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb"> [[${file.fileName}]]</a>
 	                                </div>
                               </li>
-
                             </ul>
                           </div>
                           <div class="btn-group">
-                            <!-- <button class="btn btn-sm btn-primary" type="button" th:onclick="confirmAndSendSms()">문자전송</button> -->
 							<button id="mymodal" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" >문자전송</button>
 								<!-- 1 -->
 								<div class="modal" id="modal1" tabindex="-1">
