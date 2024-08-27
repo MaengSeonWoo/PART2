@@ -29,20 +29,20 @@
 			  <table>
 				  <tr>
 			      	<th>제목</th>
-			  		<td><input class="title" type="text" name="videoTitle"></td>
+			  		<td><input class="title form-control" type="text" name="videoTitle"></td>
 			  	  </tr>
 			  	  <tr>
 			  	  	<th>링크주소</th>
-			  	  	<td><textarea class="ta" cols="34" rows="5" name="link"></textarea></td>
+			  	  	<td><textarea class="ta form-control" cols="34" rows="5" name="link"></textarea></td>
 			  	  </tr>
 			  	  <tr>
 			  	  	<th>썸네일</th>
-			  	  	<td><textarea class="ta" cols="34" rows="5" name="thumbNail"></textarea></td>
+			  	  	<td><textarea class="ta form-control" cols="34" rows="5" name="thumbNail"></textarea></td>
 			  	  </tr>
 			  	   <tr>
 			  	  	<th>비디오카테고리</th>
 			  	  	<td>
-			  	  		<select name="videoCategory">
+			  	  		<select name="videoCategory" class="form-control">
 			  	  			<option value="B01">건강</option>
 			  	  			<option value="B02">문화·예술</option>
 			  	  			<option value="B03">교양</option>
@@ -52,8 +52,8 @@
 			  	  	</td>
 			  	  </tr>
 			  </table>
-		<button type="submit">등록</button>
-		<button type="button" onclick="goList()">취소</button>
+		<button type="submit" class="btn btn-primary">등록</button>
+		<button type="button" onclick="goList()" class="btn btn-danger">취소</button>
 		</form>
 	</div>	
 </body>

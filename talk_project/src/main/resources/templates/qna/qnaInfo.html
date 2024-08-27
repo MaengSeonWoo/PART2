@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.container {
+	.qnaContainer {
 	margin:auto;
 	margin-top:40px;
 	border-top:1px solid black;
@@ -32,22 +32,22 @@
 		line-height:55px;
 	}
 		
-	.container h3 {
+	.qnaContainer h3 {
 		padding:10px;
 	}
 	
-	.container table {
+	.qnaContainer table {
 		width:100%;
 		padding:10px;
 	}
 	
-	.container th{
+	.qnaContainer th{
 		width:100px;
 		text-align:center;
 		padding:5px;
 	}
 	
-	.container td {
+	.qnaContainer td {
 		padding:5px;
 	}	
 	
@@ -140,7 +140,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">질의응답</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><p class="text-white">질의응답 상세페이지 입니다.</p></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container qnaContainer">
 		<table>
 			<tr class="numberRow">
 				<th>글 번호</th>

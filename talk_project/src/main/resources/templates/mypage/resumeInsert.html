@@ -66,6 +66,7 @@
 			font-weight:bold;
 			background-color:#06bbcc;
 			padding:10px;
+			color:white;
 		}
 		.ocrbtn {
 			border-radius:10px;
@@ -73,6 +74,7 @@
 			font-weight:bold;
 			background-color:#06bbcc;
 			padding:10px;
+			color:white;
 		}
 		
 		.tutoModal{
@@ -855,6 +857,7 @@ document.querySelector(".saveHandler").addEventListener("click", function () {
         let sidebar = $('.sidebar')
         let topMenu = $('#navbarCollapse')
         let navbar = document.querySelector('.navbar')
+        let ocrBtn = $('.ocrbtn')
         
         function navColorChange(){
         	navbar.className = 'navbar navbar-expand-lg bg-gray navbar-light shadow sticky-top p-0'
@@ -873,6 +876,7 @@ document.querySelector(".saveHandler").addEventListener("click", function () {
         	upImg.css('background', 'gray')
         	upImg.css('border', '1px solid black')
         	topMenu.css('background', 'gray')
+        	ocrBtn.css('background', 'gray')
         	sidebar.children().css('background', 'gray')
         	for(let i=0; i<formControl.length; i++){
         		formControl[i].style.backgroundColor="gray"
@@ -1091,6 +1095,7 @@ document.querySelector(".saveHandler").addEventListener("click", function () {
 			tutoModal.hide();
 			body.css('background', 'white');
 			tutoBtn.css('background', '#06bbcc');
+			ocrBtn.css('background', '#06bbcc');
 			for(let i=0; i<formControl.length; i++){
 				formControl[i].style.backgroundColor="white"
 			}

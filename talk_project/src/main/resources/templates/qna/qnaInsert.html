@@ -5,28 +5,59 @@
             layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>QnA 댓글 등록</title>
+<title>질의응답 등록</title>
+<style>
+	.insertqna { 
+		display:flex;
+		justify-content:center;
+		margin-top:40px; 
+	}
+	
+	.form-control{
+		resize:none;
+	}
+	
+	.btnAll{
+		margin-top:40px;
+		text-align:center;
+	}
+</style>
 </head>
 <body>
-	<div class="container">
-		<h3>QnA 등록</h3>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">질의응답</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><p class="text-white">질의응답 등록 페이지입니다.</p></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container insertqna">
 		<form name="insertForm"
 			  th:action="@{/qnaInsert}" method="post"
 			  th:object="${qnaInfo}">
 			<table>
 				<tr>
-					<th>qna 제목</th>
-					<td><input type="text" name="qnaTitle"></td>
+					<th>질의응답 제목</th>
+					<td><input class="form-control" type="text" name="qnaTitle"></td>
 				</tr>
 				<tr>
-					<th>qna 내용</th>
+					<th>질의응답 내용</th>
 					<td>
-						<textarea name="qnaContent"></textarea>
+						<textarea class="form-control" cols="50" rows="5" name="qnaContent"></textarea>
 					</td>
 				</tr>
 			</table>
-			<button type="submit">등록</button>
-			<button type="button" onclick="goList()">목록</button>
+			<div class="btnAll">
+				<button type="submit" class="btn btn-primary">등록</button>
+				<button type="button" class="btn btn-danger" onclick="goList()">목록</button>
+			</div>
 		</form>
 	</div>
 </body>
