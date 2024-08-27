@@ -68,12 +68,38 @@
     <div class="cancel">
         <h1>탈퇴 취소</h1>
         <p>귀하의 계정은 현재 탈퇴 대기 상태입니다. 아래 버튼을 클릭하면 탈퇴를 취소하고 계정을 유지할 수 있습니다.</p>
-        <form action="/cancelDel" method="post">
+        <form action="/cancelDel" method="post" id="cancelForm">
             <input type="hidden" name="coUserId" th:value="${coUserId}">
             <button type="button" id="cancelButton" class="cancelbtn">탈퇴 취소하기</button>
             <button type="button" th:onclick="|location.href='@{/login}'|"
 				class="loginbtn">로그인</button>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+        document.getElementById('cancelButton').addEventListener('click', function(event) {
+            event.preventDefault(); // 폼 제출 방지
+
+            Swal.fire({
+                title: '탈퇴를 취소하시겠습니까?',
+                text: "탈퇴를 취소하고 계정을 유지하려면 '네'를 클릭하세요.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '아니요'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        '탈퇴가 취소되었습니다',
+                        '확인을 누르시면 로그인 페이지로 이동합니다',
+                        'success'
+                    ).then(() => {
+                        document.getElementById('cancelForm').submit(); // 폼 제출
+                        window.location.href = '/login';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
