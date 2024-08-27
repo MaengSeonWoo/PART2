@@ -36,6 +36,7 @@
 				            WHERE f.domain_type = 'COMPANY'
 		        ) sq ON p.co_user_no = sq.co_user_no
 		        WHERE 1=1
+		        AND posting_approve = '승인'
 		        <if test="sido != null and sido != ''">
 		            AND p.work_region = #{sido}
 		        </if>

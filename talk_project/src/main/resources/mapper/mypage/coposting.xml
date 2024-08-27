@@ -10,6 +10,7 @@
 		FROM company_user c JOIN posting p
 		ON c.co_user_no = p.co_user_no
 		WHERE c.co_user_id = #{coUserId}
+		AND posting_approve = '승인'
 	</select>
 	
 	<select id="selectPostingInfo" resultType="PostingVO">
