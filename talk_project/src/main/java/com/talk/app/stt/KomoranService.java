@@ -21,7 +21,7 @@ public class KomoranService {
 	        List<Token> tokenList = analyzeResultList.getTokenList();
 	        for (Token token : tokenList) {
 	            String pos = token.getPos();
-	            if (pos.equals("NNG") || pos.equals("NNP")) {
+	            if (pos.equals("NNG") || pos.equals("NNP")|| pos.equals("SL")) {
 	                result.add(token.getMorph());
 	            }
 	        }

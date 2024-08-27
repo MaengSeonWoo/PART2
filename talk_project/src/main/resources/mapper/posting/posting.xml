@@ -55,7 +55,7 @@
 					OR sq.co_name LIKE '%' || #{keyword} || '%'
 					OR p.co_name LIKE '%' || #{keyword} || '%')
 		        </if>
-		        ORDER BY p.posting_no DESC
+		        ORDER BY p.posting_no asc
 		    ) p
 		    <![CDATA[
 		    WHERE ROWNUM <= #{pageNum} * #{amount}
