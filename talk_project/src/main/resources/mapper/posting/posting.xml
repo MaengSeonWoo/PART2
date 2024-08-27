@@ -36,6 +36,7 @@
 				            WHERE f.domain_type = 'COMPANY'
 		        ) sq ON p.co_user_no = sq.co_user_no
 		        WHERE 1=1
+		        AND posting_approve = '승인'
 		        <if test="sido != null and sido != ''">
 		            AND p.work_region = #{sido}
 		        </if>
@@ -55,7 +56,7 @@
 					OR sq.co_name LIKE '%' || #{keyword} || '%'
 					OR p.co_name LIKE '%' || #{keyword} || '%')
 		        </if>
-		        ORDER BY p.posting_no asc
+		        ORDER BY p.posting_no ASC
 		    ) p
 		    <![CDATA[
 		    WHERE ROWNUM <= #{pageNum} * #{amount}
@@ -76,7 +77,7 @@
 		FROM posting p
 		LEFT JOIN company_user cu ON p.co_user_no = cu.co_user_no
 		LEFT JOIN files f ON cu.co_user_no = f.domain_id AND f.domain_type = 'COMPANY'
-		WHERE 1=1
+		WHERE 1=1 AND posting_approve = '승인'
 		<if test="sido != null and sido != ''">
 			AND p.work_region = #{sido}
 		</if>

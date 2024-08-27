@@ -49,7 +49,7 @@
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
+    background-color: #06BBCC;
     color: #ffffff;
     font-size: 16px;
     cursor: pointer;
@@ -58,15 +58,15 @@
 }
 
 .loginForm button:hover {
-    background-color: #0056b3;
+    background-color: #06BBCC;
 }
 
 .loginForm button:nth-of-type(2) {
-    background-color: #6c757d;
+    background-color: #06BBCC;
 }
 
 .loginForm button:nth-of-type(2):hover {
-    background-color: #5a6268;
+    background-color: #06BBCC;
 }
 
 .tuto {
@@ -286,6 +286,7 @@ function populateVoiceList() {
 		text = tip.innerHTML
 		utterThis.text = text
 		console.log(text)
+		text.rate = 0.1
 		synth.speak(utterThis)
 	})
 	

@@ -23,6 +23,20 @@
 </style>
 </head>
 <body>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">영상</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><p class="text-white">영상 상세페이지 입니다.</p></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="container">
 		<th:block th:each="vl : ${videoInfo}">
 			<div>
@@ -32,7 +46,7 @@
 			<div>
 			<button type="button" th:onclick="|location.href='@{/videoUpdate(videoNo=${videoInfo.videoNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">수정</button>
 			<button type="button" th:onclick="|location.href='@{/videoDelete(videoNo=${videoInfo.videoNo})}'|" sec:authorize="hasRole('ROLE_ADMIN')">삭제</button>
-			<button type="button" th:onclick="|location.href='@{/videoList}'|">목록</button>
+			<button class="btn btn-primary" type="button" th:onclick="|location.href='@{/videoList}'|">목록</button>
 			</div>
 		</th:block>
 	</div>

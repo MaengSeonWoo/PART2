@@ -108,7 +108,7 @@ th.required::after {
 </head>
 <body>
 	<div class="postingupdate">
-		<h3>채용공고 수정</h3>
+		<h3 style="margin-left:100px; margin-top:20px;">채용공고 수정</h3>
 		<form th:object="${copostingInfo}" name="updateForm">
 			<table>
 			<tr>
@@ -133,22 +133,22 @@ th.required::after {
 			<tr>
 				<th>모집기간*</th>
 				<td>
-					<input type="date" th:field="*{startDate}" style="width: 30%"> ~
-					<input type="date" th:field="*{endDate}" style="width: 30%">
+					<input type="date" th:field="*{startDate}" style="width: 10%" class="form-class"> ~
+					<input type="date" th:field="*{endDate}" style="width: 10%" class="form-class">
 				</td>
 			</tr>
 			<tr>
 				<th>업종*</th>
-				<td><input type="text" th:field="*{job}" style="width: 30%"></td>
+				<td><input type="text" th:field="*{job}" style="width: 20%"></td>
 			</tr>
 			<tr>
 				<th>연령*</th> 
-				<td><input type="number" th:field="*{age}" style="width: 30%">세 이하</td>
+				<td><input type="number" th:field="*{age}" style="width: 5%; display:inline-block;" class="form-control">세 이하</td>
 			</tr>
 			<tr>
 				<th>성별*</th>
 				<td>
-						<div th:each="gender : ${genderCode}">
+						<div th:each="gender : ${genderCode}" style="display:inline-block;">
 							<input type="radio" name="gender" th:value="${gender.mainCode}" th:checked="${gender.mainCode == copostingInfo.gender}"> 
 							<span th:text="${gender.codeName}"></span>
 						</div>
@@ -158,7 +158,7 @@ th.required::after {
 				<th>고용형태*</th>
 				<td>
 					<!-- 공통 코드로 고용형태 선택 생성 -->
-					<div th:each="empType : ${empTypeCode}">
+					<div th:each="empType : ${empTypeCode}" style="display:inline-block;">
 						<input type="radio" name="empType" th:value="${empType.mainCode}" th:checked="${empType.mainCode == copostingInfo.empType}"> 
 						<span th:text="${empType.codeName}"></span>
 					</div>
@@ -166,36 +166,36 @@ th.required::after {
 			</tr>
 			<tr>
 				<th>근무일*</th>
-				<td>주 <input type="text" name="workDay" th:field="*{workDay}" style="width: 20%"> 일</td>
+				<td>주 <input type="text" name="workDay" th:field="*{workDay}" style="width: 10%; display:inline-block;" class="form-control"> 일</td>
 			</tr>
 			<tr>
 				<th>근무시간*</th>
-				<td><input type="text" name="workTimeStart" th:field="*{workTimeStart}" style="width: 20%"> ~ 
-				<input type="text" name="workTimeEnd" th:field="*{workTimeEnd}" style="width: 20%"></td>
+				<td style=><input type="text" name="workTimeStart" th:field="*{workTimeStart}" style="width: 10%; display:inline-block;" class="form-control"> ~ 
+				<input type="text" name="workTimeEnd" th:field="*{workTimeEnd}" style="width: 10%; display:inline-block;" class="form-control"></td>
 
 			</tr>
 			<tr>
 				<th>급여*</th>
-				<td>월 <input type="number" name="sal" style="width: 10%" th:field="*{sal}"> 만원</td>
+				<td>월 <input type="number" name="sal" style="width: 10%; display:inline-block;" th:field="*{sal}" class="form-control"> 만원</td>
 			</tr>
 			<tr>
 				<th>모집인원*</th>
-				<td><input type="number" th:field="*{party}"></td>
+				<td><input type="number" th:field="*{party}" style="width: 5%; display:inline-block;" class="form-control">명</td>
 			</tr>
 			<tr>
 				<th>근무내용*</th>
-				<td><textarea th:field="*{workContent}"></textarea></td>
+				<td><textarea th:field="*{workContent}" style="width: 50%; height:100px;" class="form-control"></textarea></td>
 			</tr>
 			<tr>
 				<th>우대사항</th>
-				<td><textarea th:field="*{etcContent}"></textarea></td>
+				<td><textarea th:field="*{etcContent}" style="width: 50%; height:100px;" class="form-control"></textarea></td>
 			</tr>
 			<tr>
 				<th>추가내용</th>
-				<td><textarea th:field="*{priContent}"></textarea></td>
+				<td><textarea th:field="*{priContent}" style="width: 50%; height:100px;" class="form-control"></textarea></td>
 			</tr>
 			</table>
-			<button type="button" id="updateBtn" class="updatebtn">수정</button>
+			<button type="button" id="updateBtn" class="updatebtn" style="margin-left: 600px;">수정</button>
 		</form>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

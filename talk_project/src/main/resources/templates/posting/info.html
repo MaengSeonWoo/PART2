@@ -83,23 +83,20 @@
 </head>
 
 <body>
-	<div class="container-fluid bg-primary py-5 mb-5 page-header">
-		<div class="container py-5">
-			<div class="row justify-content-center">
-				<div class="col-lg-10 text-center">
-					<h1 class="display-3 text-white animated slideInDown">채용공고</h1>
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb justify-content-center">
-							<li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
-							<li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-							<li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
-						</ol>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
-
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">채용공고</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><p class="text-white">채용공고 상세페이지 입니다.</p></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="container">
 		<div class="card job-card">
 			<div class="card-header job-header">
@@ -152,14 +149,14 @@
 					<div>
 						<div>근무시간</div>
 						<div>
-							<span th:text="'주 '+${posting.workDay}+'일'"></span>  
+							<span th:text="'주 '+${posting.workDay}+'일'"></span>  &nbsp;
 							<span th:text="${posting.workTimeStart}"></span> ~ <span
 						th:text="' '+${posting.workTimeEnd}"></span>
 						</div>
 					</div>
 					<div>
 						<div>급여</div>
-						<div th:text="${posting.sal}">월 145만원</div>
+						<div>월&nbsp;<span th:text="${posting.sal}"></span>&nbsp;만원</div>
 					</div>
 					<div>
 						<div>모집인원</div>

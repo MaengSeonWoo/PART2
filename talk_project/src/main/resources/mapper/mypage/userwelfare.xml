@@ -22,8 +22,8 @@
 		    MIN(sal_serv) AS sal_serv
 		FROM users u
 		JOIN welfare w ON u.household = w.household
-		WHERE user_id = #{userId}
-		  AND u.sido = w.sido
+		<!-- WHERE user_id = #{userId} -->
+		  WHERE u.sido = w.sido
 		  AND u.like_subject = w.like_subject
 		GROUP BY serv_name
 	</select>

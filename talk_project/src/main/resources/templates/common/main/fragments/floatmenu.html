@@ -231,7 +231,37 @@
 
 	            <!-- document.getElementById('recognizedText').innerHTML = "Recognized: " + phrases[0]; -->
 	<script>
+	//페이지 상단으로 이동
+	function goTop() {
+		window.scroll(0, 0);
+	}
 
+	// 페이지 확대
+	let zoom = 100;
+
+	function zoomPlus() {
+		zoom = zoom + 20;
+
+		if (zoom >= 200) {
+			zoom = 200;
+		}
+		zooms();
+	}
+
+	// 페이지 축소
+	function zoomMinus() {
+		zoom = zoom - 20;
+
+		if (zoom <= 70) {
+			zoom = 70;
+		}
+		zooms();
+	}
+
+	// 페이지 확대/축소 적용
+	function zooms() {
+		document.body.style.zoom = zoom + '%';
+	}
 
 	//annyangtest
 	if (annyang) {
@@ -246,9 +276,10 @@
 	            'q&a':'/qnaList',
 	            'qna':'/qnaList',
 	            '큐엔에이':'/qnaList',
-	            '큐앤에이':'/qnaList',
-	            '질의':'/qnaList',
+	            '지리':'/qnaList',
+	            '자리':'/qnaList',
 	            '질문':'/qnaList',
+	            '질의':'/qnaList',
 	            '질의응답':'/qnaList'
 	        };
 	        // 문장 서버로전송후분석
@@ -307,37 +338,7 @@
 
 
 	
-		//페이지 상단으로 이동
-		function goTop() {
-			window.scroll(0, 0);
-		}
-
-		// 페이지 확대
-		let zoom = 100;
-
-		function zoomPlus() {
-			zoom = zoom + 20;
-
-			if (zoom >= 200) {
-				zoom = 200;
-			}
-			zooms();
-		}
-
-		// 페이지 축소
-		function zoomMinus() {
-			zoom = zoom - 20;
-
-			if (zoom <= 70) {
-				zoom = 70;
-			}
-			zooms();
-		}
-
-		// 페이지 확대/축소 적용
-		function zooms() {
-			document.body.style.zoom = zoom + '%';
-		}
+		
 		
 // 챗봇 관련
 let stompClient = null;

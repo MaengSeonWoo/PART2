@@ -21,18 +21,20 @@
 		}
 
         .couserMain th, td {
-            padding: 15px;
+            padding: 25px;        
         }
 
         .couserMain th {
-            background-color: #9ae6e6;
+            background-color: #06BBCC;
             text-align: center;
-            color: #555;
+            color: white;
+            border: 2px solid #D5D5D5;
         }
 
         .couserMain td {
             background-color: #fff;
             text-align: left;
+            font-weight: bold;
         }
 
         .couserMain img {
@@ -67,10 +69,10 @@
             <tr>
                 <th>대표</th>
                 <td>[[ ${company_user.repName} ]]</td>
-            </tr>
-            <tr>
                 <th>행정구역</th>
                 <td>[[ ${company_user.regionNm} ]]</td>
+            </tr>
+            <tr>
             </tr>
             <tr>
                 <th>우편번호</th>
@@ -83,10 +85,20 @@
             <tr>
                 <th>창립연도</th>
                 <td>[[ ${#dates.format(company_user.estYear, 'yyyy/MM/dd')} ]]</td>
-            </tr>
-            <tr>
                 <th>회사 전화번호</th>
                 <td>[[ ${company_user.coContact} ]]</td>
+            </tr>
+            <tr>
+            	<th>담당자 이름</th>
+                <td>[[ ${company_user.mgrName} ]]</td>
+            </tr>
+            <tr>
+            	<th>담당자 이메일</th>
+                <td>[[ ${company_user.mgrEmail} ]]</td>
+            </tr>
+            <tr>
+            	<th>담당자 연락처</th>
+                <td>[[ ${company_user.mgrTel} ]]</td>
             </tr>
         </table>
     </div>

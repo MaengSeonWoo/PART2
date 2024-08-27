@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
             	<a th:href="@{/videoList}" class="nav-item nav-link">영상</a>
-            	<a th:href="@{/qnaList}" class="nav-item nav-link">Q&A</a>
+            	<a th:href="@{/qnaList}" class="nav-item nav-link" sec:authorize="isAuthenticated()">질의응답</a>
             	<a th:href="@{/noticeList}" class="nav-item nav-link">공지사항</a>
                 <a th:href="@{/posting}" class="nav-item nav-link">채용공고</a>
                 <a th:href="@{/CoUserMain}" class="nav-item nav-link" sec:authorize="hasRole('ROLE_CO_USER')">마이페이지</a>
