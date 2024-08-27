@@ -8,9 +8,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 
             <div class="page-title">
               <div class="title_left">
-                <h3>채용등록서<small>(승인,거절,미승인)</small></h3>
+                <h3>채용공고 상세<small></small></h3>
               </div>
-
               <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                   <div class="input-group">
@@ -55,13 +54,12 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                           <div class="mail_heading row">
                             <div class="col-md-8">
                               <div class="btn-group">
-                                <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve/postlist}'|">목록으로</button>
-                                <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
                               </div>
                             </div>
                             <div class="col-md-4 text-right">
-                              <p class="date"> 작성 일자 들어갈 자리</p>
-                            </div>
+                                		<button class="btn btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve/postlist}'|">목록으로</button>
+<!--                               <p class="date"> 작성 일자 들어갈 자리</p> -->                            
+							</div>
                             <div class="col-md-12">
 								<div>
                     				     <button th:if="${detail.postingApprove == '승인' }" class="btn btn-success" >[[${detail.postingApprove}]]</button>
