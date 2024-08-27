@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/main/layouts/default_layout}"
-      layout:fragment="Content">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/main/layouts/default_layout}"
+	layout:fragment="Content">
 <head>
-    <meta charset="UTF-8">
-    <title>아이디 찾기 결과</title>
-    <style>
-    	.findid {
+<meta charset="UTF-8">
+<title>임시 비밀번호 발급</title>
+<style>
+        .findpw {
             background: white;
             padding: 20px;
             text-align: center;
@@ -15,17 +15,9 @@
             margin-top: 200px;
             margin-bottom: 200px;
         }
-        .findid h1 {
+        .findpw h3 {
             color: #333;
             margin-bottom: 20px;
-        }
-        .findid p {
-        	font-size: 30px;
-        }
-        
-        .findid span {
-        	font-size: 30px;
-        	font-weight: bold;
         }
         .loginbtn {
             background-color: #007bff;
@@ -46,13 +38,12 @@
     </style>
 </head>
 <body>
-<div class="findid">
-    <h1 style="margin-bottom: 80px;">아이디 찾기 결과</h1>
-    <p th:if="${userId != null}">당신의 아이디는 '<span th:text="${userId}"></span>' 입니다.</p>
-    <p th:if="${userId == null}">아이디를 찾을 수 없습니다. 다시 시도해 주세요.</p>
-    
-    <button type="button" th:onclick="|location.href='@{/login}'|"
+	<div class="findpw">
+		<h3>
+			임시 비밀번호가 메일로 전송되었습니다<br> 발급받은 임시 비밀번호로 로그인 해주시기 바랍니다
+		</h3>
+		<button type="button" th:onclick="|location.href='@{/login}'|"
 			class="loginbtn">로그인 페이지로 이동</button>
-</div>
+	</div>
 </body>
 </html>
