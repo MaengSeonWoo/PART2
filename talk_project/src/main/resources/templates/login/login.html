@@ -286,6 +286,7 @@ function populateVoiceList() {
 		text = tip.innerHTML
 		utterThis.text = text
 		console.log(text)
+		text.rate = 0.1
 		synth.speak(utterThis)
 	})
 	
