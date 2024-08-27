@@ -189,26 +189,6 @@
 		</div>
 	</div>
 
-	<!-- <div id="chatbot" class="chatbot-container" style="display: none;">
-		<div class="chatbot-header">
-			<span>손말톡톡</span>
-			<button id="chatbotCloseBtn" class="btn btn-danger btn-sm">X</button>
-		</div>
-		<div class="chatbot-body">
-			<p>무엇을 도와드릴까요?</p>
-		</div>
-		<div class="chatbot-footer">
-			<input type="text" id="chatbotInput" class="form-control"
-				placeholder="메시지 입력">
-			<button id="sttButton" class="btn btn-secondary">
-				<img
-					src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png"
-					alt="STT" width="20px" height="20px">
-			</button>
-			<button id="chatbotSendBtn" class="btn btn-primary">전송</button>
-		</div>
-	</div> -->
-
 	<div id="chatbot" class="chatbot-container" style="display: none;">
     <div class="chatbot-header">
         <span>손말톡톡</span>
@@ -225,11 +205,7 @@
         <button id="chatbotSendBtn" class="btn btn-primary">전송</button>
     </div>
 </div>
-<!-- 
-					<div id="analyzedText"></div>
-					<div id="recognizedText"></div> -->
 
-	            <!-- document.getElementById('recognizedText').innerHTML = "Recognized: " + phrases[0]; -->
 	<script>
 	//페이지 상단으로 이동
 	function goTop() {
@@ -313,6 +289,15 @@
 	                        }
 	                    });
 	                }
+	                
+	                if(Array.isArray(data)){
+	                	data.forEach(word=>{
+	                		if(commands[word]){
+	                			commands[word]();
+	                		}
+	                	})
+	                }
+	                
 	            });
 	        });
 

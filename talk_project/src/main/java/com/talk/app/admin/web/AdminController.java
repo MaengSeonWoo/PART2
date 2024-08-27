@@ -43,7 +43,8 @@ public class AdminController {
 
 	final DefaultMessageService messageService;
 
-	public AdminController(@Value("${coolsms.api_key}") String apiKey,
+	public AdminController(
+			@Value("${coolsms.api_key}") String apiKey,
 			@Value("${coolsms.api_secret}") String apiSecret) {
 		// 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
 		this.messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
@@ -62,7 +63,7 @@ public class AdminController {
 	UploadService uservice;
 	
 	@Autowired
-    EmailService emailService;
+    EmailService eservice;
 	
 
 	// 메인
@@ -167,36 +168,10 @@ public class AdminController {
 	 */
 	@GetMapping("/messagelist")
 	public String getMessageList(Model model) {
-		// 검색 조건이 있는 경우에 MessagListRequest를 초기화 하여 getMessageList 함수에 파라미터로 넣어서 검색할 수
-		// 있습니다!.
-		// 수신번호와 발신번호는 반드시 -,* 등의 특수문자를 제거한 01012345678 형식으로 입력해주셔야 합니다!
 		MessageListRequest request = new MessageListRequest();
 
 		// 검색할 건 수, 값 미지정 시 20건 조회, 최대 500건 까지 설정 가능
-		request.setLimit(500);
-
-		// 조회 후 다음 페이지로 넘어가려면 조회 당시 마지막의 messageId를 입력해주셔야 합니다!
-		// request.setStartKey("메시지 ID");
-
-		// request.setTo("검색할 수신번호");
-		// request.setFrom("검색할 발신번호");
-
-		// 메시지 상태 검색, PENDING은 대기 건, SENDING은 발송 중,COMPLETE는 발송완료, FAILED는 발송에 실패한 모든
-		// 건입니다.
-		/*
-		 * request.setStatus(MessageStatusType.PENDING);
-		 * request.setStatus(MessageStatusType.SENDING);
-		 * request.setStatus(MessageStatusType.COMPLETE);
-		 * request.setStatus(MessageStatusType.FAILED);
-		 */
-
-		// request.setMessageId("검색할 메시지 ID");
-
-		// 검색할 메시지 목록
-		/*
-		 * ArrayList<String> messageIds = new ArrayList<>();
-		 * messageIds.add("검색할 메시지 ID"); request.setMessageIds(messageIds);
-		 */
+		request.setLimit(100);
 
 		MessageListResponse response = this.messageService.getMessageList(request);
 //        System.out.println(response);
@@ -219,7 +194,6 @@ public class AdminController {
 	//문자 전송하기
 	@GetMapping("/sendmany")
 	public String sendResult(UserWelfareVO vo, Model model,UserVO uvo) {
-//    	List<UserWelfareVO> list = sms.sendSmsToEligibleMembers(vo);
 		UserWelfareVO list = sms.sendSmsToEligibleMembers(vo);
 		int wid = list.getWid();
 		List<UserWelfareVO> list2 = service.msgResult(vo, wid);
@@ -236,51 +210,23 @@ public class AdminController {
 		request.setLimit(10);
 		MessageListResponse response = this.messageService.getMessageList(request);
 		ArrayList<Message> messageList = new ArrayList<>();
-		/*
-		 * for (int i = 0; i < 2; i++) { Message message = new Message(); // 발신번호 및
-		 * 수신번호는 반드시 01012345678 형태로 입력되어야 합니다. message.setFrom("01025193424");
-		 * message.setTo("01025193424");
-		 * message.setText("한글 45자, 영자 90자 이하 입력되면 자동으로 SMS타입의 메시지가 추가됩니다." + i);
-		 * 
-		 * // 메시지 건건 마다 사용자가 원하는 커스텀 값(특정 주문/결제 건의 ID를 넣는등)을 map 형태로 기입하여 전송 후 확인해볼 수
-		 * 있습니다! HashMap<String, String> map = new HashMap<>();
-		 * 
-		 * map.put("키 입력", "값 입력"); message.setCustomFields(map);
-		 * 
-		 * messageList.add(message); } try { // send 메소드로 단일 Message 객체를 넣어도 동작합니다! // 세
-		 * 번째 파라미터인 showMessageList 값을 true로 설정할 경우 MultipleDetailMessageSentResponse에서
-		 * MessageList를 리턴하게 됩니다! MultipleDetailMessageSentResponse resp =
-		 * this.messageService.send(messageList, false, true);
-		 * 
-		 * // 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요!
-		 * //MultipleDetailMessageSentResponse response =
-		 * this.messageService.send(messageList, true); System.out.println(response);
-		 * System.out.println(resp); return resp; } catch
-		 * (NurigoMessageNotReceivedException exception) {
-		 * System.out.println(exception.getFailedMessageList());
-		 * System.out.println(exception.getMessage()); } catch (Exception exception) {
-		 * System.out.println(exception.getMessage()); }
-		 */
 		return null;
 	}
 	
+	//메일 발송
+	@GetMapping("sendMail")
+	public String mail(){
+		eservice.sendEmail("syj6180@naver.com", "서브젝트가 뭔데...", "바디가 뭔데");
+		return "admin/mail";
+	}
 	
-	  @PostMapping("/sendEmail")
-	  @ResponseBody 
-	  public String sendEmail(@RequestParam int to) {
-		  emailService.sendSimpleMessage(to); 
-	  	return "Email sent to " + to; 
-	  }
-	 
-	  @PostMapping("test")
-	  public String sendMail() {
-		  emailService.sendEmail();
-		  return "redirect:approve/detail" ;
-	  }
-	
-	
-	
-	
+	// 메일 발송
+	@PostMapping("sendMail")
+	public String mail(@RequestParam String email, @RequestParam String subject, @RequestParam String body) {
+	    eservice.sendEmail(email, subject, body);
+	    return "admin/mail";
+	} 
+
 	
 	
 

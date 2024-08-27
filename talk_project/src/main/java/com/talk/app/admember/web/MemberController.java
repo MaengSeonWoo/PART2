@@ -23,9 +23,6 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	
-	@Autowired
-	EmailService eservice;
-	
 	//기업회원 승인목록(기업목록 전체 신청desc처리)
 	@GetMapping("")
 	public String approveAll(Model model, CoUserVO vol) {
@@ -41,15 +38,7 @@ public class MemberController {
 		model.addAttribute("detail", findVO);
 		return "admember/coDetail";
 	}
-	
-	 // 메일 보내기 버튼 클릭 시 호출되는 메서드
-    @PostMapping("/sendMail")
-    public String sendMail(@RequestParam("coUserNo") int coUserNo) {
-        System.out.println("Received coUserNo: " + coUserNo); // 로그로 확인
-    	eservice.sendSimpleMessage(coUserNo);
-        return "redirect:/admin/approve/detail?coUserNo=" + coUserNo;
-    }
-	
+
 	//기업회원 승인 => 
 	@GetMapping("confirm")
 	public String updateCo(int coUserNo) {
@@ -104,5 +93,6 @@ public class MemberController {
 		return "admember/user";
 	}
 	
+
 	
 }
