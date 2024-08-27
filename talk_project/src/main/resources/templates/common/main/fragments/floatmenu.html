@@ -273,6 +273,9 @@
 	            '채용':'/posting',
 	            '공지':'/noticeList',
 	            '영상':'/videoList',
+	            'q&a':'/qnaList',
+	            'qna':'/qnaList',
+	            '큐엔에이':'/qnaList',
 	            '지리':'/qnaList',
 	            '자리':'/qnaList',
 	            '질문':'/qnaList',
@@ -319,6 +322,13 @@
 	                annyang.start(); // annyang 시작
 	            }
 	        });
+	        
+	        var commands = {
+	        		'확대' : zoomPlus,
+	        		'축소' : zoomMinus,
+	        		'상단' : goTop
+	        }
+	        
 	        annyang.setLanguage('ko');
 	        SpeechKITT.annyang();
 	        SpeechKITT.setStylesheet('//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/themes/flat.css');
