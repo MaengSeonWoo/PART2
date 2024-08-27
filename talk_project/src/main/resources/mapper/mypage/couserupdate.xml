@@ -186,9 +186,15 @@
 	
 	<!-- 사용자가 탈퇴할 수 있는지 확인(제출한 이력서가 있을때는 불가능) -->
 	<select id="checkResumeStatus" resultType="boolean">
-	    SELECT COUNT(*)
+	    <!-- SELECT COUNT(*)
 		FROM users u JOIN resume r
 		ON u.user_no = r.user_no
+		WHERE user_id = #{userId} -->
+		SELECT COUNT(*)
+		FROM users u JOIN resume r
+		ON u.user_no = r.user_no
+		JOIN apply_resume ar
+		ON r.resume_no = ar.resume_no
 		WHERE user_id = #{userId}
 	</select>
 	

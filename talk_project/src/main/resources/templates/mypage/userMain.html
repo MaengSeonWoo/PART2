@@ -19,21 +19,22 @@
         }
 
          .usermain th, td {
-            padding: 20px;
-            border-bottom: 1px solid white;
+            padding: 25px;
         }
 
         .usermain th {
-            background-color: #9ae6e6;
+        	background-color: #06BBCC;
             text-align: center;
-            color: #555;
+            color: white;
             margin-top: 10px;
             margin-bottom: 10px;
+            border: 2px solid #D5D5D5;
         }
 
         .usermain td {
             background-color: #fff;
             text-align: left;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -42,7 +43,7 @@
 		<h3>일반회원 정보</h3>
 		<table>
 			<tr>
-				<th style="width: 20%;">이름</th>
+				<th style="width: 20%; border-top: 2px solid #D5D5D5;">이름</th>
 				<td>[[ ${users.userName} ]]</td>
 			</tr>
 			<tr>
@@ -67,15 +68,15 @@
 			</tr>
 			<tr>
 				<th>거주지역</th>
-				<td>[[ ${users.sidoNm} ]]</td>
+				<td>[[ ${users.sido} ]]</td>
 			</tr>
 			<tr>
 				<th>가구상황</th>
-				<td>[[ ${users.householdNm} ]]</td>
+				<td>[[ ${users.household} ]]</td>
 			</tr>
 			<tr>
 				<th>관심주제</th>
-				<td>[[ ${users.likeSubjectNm} ]]</td>
+				<td>[[ ${users.likeSubject} ]]</td>
 			</tr>
 			<tr>
 				<th>수신 여부</th>

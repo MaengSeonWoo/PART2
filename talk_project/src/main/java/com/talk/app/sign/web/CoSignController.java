@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.talk.app.common.service.PublicCodeService;
 import com.talk.app.login.service.CoUserVO;
 import com.talk.app.login.service.UserVO;
 import com.talk.app.sign.service.CoSignService;
@@ -23,6 +24,7 @@ public class CoSignController {
 	@Autowired
 	public CoSignController(CoSignService cosignService) {
 		this.cosignService = cosignService; 
+
 	}
 	
 	@GetMapping("cosignInsert")
