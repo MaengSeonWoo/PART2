@@ -193,7 +193,14 @@ WHERE wid = #{wid}
 </update>
 
 <select id="sendMsg">
-	SELECT u.user_no,w.wid,w.serv_id, u.Tel, u.sido, u.like_subject, u.household, w.serv_summary
+	SELECT u.user_no
+				,w.wid
+				,w.serv_id
+				, u.Tel
+				, u.sido
+				, u.like_subject
+				, u.household
+				, w.serv_summary
 	FROM users u
 	JOIN welfare w 
 	on u.sido = #{vo.sido}
