@@ -19,6 +19,8 @@ public class ChatMessage {
     private Integer currentQuestionId;
     
     private Integer currentStepId;
+    
+    private Integer previousQuestionId;
 
     // MessageType 열거형: 메시지의 종류를 나타냄 (채팅 메시지, 사용자의 접속, 사용자의 퇴장)
     public enum MessageType {

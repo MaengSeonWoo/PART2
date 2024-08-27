@@ -5,10 +5,12 @@ import lombok.Data;
 @Data
 public class FAQVO {
 	private int faqId;
-	private String keyword;
-	private String answer;
-	private String pageUrl;
-	private String pageDescription;
+    private String keyword;
+    private String answer;
+    private String pageUrl;
+    private int stepNo;
+    private int preNo;
+    private int curNo;
 //    private Long faqId;
 //    private String question;
 //    private String answer;

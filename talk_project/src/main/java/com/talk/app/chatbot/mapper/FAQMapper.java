@@ -11,6 +11,10 @@ public interface FAQMapper {
 	@Select("SELECT * FROM FAQ WHERE faq_id = #{faqId}")
     FAQVO findById(Long faqId);
 
+	
+	List<FAQVO> findFAQByStepAndPreviousStatus(@Param("stepNo") int stepNo, @Param("preNo") int preNo);
+	
+	FAQVO findFAQByKeyword(@Param("keyword") String keyword);
 //	@Select("SELECT * FROM FAQ WHERE keyword LIKE '%' || #{keyword} || '%'")
 //	List<FAQVO> findByKeyword(String keyword);
 	

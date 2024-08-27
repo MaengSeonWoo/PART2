@@ -38,7 +38,7 @@
 	height: 100%;
 }
 
-	.section-title {
+	.sectionTitle {
 		font-weight: bold;
 		margin-top: 20px;
 		margin-bottom: 10px;
@@ -62,7 +62,7 @@
 			<p th:text="${resume.resumeTitle}">홍길동의 이력서입니다</p>
 		</div>
 
-		<div class="section-title">기본 정보</div>
+		<div class="sectionTitle">기본 정보</div>
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
@@ -94,7 +94,7 @@
 			</tbody>
 		</table>
 
-		<div class="section-title">학력사항</div>
+		<div class="sectionTitle">학력사항</div>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -121,7 +121,7 @@
 			</tbody>
 		</table>
 
-		<div class="section-title">경력사항</div>
+		<div class="sectionTitle">경력사항</div>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -150,7 +150,7 @@
 			</tbody>
 		</table>
 
-		<div class="section-title">보유기술/자격증</div>
+		<div class="sectionTitle">보유기술/자격증</div>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -177,7 +177,7 @@
 			</tbody>
 		</table>
 		<hr>
-			<div class="section-title">자기소개</div>
+			<div class="sectionTitle">자기소개</div>
 			<p th:utext="${#strings.escapeXml(resume.produce)}" style="white-space: pre-wrap; border: 1px #e2e3e5 solid"></p>
 
 		<div class="text-end">
