@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-.container {
+.noticeContainer {
 	margin: auto;
 	margin-top: 40px;
 	border-top: 1px solid black;
@@ -44,15 +44,15 @@
 	text-align: center;
 }
 
-.container th {
+.noticeContainer th {
 	width: 100px;
 }
 
-.container td {
+.noticeContainer td {
 	width: 300px;
 }
 
-.container table {
+.noticeContainer table {
 	width: 100%;
 	padding: 10px;
 }
@@ -74,7 +74,7 @@
 	display: flex;
 }
 
-.container img {
+.noticeContainer img {
 	width: 600px;
 	height: fit-content;
 	background-size: cover;
@@ -111,7 +111,24 @@
 <title>공지사항 정보</title>
 </head>
 <body>
-	<div class="container">
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">공지사항</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+	<div class="container noticeContainer">
 		<table>
 			<th:block th:each="notice : ${noticeInfo}">
 				<tr class="numberRow">
