@@ -9,5 +9,5 @@ public interface FindUserIdMapper {
 	public String FindUserIdInfo(UserVO userVO);
 	
 	// 임시 비밀번호 발급
-	
+	void updateUserPassword(UserVO userVO);
 }

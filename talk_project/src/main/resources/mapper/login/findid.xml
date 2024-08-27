@@ -13,4 +13,10 @@
 		WHERE tel = #{Tel}
 		AND user_name = #{userName}
 	</select>
+	
+	<update id="updateUserPassword">
+        UPDATE users
+        SET user_pw = #{userPw}
+        WHERE user_id = #{userId}
+    </update>
 </mapper>
