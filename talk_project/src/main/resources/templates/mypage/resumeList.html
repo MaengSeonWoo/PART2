@@ -186,7 +186,7 @@
 
 		    val.addEventListener('click', function() {
 		        // ano 값이 null이 아니면 경고 메시지를 표시하고 삭제를 막습니다.
-		        if (ano != null && ano != '') {
+		        if (ano != null && ano != '' && ano != 0) {
 		            Swal.fire({
 		                icon: 'error',
 		                title: '삭제 불가',

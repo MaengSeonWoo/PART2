@@ -12,24 +12,32 @@
 	<select id="selectResumeList" parameterType="ResumeVO" resultType="ResumeVO">
 		<![CDATA[
 		SELECT  resume_no,
-            resume_title,
-            create_date,
-            apply_no
+                                    resume_title,
+                                    create_date,
+                                    apply_no
 		FROM (
 		            SELECT  ROWNUM rn,
-		                        r.resume_no,
-		                        r.resume_title,
-		                        r.create_date,
-		                        a.apply_no
+		                        resume_no,
+		                        resume_title,
+		                        create_date,
+		                        apply_no
 		                    
-		                FROM resume r
-                                        left join apply_resume a
-                                        on r.resume_no = a.resume_no
-		                WHERE ROWNUM <= #{pageNum} * #{amount} AND r.user_no = (
-		                                                        SELECT user_no
-		                                                        FROM USERS
-		                                                        WHERE user_id = #{userId}
-		                                )
+		                FROM (
+                                                SELECT r.resume_no,
+                                                            r.resume_title,
+                                                            r.create_date,
+                                                            nvl(max(a.apply_no),0) apply_no  
+                                                    FROM resume r
+                                                    left join apply_resume a
+                                                    on r.resume_no = a.resume_no
+                                                    WHERE r.user_no = (
+                                                                                            SELECT user_no
+                                                                                            FROM USERS
+                                                                                            WHERE user_id = #{userId}
+                                                                    )
+                                                group by r.resume_no, r.resume_title, r.create_date)
+                                        
+		                WHERE ROWNUM <= #{pageNum} * #{amount}
 		)
 		
 		WHERE rn > (#{pageNum} - 1) * #{amount}
