@@ -804,7 +804,7 @@ document.querySelector(".saveHandler").addEventListener("click", function () {
 	      return voice.lang.includes('en');
 	    })
 	    .map((voice) => {
-	      return `${voice.name} (${voice.lang})`;
+	      return `${voice.name} (${voice.lang}) (${voice.rate})`;
 	    });
 	  console.log(voiceList);
 	}
@@ -823,6 +823,8 @@ document.querySelector(".saveHandler").addEventListener("click", function () {
 		    : console.log("Web Speech API not supported :-(")
 		}
 	const utterThis = new SpeechSynthesisUtterance()
+	utterThis.rate = 1.7;
+	
 	const synth = window.speechSynthesis
 	
 	checkBrowserCompatibility();	
