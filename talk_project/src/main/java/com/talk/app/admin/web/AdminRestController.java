@@ -31,7 +31,6 @@ public class AdminRestController {
     }
 
     @PostMapping("/fetchServIds")
-    
     public ResponseEntity<String> fetchAndSaveServIds() {
         try {
             sampleService.fetchAndSaveWelfareData();

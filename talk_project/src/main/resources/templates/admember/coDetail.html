@@ -67,6 +67,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                                 <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve}'|">목록으로</button>
                             </div>
                             <div class="col-md-12">
+                            [[${detail}]]
 								<div><button class="btn btn-warning" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
                           				<button class="btn btn-success" th:if="${detail.authority == 'ROLE_CO_USER'}" th:text="승인"></button>
                           				<button class="btn btn-danger" th:if="${detail.authority == 'ROLE_CO_REFUSE'}" th:text="거절"></button>
@@ -137,21 +138,9 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 							        거절하기
 							    </button>
 							</div>
-                            <!-- <form action="/admin/test" method="post">
-							    <input type="hidden" id="coUserNoField" name="coUserNo" />
-							    <button type="submit" class="btn btn-sm btn-success">메일 보내기</button>
-							</form> -->
-							<form action="/admin/sendMail" method="post">
-							    <input type="text" name="email" placeholder="수신자 이메일">
-							    <input type="text" name="subject" placeholder="제목">
-							    <textarea name="body" placeholder="본문 내용"></textarea>
-							    <button type="submit">메일 발송</button>
-							</form>
-														
-
+							    <button class="btn btn-sm btn-success" type="button" onclick="mailSend()">메일 발송</button>
                           </div>
                         </div>
-
                       </div>
                       <!-- /CONTENT MAIL -->
                     </div>
@@ -162,14 +151,54 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
           </div>
           </div>      
         
-
 <script  th:inline="javascript">
     document.getElementById('coUserNoField').value = /*[[${detail.coUserNo}]]*/ '0';
 
 	let wid = /*[[${detail.coRegNo}]]*/ ''
-	let detail = /*[[${detail}]]*/
+	let detail = /*[[${detail}]]*/ ''
+	let user = /*[[${user}]]*/ '' 
 	
-	console.log(detail);
+	console.log('detail',detail);
+	console.log('user',user);
+	
+	function mailSend(){
+		Swal.fire({
+            title: '가입 거절 메일을 보내시겠습니까?',
+            text: '예 클릭시 메일이 바로 전송됩니다',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '예',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if(result.isConfirmed){
+			fetch('/admin/approve/detail',{
+				method:'GET'
+			})
+			.then(resp =>{
+				console.log('resp',resp);
+				if(resp.ok){
+					Swal.fire({
+	        	        icon: 'success',
+	        	        title: '전송 완료',
+	        	        text: '문자가 전송되었습니다',
+	        	        confirmButtonText: '확인'
+	        	    }).then(() => {
+                    	window.location.href ='/admin/approve/sendMail?coUserNo='+ detail.coUserNo;
+	        	    });
+				}else{
+                    alert("메일 전송에 실패했습니다.");
+				}
+			})
+			.catch(error => {
+                console.error('Error:', error);
+                alert("메일 전송 중 오류가 발생했습니다.");
+            });
+		}
+        });
+        }
+	
 	//th:onclick="|location.href='@{/admin/approve/confirm(coUserNo=${detail.coUserNo})}'|"
 	function approve(){
 		Swal.fire({
@@ -182,6 +211,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             cancelButtonText: '취소'
         }).then((result) => {
         	if(result.isConfirmed){
+        		console.log('detail2',detail)
          		window.location.href = '/admin/approve/confirm?coUserNo=' + detail.coUserNo;
         	}
         });
