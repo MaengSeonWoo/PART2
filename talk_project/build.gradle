@@ -48,7 +48,6 @@ dependencies {
 	// 아래 2개는 thymeleaf를 사용하는 경우에만 추가
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-	
 
 	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-texttospeech
 	implementation 'com.google.cloud:google-cloud-texttospeech:2.48.0'
