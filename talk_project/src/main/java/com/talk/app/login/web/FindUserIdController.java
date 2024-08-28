@@ -34,4 +34,24 @@ public class FindUserIdController {
 
         return "login/findidresult";  // 아이디 결과를 보여줄 페이지
     }
+	
+	@PostMapping("/findPwResult")
+    public String findTemporaryPassword(@RequestParam String userName,
+                                        @RequestParam String userId,
+                                        @RequestParam String userEmail,
+                                        Model model) {
+        UserVO userVO = new UserVO();
+        userVO.setUserName(userName);
+        userVO.setUserId(userId);
+        userVO.setEmail(userEmail);
+
+        boolean result = findIdService.sendTempPw(userVO);
+        if (result) {
+            model.addAttribute("message", "임시 비밀번호가 이메일로 전송되었습니다.");
+        } else {
+            model.addAttribute("message", "임시 비밀번호 전송에 실패하였습니다.");
+        }
+
+        return "login/findPwResult"; // 결과 페이지로 리다이렉션
+    }
 }

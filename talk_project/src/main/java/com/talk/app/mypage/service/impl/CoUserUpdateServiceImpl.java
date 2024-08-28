@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.talk.app.login.service.CoUserVO;
@@ -17,9 +19,12 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	
 	private CoUserUpdateMapper couserupdateMapper;
 	
+	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
-	public CoUserUpdateServiceImpl(CoUserUpdateMapper couserupdateMapper) {
+	public CoUserUpdateServiceImpl(CoUserUpdateMapper couserupdateMapper, @Lazy PasswordEncoder passwordEncoder) {
 		this.couserupdateMapper = couserupdateMapper;
+		this.passwordEncoder = passwordEncoder;
 	}
 	// 기업회원 단건조회
 	@Override
@@ -33,6 +38,12 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
 		
+		// 비밀번호가 존재하고 변경된 경우에만 암호화 수행
+	    if (couserVO.getCoUserPw() != null && !couserVO.getCoUserPw().isEmpty()) {
+	        // 비밀번호 암호화
+	        String encodedPassword = passwordEncoder.encode(couserVO.getCoUserPw());
+	        couserVO.setCoUserPw(encodedPassword);
+	    }
 		
 		int result = couserupdateMapper.updateCoUserInfo(couserVO);
 		if(result == 1) {
@@ -107,6 +118,13 @@ public class CoUserUpdateServiceImpl implements CoUserUpdateService{
 	public Map<String, Object> updateUser(UserVO userVO) {
 		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
+		
+		// 비밀번호가 존재하고 변경된 경우에만 암호화 수행
+	    if (userVO.getUserPw() != null && !userVO.getUserPw().isEmpty()) {
+	        // 비밀번호 암호화
+	        String encodedPassword = passwordEncoder.encode(userVO.getUserPw());
+	        userVO.setUserPw(encodedPassword);
+	    }
 		
 		int result = couserupdateMapper.updateUserInfo(userVO);
 		if(result == 1) {
