@@ -47,11 +47,9 @@ public class FindUserIdServiceImpl implements FindUserIdService{
                             "임시 비밀번호는 다음과 같습니다: " + tempPassword + "\n\n" +
                             "로그인 후 비밀번호를 변경해주시기 바랍니다.");
             mailSender.send(message);
-            
             // 임시 비밀번호를 암호화하여 데이터베이스에 저장
             userVO.setUserPw(encryptedPassword); 
             findIdMapper.updateUserPassword(userVO);
-
             return true;
         } catch (Exception e) {
             e.printStackTrace();

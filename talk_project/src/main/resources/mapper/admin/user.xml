@@ -160,6 +160,12 @@
 	WHERE posting_no = #{postingNo}
 </update>
 
+<select id="selectMailUser">
+	select * from
+	company_user
+	where co_user_no =#{coUserNo}
+</select>
+
 
 
 </mapper>
