@@ -19,6 +19,10 @@ public class EmailService {
     MemberMapper mapper;
     
     public void sendFailEmail(CoUserVO vo) {
+    	if (vo.getMgrEmail() == null || vo.getMgrEmail().isEmpty()) {
+            System.out.println("메일 주소값이 없습니다");
+            return; // 이메일 주소가 없으면 메일 발송을 중지
+        }
     	  try {
 		    	SimpleMailMessage message = new SimpleMailMessage();
 		    	message.setFrom("syj6180@naver.com");

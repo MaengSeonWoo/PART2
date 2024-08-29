@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.talk.app.admember.service.MemberService;
 import com.talk.app.admin.service.EmailService;
@@ -38,7 +37,7 @@ public class MemberController {
 	@GetMapping("detail")
 	public String approveDetail(Model model, CoUserVO vo, UserVO uvo) {
 		CoUserVO findVO = service.coDetail(vo);
-		eservice.sendFailEmail(vo);
+		eservice.sendFailEmail(findVO);
 		model.addAttribute("detail", findVO);
 	    model.addAttribute("user",vo);
 		return "admember/coDetail";
@@ -46,7 +45,7 @@ public class MemberController {
 	
 	// 메일 발송
 	@GetMapping("/sendMail")
-	public String mail(CoUserVO vo,Model model) {
+	public String mail(@ModelAttribute CoUserVO vo,Model model) {
 		CoUserVO covo = new CoUserVO();
 		vo.setCoUserId(covo.getCoUserId());
 		vo.setMgrEmail(covo.getMgrEmail());

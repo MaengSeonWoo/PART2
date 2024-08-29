@@ -67,8 +67,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                                 <button class="btn btn-sm btn-primary" type="button"  th:onclick="|location.href='@{/admin/approve}'|">목록으로</button>
                             </div>
                             <div class="col-md-12">
-                            [[${detail}]]
-								<div><button class="btn btn-warning" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
+								<div>
+										<button class="btn btn-warning" th:if="${detail.authority == 'ROLE_TEMP'}" th:text="미승인"></button>
                           				<button class="btn btn-success" th:if="${detail.authority == 'ROLE_CO_USER'}" th:text="승인"></button>
                           				<button class="btn btn-danger" th:if="${detail.authority == 'ROLE_CO_REFUSE'}" th:text="거절"></button>
                           		</div>
@@ -154,9 +154,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 <script  th:inline="javascript">
     document.getElementById('coUserNoField').value = /*[[${detail.coUserNo}]]*/ '0';
 
-	let wid = /*[[${detail.coRegNo}]]*/ ''
-	let detail = /*[[${detail}]]*/ ''
-	let user = /*[[${user}]]*/ '' 
+    let detail = /*[[${detail}]]*/ {}; // 
+    let user = /*[[${user}]]*/ {};
 	
 	console.log('detail',detail);
 	console.log('user',user);
@@ -172,20 +171,28 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             confirmButtonText: '예',
             cancelButtonText: '취소'
         }).then((result) => {
-        	if(result.isConfirmed){
-			fetch('/admin/approve/detail',{
-				method:'GET'
-			})
+        	if (result.isConfirmed) {
+                fetch('/admin/approve/sendMail?coUserNo=' + detail.coUserNo, {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        coUserId: detail.coUserId,
+                        mgrEmail: detail.mgrEmail,
+                        coName: detail.coName
+                    })                
+                    })
 			.then(resp =>{
 				console.log('resp',resp);
 				if(resp.ok){
 					Swal.fire({
 	        	        icon: 'success',
 	        	        title: '전송 완료',
-	        	        text: '문자가 전송되었습니다',
+	        	        text: '메일이 전송되었습니다',
 	        	        confirmButtonText: '확인'
 	        	    }).then(() => {
-                    	window.location.href ='/admin/approve/sendMail?coUserNo='+ detail.coUserNo;
+                        window.location.href = '/admin/approve';
 	        	    });
 				}else{
                     alert("메일 전송에 실패했습니다.");
@@ -233,29 +240,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
         });
 	}
 		
-	 
-	  function confirmAndSendSms() {
-	        if (confirm("정말 보내시겠습니까?")) {
-	            // 서버로 문자 전송 요청을 보냅니다.
-	            fetch('/admin/sendmsg', {
-	                method: 'GET'
-	            })
-	            .then(response => {
-	            	console.log(response);
-	                if (response.ok) {
-	                    alert("정말 전송되었습니다.");
-	                    window.location.href ='http://localhost:8080/admin/sendmany?wid='+ wid;
-	                } else {
-	                    alert("문자 전송에 실패했습니다.");
-	                }
-	            })
-	            .catch(error => {
-	                console.error('Error:', error);
-	                alert("문자 전송 중 오류가 발생했습니다.");
-	            });
-	        }
-	    }
-
+	
 
 	
 	</script>
