@@ -40,5 +40,10 @@ public interface MemberMapper {
 	public int postRefuse(int postingNo);
 	//문자보낼 인원수
 	public int sendCount(UserVO uvo);
+	//메일 보낼 사람
+	public int selectMailUser(CoUserVO vo);
+	
+	
 	
 }
+
