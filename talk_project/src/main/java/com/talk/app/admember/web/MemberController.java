@@ -23,6 +23,9 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	
+	@Autowired
+    EmailService eservice;
+	
 	//기업회원 승인목록(기업목록 전체 신청desc처리)
 	@GetMapping("")
 	public String approveAll(Model model, CoUserVO vol) {
@@ -35,9 +38,23 @@ public class MemberController {
 	@GetMapping("detail")
 	public String approveDetail(Model model, CoUserVO vo, UserVO uvo) {
 		CoUserVO findVO = service.coDetail(vo);
+		eservice.sendFailEmail(vo);
 		model.addAttribute("detail", findVO);
+	    model.addAttribute("user",vo);
 		return "admember/coDetail";
 	}
+	
+	// 메일 발송
+	@GetMapping("/sendMail")
+	public String mail(CoUserVO vo,Model model) {
+		CoUserVO covo = new CoUserVO();
+		vo.setCoUserId(covo.getCoUserId());
+		vo.setMgrEmail(covo.getMgrEmail());
+		vo.setCoName(covo.getCoName());
+	    eservice.sendFailEmail(vo);
+	    model.addAttribute("user",vo);
+	    return "admin/mail";
+	} 
 
 	//기업회원 승인 => 
 	@GetMapping("confirm")
@@ -53,6 +70,7 @@ public class MemberController {
 		model.addAttribute("refuse",refuse);
 		return "redirect:/admin/approve";
 	}
+	
 	
 	//채용등록 리스트
 	@GetMapping("postlist")

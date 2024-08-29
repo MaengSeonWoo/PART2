@@ -11,6 +11,7 @@
 		ON c.co_user_no = p.co_user_no
 		WHERE c.co_user_id = #{coUserId}
 		AND posting_approve = '승인'
+		ORDER BY posting_no DESC
 	</select>
 	
 	<select id="selectPostingInfo" resultType="PostingVO">
@@ -35,6 +36,7 @@
                , posting_no
                , c.co_user_no
                , posting_title
+               , get_codename(posting_status) as posting_status_nm
 		FROM company_user c JOIN posting p
 		ON c.co_user_no = p.co_user_no
 		WHERE posting_no = #{postingNo}

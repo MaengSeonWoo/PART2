@@ -116,10 +116,17 @@ th.required::after {
 				<td><input type="text" th:field="*{postingTitle}" style="width: 30%"></td>
 			</tr>
 			<tr>
+				<th>기업명*</th>
+				<td><input type="text" th:field="*{coName}" style="width: 30%"></td>
+			</tr>
+			<tr>
 				<td><input type="hidden" th:field="*{coUserNo}"></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" th:field="*{postingNo}"></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" th:field="*{postingStatusNm}"></td>
 			</tr>
 			<tr>
 				<th>근무지역*</th>
