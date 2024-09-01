@@ -146,7 +146,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             cancelButtonText: '취소'
         }).then((result) => {
         	if(result.isConfirmed){
-         		window.location.href = '/admin/approve/postingok?postingNo=' + detail.postingNo;
+         		window.location.href = '/admin/approve/postingok?postingNo=' + detail.postingNo + '&redirect=true';
         	}
         });
 	} 
@@ -162,7 +162,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             cancelButtonText: '취소'
         }).then((result) => {
         	if(result.isConfirmed){
-         		window.location.href = '/admin/approve/noposting?postingNo=' + detail.postingNo;
+         		window.location.href = '/admin/approve/noposting?postingNo=' + detail.postingNo  + '&redirect=true';
         	}
         });
 	}
@@ -175,7 +175,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 	                method: 'GET'
 	            })
 	            .then(response => {
-	            	console.log(response);
 	                if (response.ok) {
 	                    alert("전송되었습니다.");
 	                    window.location.href ='http://localhost:8080/admin/sendmany?wid='+ wid;

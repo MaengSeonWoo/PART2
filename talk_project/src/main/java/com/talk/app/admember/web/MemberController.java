@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.talk.app.admember.service.MemberService;
@@ -35,22 +36,25 @@ public class MemberController {
 	
 	//기업회원 가입신청 상세
 	@GetMapping("detail")
-	public String approveDetail(Model model, CoUserVO vo, UserVO uvo) {
+	public String approveDetail(Model model, CoUserVO vo) {
 		CoUserVO findVO = service.coDetail(vo);
-		eservice.sendFailEmail(findVO);
 		model.addAttribute("detail", findVO);
 	    model.addAttribute("user",vo);
 		return "admember/coDetail";
 	}
 	
-	// 메일 발송
-	@GetMapping("/sendMail")
-	public String mail(@ModelAttribute CoUserVO vo,Model model) {
-		CoUserVO covo = new CoUserVO();
-		vo.setCoUserId(covo.getCoUserId());
-		vo.setMgrEmail(covo.getMgrEmail());
-		vo.setCoName(covo.getCoName());
+	//가입 거절 메일 발송
+	@PostMapping("/sendMail")
+	public String failMail(@ModelAttribute CoUserVO vo,Model model) {
 	    eservice.sendFailEmail(vo);
+	    model.addAttribute("user",vo);
+	    return "admin/mail";
+	} 
+	
+	//가입 승인 메일 발송
+	@PostMapping("/yesMail")
+	public String yesMail(@ModelAttribute CoUserVO vo,Model model) {
+	    eservice.sendSuccessEmail(vo);
 	    model.addAttribute("user",vo);
 	    return "admin/mail";
 	} 
@@ -59,7 +63,7 @@ public class MemberController {
 	@GetMapping("confirm")
 	public String updateCo(int coUserNo) {
 		int wid = service.coUpdate(coUserNo);
-		return "redirect:/admin/approve";
+	    return "redirect:/admin/approve/detail?coUserNo=" + coUserNo;
 	}
 	
 	//기업회원 가입거절(승인상태변경,데이터 지우기)
@@ -67,7 +71,7 @@ public class MemberController {
 	public String refuseCo(Model model, int coUserNo) {
 		int refuse = service.coUserNo(coUserNo);
 		model.addAttribute("refuse",refuse);
-		return "redirect:/admin/approve";
+	    return "redirect:/admin/approve/detail?coUserNo=" + coUserNo;
 	}
 	
 	
@@ -91,7 +95,7 @@ public class MemberController {
 	@GetMapping("postingok")
 	public String updatePost(int postingNo) {
 		int pid = service.postUpdate(postingNo);
-		return "redirect:/admin/approve/postlist";
+		return "redirect:/admin/approve/postdetail?postingNo=" + postingNo;
 	}
 	
 	//채용등록 거절
@@ -99,7 +103,7 @@ public class MemberController {
 	public String refusePost(Model model, int postingNo) {
 		int refuse = service.postRefuse(postingNo);
 		model.addAttribute("refuse",refuse);
-		return "redirect:/admin/approve/postlist";
+		return "redirect:/admin/approve/postdetail?postingNo=" + postingNo;
 	}
 	
 	//일반회원전체

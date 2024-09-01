@@ -57,20 +57,7 @@
 </select>
 
 <select id="userAll" resultType="com.talk.app.login.service.UserVO">
-	SELECT user_no
-				,user_name
-				,user_pw
-				,tel 
-				,post_no
-				,addr  
-				,detail_addr
-				,email
-				,birth 
-				,household
-				,gender 
-				,user_id 
-				,authority 
-				,receive
+	SELECT *
 	FROM users
 	ORDER BY user_no desc
 </select>
