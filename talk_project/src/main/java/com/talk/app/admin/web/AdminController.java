@@ -212,29 +212,6 @@ public class AdminController {
 		ArrayList<Message> messageList = new ArrayList<>();
 		return null;
 	}
-	
-	/*
-	 * @GetMapping("/sendMail") public String mailSending( Model model, CoUserVO
-	 * coUserVO) { eservice.sendFailEmail(coUserVO);
-	 * model.addAttribute("couser",coUserVO); return "admin/"; }
-	 */
-	
-	// 메일 발송
-//	@PostMapping("/sendMail")
-//	public String mail(@RequestParam String email
-//						, @RequestParam String userId
-//						, @RequestParam String userName
-//						, Model model) {
-//		CoUserVO vo = new CoUserVO();
-//		vo.setCoUserId(userId);
-//		vo.setMgrEmail(email);
-//		vo.setCoName(userName);
-//	    eservice.sendFailEmail(vo);
-//	    model.addAttribute("user",vo);
-//	    return "admin/mail";
-//	} 
 
-	
-	
 
 }

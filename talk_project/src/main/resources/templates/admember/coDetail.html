@@ -138,7 +138,8 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 							        거절하기
 							    </button>
 							</div>
-							    <button class="btn btn-sm btn-success" type="button" onclick="mailSend()">메일 발송</button>
+							    <button class="btn btn-sm btn-success" type="button" th:if="${detail.authority == 'ROLE_CO_USER'}" onclick="yesMail()">승인 메일 발송</button>
+							    <button class="btn btn-sm btn-success" type="button" th:if="${detail.authority == 'ROLE_CO_REFUSE'}" onclick="mailSend()">거절 메일 발송</button>
                           </div>
                         </div>
                       </div>
@@ -152,13 +153,11 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
           </div>      
         
 <script  th:inline="javascript">
-    document.getElementById('coUserNoField').value = /*[[${detail.coUserNo}]]*/ '0';
+    //document.getElementById('coUserNoField').value = /*[[${detail.coUserNo}]]*/ '0';
 
     let detail = /*[[${detail}]]*/ {}; // 
     let user = /*[[${user}]]*/ {};
 	
-	console.log('detail',detail);
-	console.log('user',user);
 	
 	function mailSend(){
 		Swal.fire({
@@ -172,7 +171,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             cancelButtonText: '취소'
         }).then((result) => {
         	if (result.isConfirmed) {
-                fetch('/admin/approve/sendMail?coUserNo=' + detail.coUserNo, {
+                fetch('/admin/approve/sendMail', {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -184,7 +183,6 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
                     })                
                     })
 			.then(resp =>{
-				console.log('resp',resp);
 				if(resp.ok){
 					Swal.fire({
 	        	        icon: 'success',
@@ -192,7 +190,55 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 	        	        text: '메일이 전송되었습니다',
 	        	        confirmButtonText: '확인'
 	        	    }).then(() => {
-                        window.location.href = '/admin/approve';
+                        window.location.href = '/admin/approve/detail?coUserNo=' + detail.coUserNo + '&redirect=true';
+	        	    });
+				}else{
+                    alert("메일 전송에 실패했습니다.");
+				}
+			})
+			.catch(error => {
+                console.error('Error:', error);
+                alert("메일 전송 중 오류가 발생했습니다.");
+            });
+		}
+        });
+        }
+	
+	
+	
+	
+	function yesMail(){
+		Swal.fire({
+            title: '가입 승인 메일을 보내시겠습니까?',
+            text: '예 클릭시 메일이 바로 전송됩니다',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '예',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if (result.isConfirmed) {
+                fetch('/admin/approve/yesMail', {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        coUserId: detail.coUserId,
+                        mgrEmail: detail.mgrEmail,
+                        coName: detail.coName
+                    })                
+                    })
+			.then(resp =>{
+				if(resp.ok){
+					Swal.fire({
+	        	        icon: 'success',
+	        	        title: '전송 완료',
+	        	        text: '메일이 전송되었습니다',
+	        	        confirmButtonText: '확인'
+	        	    }).then(() => {
+                        window.location.href = '/admin/approve/detail?coUserNo=' + detail.coUserNo + '&redirect=true';
 	        	    });
 				}else{
                     alert("메일 전송에 실패했습니다.");
@@ -218,8 +264,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             cancelButtonText: '취소'
         }).then((result) => {
         	if(result.isConfirmed){
-        		console.log('detail2',detail)
-         		window.location.href = '/admin/approve/confirm?coUserNo=' + detail.coUserNo;
+                window.location.href = '/admin/approve/confirm?coUserNo=' + detail.coUserNo + '&redirect=true';
         	}
         });
 	} 
@@ -235,7 +280,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
             cancelButtonText: '취소'
         }).then((result) => {
         	if(result.isConfirmed){
-         		window.location.href = '/admin/approve/refusejoin?coUserNo=' + detail.coUserNo;
+         		window.location.href = '/admin/approve/refusejoin?coUserNo=' + detail.coUserNo + '&redirect=true';
         	}
         });
 	}
