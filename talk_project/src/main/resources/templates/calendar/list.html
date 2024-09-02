@@ -47,8 +47,6 @@ $(document).ready(function() {
     var sido = urlParams.get('sido');
     var likeSubject = urlParams.get('likeSubject');
     
-    console.log('sido',sido)
-    console.log('likeSubject',likeSubject)
     
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -61,7 +59,6 @@ $(document).ready(function() {
         selectable: true,
         locale: 'ko',
         events :function( info, successCallback, failureCallback ) { 
-        	console.log('info',info)
         	 var start = info.startStr.substring(0,7)
         	 var end =info.endStr.substring(0,7)
              $.ajax({
@@ -110,7 +107,6 @@ $(document).ready(function() {
 
 </script>
 
-
 <style>
 body {
 	padding: 0;
@@ -158,15 +154,15 @@ body {
 	width: 30%;
 	float: right;
 }
-
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px 0;
 }
 
 .page-item {
-    margin: 0 5px; 
+    margin: 0 5px;
     display: flex;
     align-items: center;
 }
@@ -177,6 +173,13 @@ body {
     color: #007bff;
     text-decoration: none;
     background-color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-item .page-link:hover {
+    background-color: #b1daff;
+    color: white;
 }
 
 .page-item.active .page-link {
@@ -184,6 +187,24 @@ body {
     border-color: #17a2b8;
     color: white;
 }
+
+.page-item:first-child .page-link, 
+.page-item:last-child .page-link {
+    padding: 5px 15px; 
+    font-size: 1em; 
+    font-weight: normal; 
+    border-radius: 5px;
+}
+
+
+.page-item:first-child .page-link {
+    margin-right: 10px; 
+}
+
+.page-item:last-child .page-link {
+    margin-left: 10px; 
+}
+
 
 #regionList {
     margin-top: 10px;
@@ -290,12 +311,11 @@ body {
 									<form class="d-flex search" name="frmSearch" role="search" id="dataload">
 									
 									<input type="hidden" name="pageNum" value="1">
-										<input class="form-control me-2" type="search" name="keyword"
-											placeholder="Search" aria-label="Search">
+										<input class="form-control me-2" type="search" name="keyword" onclick="check()"
+											placeholder="Search" aria-label="Search" id="keywordInput">
 										<button class="btn btn-outline-success vbtn-radio3" type="button">검색</button>
 
 									</form>
-									<button type="button" class="btn btn-secondary">정렬</button>
 								</div>
 
 								<!--  -->
@@ -328,41 +348,38 @@ body {
 								
 								<!-- 페이징 -->
 								<div th:object="${page}">
-									<nav aria-label="Page navigation"
-										class="d-flex justify-content-center">
-										<ul class="pagination">
-											<li class="page-item" th:if="*{prev}">
-											<a class="page-link changePage"
-												th:href="|javascript:gopage(${page.startPage - 1})|"
-												
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<th:block
-												th:each="num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
-												<li class="page-item"
-													th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
-													<a class="page-link changePage"
-													th:href="|javascript:gopage(${num})|"
-													th:text="${num}"
-													th:unless="${page.criteria.getPageNum() == num}"></a> <span
-													class="page-link"
-													th:if="${page.criteria.getPageNum() == num}"
-													th:text="${num}"></span>
-												</li>
-											</th:block>
-											<li class="page-item" th:if="*{next}"><a
-												class="page-link changePage"
-												th:href="|javascript:gopage(${page.endPage + 1})|"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<form action="/calendar/welfare" th:object="${criteria}"
-										name="pageForm">
-										<input type="hidden" name="pageNum" th:field="*{pageNum}">
-										<input type="hidden" name="amount" th:field="*{amount}">
-									</form>
+								    <nav aria-label="Page navigation" class="d-flex justify-content-center">
+								        <ul class="pagination">
+								            <li class="page-item" th:if="*{prev}">
+								                <a class="page-link changePage"
+								                   th:href="|javascript:gopage(${page.startPage - 1})|"
+								                   aria-label="Previous">
+								                    <span aria-hidden="true">&laquo;</span>
+								                </a>
+								            </li>
+								            <th:block th:each="num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
+								                <li class="page-item" th:classappend="${page.criteria.getPageNum() == num} ? 'active'">
+								                    <a class="page-link changePage"
+								                       th:href="|javascript:gopage(${num})|"
+								                       th:text="${num}"></a>
+								                </li>
+								            </th:block>
+								            <li class="page-item" th:if="*{next}">
+								                <a class="page-link changePage"
+								                   th:href="|javascript:gopage(${page.endPage + 1})|"
+								                   aria-label="Next">
+								                    <span aria-hidden="true">&raquo;</span>
+								                </a>
+								            </li>
+								        </ul>
+								    </nav>
+								    <form id="frmSearch" action="/calendar/welfare" th:object="${criteria}" name="pageForm">
+								        <input type="hidden" name="pageNum" th:field="*{pageNum}">
+								        <input type="hidden" name="amount" th:field="*{amount}">
+								        <input type="hidden" name="keyword" th:field="*{keyword}">
+								    </form>
 								</div>
+
 								<!-- 페이징 끝 -->
 
 							</div>
@@ -375,14 +392,14 @@ body {
  
  
 <script type="text/javascript">
-
-
  
-
-function gopage(p){
-	frmSearch.pageNum.value = p;
-	$(".vbtn-radio3").eq(0).click();	
-}
+ function gopage(p) {
+	    let keyword = document.querySelector('#frmSearch input[name="keyword"]').value.trim();
+	    if (!keyword) {
+	        keyword = ''; // 키워드가 비어있을 경우 빈 문자열로 설정
+	    }
+	    window.location.href = `/calendar/welfare?pageNum=${p}&keyword=${encodeURIComponent(keyword)}`;
+	}
 
 function search(){
 	$(".vbtn-radio3").on('click',function(){

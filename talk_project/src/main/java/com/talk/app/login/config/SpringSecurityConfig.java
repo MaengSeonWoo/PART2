@@ -52,7 +52,7 @@ public class SpringSecurityConfig {
                 			 "/copostingList", "/copostingInfo", "/copostingInsert", "/copostingUpdate", "/copostingDelete")
                 .hasAuthority("ROLE_CO_USER")
                 // 관리자만 접근이 허용된 페이지들
-                .antMatchers("/admin/**", "/noticeInsert", "/noticeUpdate", "/noticeDelete", "/replyInsert", "/deleteReply", "/videoInsert","/sendEmail")
+                .antMatchers("/admin/**", "/noticeInsert", "/noticeUpdate", "/noticeDelete", "/replyInsert", "/deleteReply", "/videoInsert","/sendEmail","/mail")
                 .hasAuthority("ROLE_ADMIN") 
                 .and()
             .formLogin() 
