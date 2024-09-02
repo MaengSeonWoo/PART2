@@ -107,7 +107,7 @@ layout:decorate="~{layout/ad_layout}"  layout:fragment="Content">
 	                                  <a th:href="@{/images/{fileName}(fileName=${file.filePath})}" class="atch-thumb"> [[${file.fileName}]]</a>
 	                                </div>
                               </li>
-
+                              
                             </ul>
                           </div>
                           <div class="btn-group" th:if="${detail.postingApprove} == '미승인'">
