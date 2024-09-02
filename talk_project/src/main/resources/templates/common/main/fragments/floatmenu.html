@@ -389,6 +389,16 @@ document.addEventListener('DOMContentLoaded', function() {
             reqMessage('', status, previousStatus); // 서버에 질문 요청
         }
     });
+    
+ // 전송 버튼 클릭 시, 엔터 키를 눌렀을 때와 동일한 동작을 수행
+    chatbotSendBtn.addEventListener('click', function () {
+        const event = new KeyboardEvent('keydown', {
+            key: 'Enter',
+            bubbles: true,
+            cancelable: true
+        });
+        chatbotInput.dispatchEvent(event);
+    });
 
     // 메시지 전송 이벤트 리스너 설정
     chatbotInput.addEventListener('keydown', function(event) {

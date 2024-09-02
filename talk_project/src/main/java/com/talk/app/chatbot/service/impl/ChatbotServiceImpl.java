@@ -113,18 +113,6 @@ public class ChatbotServiceImpl implements ChatbotService {
                 return faq.getAnswer(); // 매칭된 답변 반환
             }
         }
-
-    	
-//    	// 타이핑 입력이 있는 경우 해당 내용이 FAQ에서 찾을 수 있는지 확인
-//        if (content != null && !content.trim().isEmpty()) {
-//            FAQVO matchedFaq = faqMapper.findFAQByKeyword(content);
-//            if (matchedFaq != null) {
-//                roomStepState.put(roomId, matchedFaq.getStepNo()); // 현재 상태 업데이트
-//                previousStatusState.put(roomId, matchedFaq.getPreNo()); // 이전 상태 업데이트
-//                return matchedFaq.getAnswer(); // 매칭된 답변 반환
-//            }
-//        }
-
         // 키워드로 매칭되지 않으면 기존 방식으로 처리
         List<FAQVO> faqs = faqMapper.findFAQByStepAndPreviousStatus(currentQuestionId, previousStatusId);
 
@@ -142,4 +130,6 @@ public class ChatbotServiceImpl implements ChatbotService {
 
         return response.toString(); // 합쳐진 답변 반환
     }
+    
+    
 }
